@@ -1,8 +1,18 @@
 [id^=Key] {
-    margin-left:20px;
-    margin-top:20px;
-    background: transparent;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  /* put the height and width of your image here */
+  height: 103px;
+  width: 102px;
+  border: none;
+  margin-left:20px;
+  margin-top:20px;
+  background: transparent;
 }
+button span {
+  display: none;
+}
+
 
 .video { 
   height: 100vh;
@@ -28,16 +38,6 @@ padding: 0;
   -webkit-transform: translate(-50%,-130%);
   transform: translate(-50%,-130%);
 }  
-
-#Practice {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 90px;
-  width: 250px;
-  border: none;
-  background: transparent;
-}
 
 .Row1 {
   color: white;
@@ -71,198 +71,3 @@ padding: 0;
   -webkit-transform: translate(-50%,30%);
   transform: translate(-50%,30%);
 } 
-
-#Key0 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key1 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-  
-}
-button span {
-  display: none;
-}
-
-#Key2 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key3 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key4 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key5 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key6 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key7 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key8 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key9 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key10 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key11 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key12 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key13 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
-
-#Key14 {
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
-  /* put the height and width of your image here */
-  height: 103px;
-  width: 102px;
-  border: none;
-}
-
-button span {
-  display: none;
-}
