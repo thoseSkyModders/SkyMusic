@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Sky Music</title>
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  </head>
+ <link rel="stylesheet" href="style.css" type="text/css">
+<body>
+
+ 
+
+ <div class="videoWrapper video" style="background-image:url('./AnimatedBG/skygame-banner.jpg');"><div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
+<video preload="auto" playsinline="" muted="" autoplay="" loop="" data-vscid="jvm0gu2z7"><source src="./AnimatedBG/skygame-banner.webm" type="video/webm;codecs=&quot;vp8, vorbis&quot;"><source src="./AnimatedBG/skygame-banner.ogv" type="video/ogv;codecs=&quot;ogv, ogg, vorbis &quot;"><source src="./AnimatedBG/skygame-banner.mp4" type="video/mp4;codecs=&quot;avc1.42E01E, mp4a.40.2&quot;"></video> </div>
+
+<div class="Row1">
+  <button type="button" ID="Key0" draggable="false" style="background-image: url(./KeyImages/Key-0.png);" onmousedown="reply_click(this.id)" src="">
+  <button type="button" ID="Key1" draggable="false" style="background-image: url(./KeyImages/Key-1.png);" onmousedown="reply_click(this.id)" src="">
+  <button type="button" ID="Key2" draggable="false" style="background-image: url(./KeyImages/Key-2.png);" onmousedown="reply_click(this.id)">
+  <button type="button" ID="Key3" draggable="false" style="background-image: url(./KeyImages/Key-3.png);" onmousedown="reply_click(this.id)" src="">
+  <button type="button" ID="Key4" draggable="false" style="background-image: url(./KeyImages/Key-4.png);" onmousedown="reply_click(this.id)" src="">
+ </div>
+
+ <div class="Row2">
+  <button type="button" ID="Key5" draggable="false" style="background-image: url(./KeyImages/Key-5.png);" onmousedown="reply_click(this.id)" src="">
+  <button type="button" ID="Key6" draggable="false" style="background-image: url(./KeyImages/Key-6.png);" onmousedown="reply_click(this.id)" src="">
+  <button type="button" ID="Key7" draggable="false" style="background-image: url(./KeyImages/Key-7.png);" onmousedown="reply_click(this.id)" src="">
+  <button type="button" ID="Key8" draggable="false" style="background-image: url(./KeyImages/Key-8.png);" onmousedown="reply_click(this.id)" src="">
+  <button type="button" ID="Key9" draggable="false" style="background-image: url(./KeyImages/Key-9.png);" onmousedown="reply_click(this.id)" src="">
+ </div>
+
+ <div class="Row3">
+  <button type="button" ID="Key10" draggable="false" style="background-image: url(./KeyImages/Key-10.png);" onmousedown="reply_click(this.id)" src="">
+  <button type="button" ID="Key11" draggable="false" style="background-image: url(./KeyImages/Key-11.png);" onmousedown="reply_click(this.id)" src="">
+  <button type="button" ID="Key12" draggable="false" style="background-image: url(./KeyImages/Key-12.png);" onmousedown="reply_click(this.id)" src="">
+  <button type="button" ID="Key13" draggable="false" style="background-image: url(./KeyImages/Key-13.png);" onmousedown="reply_click(this.id)" src="">
+  <button type="button" ID="Key14" draggable="false" style="background-image: url(./KeyImages/Key-14.png);" onmousedown="reply_click(this.id)" src="">
+ </div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+
+  var i;
+  var sound;
+  var keyclicked;
+  var element;
+  
+     function reply_click(clicked_id)
+  {  
+     i = clicked_id;
+     a = i.replace(/Key/,'')
+     console.log('Playing Key'+a)
+     playSound()
+
+     element = document.getElementById(i);
+     element.style= 'background-image : url(./KeyImages/KeyClicked-'+a+'.png)';
+     timer(element,a);
+}
+
+function timer(elem,aa){
+setTimeout(function() {
+     elem.style='background-image : url(./KeyImages/Key-'+aa+'.png)';
+ } ,200);
+}
+
+ function playSound() {
+      sound = new Audio("./Piano/"+ a +".wav")
+      sound.play()
+  }
+ 
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
+
+  
+
+  //Notes
+  var C1 = $("#Key0")
+  var D1 = $("#Key1")
+  var E1 = $("#Key2")
+  var F1 = $("#Key3")
+  var G1 = $("#Key4")
+  var A2 = $("#Key5")
+  var B2 = $("#Key6")
+  var C2 = $("#Key7")
+  var D2 = $("#Key8")
+  var E2 = $("#Key9")
+  var F3 = $("#Key10")
+  var G3 = $("#Key11")
+  var A3 = $("#Key12")
+  var B3 = $("#Key13")
+  var C3 = $("#Key14")
+  
+  $(document).keydown(function(keyPressed) {
+   if (keyPressed.keyCode == 80) {
+    MarriedLife()
+   }
+  });
+
+  //Preset Song.
+  var MarriedLife = async () => {
+    F1.mousedown()                   
+  await delay(500);                      
+    A2.mousedown() + C2.mousedown() 
+  await delay(500);
+    A2.mousedown() + C2.mousedown()
+  await delay(500);
+    C1.mousedown()                   
+  await delay(500);
+    A2.mousedown() + C2.mousedown() 
+  await delay(500);
+    A2.mousedown() + C2.mousedown() 
+  await delay(500);
+    D1.mousedown()      
+  await delay(500);
+    A2.mousedown() + C2.mousedown() 
+  await delay(500);
+    A2.mousedown() + C2.mousedown() 
+  await delay(500);
+    E1.mousedown()  
+  await delay(500);
+    A2.mousedown() + C2.mousedown() 
+  await delay(500);
+    A2.mousedown() + C2.mousedown()
+  await delay(500);
+    F1.mousedown()     
+  await delay(500);
+    A2.mousedown() + C2.mousedown()
+  await delay(500);  
+    A2.mousedown() + C2.mousedown()
+  await delay(500)
+    C1.mousedown()
+  await delay(500); 
+    A2.mousedown() + C2.mousedown()      
+  await delay(500); 
+    A2.mousedown() + C2.mousedown() 
+  await delay(500);   
+    D1.mousedown()
+  await delay(500);
+    A2.mousedown() + C2.mousedown() 
+  await delay(500);
+    A2.mousedown() + C2.mousedown()
+  await delay(500);
+    E1.mousedown()
+  await delay(500);
+  //Faster part
+    A2.mousedown() + C2.mousedown()
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+    A2.mousedown() + C2.mousedown() + A3.mousedown()
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+  //Slower part
+    F1.mousedown() + E2.mousedown()
+  await delay(500);
+    A2.mousedown() + C2.mousedown()
+  await delay(500);
+    A2.mousedown() + C2.mousedown()
+  await delay(500);
+    C1.mousedown()
+  await delay(500);
+  //Faster part
+    A2.mousedown() + C2.mousedown()
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+    A2.mousedown() + C2.mousedown() + A3.mousedown()
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+  //Slower part
+    D1.mousedown() + D2.mousedown()
+  await delay(500);
+  //faster part
+    A2.mousedown() + C2.mousedown()
+  await delay(250);
+    D2.mousedown()
+  await delay(250);
+    A2.mousedown() + C2.mousedown() + F1.mousedown()
+  await delay(250);
+    D2.mousedown()
+  await delay(250);
+    C1.mousedown + C2.mousedown()
+  //slower part
+  await delay(500);
+    A2.mousedown() + C2.mousedown()
+  await delay(500);
+    A2.mousedown() + C2.mousedown()
+  //faster part
+  await delay(250);
+    D2.mousedown()
+  await delay(250);
+    D1.mousedown() + A3.mousedown()
+  //slower part
+  await delay(500);
+    D1.mousedown() + F1.mousedown() + G3.mousedown()
+  await delay(500);
+    D1.mousedown() + F1.mousedown()
+  //faster part
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+    D1.mousedown() + A3.mousedown()
+  //slower part
+  await delay(500);
+    D1.mousedown() + F1.mousedown() + G3.mousedown()
+  await delay(500);
+    D1.mousedown() + F1.mousedown() + F3.mousedown()
+  await delay(500);
+    D1.mousedown() + D2.mousedown()
+  await delay(500);
+    D1.mousedown() + D2.mousedown()
+  await delay(500);
+    D1.mousedown()
+  await delay(500);
+  //faster part
+    D1.mousedown() + F1.mousedown()
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+    G3.mousedown()
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+    C1.mousedown() + E2.mousedown()
+    //slower part
+  await delay(500);
+    E1.mousedown() + G1.mousedown()
+  await delay(500);
+    E1.mousedown() + G1.mousedown()
+  await delay(500);
+    C1.mousedown()
+  //faster part
+  await delay(250);
+    E1.mousedown() + G1.mousedown()
+  await delay(250);
+    E2.mousedown()
+  await delay(250);
+    E1.mousedown() + G1.mousedown() + G3.mousedown()
+  await delay(250);
+    E2.mousedown()
+  await delay(250);
+    C1.mousedown() + C2.mousedown()
+  //slower part
+  await delay(500);
+  //faster part
+    E1.mousedown() + G1.mousedown()
+  await delay(500);
+    D2.mousedown()
+  await delay(500);
+    E1.mousedown() + G1.mousedown() + E2.mousedown()
+  await delay(500);
+    C2.mousedown()
+  await delay(500);
+    C1.mousedown + G1.mousedown
+  //slower part
+  await delay(500);
+    E1.mousedown() + G1.mousedown()
+  await delay(500);
+    E1.mousedown() + G1.mousedown()
+  await delay(500);
+    C1.mousedown() + F1.mousedown()
+  await delay(500);
+    C2.mousedown()
+  await delay(500);
+    A2.mousedown()
+  await delay(500);
+    B2.mousedown()
+  await delay(500);
+    C1.mousedown + G1.mousedown() + C2.mousedown()
+  await delay(500);
+    D2.mousedown()
+  await delay(500);
+    E2.mousedown()
+  await delay(500);
+    C1.mousedown() + G1.mousedown()
+  await delay(500);
+    C2.mousedown()
+  await delay(500);
+    D2.mousedown()
+  await delay(500);
+    C1.mousedown() + G1.mousedown() + E2.mousedown()
+    //----------ERROR ABOVE ^^
+  await delay(250);
+  //fast part
+    F3.mousedown()
+  await delay(250);
+    A3.mousedown()
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+    F1.mousedown() + E2.mousedown()
+  //slower part
+  await delay(500);
+    A2.mousedown() + C2.mousedown()
+  await delay(500);
+    A2.mousedown() + C2.mousedown()
+  await delay(500);
+    C1.mousedown()
+  await delay(500);
+  //faster part
+    A2.mousedown() + C2.mousedown()
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+    A2.mousedown() + C2.mousedown() + A3.mousedown()
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+    D1.mousedown() + D2.mousedown()
+  //slower part 
+  await delay(500);
+  //faster part
+    A2.mousedown() + C2.mousedown()
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+    A2.mousedown() + C2.mousedown() + A3.mousedown()
+  await delay(250);
+    C3.mousedown()
+  await delay(250);
+    C1.mousedown() + B3.mousedown()
+  //slower part
+  await delay(500);
+    A2.mousedown() + C2.mousedown()
+  await delay(500);
+    A2.mousedown() + C2.mousedown()
+  await delay(500);
+    A3.mousedown() 
+  await delay(500);
+    D1.mousedown() + C3.mousedown()
+  await delay(500);
+    D1.mousedown() + F1.mousedown() + B3.mousedown()
+  await delay(500);
+    D1.mousedown() + F1.mousedown()
+  await delay(500);
+    F3.mousedown() + D1.mousedown()
+  await delay(500);
+    D1.mousedown() + F1.mousedown() + G3.mousedown()
+  await delay(500);
+    D1.mousedown() + F1.mousedown()
+  await delay(500);
+   F3.mousedown()
+  await delay(500);
+    D1.mousedown() + D2.mousedown()
+  await delay(500);
+    D1.mousedown() + F1.mousedown()
+  await delay(500);
+    D1.mousedown + F1.mousedown()
+  await delay(500);
+    D1.mousedown()
+  //faster part
+  await delay(250);
+    D1.mousedown() + F1.mousedown()
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+    A3.mousedown()
+  await delay(250);
+    F3.mousedown()
+  await delay(250);
+    C1.mousedown() + E2.mousedown()
+  //slower part
+  await delay(500);
+    E1.mousedown + G1.mousedown
+  await delay(500);
+    E1.mousedown() + G1.mousedown()
+};
+
+</script>
