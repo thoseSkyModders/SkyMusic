@@ -2,8 +2,20 @@
     margin-left:20px;
     margin-top:20px;
     background: transparent;
-  
+}
 
+.video { 
+  height: 100vh;
+}
+.video video {
+width: 100%;
+height: 100%;
+object-fit: cover;
+display: block;
+}
+body {
+margin: 0;
+padding: 0;
 }
 
 .Home1 {
@@ -254,15 +266,3 @@ button span {
 button span {
   display: none;
 }
-
-.video { 
-        float: none;
-        clear: both;
-        width: 100%;
-        position: relative;
-        padding-bottom: 56.25%;
-        padding-top: 25px;
-        height: 0;
-        margin: 0 auto;
-        max-width: 100%;
-    }
