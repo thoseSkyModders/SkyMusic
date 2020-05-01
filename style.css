@@ -28,17 +28,6 @@ margin: 0;
 padding: 0;
 }
 
-.Home1 {
-  color: white;
-  padding: 15px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translateX(-50%) translateY(-130%);
-  -webkit-transform: translate(-50%,-130%);
-  transform: translate(-50%,-130%);
-}  
-
 .Row1 {
   color: white;
   padding: 15px;
