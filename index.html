@@ -73,14 +73,8 @@ setTimeout(function() {
  } ,200);
 }
 
-for ( var a = 0; a <= 14; a++ ) {
-     wavFiles =  a +".wav"
-     sounds.push(wavFiles)
-     //var loadedsound = function(){return sound = new Audio(sounds[a])}
-     //loadedsound()
-  } 
-const db_url = "./Piano/"
-const urls = sounds
+const db_url = 'https://dl.dropboxusercontent.com/s/';
+const urls =["xim7yvy80ou80bi/0.mp3?dl=0", "adh4qa72jiw7q4b/1.mp3?dl=0", "546fmppbpvr80rh/2.mp3?dl=0", "aaph2izhy89oljc/3.mp3?dl=0","oia9cq7mmk7lsa0/4.mp3?dl=0","4285w5uzn5um6ay/5.mp3?dl=0", "2o1nszo0ry2ttoi/6.mp3?dl=0", "cnhjr7ljph30ycz/7.mp3?dl=0", "lqo9zv4bm6h13x4/8.mp3?dl=0", "d0brnsgqorwo67i/9.mp3?dl=0", "jq9dl35enpn4hgc/10.mp3?dl=0", "a07cku2ns81oiw2/11.mp3?dl=0", "c1gj4cn9ksctvhz/12.mp3?dl=0", "w1hhusqautlwz5w/13.mp3?dl=0", "u94o8hu4i05b0to/14.mp3?dl=0" ];
 console.log(sounds)
 const a_ctx = new (window.AudioContext || window.webkitAudioContext)();
 
@@ -108,11 +102,8 @@ function preload(urls) {
 }
 
    function playSound() {
-     sound = new Audio(db_url + url[a])
-     sound.play()
+     new Audio(db_url + urls[a]).play()
   }
-
-  
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
