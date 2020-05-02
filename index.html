@@ -50,6 +50,10 @@
   var sounds = [];
   var keyclicked;
   var element;
+  var json = './Piano/mysounds.json'
+  JSON.stringify(json)
+  console.log(json)
+  //console.log(mysounds["0"].data)
 
      function reply_click(clicked_id)
   {  
@@ -70,23 +74,47 @@ setTimeout(function() {
 }
 
 for ( var a = 0; a <= 14; a++ ) {
-     wavFiles = "./Piano/"+ a +".wav"
+     wavFiles =  a +".wav"
      sounds.push(wavFiles)
-     var loadedsound = function(){return sound = new Audio(sounds[a])}
-     loadedsound()
+     //var loadedsound = function(){return sound = new Audio(sounds[a])}
+     //loadedsound()
   } 
+const db_url = "./Piano/"
+const urls = sounds
+console.log(sounds)
+const a_ctx = new (window.AudioContext || window.webkitAudioContext)();
 
+preload(urls)
+  .then(audioBuffers => {
+    audioBuffers.forEach((buf, i) => {
+      const btn = document.createElement('button');
+      btn.onclick = e => {
+        const source = a_ctx.createBufferSource();
+        source.buffer = buf;
+        source.connect(a_ctx.destination);
+        source.start(0);
+      };
+      btn.textContent = urls[i].split('/')[1].split('.')[0];
+      document.body.appendChild(btn);
+    });
+  });
+
+function preload(urls) {
+  const requests = urls.map(url => fetch(db_url + url)
+    .then(r => r.arrayBuffer()) // this time we request as ArrayBuffer
+    .then(b => a_ctx.decodeAudioData(b))
+  );
+  return Promise.all(requests);
+}
 
    function playSound() {
-     sound = loadedsound()
+     sound = new Audio(db_url + url[a])
      sound.play()
   }
- 
-
-const delay = ms => new Promise(res => setTimeout(res, ms));
-
 
   
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
   //Notes
   var C1 = $("#Key0")
