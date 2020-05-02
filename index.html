@@ -15,7 +15,7 @@
  <div class="videoWrapper video" style="background-image:url('./AnimatedBG/skygame-banner.jpg');"><div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
 <video preload="auto" playsinline="" muted="" autoplay="" loop="" data-vscid="jvm0gu2z7"><source src="./AnimatedBG/skygame-banner.webm" type="video/webm;codecs=&quot;vp8, vorbis&quot;"><source src="./AnimatedBG/skygame-banner.ogv" type="video/ogv;codecs=&quot;ogv, ogg, vorbis &quot;"><source src="./AnimatedBG/skygame-banner.mp4" type="video/mp4;codecs=&quot;avc1.42E01E, mp4a.40.2&quot;"></video> </div>
 
-<div id="container">
+<!--<div id="container">
   <div class="Row1">
     <button type="button" ID="Key0" draggable="false" style="background-image: url(./KeyImages/Key-0.png);" onmousedown="reply_click(this.id)" src="">
     <button type="button" ID="Key1" draggable="false" style="background-image: url(./KeyImages/Key-1.png);" onmousedown="reply_click(this.id)" src="">
@@ -38,7 +38,12 @@
     <button type="button" ID="Key12" draggable="false" style="background-image: url(./KeyImages/Key-12.png);" onmousedown="reply_click(this.id)" src="">
     <button type="button" ID="Key13" draggable="false" style="background-image: url(./KeyImages/Key-13.png);" onmousedown="reply_click(this.id)" src="">
     <button type="button" ID="Key14" draggable="false" style="background-image: url(./KeyImages/Key-14.png);" onmousedown="reply_click(this.id)" src="">
-   </div>
+   </div>-->
+
+   <div class="Row1" id="row1"></div>
+   <div class="Row2" id="row2"></div>
+   <div class="Row3" id="row3"></div>
+
 </div>
 </body>
 </html>
@@ -60,17 +65,9 @@
      i = clicked_id;
      a = i.replace(/Key/,'')
      console.log('Playing Key'+a)
-     playSound()
-
      element = document.getElementById(i);
      element.style= 'background-image : url(./KeyImages/KeyClicked-'+a+'.png)';
      timer(element,a);
-}
-
-function timer(elem,aa){
-setTimeout(function() {
-     elem.style='background-image : url(./KeyImages/Key-'+aa+'.png)';
- } ,200);
 }
 
 const db_url = 'https://dl.dropboxusercontent.com/s/';
@@ -82,14 +79,35 @@ preload(urls)
   .then(audioBuffers => {
     audioBuffers.forEach((buf, i) => {
       const btn = document.createElement('button');
-      btn.onclick = e => {
+            btn.id = "Key"+i++
+      btn.onmousedown = e => {
         const source = a_ctx.createBufferSource();
         source.buffer = buf;
         source.connect(a_ctx.destination);
         source.start(0);
+        normalID = btn.id.replace(/Key/,'')
+        reply_click(btn.id)
+        //$("#"+btn.id).css({"background-image": "url(./KeyImages/KeyClicked-"+normalID+".png)"})
       };
-      btn.textContent = urls[i].split('/')[1].split('.')[0];
-      document.body.appendChild(btn);
+      
+      document.body.appendChild(btn)
+      $("#Key0").appendTo("#row1") , $("#Key0").css({"background-image": "url(./KeyImages/Key-0.png)"})
+      $("#Key1").appendTo("#row1") , $("#Key1").css({"background-image": "url(./KeyImages/Key-1.png)"})
+      $("#Key2").appendTo("#row1") , $("#Key2").css({"background-image": "url(./KeyImages/Key-2.png)"})
+      $("#Key3").appendTo("#row1") , $("#Key3").css({"background-image": "url(./KeyImages/Key-3.png)"})
+      $("#Key4").appendTo("#row1") , $("#Key4").css({"background-image": "url(./KeyImages/Key-4.png)"})
+     
+      $("#Key5").appendTo("#row2") , $("#Key5").css({"background-image": "url(./KeyImages/Key-5.png)"})
+      $("#Key6").appendTo("#row2") , $("#Key6").css({"background-image": "url(./KeyImages/Key-6.png)"})
+      $("#Key7").appendTo("#row2") , $("#Key7").css({"background-image": "url(./KeyImages/Key-7.png)"})
+      $("#Key8").appendTo("#row2") , $("#Key8").css({"background-image": "url(./KeyImages/Key-8.png)"})
+      $("#Key9").appendTo("#row2") , $("#Key9").css({"background-image": "url(./KeyImages/Key-9.png)"})
+
+      $("#Key10").appendTo("#row3") , $("#Key10").css({"background-image": "url(./KeyImages/Key-10.png)"})
+      $("#Key11").appendTo("#row3") , $("#Key11").css({"background-image": "url(./KeyImages/Key-11.png)"})
+      $("#Key12").appendTo("#row3") , $("#Key12").css({"background-image": "url(./KeyImages/Key-12.png)"})
+      $("#Key13").appendTo("#row3") , $("#Key13").css({"background-image": "url(./KeyImages/Key-13.png)"})
+      $("#Key14").appendTo("#row3") , $("#Key14").css({"background-image": "url(./KeyImages/Key-14.png)"})
     });
   });
 
@@ -99,6 +117,12 @@ function preload(urls) {
     .then(b => a_ctx.decodeAudioData(b))
   );
   return Promise.all(requests);
+}
+
+function timer(elem,aa){
+setTimeout(function() {
+     elem.style='background-image : url(./KeyImages/Key-'+aa+'.png)';
+ } ,200);
 }
 
    function playSound() {
