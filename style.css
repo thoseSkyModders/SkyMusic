@@ -35,12 +35,11 @@ body {
   padding: 0;
 }
 
-#container {
+#touch {
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-content: center;
 }
 
 .Home1, .Row1, .Row2, .Row3 {
