@@ -90,9 +90,9 @@
    
    function preload(urls) {
    const requests = urls.map(url => {
-      fetch(db_url + url)
-     .then(r => r.arrayBuffer()) // this time we request as ArrayBuffer
-     .then(b => a_ctx.decodeAudioData(b))
+      return fetch(db_url + url)
+       .then(r => r.arrayBuffer()) // this time we request as ArrayBuffer
+       .then(b => a_ctx.decodeAudioData(b))
     }
    );
    return Promise.all(requests);
