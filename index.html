@@ -102,14 +102,16 @@
 
   
  
-   var box = document.getElementById("row1");
-    box.addEventListener("touchstart", function(evt) {
+   var notes = document.getElementById("touch");
+   notes.addEventListener("touchstart", function(evt) {
+        notes.innerHTML = evt.touches.length;
         evt.preventDefault();
     });    
-    box.addEventListener("touchmove", function(evt) {
+    notes.addEventListener("touchmove", function(evt) {
+      notes.innerHTML = evt.touches.length;
         evt.preventDefault();
     });    
-    if (!(typeof box.ontouchstart != 'undefined')) { 
+    if (!(typeof notes.ontouchstart != 'undefined')) { 
     }    
   
   
