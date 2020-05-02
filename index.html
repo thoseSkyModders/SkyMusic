@@ -45,17 +45,11 @@
 <script type="text/javascript">
 
   var i;
-  var sounds = [];
   var sound;
+  var sounds = [];
   var keyclicked;
   var element;
 
-  for ( var z = 0; z <= 14; z++ ) {
-     wavFile = "./Piano/"+ z +".wav"
-     new Audio(wavFile)
-     sounds.push(wavFile)
-  }
-  
      function reply_click(clicked_id)
   {  
      i = clicked_id;
@@ -74,9 +68,17 @@ setTimeout(function() {
  } ,200);
 }
 
- function playSound() {
-      sound = new Audio(sounds[a])
-      sound.play()
+for ( var a = 0; a <= 14; a++ ) {
+     wavFiles = "./Piano/"+ a +".wav"
+     sounds.push(wavFiles)
+     var loadedsound = function(){return sound = new Audio(sounds[a])}
+     loadedsound()
+  } 
+
+
+   function playSound() {
+     sound = loadedsound()
+     sound.play()
   }
  
 
