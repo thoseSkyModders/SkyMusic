@@ -280,6 +280,7 @@ console.log("make the naming of the song recursive and not just 2 tries")
         var songButton = document.createElement("button")
             songButton.setAttribute("songName",songName)
             songButton.addEventListener("click",function(){
+                savedSongsDivWrapper.style.display = "none"
                 var storedSongName = this.getAttribute("songName")
                 songText = document.getElementById("Song-"+storedSongName)
                 playSong(JSON.parse(songText.innerHTML))
@@ -326,6 +327,7 @@ console.log("make the naming of the song recursive and not just 2 tries")
             trainSong.style.width = "40px"
             trainSong.setAttribute("songName",songName)
             trainSong.addEventListener("click",function(){
+                savedSongsDivWrapper.style.display = "none"
                 var storedSongName = this.getAttribute("songName")
                 songText = document.getElementById("Song-"+storedSongName)
                 trainingToggled = true
