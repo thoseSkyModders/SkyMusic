@@ -23,7 +23,12 @@
     <div class="menuDiv">
         <button class="skyButton" onclick="toggleSavedSongs()">Manage Recordings</button>
         <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
-    </div>
+        <label for="instruments">Choose your instrument</label>
+            <select id="instruments">
+            <option value="piano">Piano</option>
+            <option value="harp">Harp</option>
+            </select>
+         </div>
     <div class="videoWrapper video">
         <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
         <video preload="auto" playsinline="" muted="" autoplay="" loop="" data-vscid="jvm0gu2z7">
@@ -117,10 +122,37 @@
             document.body.removeChild(a);
         }
     }
+
+    
 //--------------------------------------------------------------------------------------------------------//
     //Loads the buttons with sounds
     const db_url = 'https://dl.dropboxusercontent.com/s/';
-    const urls = ["xim7yvy80ou80bi/0.mp3?dl=0", "adh4qa72jiw7q4b/1.mp3?dl=0", "546fmppbpvr80rh/2.mp3?dl=0", "aaph2izhy89oljc/3.mp3?dl=0", "oia9cq7mmk7lsa0/4.mp3?dl=0", "4285w5uzn5um6ay/5.mp3?dl=0", "2o1nszo0ry2ttoi/6.mp3?dl=0", "cnhjr7ljph30ycz/7.mp3?dl=0", "lqo9zv4bm6h13x4/8.mp3?dl=0", "d0brnsgqorwo67i/9.mp3?dl=0", "jq9dl35enpn4hgc/10.mp3?dl=0", "a07cku2ns81oiw2/11.mp3?dl=0", "c1gj4cn9ksctvhz/12.mp3?dl=0", "w1hhusqautlwz5w/13.mp3?dl=0", "u94o8hu4i05b0to/14.mp3?dl=0"];
+    
+    var pianoSounds = ["xim7yvy80ou80bi/0.mp3?dl=0","adh4qa72jiw7q4b/1.mp3?dl=0","546fmppbpvr80rh/2.mp3?dl=0","aaph2izhy89oljc/3.mp3?dl=0","oia9cq7mmk7lsa0/4.mp3?dl=0","4285w5uzn5um6ay/5.mp3?dl=0","2o1nszo0ry2ttoi/6.mp3?dl=0","cnhjr7ljph30ycz/7.mp3?dl=0","lqo9zv4bm6h13x4/8.mp3?dl=0","d0brnsgqorwo67i/9.mp3?dl=0","jq9dl35enpn4hgc/10.mp3?dl=0","a07cku2ns81oiw2/11.mp3?dl=0","c1gj4cn9ksctvhz/12.mp3?dl=0","w1hhusqautlwz5w/13.mp3?dl=0","u94o8hu4i05b0to/14.mp3?dl=0"];
+    var harpSounds  = ["r6quat6w0v5rvh3/0.mp3?dl=0","uhket9niicm5gm5/1.mp3?dl=0","rjae3a7dr9m7ork/2.mp3?dl=0","l9a184zo84d9ioi/3.mp3?dl=0","3n05r4n7z3isoza/4.mp3?dl=0","mwzqyyn9umas9t6/5.mp3?dl=0","537bb87nwgi8p1a/6.mp3?dl=0","6bwuwlvqsjx9l3q/7.mp3?dl=0","quhgcrlft201bhk/8.mp3?dl=0","er3d7cmixvat8jd/9.mp3?dl=0","r3g5p2k0bglf2kv/10.mp3?dl=0","qngf2z1gpe4ay6q/11.mp3?dl=0","kej92xl4qmew8nc/12.mp3?dl=0","o8ybz932wztida4/13.mp3?dl=0","zt8s8tblh8rw7nh/14.mp3?dl=0"];
+    var urls = pianoSounds
+
+   //Changes sounds when instrument is selected
+   const instruments = document.getElementById('instruments');
+            instruments.addEventListener('change', (e) => {
+            localStorage.setItem('instruments', document.getElementById("instruments").value);   
+            location.reload();
+        });
+        //Puts the dropdown list value on the last played instrument
+        window.onload= function(){
+            if(localStorage['instruments'])
+            document.getElementById("instruments").value = localStorage['instruments'];
+        }
+
+        //Changes url of the instrument by looking at the value of the dropdownlist
+        if (localStorage['instruments'] === "piano"){
+                console.log("PIANO")
+                urls = pianoSounds
+            } else if(localStorage['instruments'] === "harp"){
+                console.log("HARP")
+                urls = harpSounds
+        }
+
     const a_ctx = new(window.AudioContext || window.webkitAudioContext)();
 
     let usesTouch = false;
