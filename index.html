@@ -157,7 +157,6 @@
     function toggleRecord() {
         if (isRecordToggled) {
             if (songArray.length != 0){
-                console.log(songArray) //function to later save
                 var promtText = prompt("Please enter the song name:", "Jingle bells");
                 if (promtText == null || promtText == "") {
                     console.log("User ignored the save")
@@ -189,10 +188,8 @@
     function toggleSavedSongs(){
         if(savedSongsDiv.style.display != "block"){
             savedSongsDiv.style.display = "block"
-            console.log("a")
         }else{
             savedSongsDiv.style.display = "none"
-            console.log("b")
         }
     }
 
@@ -256,7 +253,6 @@
                     if(savedSongs != null){
                         savedSongs = JSON.parse(savedSongs)
                         for(var i=0;i<savedSongs.length;i++){
-                            console.log(savedSongs[i].name)
                             if(savedSongs[i].name == this.getAttribute("songName")){
                                 savedSongs.splice(i,1)
                                 break;
