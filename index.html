@@ -4,7 +4,7 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1">
     <title>Sky Music</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
 </head>
@@ -14,7 +14,7 @@
     <div class="menuDiv">
         <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
     </div>
-    <div class="videoWrapper video" style="background-image:url('./AnimatedBG/skygame-banner.jpg');">
+    <div class="videoWrapper video">
         <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
         <video preload="auto" playsinline="" muted="" autoplay="" loop="" data-vscid="jvm0gu2z7">
             <source src="./AnimatedBG/skygame-banner.webm" type="video/webm;codecs=&quot;vp8, vorbis&quot;">
@@ -22,7 +22,7 @@
             <source src="./AnimatedBG/skygame-banner.mp4" type="video/mp4;codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
         </video>
     </div>
-    <div id=t ouch>
+    <div id=touch>
         <div class="Row1" id="row1"></div>
         <div class="Row2" id="row2"></div>
         <div class="Row3" id="row3"></div>
@@ -64,9 +64,9 @@
                 //Creates button and sets the buttons properties .
                 const btn = document.createElement('button');
                 btn.id = "Key" + i++
-                    btn.addEventListener("click", function() {
-                        if (!usesTouch) buttonPressEvent(this)
-                    })
+                btn.addEventListener("click", function() {
+                    if (!usesTouch) buttonPressEvent(this)
+                })
                 btn.addEventListener("touchstart", function() {
                     usesTouch = true;
                     buttonPressEvent(this)
@@ -75,12 +75,12 @@
                 let usesTouch = false;
 
                 function buttonPressEvent(btn) {
-                    const source = a_ctx.createBufferSource();
-                    source.buffer = buf;
-                    source.connect(a_ctx.destination);
-                    source.start(0);
-                    reply_click(btn.id)
-                    recordSong(btn.id)
+                  const source = a_ctx.createBufferSource();
+                  source.buffer = buf;
+                  source.connect(a_ctx.destination);
+                  source.start(0);
+                  reply_click(btn.id)
+                  recordSong(btn.id)
                 }
                 //Creates the buttons and adds them to the right div.
                 document.body.appendChild(btn)
@@ -137,7 +137,11 @@
     function preload(urls) {
         const requests = urls.map(url => fetch(db_url + url)
             .then(r => r.arrayBuffer()) // this time we request as ArrayBuffer
-            .then(b => a_ctx.decodeAudioData(b))
+            .then(b => {
+              return new Promise((resolve, reject) => {
+                  a_ctx.decodeAudioData(b, resolve, reject)
+              });
+            })
         );
         return Promise.all(requests);
     }

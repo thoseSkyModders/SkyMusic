@@ -3,7 +3,8 @@
   background-position: center !important;
   /* put the height and width of your image here */
   background-size: contain !important;
-  height: 103px;
+  height: calc((100vw - 130px)/(5 * 102) * 103); /* scale proportionately to width, eliminate extra space */
+  max-height: 103px;
   width: calc((100% - 130px)/5);
   max-width: 102px;
   border: none;
@@ -23,6 +24,10 @@ button span {
   top: 0;
   left: 0;
   z-index: -1;
+  background-image: url('./AnimatedBG/skygame-banner.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 .video video {
   width: 100%;
@@ -38,13 +43,15 @@ button span {
   width: 100%;
   height: 15%;
   font-size: 1.4em;
+  padding:1em;
+  box-sizing: border-box;
 }
 .menuDiv{
   position:absolute;
-  height: 100%;
   width: 15%;
-  right:0%;
-  padding:1em;
+  min-width: 150px;
+  right: 1em;
+  top: 1em;
 }
 body {
   font-family: Arial;
@@ -52,12 +59,11 @@ body {
   padding: 0;
 }
 
-#container {
+#touch {
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-content: center;
 }
 
 .Home1, .Row1, .Row2, .Row3 {
