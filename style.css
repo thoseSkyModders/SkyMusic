@@ -130,7 +130,7 @@ div.fakefile {
 	position: absolute;
 	width: 100%;
 	top: 0em;
-	text-align: center;
+  text-align: center;
 }
 
 body {
@@ -153,5 +153,5 @@ body {
 .Row3 {
 	color: white;
 	padding: 15px;
-	text-align: center;
+  text-align: center;
 }
