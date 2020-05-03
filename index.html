@@ -15,8 +15,8 @@
         <h2>Here are all your saved songs!</h2>
     </div>
     <div class="menuDiv">
-        <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
         <button class="skyButton" onclick="toggleSavedSongs()">Manage Recordings</button>
+        <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
     </div>
     <div class="videoWrapper video">
         <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
@@ -241,7 +241,7 @@
             console.log("song added!")
             savedSongsDiv.appendChild(songContainer)
         var smallContainer = document.createElement("div")
-            smallContainer.style = "width: 20%"
+            smallContainer.style = "width: 22%"
         var deleteButton = document.createElement("button")
             deleteButton.innerHTML = "❌"
             deleteButton.className = "skyButton"
