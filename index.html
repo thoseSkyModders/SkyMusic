@@ -154,14 +154,22 @@
         }
 
     const a_ctx = new(window.AudioContext || window.webkitAudioContext)();
-
+        var buttonImages=["diamondCircle","diamond","circle","diamond","circle","circle","diamond","diamondCircle","diamond","circle","circle","diamond","circle","diamond","diamondCircle",]
     let usesTouch = false;
     preload(urls)
         .then(audioBuffers => {
+            var j = 1
             audioBuffers.forEach((buf, i) => {
                 //Creates button and sets the buttons properties .
-                const btn = document.createElement('button');
+                const btn = document.createElement('div');
+                btn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+                btn.style.display = "inline-block"
+                btn.style.borderRadius = "0.75em"
+                btn.style.backgroundImage = "url(./KeyImages/"+buttonImages[i]+".png)"
                 btn.id = "Key" + i++
+                if(i==6) j=2
+                if(i==11) j=3
+                usesTouch = false;
                 btn.addEventListener("click", function() {
                     if (!usesTouch) buttonPressEvent(this)
                 })
@@ -169,9 +177,6 @@
                     usesTouch = true;
                     buttonPressEvent(this)
                 })
-
-                 usesTouch = false;
-
                 function buttonPressEvent(btn) {
                   const source = a_ctx.createBufferSource();
                   source.buffer = buf;
@@ -180,55 +185,7 @@
                   reply_click(btn.id)
                   recordSong(btn.id)
                 }
-                //Creates the buttons and adds them to the right div.
-                document.body.appendChild(btn)
-                $("#Key0").appendTo("#row1"), $("#Key0").css({
-                    "background-image": "url(./KeyImages/Key-0.png)"
-                })
-                $("#Key1").appendTo("#row1"), $("#Key1").css({
-                    "background-image": "url(./KeyImages/Key-1.png)"
-                })
-                $("#Key2").appendTo("#row1"), $("#Key2").css({
-                    "background-image": "url(./KeyImages/Key-2.png)"
-                })
-                $("#Key3").appendTo("#row1"), $("#Key3").css({
-                    "background-image": "url(./KeyImages/Key-3.png)"
-                })
-                $("#Key4").appendTo("#row1"), $("#Key4").css({
-                    "background-image": "url(./KeyImages/Key-4.png)"
-                })
-
-                $("#Key5").appendTo("#row2"), $("#Key5").css({
-                    "background-image": "url(./KeyImages/Key-5.png)"
-                })
-                $("#Key6").appendTo("#row2"), $("#Key6").css({
-                    "background-image": "url(./KeyImages/Key-6.png)"
-                })
-                $("#Key7").appendTo("#row2"), $("#Key7").css({
-                    "background-image": "url(./KeyImages/Key-7.png)"
-                })
-                $("#Key8").appendTo("#row2"), $("#Key8").css({
-                    "background-image": "url(./KeyImages/Key-8.png)"
-                })
-                $("#Key9").appendTo("#row2"), $("#Key9").css({
-                    "background-image": "url(./KeyImages/Key-9.png)"
-                })
-
-                $("#Key10").appendTo("#row3"), $("#Key10").css({
-                    "background-image": "url(./KeyImages/Key-10.png)"
-                })
-                $("#Key11").appendTo("#row3"), $("#Key11").css({
-                    "background-image": "url(./KeyImages/Key-11.png)"
-                })
-                $("#Key12").appendTo("#row3"), $("#Key12").css({
-                    "background-image": "url(./KeyImages/Key-12.png)"
-                })
-                $("#Key13").appendTo("#row3"), $("#Key13").css({
-                    "background-image": "url(./KeyImages/Key-13.png)"
-                })
-                $("#Key14").appendTo("#row3"), $("#Key14").css({
-                    "background-image": "url(./KeyImages/Key-14.png)"
-                })
+                 document.getElementById("row"+j).appendChild(btn)
             });
         });
 //--------------------------------------------------------------------------------------------------------//
