@@ -4,9 +4,9 @@
   /* put the height and width of your image here */
   background-size: contain !important;
   height: calc((100vw - 130px)/(5 * 102) * 103); /* scale proportionately to width, eliminate extra space */
-  max-height: 103px;
+  max-height: 90px;
   width: calc((100% - 130px)/5);
-  max-width: 102px;
+  max-width: 90px;
   border: none;
   margin-left: 10px;
   margin-right: 10px;
