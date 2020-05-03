@@ -57,6 +57,7 @@
         console.log('Playing Key' + a)
         element = document.getElementById(i);
         element.style.filter = "brightness(130%)"
+        element.style.backgroundColor = "rgba(60, 60, 60, 0.65)"
         timer(element, a);
     }
 //--------------------------------------------------------------------------------------------------------//
@@ -64,11 +65,15 @@
     function timer(elem,aa){
          setTimeout(function() {
              elem.style.filter='brightness(100%)';
+             element.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
         } ,200);
     }
 //--------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------//
 //FILE IMPORT/EXPORT
+window.onbeforeunload = function(){
+    alert("quit")
+}
     var filePicker = document.getElementById("filePicker")
     function importSongs(){
         filePicker.addEventListener("change",function(){ //once file is picked it reads the content
@@ -94,7 +99,7 @@
             songs = JSON.parse(songs)
             console.log(songs)
             if(songs.length != 0){//if there were some songs saved
-                downloadJSON(songs,"mySongs.json")
+                downloadJSON(songs,"mySongs.skySong")
             }
         }
     }
@@ -333,7 +338,7 @@
             }
                 var array = []
                 array.push(songObj)
-                downloadJSON(array,storedSongName+".json")
+                downloadJSON(array,storedSongName+".skySong")
             })
             songContainer.appendChild(deleteButton)
             songContainer.appendChild(shareButton)
