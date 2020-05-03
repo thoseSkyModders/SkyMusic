@@ -52,11 +52,12 @@ button span {
   padding: 0.5em;
   box-sizing: border-box;
   background: #333;
+  width: 100%;
+  display: inline-flex;
 }
 
 .bottomSavedSongsDiv .skyButton {
-  width: calc(100% - 2em);
-  height: 100%;
+  width: calc(50% - 1em);
 }
 
 .topSavedSongsDiv {
