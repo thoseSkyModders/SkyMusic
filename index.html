@@ -11,8 +11,12 @@
 <link rel="stylesheet" href="style.css" type="text/css">
 
 <body>
+    <div id="savedSongsDiv" class="floatingDiv">
+        <h2>Here are all your saved songs!</h2>
+    </div>
     <div class="menuDiv">
         <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
+        <button class="skyButton" onclick="toggleSavedSongs()">Manage Recordings</button>
     </div>
     <div class="videoWrapper video">
         <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
@@ -152,7 +156,24 @@
     //turns on the recording, and in case there was a previous recording, sends it to be saved (this function has to be added)
     function toggleRecord() {
         if (isRecordToggled) {
-            if (songArray.length != 0) console.log(songArray) //function to later save
+            if (songArray.length != 0){
+                console.log(songArray) //function to later save
+                var promtText = prompt("Please enter the song name:", "Jingle bells");
+                if (promtText == null || promtText == "") {
+                    console.log("User ignored the save")
+                } else {
+                    if(document.getElementById("Song-"+promtText) == null){
+                        saveSong(promtText,songArray,false)
+                    }else{
+                        var promtText2 = prompt("Warning! a song with that name already exists", "Rename Me!");
+                        if (promtText2 == null || promtText2 == "") {
+                            console.log("User ignored the save")
+                            } else {
+                                saveSong(promtText2,songArray,false)
+                            }
+                    }
+                }
+            }
             songArray = []
             toggleRecordBtn.style.backgroundColor = "#5a5a5a"
         } else {
@@ -160,6 +181,104 @@
         }
         isRecordToggled = !isRecordToggled
         startTime = new Date().getTime()
+    }
+    var savedSongsDiv = document.getElementById("savedSongsDiv")
+    document.getElementById("touch").addEventListener("click",function(){
+        savedSongsDiv.style.display = "none"
+    })
+    function toggleSavedSongs(){
+        if(savedSongsDiv.style.display != "block"){
+            savedSongsDiv.style.display = "block"
+            console.log("a")
+        }else{
+            savedSongsDiv.style.display = "none"
+            console.log("b")
+        }
+    }
+
+
+
+    preLoadSongs = localStorage.getItem("savedSongs")
+    if(preLoadSongs != null){
+        preLoadSongs = JSON.parse(preLoadSongs)
+        for(var i=0;i<preLoadSongs.length;i++){
+            saveSong(preLoadSongs[i].name,preLoadSongs[i].songNotes,true)
+        }
+    }
+    function saveSong(songName,song,isPreloading){
+        //to add something that stores the songs in memory, could use localstorage but that's only on one device so maybe, account system?
+            var songObj = {
+                name: songName,
+                songNotes : song
+            }
+            if(!isPreloading){ //doesnt save if it is preloading
+                var songStorage = localStorage.getItem("savedSongs")
+            if(songStorage != null){
+                songStorage = JSON.parse(songStorage)
+                songStorage.push(songObj)
+                localStorage.setItem("savedSongs",JSON.stringify(songStorage))
+            }else{
+                songStorage = [songObj]
+                localStorage.setItem("savedSongs",JSON.stringify(songStorage))
+            }
+            }
+        var songContainer = document.createElement("div")
+        var songButton = document.createElement("button")
+            songButton.setAttribute("songName",songName)
+            songButton.addEventListener("click",function(){
+                var storedSongName = this.getAttribute("songName")
+                songText = document.getElementById("Song-"+storedSongName)
+                playSong(JSON.parse(songText.innerHTML))
+
+            })
+            songButton.innerHTML = songName
+            songButton.className = "skyButton"
+            songButton.style.width = "65%"
+        var songText = document.createElement("div")
+            songText.style.display = "none"
+            songText.id = "Song-"+songName
+            songText.innerHTML = JSON.stringify(song)
+            songContainer.appendChild(songButton)
+            songContainer.appendChild(songText)
+            console.log("song added!")
+            savedSongsDiv.appendChild(songContainer)
+        var smallContainer = document.createElement("div")
+            smallContainer.style = "width: 20%"
+        var deleteButton = document.createElement("button")
+            deleteButton.innerHTML = "❌"
+            deleteButton.className = "skyButton"
+            deleteButton.style.width = "10%"
+            deleteButton.setAttribute("songName",songName)
+            deleteButton.addEventListener("click",function(){
+                if(confirm("Delete song: "+this.getAttribute("songName")+"?")){
+                    this.parentNode.parentNode.removeChild(this.parentNode)
+                    var savedSongs = localStorage.getItem("savedSongs")
+                    if(savedSongs != null){
+                        savedSongs = JSON.parse(savedSongs)
+                        for(var i=0;i<savedSongs.length;i++){
+                            console.log(savedSongs[i].name)
+                            if(savedSongs[i].name == this.getAttribute("songName")){
+                                savedSongs.splice(i,1)
+                                break;
+                            }
+                        }
+                        localStorage.setItem("savedSongs",JSON.stringify(savedSongs))
+                    }
+                }
+            })
+            songContainer.appendChild(deleteButton)
+    }
+
+    async function playSong(song){
+        var delayTime = 0;
+        var previousTime = 0;
+        usesTouch = false;
+        for(var i=0;i<song.length;i++){
+            delayTime = song[i].time - previousTime
+            previousTime = song[i].time
+            await delay(delayTime);
+            document.getElementById(song[i].key).click()
+        }
     }
     let songArray = []
     //Each time a button is pressed, if the record is toggled, it adds a timestamp and what button is pressed
@@ -184,7 +303,7 @@
 
     //Preset Song 1
     var MarriedLife = async() => {
-
+        usesTouch = false;
         //Notes
         var C1 = document.getElementById("Key0")
         var D1 = document.getElementById("Key1")
