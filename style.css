@@ -12,6 +12,7 @@
   margin-right: 10px;
   background: transparent;
   cursor: pointer;
+  outline:none;
 }
 button span {
   display: none;
@@ -63,6 +64,7 @@ button span {
   box-sizing: border-box;
   cursor: pointer;
   margin:0.5em;
+  outline:none;
 }
 .menuDiv{
   position:absolute;
