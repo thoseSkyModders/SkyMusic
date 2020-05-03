@@ -54,7 +54,6 @@
     function reply_click(clicked_id) {
         i = clicked_id;
         a = i.replace(/Key/, '')
-        console.log('Playing Key' + a)
         element = document.getElementById(i);
         element.style.filter = "brightness(130%)"
         element.style.backgroundColor = "rgba(60, 60, 60, 0.65)"
@@ -71,9 +70,6 @@
 //--------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------//
 //FILE IMPORT/EXPORT
-window.onbeforeunload = function(){
-    alert("quit")
-}
     var filePicker = document.getElementById("filePicker")
     function importSongs(){
         filePicker.addEventListener("change",function(){ //once file is picked it reads the content
@@ -184,6 +180,7 @@ window.onbeforeunload = function(){
                 })
                 function buttonPressEvent(btn) {
                   const source = a_ctx.createBufferSource();
+                  if(btn.style.backgroundColor == "rgba(235, 0, 27, 0.7)") practiceSong([],true)
                   source.buffer = buf;
                   source.connect(a_ctx.destination);
                   source.start(0);
@@ -208,6 +205,7 @@ window.onbeforeunload = function(){
 //--------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------//
 //RECORDING MUSIC
+console.log("make the naming of the song recursive and not just 2 tries")
     let isRecordToggled = false;
     var startTime;
     var animationInterval;
@@ -288,7 +286,7 @@ window.onbeforeunload = function(){
             })
             songButton.innerHTML = songName
             songButton.className = "skyButton"
-            songButton.style.width = "calc(100% - 80px - 3em)"
+            songButton.style.width = "calc(100% - 120px - 4em)"
             //--------------------------------// This holds the text of the array of the song 
         var songText = document.createElement("div")
             songText.style.display = "none"
@@ -299,8 +297,6 @@ window.onbeforeunload = function(){
             console.log("song added!")
             savedSongsDiv.appendChild(songContainer)
             //--------------------------------// button to delete the song from the saved and to delete it from the menu
-        var smallContainer = document.createElement("div")
-            smallContainer.style = "width: 22%"
         var deleteButton = document.createElement("button")
             deleteButton.innerHTML = "❌"
             deleteButton.className = "skyButton"
@@ -322,6 +318,24 @@ window.onbeforeunload = function(){
                     }
                 }
             })
+            //TEMPORARY TO TEST
+
+            var trainSong = document.createElement("button")
+            trainSong.innerHTML = "🎯"
+            trainSong.className = "skyButton"
+            trainSong.style.width = "40px"
+            trainSong.setAttribute("songName",songName)
+            trainSong.addEventListener("click",function(){
+                var storedSongName = this.getAttribute("songName")
+                songText = document.getElementById("Song-"+storedSongName)
+                trainingToggled = true
+                practiceSong(JSON.parse(songText.innerHTML),false)
+            })
+
+
+
+
+
         var shareButton = document.createElement("button")
             shareButton.innerHTML = "<img src='icons/share.png' href='share' width='20px' style='vertical-align: bottom'/>"
             shareButton.style.color = "lightgreen"
@@ -340,12 +354,13 @@ window.onbeforeunload = function(){
                 array.push(songObj)
                 downloadJSON(array,storedSongName+".skySong")
             })
+            songContainer.appendChild(trainSong)
             songContainer.appendChild(deleteButton)
             songContainer.appendChild(shareButton)
     }
 //--------------------------------------------------------------------------------------------------------//
     async function playSong(song){
-        console.log(song)
+        console.dir(song)
         var delayTime = 0;
         var previousTime = 0;
         usesTouch = false;
@@ -356,6 +371,32 @@ window.onbeforeunload = function(){
             document.getElementById(song[i].key).click()
         }
     }
+//--------------------------------------------------------------------------------------------------------//
+var noteIndex = 0
+var trainingToggled = false
+var trainingSong;
+    function practiceSong(song,isStarted){
+
+        if(trainingToggled){
+            if(!isStarted){
+                for(var i=0;i<15;i++){
+                    document.getElementById("Key"+i).style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+                }
+                trainingSong = song
+                noteIndex = -1; //idk why? but nvm
+            }
+            if(noteIndex == trainingSong.length-1){
+                console.log("song finished!")
+                trainingToggled = false
+                return;
+            }
+            setTimeout(() => { //delay because if it's the same button twice it wont change color
+                document.getElementById(trainingSong[noteIndex].key).style.backgroundColor = "rgba(235, 0, 27, 0.7)";
+            }, 250);
+            noteIndex++
+        }
+        
+}
 //--------------------------------------------------------------------------------------------------------//
     const delay = ms => new Promise(res => setTimeout(res, ms));
 //--------------------------------------------------------------------------------------------------------//
