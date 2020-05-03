@@ -13,13 +13,11 @@
 <body>
     <div id="savedSongsDivWrapper" class="floatingDiv">
         <h3>Here are all your saved songs!</h3>
-        <div id="savedSongsDiv" class="topSavedSongsDiv">
-
-        </div>
-            <div class = "bottomSavedSongsDiv">
-            <button class="skyButton" style="float:left;" onclick="importSongs()">Import songs</button>
+        <div id="savedSongsDiv" class="topSavedSongsDiv"></div>
+        <div class = "bottomSavedSongsDiv">
+            <button class="skyButton" onclick="importSongs()">Import songs</button>
             <input type=file style="display:none;" id="filePicker">
-            <button class="skyButton" style="float:right;" onclick="downloadSongs()">Download songs</button>
+            <button class="skyButton" onclick="downloadSongs()">Download songs</button>
         </div>
     </div>
     <div class="menuDiv">
@@ -296,7 +294,7 @@
             })
             songButton.innerHTML = songName
             songButton.className = "skyButton"
-            songButton.style.width = "60%"
+            songButton.style.width = "calc(100% - 80px - 3em)"
             //--------------------------------// This holds the text of the array of the song 
         var songText = document.createElement("div")
             songText.style.display = "none"
@@ -312,7 +310,7 @@
         var deleteButton = document.createElement("button")
             deleteButton.innerHTML = "❌"
             deleteButton.className = "skyButton"
-            deleteButton.style.width = "7%"
+            deleteButton.style.width = "40px"
             deleteButton.setAttribute("songName",songName)
             deleteButton.addEventListener("click",function(){
                 if(confirm("Delete song: "+this.getAttribute("songName")+"?")){
@@ -334,7 +332,7 @@
             shareButton.innerHTML = "🡆"
             shareButton.style.color = "lightgreen"
             shareButton.className = "skyButton"
-            shareButton.style.width = "7%"
+            shareButton.style.width = "40px"
             shareButton.setAttribute("songName",songName)
             shareButton.addEventListener("click",function(){
                 var storedSongName = this.getAttribute("songName")

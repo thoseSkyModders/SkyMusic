@@ -3,14 +3,12 @@
 	background-position: center !important;
 	/* put the height and width of your image here */
 	background-size: contain !important;
-	height: calc((100vw - 130px)/(5 * 102) * 103);
-	/* scale proportionately to width, eliminate extra space */
+	height: calc((100vh - 6vw - 50px)/3);
 	max-height: 80px;
-	width: calc((100% - 130px)/5);
+	width: calc(90%/5);
 	max-width: 80px;
 	border: none;
-	margin-left: 10px;
-	margin-right: 10px;
+	margin: 1%;
 	background: transparent;
 	cursor: pointer;
 	outline: none;
@@ -49,12 +47,21 @@ button span {
 
 .bottomSavedSongsDiv {
 	border-top: 2px solid #dad8b3;
+  position: sticky;
+  bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  background: #333;
+}
+
+.bottomSavedSongsDiv .skyButton {
+  width: calc(100% - 2em);
+  height: 100%;
 }
 
 .topSavedSongsDiv {
-	overflow-y: auto;
-	overflow-x: hidden;
-	height: 60%;
+  padding: 0.5em;
+  box-sizing: border-box;
 }
 
 .inputFile {
@@ -68,18 +75,24 @@ button span {
 
 .floatingDiv {
 	text-align: center;
-	width: 50%;
+	width: 75%;
 	position: absolute;
-	height: 70%;
-	margin-top: 5%;
-	margin-left: 25%;
+	margin-top: 5vh;
+	margin-left: 12.5%;
 	background-color: #414141;
 	color: #dad8b3;
 	border: solid #dad8b3 2px;
 	border-radius: 1.5em;
 	display: none;
-	padding: 0.5em;
 	z-index: 10;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.floatingDiv h3 {
+  padding: 0.5em;
+  box-sizing: border-box;
+  margin-bottom: 0;
 }
 
 div.fileinputs {
@@ -127,10 +140,9 @@ div.fakefile {
 }
 
 .menuDiv {
-	position: absolute;
 	width: 100%;
-	top: 0em;
 	text-align: center;
+  height: 50px;
 }
 
 body {
@@ -141,10 +153,12 @@ body {
 }
 
 #touch {
-	height: 100vh;
+  height: calc(100vh - 50px);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+  padding: 1%;
+  box-sizing: border-box;
 }
 
 .Home1,
@@ -152,6 +166,5 @@ body {
 .Row2,
 .Row3 {
 	color: white;
-	padding: 15px;
 	text-align: center;
 }
