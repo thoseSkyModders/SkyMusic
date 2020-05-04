@@ -23,11 +23,6 @@
     <div class="menuDiv">
         <button class="skyButton" onclick="toggleSavedSongs()">Manage Recordings</button>
         <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
-        <label for="instruments">Choose your instrument</label>
-            <select id="instruments">
-            <option value="piano">Piano</option>
-            <option value="harp">Harp</option>
-            </select>
          </div>
     <div class="videoWrapper video">
         <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
@@ -43,13 +38,36 @@
         <div class="Row3" id="row3"></div>
     </div>
     </div>
-
-    <button class="musicButton" onclick="openInstrumentList()"></button>
-
+    <button class="musicButton" id="toggleInstruments" onclick="toggleInstrumentList()"></button>
+    <div id="instrumentsNew" class="instrumentsWrapper">
+        <button type="button" id="pianoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/piano.png);"/>
+        <button type="button" id="harpBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/harp.png);"/>
+       <!-- <button type="button" id="hornBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/horn.png);"/>
+        <button type="button" id="bassBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bass.png);"/>
+        <button type="button" id="drumBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/drum.png);"/> 
+    
+        TO REMOVE ONCE NEW INSTRUMENTS ARE ADDED
+        -->
+    </div>
 </body>
 
 </html>
 <script type="text/javascript">
+let instrumentsWrapper = document.getElementById("instrumentsNew")
+function toggleInstrumentList(){
+    if(instrumentsWrapper.style.display != "block"){
+        instrumentsWrapper.style.display = "block"
+    }else{
+        instrumentsWrapper.style.display = "none"
+    }
+}
+ 
+function changeInstrument(button){
+    let chosenInstrument = button.id.replace("Btn","")
+    document.getElementById("toggleInstruments").style.backgroundImage = button.style.backgroundImage
+    instrumentsWrapper.style.display = "none"
+    changeInstrumentSound(chosenInstrument)
+}
     var i;
     var keyclicked;
     var element;
@@ -136,15 +154,16 @@
     var urls = pianoSounds
 
    //Changes sounds when instrument is selected
-   const instruments = document.getElementById('instruments');
-            instruments.addEventListener('change', (e) => {
-            localStorage.setItem('instruments', document.getElementById("instruments").value);   
+   function changeInstrumentSound(instrument){
+            console.log(instrument)   
+            localStorage.setItem('instruments', instrument);   
             location.reload();
-        });
+   }
         //Puts the dropdown list value on the last played instrument
         window.onload= function(){
-            if(localStorage['instruments'])
-            document.getElementById("instruments").value = localStorage['instruments'];
+            if(localStorage['instruments']){
+                document.getElementById("toggleInstruments").style.backgroundImage = document.getElementById(localStorage['instruments']+"Btn").style.backgroundImage
+            }
         }
 
         //Changes url of the instrument by looking at the value of the dropdownlist
@@ -243,7 +262,7 @@
             songArray = []
             toggleRecordBtn.style.backgroundColor = "#5a5a5a"
         } else {
-            toggleRecordBtn.style.backgroundColor = "#817f7f"
+            toggleRecordBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
         }
         isRecordToggled = !isRecordToggled
         startTime = new Date().getTime()
@@ -252,6 +271,7 @@
     var savedSongsDivWrapper = document.getElementById("savedSongsDivWrapper")
     document.getElementById("touch").addEventListener("click",function(){
         savedSongsDivWrapper.style.display = "none"
+        instrumentsWrapper.style.display = "none"
     })
     function toggleSavedSongs(){
         if(savedSongsDivWrapper.style.display != "block"){

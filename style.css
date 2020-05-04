@@ -44,18 +44,36 @@
 	top:2%; 
 	right:5%;
 	background: rgba(22, 22, 22, 0.65);
-	background-image: url('./KeyImages/Harp.png');
+	background-image: url('./images/Harp.png');
 	background-size: contain !important;
 	background-repeat: no-repeat !important;
 	background-position: center !important;
 	
 	background-repeat: no-repeat;
-    border-radius: 50%;
+    border-radius: 40%;
 	height: calc((40vh - 6vw - 50px)/3);
-	width: 10vh;
+	width: 12vh;
 	border: none;
 }
-
+.instrumentButton{
+	background-position: center;
+	background-size: contain;
+	background-color: transparent;
+	border: none;
+	height:40px;
+	width:40px;
+	margin:2px;
+}
+.instrumentsWrapper{
+	text-align: center;
+	border-radius: 1em;
+	background-color: rgba(22, 22, 22, 0.65); ;
+	display: none;
+	width: 12vh;
+	position: absolute;
+	right: 5%;
+	top:10%;
+}
 @keyframes bounce-background {
 	from {background-position: top;}
 	50% {background-position: bottom;}
@@ -193,7 +211,7 @@ div.fakefile {
 .skyButton {
 	color: #dad8b3;
 	border: solid #dad8b3 1.5px;
-	background-color: #5a5a5a;
+	background-color: rgba(22, 22, 22, 0.65);
 	border-radius: 0.5em;
 	font-size: 1em;
 	padding: 0.4em;
