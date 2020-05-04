@@ -93,7 +93,6 @@
         var songs = localStorage.getItem("savedSongs") //gets the songs saved in localStorage and downloads them as JSON
         if(songs != null){ //if there were some songs saved
             songs = JSON.parse(songs)
-            console.log(songs)
             if(songs.length != 0){//if there were some songs saved
                 downloadJSON(songs,"mySongs.json")
             }
@@ -179,13 +178,10 @@
                     buttonPressEvent(this)
                 })
                 function buttonPressEvent(btn) {
-                  const source = a_ctx.createBufferSource();
                   if(btn.style.backgroundColor == "rgba(235, 0, 27, 0.7)"){
-                    if(btn.getAttribute("canPractice") == null || btn.getAttribute("canPractice") == undefined || btn.getAttribute("canPractice") == "" || btn.getAttribute("canPractice") == false ){
-                        practiceSong([],true)
-                        btn.setAttribute("canpractice",false)
-                    }  
+                      practice([])
                   }
+                  const source = a_ctx.createBufferSource();
                   source.buffer = buf;
                   source.connect(a_ctx.destination);
                   source.start(0);
@@ -286,6 +282,7 @@
                 savedSongsDivWrapper.style.display = "none"
                 var storedSongName = this.getAttribute("songName")
                 songText = document.getElementById("Song-"+storedSongName)
+                resetButtons()
                 playSong(JSON.parse(songText.innerHTML))
             })
             songButton.innerHTML = songName
@@ -333,9 +330,7 @@
                 savedSongsDivWrapper.style.display = "none"
                 var storedSongName = this.getAttribute("songName")
                 songText = document.getElementById("Song-"+storedSongName)
-                console.log(songText.innerHTML)
-                toggleTraining = true
-                practiceSong(songText.innerHTML,false)
+                practice(JSON.parse(songText.innerHTML))
             })
 
 
@@ -377,47 +372,42 @@
             document.getElementById(song[i].key).click()
         }
     }
+
+
 //--------------------------------------------------------------------------------------------------------//
 console.log("you could set an attribute to the button ignoreTrainingPress = 'true' to all the buttons of the combination except the first one so you have to press all of them to make them disappear")
-var toggleTraining = false
-var trainingSong;
-var pivotNote = 0 ;
-var notesToToggle = []
-const msThreshold = 50
-    function practiceSong(song,isStarted){
-        if(toggleTraining){
-            if(!isStarted){
-                console.log("training added")
-                for(var i=0;i<15;i++){
-                    //resets all buttons
-                    document.getElementById("Key"+i).style.backgroundColor = "rgba(22, 22, 22, 0.65)"
-                }
-                console.log(song)
-                trainingSong = JSON.parse(song)
-                console.log(trainingSong)
-            }
-            if(trainingSong.length == 0){
-                //if the song finished, reset everything
-                toggleTraining = false
-                return;
-            }
-            notesToToggle = []
-            for(var i=0;i<trainingSong.length;i++){
-                //console.log((trainingSong[i].time-trainingSong[pivotNote].time))
-                if((trainingSong[i].time-trainingSong[pivotNote].time)<msThreshold){
-                    notesToToggle.push(trainingSong[i].key)
-                    trainingSong.splice(i,1)
-                }
-            }
-            console.log(notesToToggle)
-            document.getElementById(notesToToggle[0]).setAttribute("canPractice",true)
-            setTimeout(() => { //delay because if it's the same button twice it wont change color
-            for(var i=0;i<notesToToggle.length;i++){
-                document.getElementById(notesToToggle[i]).style.backgroundColor = "rgba(235, 0, 27, 0.7)";
-            }
-            }, 220);
-
-        }   
+function resetButtons(){
+    for(var i=0;i<14;i++){
+        document.getElementById("Key"+i).style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+    }
+}
+let songToPractice = []
+let keysToPress = []
+let threshold = 50
+let keysToWait = 1;
+function practice(inSong){
+    if(inSong.length != 0){ //If there is a song to be added, if there isn't it means that it comes from a ping from the button
+        songToPractice = inSong
+        keysToWait = 1
+        resetButtons()
+    }
+    if(songToPractice.length == 0) return;
+    keysToWait--
+    if(keysToWait == 0){
+        keysToPress = []
+    for(var i=0;i<songToPractice.length;i++){
+        if((songToPractice[i].time-songToPractice[0].time)<threshold){ //if the time between the next keys is lower than the threshold then it appends to the keys to be played
+            keysToPress.push(songToPractice[i].key)
+        }
+    }
+    setTimeout(() => { //delays from the ping so that it lets the key change it's color 
+        for(var i=0;i<keysToPress.length;i++){ //it changes the color to the reddish one and removes the keys to be pressed from the array
+            document.getElementById(keysToPress[i]).style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+                songToPractice.splice(0,1)
+        }     
+    }, 220);
+    keysToWait = keysToPress.length //those are the keys presses to do before searching for the next key combination
+    }
 }
 //--------------------------------------------------------------------------------------------------------//
     const delay = ms => new Promise(res => setTimeout(res, ms));
