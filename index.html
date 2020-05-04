@@ -205,26 +205,24 @@
 //--------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------//
 //RECORDING MUSIC
-console.log("make the naming of the song recursive and not just 2 tries")
     let isRecordToggled = false;
     var startTime;
     var animationInterval;
     function toggleRecord() {
         if (isRecordToggled) { //if the recording is toggled already then it means it was listening, now stops listening and saves the song
-            if (songArray.length != 0){ 
-                var promtText = prompt("Please enter the song name:", "Jingle bells"); //asks for the song name
-                if (promtText == null || promtText == "") {
-                    console.log("User ignored the save")
-                } else {
-                    if(document.getElementById("Song-"+promtText) == null){ //if there is already a song with that name, ask to rename it
-                        saveSong(promtText,songArray,false)
-                    }else{
-                        var promtText2 = prompt("Warning! a song with that name already exists", "Rename Me!");
-                        if (promtText2 == null || promtText2 == "") {
-                            console.log("User ignored the save")
-                            } else {
-                                saveSong(promtText2,songArray,false)
-                            }
+            if (songArray.length != 0){
+                var text = "Please enter the song name:"
+                while(true){
+                    var promtText = prompt(text, "Jingle bells"); //asks for the song name
+                    if (promtText == null || promtText == "") {
+                        console.log("User ignored the save")
+                        break;
+                    } else {
+                        if(document.getElementById("Song-"+promtText) == null){ //if there is already a song with that name, ask to rename it
+                            saveSong(promtText,songArray,false)
+                            break;
+                        }
+                        text = "There is already a song with name: "+promtText+" chose another!"
                     }
                 }
             }
