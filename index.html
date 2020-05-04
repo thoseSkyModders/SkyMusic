@@ -180,7 +180,12 @@
                 })
                 function buttonPressEvent(btn) {
                   const source = a_ctx.createBufferSource();
-                  if(btn.style.backgroundColor == "rgba(235, 0, 27, 0.7)") practiceSong([],true)
+                  if(btn.style.backgroundColor == "rgba(235, 0, 27, 0.7)"){
+                    if(btn.getAttribute("canPractice") == null || btn.getAttribute("canPractice") == undefined || btn.getAttribute("canPractice") == "" || btn.getAttribute("canPractice") == false ){
+                        practiceSong([],true)
+                        btn.setAttribute("canpractice",false)
+                    }  
+                  }
                   source.buffer = buf;
                   source.connect(a_ctx.destination);
                   source.start(0);
@@ -328,8 +333,9 @@
                 savedSongsDivWrapper.style.display = "none"
                 var storedSongName = this.getAttribute("songName")
                 songText = document.getElementById("Song-"+storedSongName)
-                trainingToggled = true
-                practiceSong(JSON.parse(songText.innerHTML),false)
+                console.log(songText.innerHTML)
+                toggleTraining = true
+                practiceSong(songText.innerHTML,false)
             })
 
 
@@ -373,29 +379,45 @@
     }
 //--------------------------------------------------------------------------------------------------------//
 console.log("you could set an attribute to the button ignoreTrainingPress = 'true' to all the buttons of the combination except the first one so you have to press all of them to make them disappear")
-var noteIndex = 0
-var trainingToggled = false
+var toggleTraining = false
 var trainingSong;
+var pivotNote = 0 ;
+var notesToToggle = []
+const msThreshold = 50
     function practiceSong(song,isStarted){
-        if(trainingToggled){
+        if(toggleTraining){
             if(!isStarted){
+                console.log("training added")
                 for(var i=0;i<15;i++){
+                    //resets all buttons
                     document.getElementById("Key"+i).style.backgroundColor = "rgba(22, 22, 22, 0.65)"
                 }
-                trainingSong = song
-                noteIndex = -1; //idk why? but nvm
+                console.log(song)
+                trainingSong = JSON.parse(song)
+                console.log(trainingSong)
             }
-            if(noteIndex == trainingSong.length-1){
-                console.log("song finished!")
-                trainingToggled = false
+            if(trainingSong.length == 0){
+                //if the song finished, reset everything
+                toggleTraining = false
                 return;
             }
+            notesToToggle = []
+            for(var i=0;i<trainingSong.length;i++){
+                //console.log((trainingSong[i].time-trainingSong[pivotNote].time))
+                if((trainingSong[i].time-trainingSong[pivotNote].time)<msThreshold){
+                    notesToToggle.push(trainingSong[i].key)
+                    trainingSong.splice(i,1)
+                }
+            }
+            console.log(notesToToggle)
+            document.getElementById(notesToToggle[0]).setAttribute("canPractice",true)
             setTimeout(() => { //delay because if it's the same button twice it wont change color
-                document.getElementById(trainingSong[noteIndex].key).style.backgroundColor = "rgba(235, 0, 27, 0.7)";
-            }, 250);
-            noteIndex++
-        }
-        
+            for(var i=0;i<notesToToggle.length;i++){
+                document.getElementById(notesToToggle[i]).style.backgroundColor = "rgba(235, 0, 27, 0.7)";
+            }
+            }, 220);
+
+        }   
 }
 //--------------------------------------------------------------------------------------------------------//
     const delay = ms => new Promise(res => setTimeout(res, ms));
