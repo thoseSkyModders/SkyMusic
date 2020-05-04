@@ -52,7 +52,7 @@
 	background-repeat: no-repeat;
     border-radius: 50%;
 	height: calc((40vh - 6vw - 50px)/3);
-	width: calc(25%/5);
+	width: 10vh;
 	border: none;
 }
 
@@ -231,4 +231,8 @@ body {
 .Row3 {
 	color: white;
 	text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+	.musicButton { top: 20%; width: 10vh; left:50%; margin-right: -50%; transform: translate(-50%, -50%);}
 }
