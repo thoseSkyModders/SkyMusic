@@ -26,14 +26,14 @@
 .keyTurn{
 	animation-name: click-key;
     animation-timing-function: linear;
-    animation-duration: 0.3s;
+    animation-duration: 0.15s;
     animation-iteration-count: initial;
 	animation-play-state: 1;
 	/* For Chrome & Safari */
    
 	-webkit-animation-name: click-key;
 	-webkit-animation-timing-function: linear;
-	-webkit-animation-duration:0.3s;
+	-webkit-animation-duration:0.15s;
 	-webkit-animation-iteration-count: initial;
 	-webkit-animation-play-state: 1;
 }
