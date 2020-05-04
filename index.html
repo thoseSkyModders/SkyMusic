@@ -95,7 +95,7 @@
             songs = JSON.parse(songs)
             console.log(songs)
             if(songs.length != 0){//if there were some songs saved
-                downloadJSON(songs,"mySongs.skySong")
+                downloadJSON(songs,"mySongs.json")
             }
         }
     }
@@ -352,7 +352,7 @@
             }
                 var array = []
                 array.push(songObj)
-                downloadJSON(array,storedSongName+".skySong")
+                downloadJSON(array,storedSongName+".json")
             })
             songContainer.appendChild(trainSong)
             songContainer.appendChild(deleteButton)
@@ -372,11 +372,11 @@
         }
     }
 //--------------------------------------------------------------------------------------------------------//
+console.log("you could set an attribute to the button ignoreTrainingPress = 'true' to all the buttons of the combination except the first one so you have to press all of them to make them disappear")
 var noteIndex = 0
 var trainingToggled = false
 var trainingSong;
     function practiceSong(song,isStarted){
-
         if(trainingToggled){
             if(!isStarted){
                 for(var i=0;i<15;i++){
