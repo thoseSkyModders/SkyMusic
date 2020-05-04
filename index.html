@@ -187,10 +187,20 @@
                   source.start(0);
                   reply_click(btn.id)
                   recordSong(btn.id)
+                  var TheButton = document.getElementById(btn.id)
+                  TheButton.classList.toggle("keyTurn")
+                  resetKeyClass(btn.id)
                 }
                  document.getElementById("row"+j).appendChild(btn)
             });
         });
+
+        function resetKeyClass(id){
+            setTimeout(() => {
+             document.getElementById(id).classList.remove("keyTurn");;
+            }, 250);
+            
+        }
 //--------------------------------------------------------------------------------------------------------//
     function preload(urls) {
         const requests = urls.map(url => fetch(db_url + url)
