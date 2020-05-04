@@ -14,6 +14,69 @@
 	outline: none;
 }
 
+
+
+@keyframes click-key {
+	from {background-size: 100% 100%;}
+	50% {background-size: 50% 100%;}
+	50% {background-size: 0% 100%;}
+	to {background-size: 100% 100%;}
+}
+
+.keyTurn{
+	animation-name: click-key;
+    animation-timing-function: linear;
+    animation-duration: 0.3s;
+    animation-iteration-count: initial;
+	animation-play-state: 1;
+	/* For Chrome & Safari */
+   
+	-webkit-animation-name: click-key;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-duration:0.3s;
+	-webkit-animation-iteration-count: initial;
+	-webkit-animation-play-state: 1;
+}
+
+
+.musicButton{
+	position:absolute; 
+	top:2%; 
+	right:5%;
+	background: rgba(22, 22, 22, 0.65);
+	background-image: url('./KeyImages/Harp.png');
+	background-size: contain !important;
+	background-repeat: no-repeat !important;
+	background-position: center !important;
+	
+	background-repeat: no-repeat;
+    border-radius: 50%;
+	height: calc((40vh - 6vw - 50px)/3);
+	width: calc(25%/5);
+	border: none;
+}
+
+@keyframes bounce-background {
+	from {background-position: top;}
+	50% {background-position: bottom;}
+	50% {background-position: middle;}
+	to {background-position: top;}
+}
+.musicButton:hover{
+	animation-name: bounce-background;
+    animation-timing-function: ease-in-out;
+    animation-duration: 2.5s;
+    animation-iteration-count: infinite;
+
+    /* For Chrome & Safari */
+   -webkit-animation-name: bounce-background;
+   -webkit-animation-timing-function:ease-in-out;
+   -webkit-animation-duration:2.5s;
+   -webkit-animation-iteration-count:infinite;
+}
+
+
+
 [id^=Key]::selection {
 	background-color: transparent;
 }
