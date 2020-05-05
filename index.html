@@ -131,7 +131,7 @@ let numOfKeysLeft = 15
 let newRowBreak = [6, 11]
 preload(urls)
     .then(audioBuffers => {
-        if(storedInstrument == "bell") numOfKeysLeft = 8, newRowBreak = [5, 9], buttonImages = ["circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "circle", "Diamond", "circle"]
+        if(storedInstrument == "bell") numOfKeysLeft = 8, newRowBreak = [5, 9], buttonImages = ["circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle"]
         var j = 1
         audioBuffers.forEach((buf, i) => {
             //Creates button and sets the buttons properties .
@@ -352,7 +352,7 @@ function saveSong(songName, song, isPreloading) { //the name of the song, the ar
         name: songName,
         songNotes: song
     }
-    if(!isPreloading) { //doesnt save if it is preloading
+    if(!isPreloading) { //doesnt save if it is preloading   
         var songStorage = localStorage.getItem("savedSongs")
         if(songStorage != null) {
             songStorage = JSON.parse(songStorage)
