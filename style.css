@@ -149,7 +149,6 @@
     animation-duration: 2.5s;
     animation-iteration-count: infinite;
 
-    /* For Chrome & Safari */
    -webkit-animation-name: bounce-background;
    -webkit-animation-timing-function:ease-in-out;
    -webkit-animation-duration:2.5s;
