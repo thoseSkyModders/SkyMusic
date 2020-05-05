@@ -159,7 +159,9 @@ preload(urls)
             function buttonPressEvent(btn) {
                 let btnBg = btn.firstChild
                 let btnImg = btn.childNodes[1]
-                if(btnBg.style.backgroundColor == "rgba(235, 0, 27, 0.7)") {
+                let bgColor = btnBg.style.backgroundColor
+                if(bgColor != "rgba(22, 22, 22, 0.65)" && bgColor != "rgba(60, 60, 60, 0.65)" && bgColor !="") {
+                    $(btn).children(":first").stop()
                     practice([])
                 }
                 const source = a_ctx.createBufferSource();
@@ -469,32 +471,37 @@ let keysToPress = []
 let threshold = 50
 let keysToWait = 1;
 let timeToWait = 0;
+let justReset = false;
+var lastKeyTime = 0;
 function practice(inSong) {
     if(inSong.length != 0) { //If there is a song to be added, if there isn't it means that it comes from a ping from the button
         songToPractice = inSong
         keysToWait = 1
+        justReset = true;
         resetButtons()
     }
     if(songToPractice.length == 0) return;
     keysToWait--
-    timeToWait = 0;
     if(keysToWait == 0) {
+        timeToWait = 0;
         keysToPress = []
         for (var i = 0; i < songToPractice.length; i++) {
             if((songToPractice[i].time - songToPractice[0].time) < threshold) { //if the time between the next keys is lower than the threshold then it appends to the keys to be played
-                keysToPress.push(songToPractice[i].key)
-                //if(i<songToPractice.length-1) timeToWait += songToPractice[i+1].time - songToPractice[i].time //animation to help with the rythm to improve
+                keysToPress.push(songToPractice[i])
             }
         }
-        console.log(timeToWait)
         setTimeout(() => { //delays from the ping so that it lets the key change it's color 
             for (var i = 0; i < keysToPress.length; i++) { //it changes the color to the reddish one and removes the keys to be pressed from the array
-                let btnBg = document.getElementById(keysToPress[i]).firstChild
-               // $("#" + keysToPress[i]).children(":first").animate({backgroundColor: 'rgba(235, 0, 27, 0.7)'}, timeToWait);
-                btnBg.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+                let btnBg = document.getElementById(keysToPress[i].key).firstChild
+                $("#" + keysToPress[i].key).children(":first").animate({backgroundColor: 'rgba(235, 0, 27, 0.7)'}, timeToWait);
+                //btnBg.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+                lastKeyTime = keysToPress[0].time
                 songToPractice.splice(0, 1)
             }
         }, 220);
+         if(songToPractice.length-1 > 0 && !justReset)  timeToWait = songToPractice[keysToPress.length].time - lastKeyTime
+         console.log(timeToWait)
+         justReset = false
         keysToWait = keysToPress.length //those are the keys presses to do before searching for the next key combination
     }
 }
@@ -504,6 +511,7 @@ function practice(inSong) {
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 //--------------------------------------------------------------------------------------------------------//
+
 
 let songArray = []
 //Each time a button is pressed, if the record is toggled, it adds a timestamp and what button is pressed
