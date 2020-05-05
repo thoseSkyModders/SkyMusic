@@ -131,7 +131,7 @@ let numOfKeysLeft = 15
 let newRowBreak = [6, 11]
 preload(urls)
     .then(audioBuffers => {
-        if(storedInstrument == "bell") numOfKeysLeft = 8, newRowBreak = [5, 9], buttonImages = ["circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle"]
+        if(storedInstrument == "bell") numOfKeysLeft = 8, newRowBreak = [5, 9], buttonImages = ["Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle"]
         var j = 1
         audioBuffers.forEach((buf, i) => {
             //Creates button and sets the buttons properties .
