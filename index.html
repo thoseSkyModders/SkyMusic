@@ -16,8 +16,8 @@
         <h3>Here are all your saved songs!</h3>
         <div id="savedSongsDiv" class="topSavedSongsDiv"></div>
         <div class = "bottomSavedSongsDiv">
-            <button class="skyButton" onclick="importSongs()">Import songs</button><!--
-          --><button class="skyButton" onclick="downloadSongs()">Download songs</button>
+            <button class="skyButton" onclick="importSongs()">Import songs</button>
+            <button class="skyButton" onclick="downloadSongs()">Download songs</button>
             <input type=file style="display:none;" id="filePicker">
         </div>
     </div>
@@ -162,6 +162,7 @@ preload(urls)
                 let bgColor = btnBg.style.backgroundColor
                 if(bgColor != "rgba(22, 22, 22, 0.65)" && bgColor != "rgba(60, 60, 60, 0.65)" && bgColor !="") {
                     $(btn).children(":first").stop()
+                    btnBg.style.borderColor = "transparent"
                     practice([])
                 }
                 const source = a_ctx.createBufferSource();
@@ -511,18 +512,17 @@ function practice(inSong) {
         }
         console.log(nextKeysToPress)
         setTimeout(() => { //delays from the ping so that it lets the key change it's color 
-            /* 
+            
             setTimeout(() => {
                 for(var i = 0; i < nextKeysToPress.length;i++){
-                    var btnBg = document.getElementById(nextKeysToPress[i].key).firstChild
-                    if(btnBg.style.backgroundColor != "rgba(235, 0, 27, 0.7)") $(btnBg).animate({backgroundColor: 'rgba(24, 51, 103, 0.65)'}, 100);
+                     $("#"+nextKeysToPress[i].key).children(":first").animate({"border-color": '#1BB8E8'}, 220);
                 }                 
-            }, timeToWait+100);
-            */
+            }, timeToWait-220);
             let willBeEmpty = songToPractice.length - keysToPress.length
             betweenKeysTimes.splice(0,keysToPress.length) //removes the times of each button since they arent used
             for (var i = 0; i < keysToPress.length; i++) { //it changes the color to the reddish one and removes the keys to be pressed from the array
-                $("#" + keysToPress[i].key).children(":first").animate({backgroundColor: 'rgba(235, 0, 27, 0.7)'}, timeToWait);
+                $("#" + keysToPress[i].key).children(":first").cssborderColor = "transparent"
+                $("#" + keysToPress[i].key).children(":first").css("border-color","transparent").animate({backgroundColor: 'rgba(235, 0, 27, 0.7)'}, timeToWait);
                 songToPractice.splice(0, 1)   
             }
             timeToWait=betweenKeysTimes[0] -220 //gets the first time of the array, that one is the time for the next one.
