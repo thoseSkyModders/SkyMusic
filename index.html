@@ -222,6 +222,7 @@ var filePicker = document.getElementById("filePicker")
 
 function importSongs() {
     filePicker.addEventListener("change", function() { //once file is picked it reads the content
+    try{
         var fr = new FileReader();
         fr.onload = function() {
             inputSongs = JSON.parse(fr.result)
@@ -234,6 +235,9 @@ function importSongs() {
             }
         }
         fr.readAsText(this.files[0]);
+        }catch(e){
+            alert("Error importing the song!")
+        }
     })
     filePicker.click()
 }
@@ -473,6 +477,7 @@ let keysToWait = 1;
 let oldTime = 0;
 let betweenKeysTimes = []
 let timeToWait = 0;
+let nextKeysToPress = []
 betweenKeysTimes.push(0) //offsets the first key
 function practice(inSong) {
     if(inSong.length != 0) { //If there is a song to be added, if there isn't it means that it comes from a ping from the button
@@ -493,16 +498,30 @@ function practice(inSong) {
     keysToWait--   
     if(keysToWait == 0) {
         keysToPress = []
+        nextKeysToPress = []
         for (var i = 0; i < songToPractice.length; i++) {
             if((songToPractice[i].time - songToPractice[0].time) < threshold) { //if the time between the next keys is lower than the threshold then it appends to the keys to be played
                 keysToPress.push(songToPractice[i])
             }
         }
+        for(var i = keysToPress.length; i<songToPractice.length;i++) {
+            if((songToPractice[i].time - songToPractice[keysToPress.length].time) < threshold) {
+                nextKeysToPress.push(songToPractice[i])
+            }
+        }
+        console.log(nextKeysToPress)
         setTimeout(() => { //delays from the ping so that it lets the key change it's color 
+            /* 
+            setTimeout(() => {
+                for(var i = 0; i < nextKeysToPress.length;i++){
+                    var btnBg = document.getElementById(nextKeysToPress[i].key).firstChild
+                    if(btnBg.style.backgroundColor != "rgba(235, 0, 27, 0.7)") $(btnBg).animate({backgroundColor: 'rgba(24, 51, 103, 0.65)'}, 100);
+                }                 
+            }, timeToWait+100);
+            */
             let willBeEmpty = songToPractice.length - keysToPress.length
             betweenKeysTimes.splice(0,keysToPress.length) //removes the times of each button since they arent used
             for (var i = 0; i < keysToPress.length; i++) { //it changes the color to the reddish one and removes the keys to be pressed from the array
-                let btnBg = document.getElementById(keysToPress[i].key).firstChild
                 $("#" + keysToPress[i].key).children(":first").animate({backgroundColor: 'rgba(235, 0, 27, 0.7)'}, timeToWait);
                 songToPractice.splice(0, 1)   
             }
