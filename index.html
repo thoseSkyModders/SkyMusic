@@ -470,20 +470,28 @@ let songToPractice = []
 let keysToPress = []
 let threshold = 50
 let keysToWait = 1;
+let oldTime = 0;
+let betweenKeysTimes = []
 let timeToWait = 0;
-let justReset = false;
-var lastKeyTime = 0;
+betweenKeysTimes.push(0) //offsets the first key
 function practice(inSong) {
     if(inSong.length != 0) { //If there is a song to be added, if there isn't it means that it comes from a ping from the button
+        //RESET OF VALUES AND SETTING UP THE SONG
+        betweenKeysTimes = []
+        betweenKeysTimes.push(0)
+        timeToWait = 0;
         songToPractice = inSong
+        console.log(songToPractice)
         keysToWait = 1
         justReset = true;
         resetButtons()
+        for(var i=1; i<songToPractice.length;i++){ //stores the time between keys
+            betweenKeysTimes.push(songToPractice[i].time - songToPractice[i-1].time)
+        }
     }
     if(songToPractice.length == 0) return;
-    keysToWait--
+    keysToWait--   
     if(keysToWait == 0) {
-        timeToWait = 0;
         keysToPress = []
         for (var i = 0; i < songToPractice.length; i++) {
             if((songToPractice[i].time - songToPractice[0].time) < threshold) { //if the time between the next keys is lower than the threshold then it appends to the keys to be played
@@ -491,17 +499,16 @@ function practice(inSong) {
             }
         }
         setTimeout(() => { //delays from the ping so that it lets the key change it's color 
+            let willBeEmpty = songToPractice.length - keysToPress.length
+            betweenKeysTimes.splice(0,keysToPress.length) //removes the times of each button since they arent used
             for (var i = 0; i < keysToPress.length; i++) { //it changes the color to the reddish one and removes the keys to be pressed from the array
                 let btnBg = document.getElementById(keysToPress[i].key).firstChild
                 $("#" + keysToPress[i].key).children(":first").animate({backgroundColor: 'rgba(235, 0, 27, 0.7)'}, timeToWait);
-                //btnBg.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
-                lastKeyTime = keysToPress[0].time
-                songToPractice.splice(0, 1)
+                songToPractice.splice(0, 1)   
             }
+            timeToWait=betweenKeysTimes[0] -220 //gets the first time of the array, that one is the time for the next one.
         }, 220);
-         if(songToPractice.length-1 > 0 && !justReset)  timeToWait = songToPractice[keysToPress.length].time - lastKeyTime
-         console.log(timeToWait)
-         justReset = false
+
         keysToWait = keysToPress.length //those are the keys presses to do before searching for the next key combination
     }
 }
