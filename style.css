@@ -129,6 +129,8 @@
 	display: none;
 	width: 12vh;
 	position: absolute;
+	max-height: 60%;
+	overflow-y: auto;
 	right: 5%;
 	top:10%;
 }
