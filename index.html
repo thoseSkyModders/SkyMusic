@@ -28,7 +28,8 @@
             <option value="piano">Piano</option>
             <option value="harp">Harp</option>
             </select>
-         </div>
+        <button class="musicButton" onclick="openInstrumentList()"></button>
+        </div>
     <div class="videoWrapper video">
         <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
         <video preload="auto" playsinline="" muted="" autoplay="" loop="" data-vscid="jvm0gu2z7">
@@ -44,22 +45,20 @@
     </div>
     </div>
 
-    <button class="musicButton" onclick="openInstrumentList()"></button>
-
 </body>
 
 </html>
 <script type="text/javascript">
-    var i;
-    var keyclicked;
-    var element;
     //Changes the brightness when button clicked.
     function reply_click(clicked_id) {
+        let i;
+        let element;
         i = clicked_id;
         a = i.replace(/Key/, '')
         element = document.getElementById(i);
         element.style.filter = "brightness(130%)"
-        element.style.backgroundColor = "rgba(60, 60, 60, 0.65)"
+        let btnBg = element.firstChild
+        btnBg.style.backgroundColor = "rgba(60, 60, 60, 0.65)"
         timer(element, a);
     }
 //--------------------------------------------------------------------------------------------------------//
@@ -67,7 +66,8 @@
     function timer(elem,aa){
          setTimeout(function() {
              elem.style.filter='brightness(100%)';
-             element.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+             let btnBg = elem.firstChild
+             btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
         } ,200);
     }
 //--------------------------------------------------------------------------------------------------------//
@@ -165,10 +165,8 @@
             audioBuffers.forEach((buf, i) => {
                 //Creates button and sets the buttons properties .
                 const btn = document.createElement('div');
-                btn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
-                btn.style.display = "inline-block"
-                btn.style.borderRadius = "0.75em"
-                btn.style.backgroundImage = "url(./KeyImages/"+buttonImages[i]+".png)"
+                let background = "./KeyImages/"+buttonImages[i]+".png"
+                btn.innerHTML = "<div class='btnBg'></div><img class='btnImg' src='" + background + "'/>"
                 btn.id = "Key" + i++
                 if(i==6) j=2
                 if(i==11) j=3
@@ -181,7 +179,9 @@
                     buttonPressEvent(this)
                 })
                 function buttonPressEvent(btn) {
-                  if(btn.style.backgroundColor == "rgba(235, 0, 27, 0.7)"){
+                  let btnBg = btn.firstChild
+                  let btnImg = btn.childNodes[1]
+                  if(btnBg.style.backgroundColor == "rgba(235, 0, 27, 0.7)"){
                       practice([])
                   }
                   const source = a_ctx.createBufferSource();
@@ -190,17 +190,18 @@
                   source.start(0);
                   reply_click(btn.id)
                   recordSong(btn.id)
-                  var TheButton = document.getElementById(btn.id)
-                  TheButton.classList.toggle("keyTurn")
-                  resetKeyClass(btn.id)
+                  btnImg.classList.toggle("keyTurn")
+                  btn.classList.toggle("keyScale")
+                  resetKeyClass(btn)
                 }
                  document.getElementById("row"+j).appendChild(btn)
             });
         });
 
-        function resetKeyClass(id){
+        function resetKeyClass(element){
             setTimeout(() => {
-             document.getElementById(id).classList.remove("keyTurn");;
+                element.childNodes[1].classList.remove("keyTurn");
+                element.classList.remove("keyScale");
             }, 250);
             
         }
@@ -351,7 +352,7 @@
 
 
         var shareButton = document.createElement("button")
-            shareButton.innerHTML = "<img src='icons/share.png' href='share' width='20px' style='vertical-align: bottom'/>"
+            shareButton.innerHTML = "<img src='icons/share.png' alt='share' width='20px' style='vertical-align: bottom'/>"
             shareButton.style.color = "lightgreen"
             shareButton.style.fontWeight = "bold"
             shareButton.className = "skyButton"
@@ -391,7 +392,8 @@
 console.log("you could set an attribute to the button ignoreTrainingPress = 'true' to all the buttons of the combination except the first one so you have to press all of them to make them disappear")
 function resetButtons(){
     for(var i=0;i<14;i++){
-        document.getElementById("Key"+i).style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        let btnBg = document.getElementById("Key"+i).firstChild
+        btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
     }
 }
 let songToPractice = []
@@ -415,7 +417,8 @@ function practice(inSong){
     }
     setTimeout(() => { //delays from the ping so that it lets the key change it's color 
         for(var i=0;i<keysToPress.length;i++){ //it changes the color to the reddish one and removes the keys to be pressed from the array
-            document.getElementById(keysToPress[i]).style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+            let btnBg = document.getElementById(keysToPress[i]).firstChild
+            btnBg.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
                 songToPractice.splice(0,1)
         }     
     }, 220);

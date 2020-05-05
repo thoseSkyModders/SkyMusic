@@ -1,8 +1,24 @@
+@font-face {
+  font-family: consola;
+  src: url('fonts/CONSOLA.TTF');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: consola;
+  src: url('fonts/CONSOLAB.TTF');
+  font-weight: bold;
+  font-style: normal;
+}
+
+* {
+    touch-action: none !important; /* mitigates button issues on iOS */
+    font-family: arial;
+}
+
 [id^=Key] {
-	background-repeat: no-repeat !important;
-	background-position: center !important;
-	/* put the height and width of your image here */
-	background-size: contain !important;
+  display: inline-block;
 	height: calc((100vh - 6vw - 50px)/3);
 	max-height: 80px;
 	width: calc(90%/5);
@@ -12,15 +28,59 @@
 	background: transparent;
 	cursor: pointer;
 	outline: none;
+  position: relative;
 }
 
+.btnBg {
+  z-index: 0;
+  border-radius: 0.75em;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(22, 22, 22, 0.65);
+  cursor: pointer;
+  display: block;
+}
 
+.btnImg {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  cursor: pointer;
+  display: block;
+}
 
 @keyframes click-key {
-	from {background-size: 100% 100%;}
-	50% {background-size: 50% 100%;}
-	50% {background-size: 0% 100%;}
-	to {background-size: 100% 100%;}
+	from {transform: scale(1, 1);}
+	50% {transform: scale(0.5, 1);}
+	50% {transform: scale(0, 1);}
+	to {transform: scale(1, 1);}
+}
+
+@keyframes click-scale {
+  from {transform: scale(1);}
+  50% {transform: scale(0.9);}
+  to {transform: scale(1);}
+}
+
+.keyScale {
+  animation-name: click-scale;
+    animation-timing-function: linear;
+    animation-duration: 0.15s;
+    animation-iteration-count: initial;
+  animation-play-state: 1;
+  /* For Chrome & Safari */
+   
+  -webkit-animation-name: click-scale;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-duration:0.15s;
+  -webkit-animation-iteration-count: initial;
+  -webkit-animation-play-state: 1;
 }
 
 .keyTurn{
@@ -40,24 +100,23 @@
 
 
 .musicButton{
-	position:absolute; 
-	top:2%; 
-	right:5%;
 	background: rgba(22, 22, 22, 0.65);
 	background-image: url('./KeyImages/Harp.png');
-	background-size: contain !important;
-	background-repeat: no-repeat !important;
-	background-position: center !important;
-	
+	background-size: contain;
 	background-repeat: no-repeat;
-    border-radius: 50%;
-	height: calc((40vh - 6vw - 50px)/3);
-	width: 10vh;
+	background-position: center;
+  border-radius: 50%;
+	height: 40px;
+	width: 40px;
 	border: none;
+  margin-left: 1em;
+  vertical-align: middle;
 }
 
 @keyframes bounce-background {
-	from {background-position: top;}
+	from {
+    background-position: top;
+  }
 	50% {background-position: bottom;}
 	50% {background-position: middle;}
 	to {background-position: top;}
@@ -210,7 +269,6 @@ div.fakefile {
 }
 
 body {
-	font-family: Arial;
 	margin: 0;
 	padding: 0;
 	overflow: hidden;
@@ -223,16 +281,11 @@ body {
 	justify-content: center;
   padding: 1%;
   box-sizing: border-box;
-}
-
-.Home1,
-.Row1,
-.Row2,
-.Row3 {
-	color: white;
-	text-align: center;
+  text-align: center;
 }
 
 @media only screen and (max-width: 800px) {
+  /*
 	.musicButton { top: 20%; width: 10vh; left:50%; margin-right: -50%; transform: translate(-50%, -50%);}
+  */
 }
