@@ -60,6 +60,57 @@
 
 </html>
 <script type="text/javascript">
+//--------------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------//
+//LOGIN AND ACCOUNT
+function createAccount(name,psw){
+    let credentials = {
+        username: name,
+        password: psw
+    }
+    let request = new XMLHttpRequest();
+    request.open("POST", "http://localhost:8080/createAccount");
+    request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+    request.onload = (res) => {
+            response = res.target.response;
+            if(response == "true"){
+                console.log("Account created!")
+            }else{
+                console.log("This username already exists!")
+            }
+        };
+        request.onerror = function(e) {
+            alert("Error creating the account!")
+        };
+        request.send(JSON.stringify(credentials))
+}
+//createAccount("Specy","wot")
+function login(name,psw){
+    let credentials = {
+        username: name,
+        password: psw
+    }
+    let request = new XMLHttpRequest();
+    request.open("POST", "http://localhost:8080/login");
+    request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+    request.onload = (res) => {
+            response = res.target.response;
+            if(response == "true"){
+                console.log("login successful!")
+            }else{
+                console.log("Credentials are wrong!")
+            }
+        };
+        request.onerror = function(e) {
+            alert("Error trying to LogIn")
+        };
+        request.send(JSON.stringify(credentials))
+}
+//login("Specy","wot")
+//--------------------------------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------------------------------//
+
+//LOADING WEBSITE
 let objKeys = {
     "e":"Key0",
     "r":"Key1",
