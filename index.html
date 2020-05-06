@@ -60,6 +60,31 @@
 
 </html>
 <script type="text/javascript">
+let objKeys = {
+    "e":"Key0",
+    "r":"Key1",
+    "t":"Key2",
+    "y":"Key3",
+    "u":"Key4",
+    "d":"Key5",
+    "f":"Key6",
+    "g":"Key7",
+    "h":"Key8",
+    "j":"Key9",
+    "c":"Key10",
+    "v":"Key11",
+    "b":"Key12",
+    "n":"Key13",
+    "m":"Key14"
+}   
+document.onkeypress = function(evt) {
+    evt = evt || window.event;
+    var charCode = evt.keyCode || evt.which;
+    var charStr = String.fromCharCode(charCode);
+    if(objKeys[charStr] != null)document.getElementById(objKeys[charStr]).click()
+};
+//--------------------------------------------------------------------------------------------------------//
+
 let instrumentsWrapper = document.getElementById("instrumentsNew")
 
 function toggleInstrumentList() {
@@ -131,7 +156,21 @@ let numOfKeysLeft = 15
 let newRowBreak = [6, 11]
 preload(urls)
     .then(audioBuffers => {
-        if(storedInstrument == "bell") numOfKeysLeft = 8, newRowBreak = [5, 9], buttonImages = ["Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle"]
+        if(storedInstrument == "bell"){
+            numOfKeysLeft = 8
+            newRowBreak = [5, 9]
+             buttonImages = ["circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "circle", "Diamond", "circle"]
+             objKeys = {
+                "e":"Key0",
+                "r":"Key1",
+                "t":"Key2",
+                "y":"Key3",
+                "d":"Key4",
+                "f":"Key5",
+                "g":"Key6",
+                "h":"Key7"
+            }  
+        } 
         var j = 1
         audioBuffers.forEach((buf, i) => {
             //Creates button and sets the buttons properties .
@@ -510,12 +549,11 @@ function practice(inSong) {
             }
         }
         setTimeout(() => { //delays from the ping so that it lets the key change it's color 
-            
             setTimeout(() => {
                 for(var i = 0; i < nextKeysToPress.length;i++){
                      $("#"+nextKeysToPress[i].key).children(":first").animate({"border-color": '#1BB8E8'}, 220);
                 }                 
-            }, timeToWait-220);
+            }, timeToWait-320);
             let willBeEmpty = songToPractice.length - keysToPress.length
             betweenKeysTimes.splice(0,keysToPress.length) //removes the times of each button since they arent used
             for (var i = 0; i < keysToPress.length; i++) { //it changes the color to the reddish one and removes the keys to be pressed from the array
