@@ -2,7 +2,7 @@ var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 var express = require("express");
 var app = express();
-var mongoKey = ""
+var mongoKey = process.env.mongoDBKey
 app.use(express.static('public'));
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
