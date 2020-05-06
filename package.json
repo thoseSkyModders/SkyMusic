@@ -24,7 +24,6 @@
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "mongodb": "^3.5.7",
-    "node-cron": "^2.0.3",
     "nodemailer": "^6.4.6"
   }
 }

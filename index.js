@@ -23,8 +23,10 @@ app.use(express.static('public'));
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 var port = process.env.PORT || 8080
-/*
-cron.schedule('* * * * *', () => {
+setInterval(() => { //to replace with node-cron once i figure out what causes the problem
+    removeUnusedVerification()
+}, 60000);
+ function removeUnusedVerification(){
     for(let i=0;i<awaitingVerification.length;i++){
         awaitingVerification[i].timesChecked ++
         if(awaitingVerification[i].timesChecked > 5){
@@ -33,8 +35,7 @@ cron.schedule('* * * * *', () => {
               i--
         }
     }
-  });
-  */
+ }
 MongoClient.connect(mongoKey,  function(err, db1) {
     if (err) throw err;
     const db = db1.db("skyMusic");
