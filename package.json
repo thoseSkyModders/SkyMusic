@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Website backend for the skyMusic",
   "main": "index.js",
+  "engines": {
+    "node": "10.16.3"
+  },
   "scripts": {
     "start": "node index.js"
   },

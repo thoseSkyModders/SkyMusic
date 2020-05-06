@@ -1,7 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 var express = require("express");
-var cron = require("node-cron")
+//var cron = require("node-cron")
 var nodemailer = require('nodemailer');
 //-----------------------------//
 var app = express();
@@ -23,6 +23,7 @@ app.use(express.static('public'));
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 var port = process.env.PORT || 8080
+/*
 cron.schedule('* * * * *', () => {
     for(let i=0;i<awaitingVerification.length;i++){
         awaitingVerification[i].timesChecked ++
@@ -33,6 +34,7 @@ cron.schedule('* * * * *', () => {
         }
     }
   });
+  */
 MongoClient.connect(mongoKey,  function(err, db1) {
     if (err) throw err;
     const db = db1.db("skyMusic");
