@@ -63,13 +63,15 @@
 //--------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------//
 //LOGIN AND ACCOUNT
+let websiteURL = "https://thatoneskyguy.github.io/SkyMusic/"
+    //websiteURL = "http://localhost:8080/"
 function createAccount(name,psw){
     let credentials = {
         username: name,
         password: psw
     }
     let request = new XMLHttpRequest();
-    request.open("POST", "http://localhost:8080/createAccount");
+    request.open("POST", websiteURL+"createAccount");
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
             response = res.target.response;
@@ -91,7 +93,7 @@ function login(name,psw){
         password: psw
     }
     let request = new XMLHttpRequest();
-    request.open("POST", "http://localhost:8080/login");
+    request.open("POST", websiteURL+"login");
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
             response = res.target.response;

@@ -4,18 +4,18 @@
   "description": "Website backend for the skyMusic",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ThatOneSkyGuy/SkyMusic.git"
+    "url": "git+https://github.com/thoseSkyModders/SkyMusic/SkyMusic.git"
   },
   "author": "thoseSkyModders",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ThatOneSkyGuy/SkyMusic/issues"
+    "url": "https://github.com/thoseSkyModders/SkyMusic/SkyMusic/issues"
   },
-  "homepage": "https://github.com/ThatOneSkyGuy/SkyMusic#readme",
+  "homepage": "https://github.com/thoseSkyModders/SkyMusic/SkyMusic#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
