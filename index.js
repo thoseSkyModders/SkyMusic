@@ -41,7 +41,7 @@ MongoClient.connect(mongoKey,  function(err, db1) {
     const db = db1.db("skyMusic");
 //----------------------------------------------------------------------------------------------//
     app.get("/",function(req, res) {
-        res.sendfile(__dirname+"/index.html")
+        res.sendFile(__dirname+"/index.html")
     })
 //----------------------------------------------------------------------------------------------//
 app.post("/createAccount", async function(req, res) {
