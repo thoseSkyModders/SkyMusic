@@ -307,7 +307,7 @@ body {
   text-align: center;
 }
 
-#login {
+#login,#register,#confirmRegistration {
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -317,7 +317,7 @@ body {
   padding: 5%;
 }
 
-#loginContainer {
+#loginContainer,#registerContainer {
   background: rgba(15,15,15,0.85);
   width: 100%;
   max-height: 100%;
@@ -329,12 +329,12 @@ body {
   max-width: 500px;
 }
 
-#loginContainer h1 {
+#loginContainer h1,#registerContainer h1{
   text-align: center;
   margin: 0;
 }
 
-[for="uname"], [for="psw"] {
+.formLabel{
   display: block;
   padding: 1em 0 0.5em;
   box-sizing: border-box;
@@ -342,7 +342,7 @@ body {
   box-sizing: border-box
 }
 
-[name="uname"], [name="psw"] {
+.formInput{
   display: block;
   width: 100%;
   border: 0;
@@ -353,7 +353,7 @@ body {
   background-color: #cbd6d2;
 }
 
-#loginContainer button {
+#loginContainer button, #registerContainer button{
   display: block;
   width: 100%;
   border: 0;
@@ -367,12 +367,12 @@ body {
   color: white;
 }
 
-#loginContainer a {
+#loginContainer a, #registerContainer a {
   color: teal;
   text-decoration: none;
 }
 
-#loginContainer span {
+#loginContainer span, #registerContainer a{
   display: inline-block;
   width: 50%;
 }
@@ -393,12 +393,12 @@ body {
 	-webkit-backdrop-filter: blur(20px);
 	backdrop-filter: blur(20px);
 	display: none;
-	z-index: 10;
+	z-index: 99;
 }
 
 #menu {
 	background-color: transparent;
-	z-index: 11;
+	z-index: 100;
 	border: none;
 	position: absolute;
 	background: rgba(22, 22, 22, 0);
@@ -411,9 +411,17 @@ body {
 	padding: 30px;
 }
 
+.secondPage{
+	display: none;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	z-index: 30;
+}
 .skyButton_2 {
 	background-color: rgba(22, 22, 22, 0.15);
 	border: 0;
+	font-size: 1em;
 	cursor: pointer;
 	outline: none;
 	border: none;

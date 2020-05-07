@@ -21,7 +21,7 @@
     <div id="login">
       <div id="loginContainer">
         <h1>Log in to Sky Music!</h1>
-        <form action="/login" method="post">
+        <div>
 
           <label for="uname"><b>USERNAME</b></label>
           <input type="text" placeholder="Enter Username" name="uname" required>
@@ -29,11 +29,11 @@
           <label for="psw"><b>PASSWORD</b></label>
           <input type="password" placeholder="Enter Password" name="psw" required>
 
-          <button type="submit">LOGIN</button>
+          <button onclick = "login()">LOGIN</button>
 
           <span id="registerLink"><a href="#">Create account</a></span><span id="forgotLink"><a href="#">Forgot password?</a></span>
 
-        </form> 
+        </div> 
       </div>
     </div>
     <script type="text/javascript">

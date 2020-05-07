@@ -45,37 +45,43 @@ MongoClient.connect(mongoKey,  function(err, db1) {
     })
 //----------------------------------------------------------------------------------------------//
 app.post("/createAccount", async function(req, res) {
+    var canProceed = true;
     var value = req.body;
     try{
         var colNames = await db.listCollections().toArray()
     }catch{
         res.send("Error while creating the account")
-        return;
+        canProceed = false;
     }
     for(let i=0;i<colNames.length;i++){
+        //DOESNT WORK, TO FIX
         if(colNames[i].email == value.email){//checks if someone already registered with that mail
             res.send("This email is already in use")
-            return;
+            canProceed = false;
+            break;
         }
-        if(colNames[i].username == value.username){//checks if someone already registered with that username
+        if(colNames[i].name == value.username){//checks if someone already registered with that username
             res.send("This nickname is already in use")
-            return;
+            canProceed = false;
+            break;
         }
     }
     for(let i=0;i<awaitingVerification.length;i++){ //if there is already a request pending from this mail
         if(awaitingVerification[i].email == value.email){
             res.send("You have a pending verification, try again in 5 minutes") //request already existing
-            return;
+            canProceed = false;
+            break;
         }
     }
-    sendVerificationCode(value)
-    res.send(true) //sent verification, now it waits for next call from the user to verify the account
+    if(canProceed) sendVerificationCode(value), res.send(true) //sent verification, now it waits for next call from the user to verify the account
 })
 //----------------------------------------------------------------------------------------------//
     app.post("/verifyAccount", async function(req,res) {
         var value = req.body;
         let canProceed = false;
         var credentials;
+        console.log(awaitingVerification[0])
+        console.log(value)
         for(let i=0;i<awaitingVerification.length;i++){
             if(awaitingVerification[i].email == value.email){ //if there is a pending acceptation from this email
                 if(awaitingVerification[i].code == value.code){ //if the code is correct
@@ -88,9 +94,11 @@ app.post("/createAccount", async function(req, res) {
         }
         if(canProceed){
             console.log("Created account with name: "+credentials.username)
-            db.createCollection(credentials.username,{capped: true, max:100, size: 5000000})
-            var collection = db.collection(credentials.username)
-            collection.insertOne({_id:0, username: credentials.username, password: credentials.password})
+            try{
+                db.createCollection(credentials.username,{capped: true, max:100, size: 5000000})
+                var collection = db.collection(credentials.username)
+                collection.insertOne({_id:0, username: credentials.username, password: credentials.password})
+            }catch{}
             res.send(true)
         }else{
             res.send("The code is not correct, try again!")
@@ -150,7 +158,11 @@ function sendVerificationCode(credentials){
         from: 'thoseskymodders@gmail.com',
         to: credentials.email,
         subject: 'Verification',
-        text: 'Your verification code is: '+verificationCode
+        html: '<center><h1>Your code is: <font style="color: rgba(22, 22, 22, 0.65);">'
+            +verificationCode
+            +'</font><br><br> For username : <font style=" color: rgba(22, 22, 22, 0.65);">'
+            +credentials.username
+            +"</font></h1></center>"
       };
         transporter.sendMail(mailOptions, function(error, info){
         if (error) {

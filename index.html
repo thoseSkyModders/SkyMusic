@@ -12,6 +12,57 @@
 <link rel="stylesheet" href="style.css" type="text/css">
 
 <body>
+    <div class="secondPage" id="secondPage">
+        <div id="login">
+            <div id="loginContainer">
+              <h1>Log in to Sky Music!</h1>
+              <div>
+
+                <label class="formLabel"><b>USERNAME</b></label>
+                <input type="text" placeholder="Enter Username" class="formInput" id="usernameLogin">
+      
+                <label class="formLabel"><b>PASSWORD</b></label>
+                <input type="password" placeholder="Enter Password" class="formInput" id="passwordLogin">
+      
+                <button onclick = "login()">LOGIN</button>
+      
+                <span onclick="toggleRegister()"><a href="#">Create account</a></span><span id="forgotLink"><a href="#">Forgot password?</a></span>
+      
+              </div> 
+            </div>
+          </div>
+          <div id="register">
+            <div id="registerContainer">
+                <h1>Register to Sky Music!</h1>
+                <div>
+
+                  <label class="formLabel"><b>EMAIL</b></label>
+                  <input type="text" placeholder="Enter Email" class="formInput" id="emailRegister">
+
+                  <label class="formLabel"><b>USERNAME</b></label>
+                  <input type="text" placeholder="Enter Username" class="formInput" id="usernameRegister">
+        
+                  <label class="formLabel"><b>PASSWORD</b></label>
+                  <input type="password" placeholder="Enter Password" class="formInput" id="passwordRegister">
+        
+                  <button onclick = "register()">REGISTER</button>
+        
+                </div> 
+              </div>
+          </div>
+          <div id="confirmRegistration">
+            <div id="registerContainer">
+                <h1>Register to Sky Music!</h1>
+                <div>       
+                  <label id="confirmationLabel" class="formLabel"><b>CODE</b></label>
+                  <input type="password" placeholder="Enter code" class="formInput" id="codeConfirmation">
+        
+                  <button onclick = "confirmEmail()">CONFIRM</button>
+        
+                </div> 
+              </div>
+          </div>
+    </div>
     <div id="savedSongsDivWrapper" class="floatingDiv">
         <h3>Here are all your saved songs!</h3>
         <div id="savedSongsDiv" class="topSavedSongsDiv"></div>
@@ -23,8 +74,8 @@
     </div>
     <button id="menu" onclick="showMenu()"></button>
     <div id="icon-bar">
-        <button class="skyButton_2" onclick=""><p class="texts">Account</p></button>
-        <button class="skyButton_2" onclick=""><p class="texts">Settings</p></button>
+        <button class="skyButton_2" onclick="toggleSecondPage()"><p class="texts">Login</p></button>
+        <button class="skyButton_2" onclick="toggleSettings()"><p class="texts">Settings</p></button>
         
     </div>
     <div class="menuDiv">
@@ -69,33 +120,79 @@
 //--------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------//
 //LOGIN AND ACCOUNT
-let websiteURL = "https://thatoneskyguy.github.io/SkyMusic/"
-    //websiteURL = "http://localhost:8080/"
-function createAccount(name,psw){
+
+function toggleSecondPage(){
+    document.getElementById("secondPage").style.display = "block"
+    showMenu()
+}
+
+//--------------------------------------------------------------------------------------------------------//
+
+function toggleRegister(){
+    document.getElementById("login").style.display = "none"
+    document.getElementById("register").style.display = "block"
+}
+
+//--------------------------------------------------------------------------------------------------------//
+
+let websiteURL = "https://sky-music.herokuapp.com/"
+   // websiteURL = "http://localhost:8080/"
+
+//--------------------------------------------------------------------------------------------------------//
+
+var registrationCredentials;
+console.log("add input verification like minimum password length, no special characters allowed in nickname etc")
+function register(){
+    let mail = document.getElementById("emailRegister").value
+    let uname = document.getElementById("usernameRegister").value.toLowerCase()
+    let psw = document.getElementById("passwordRegister").value
+    if(uname == "" || psw == "" || mail == ""){
+        alert("please put email,username and password")
+        return;
+    }
+
+    if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)){
+        alert("You put an invalid email!")
+        return;
+    }   
     let credentials = {
-        username: name,
-        password: psw
+        username: uname,
+        password: psw,
+        email: mail
     }
     let request = new XMLHttpRequest();
     request.open("POST", websiteURL+"createAccount");
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
             response = res.target.response;
+            registrationCredentials = credentials
             if(response == "true"){
-                console.log("Account created!")
-            }else{
-                console.log("This username already exists!")
+                setTimeout(() => {
+                    document.getElementById("confirmationLabel").innerHTML = "CODE FOR <br>EMAIL : "+credentials.email+"<br>NICKNAME: "+credentials.username
+                    document.getElementById("confirmRegistration").style.display = "block"
+                    document.getElementById("register").style.display = "none"
+                }, 500);
+                return;
             }
+            console.log(response)
         };
         request.onerror = function(e) {
             alert("Error creating the account!")
         };
         request.send(JSON.stringify(credentials))
 }
-//createAccount("Specy","wot")
-function login(name,psw){
+
+//--------------------------------------------------------------------------------------------------------//
+
+function login(){
+    let uname = document.getElementById("usernameLogin").value
+    let psw = document.getElementById("passwordLogin").value
+    if(uname == "" || psw == ""){
+        alert("please put username and password")
+        return;
+    }
     let credentials = {
-        username: name,
+        username: uname,
         password: psw
     }
     let request = new XMLHttpRequest();
@@ -103,18 +200,48 @@ function login(name,psw){
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
             response = res.target.response;
-            if(response == "true"){
-                console.log("login successful!")
-            }else{
-                console.log("Credentials are wrong!")
-            }
+            console.log(response)
         };
         request.onerror = function(e) {
             alert("Error trying to LogIn")
         };
         request.send(JSON.stringify(credentials))
 }
-//login("Specy","wot")
+//--------------------------------------------------------------------------------------------------------//
+
+function resetForms(){
+    //TO ADD CODE TO RESET FORMS
+}
+
+//--------------------------------------------------------------------------------------------------------//
+function confirmEmail(){
+    var code = document.getElementById("codeConfirmation").value
+    document.getElementById("confirmRegistration").style.display = "block"
+    if(code.length != 6){
+        alert("You put an invalid code!")
+        return;
+    }
+    let credentials = {
+        code: code,
+        email: registrationCredentials.email
+    }
+    let request = new XMLHttpRequest();
+    request.open("POST", websiteURL+"verifyAccount");
+    request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+    request.onload = (res) => {
+            response = res.target.response;
+            if(response == "true"){
+                alert("Account verified, refreshing in 2 seconds")
+                location.reload()
+                return;
+            }
+            console.log(response)
+        };
+        request.onerror = function(e) {
+            alert("Error verifying the account!")
+        };
+        request.send(JSON.stringify(credentials))
+}
 //--------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------//
 
@@ -492,12 +619,12 @@ function toggleRecord() {
 let savedSongsDiv = document.getElementById("savedSongsDiv")
 let savedSongsDivWrapper = document.getElementById("savedSongsDivWrapper")
 let menu = document.getElementById("icon-bar");
-let button = document.getElementById("menu");
+let menuButton = document.getElementById("menu");
 document.getElementById("touch").addEventListener("click", function() {
     savedSongsDivWrapper.style.display = "none"
     instrumentsWrapper.style.display = "none"
     menu.style.display = "none"
-    button.style.display = "block"
+    menuButton.style.display = "block"
 })
 
 function toggleSavedSongs() {
@@ -727,7 +854,7 @@ function recordSong(pressedKey) {
 function showMenu() {
     if (menu.style.display!="block") {
     menu.style.display="block"
-    button.style.display="none"
+    menuButton.style.display="none"
     }
     else
         menu.style.display="none"
