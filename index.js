@@ -5,7 +5,7 @@ var express = require("express");
 var nodemailer = require('nodemailer');
 //-----------------------------//
 var app = express();
-var mongoKey = process.env.mongoDBKey
+var mongoKey = process.env.MongoDBKey
 var awaitingVerification = []
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -105,36 +105,89 @@ app.post("/createAccount", async function(req, res) {
         }
     })
 //----------------------------------------------------------------------------------------------//
-    app.post("/login", async function(req,res) {
-        var value = req.body;
-        try{
-            var users = await db.listCollections().toArray()
-        }catch{
-            res.send(false)
-            return
+app.post("/login", async function(req,res) {
+    var value = req.body;
+    //checks username length
+    if(value.username.length > 64 || value.password.length > 128 || value.password.length < 5) {
+        console.log("Invalid username or password length. Attempted username or password length : "+value.username.length+":"+value.password.length)
+        res.send("Invalid credentials")
+        return;
+    } 
+    if(!/^([0-9]|[a-z])+([0-9a-z]+)$/i.test(value.username)) {
+        //checks for 
+        res.send(false)
+        return;
+    }
+        //checks username for special characters        
+    try{
+        var users = await db.listCollections().toArray()
+    }catch{
+        res.send("Error trying to access the DB")
+        return
+    }
+    var userExists = false
+    for(let i=0;i<users.length;i++){
+        if(users[i].name == value.username){ //checks if the username exists
+            userExists = true;
+            break;
         }
-        var userExists = false
-        for(let i=0;i<users.length;i++){
-            if(users[i].name == value.username){ //checks if the username exists
-                userExists = true;
-            }
-        }
-        if(userExists){
-            var collection = db.collection(value.username)
-            var credentials = await collection.find({_id: 0}).toArray()
-            if(credentials[0].password == value.password){
-                console.log("login done by: "+value.username)
-                res.send(true)
-            }else{
-                console.log("Failed login by: "+value.username)
-                res.send(false)
-            }
+    }
+    if(userExists){
+        var collection = db.collection(value.username)
+        var credentials = await collection.find({_id: 0}).toArray()
+        if(credentials[0].password == value.password){
+            console.log("login done by: "+value.username)
+            res.send(true)
         }else{
-            console.log("User: "+value.username+" doesn't exist!")
+            console.log("Failed login by: "+value.username)
             res.send(false)
         }
+    }else{
+        console.log("User: "+value.username+" doesn't exist!")
+        res.send(false)
+    }
+})
 
+    app.post("/getSongs", async function(req,res) {
+        var value = req.body;
+        console.log(value)
+        var collection = db.collection(value.username)
+        var credentials = await collection.find({_id: 0}).toArray()
+        if(credentials == undefined){
+            res.send("Credentials wrong")
+            return;
+        }
+        console.log(credentials[0])
+        if(credentials[0].password == value.password){
+            var allSongs = await collection.find().toArray()
+                allSongs.splice(0,1) //removes the credentials
+            var songsToSend = []
+                for(var i=0;i<allSongs.length;i++){
+                    songsToSend.push(allSongs[i].song)
+                }
+                res.send(songsToSend)
+                console.log("songs sent to: "+value.username)
+        }else{
+            res.send("Credentials are wrong!")
+        }
     })
+    app.post("/saveSongs", async function(req,res) {
+        var value = req.body;
+        console.log(value)
+        console.log("CHECK IF A SONG ALREADY EXISTS AND WARN THE USER")
+        var collection = db.collection(value.username)
+        var credentials = await collection.find({_id: 0}).toArray()
+        console.log("limit the amount of songs u can store")
+        if(credentials[0].password == value.password){
+            for(var i=0; i<songsToSend.length;i++){
+                collection.insertOne({song: value.song[i]})
+            }
+                console.log("added songs!")
+        }else{
+            res.send("Credentials are wrong!")
+        }
+    })
+//----------------------------------------------------------------------------------------------//
 
     var server = app.listen(port, () => {
     console.log("server is running on port", server.address().port);
