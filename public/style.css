@@ -402,7 +402,7 @@ body {
 	border: none;
 	position: absolute;
 	background: rgba(22, 22, 22, 0);
-	background-image: url('./icons/menu.png');
+	background-image: url('./menu.png');
 	background-size: 35px 35px;
 	background-repeat: no-repeat;
 	background-position: center;
