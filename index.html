@@ -318,7 +318,6 @@ let filePicker = document.getElementById("filePicker")
 
 function importSongs() {
     filePicker.addEventListener("change", function() { //once file is picked it reads the content
-    console.log("a")
         let fr = new FileReader()
         fr.onload = function() {
             inputSongs = JSON.parse(fr.result)
@@ -379,6 +378,80 @@ function downloadJSON(inArray, fileName) {
 
 //--------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------//
+
+//MIDI CONTROL
+    let isMidiAllowed = true;
+    function checkMidiAccess(){
+        try{
+            if(navigator.requestMIDIAccess()){
+                console.log("MIDI is supported")
+            }else{
+                console.log("MIDI not supported, it only works on google chrome")
+            }
+        }catch{
+            console.log("MIDI not supported, it only works on google chrome")
+        }
+    }
+    checkMidiAccess()
+    try{
+        navigator.requestMIDIAccess()
+            .then(onMIDISuccess, onMIDIFailure);
+
+    }catch{
+        isMidiAllowed=false
+        console.log("MIDI not supported, it only works on google chrome")
+    }
+
+function onMIDIFailure() {
+    isMidiAllowed=false
+    console.log('Could not access your MIDI devices.');
+}
+
+function onMIDISuccess(midiAccess) {
+    for (var input of midiAccess.inputs.values()){
+        input.onmidimessage = getMIDIMessage;
+    }
+}
+
+function getMIDIMessage(message) {
+    var command = message.data[0];
+    var note = message.data[1];
+    usesTouch = false;
+    if(command == 144 && note > 35 && note < 61){ //if the command is keyDown and the noteNumber are between 36 and 60
+        switch(note){
+            case 36: document.getElementById("Key0").click()
+                break;
+            case 38: document.getElementById("Key1").click()
+                break;
+            case 40: document.getElementById("Key2").click()
+                break;
+            case 41: document.getElementById("Key3").click()
+                break;
+            case 43: document.getElementById("Key4").click()
+                break;
+            case 45: document.getElementById("Key5").click()
+                break;
+            case 47: document.getElementById("Key6").click()
+                break;
+            case 48: document.getElementById("Key7").click()
+                break;
+            case 50: document.getElementById("Key8").click()
+                break;
+            case 52: document.getElementById("Key9").click()
+                break;
+            case 53: document.getElementById("Key10").click()
+                break;
+            case 55: document.getElementById("Key11").click()
+                break;
+            case 57: document.getElementById("Key12").click()
+                break;
+            case 59: document.getElementById("Key13").click()
+                break;
+            case 60: document.getElementById("Key14").click()
+                break;
+        }
+    }
+}
 
 //RECORDING MUSIC
 let isRecordToggled = false
