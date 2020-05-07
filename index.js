@@ -3,9 +3,10 @@ var ObjectID = require('mongodb').ObjectID;
 var express = require("express");
 //var cron = require("node-cron")
 var nodemailer = require('nodemailer');
+var hash = require('sha1')
 //-----------------------------//
 var app = express();
-var mongoKey = process.env.MongoDBKey
+var mongoKey = process.env.mongoDBKey
 var awaitingVerification = []
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -97,7 +98,10 @@ app.post("/createAccount", async function(req, res) {
             try{
                 db.createCollection(credentials.username,{capped: true, max:100, size: 5000000})
                 var collection = db.collection(credentials.username)
-                collection.insertOne({_id:0, username: credentials.username, password: credentials.password})
+                var finalhash = hash(hashwithseed(credentials.password))
+                if(finalhash != null){
+                collection.insertOne({_id:0, username: credentials.username, password: finalhash})
+                }
             }catch{}
             res.send(true)
         }else{
@@ -133,9 +137,10 @@ app.post("/login", async function(req,res) {
         }
     }
     if(userExists){
+        var inputwithseed = hashwithseed(value.password)
         var collection = db.collection(value.username)
         var credentials = await collection.find({_id: 0}).toArray()
-        if(credentials[0].password == value.password){
+        if(credentials[0].password == hash(inputwithseed)){
             console.log("login done by: "+value.username)
             res.send(true)
         }else{
@@ -226,3 +231,32 @@ function sendVerificationCode(credentials){
         }
       });
 }
+function hashwithseed(string) {
+    var increment = 3;
+    var input = "5zawL9hxo6m6fFbhJ2zN" + string;
+    var output = "";
+    while (increment < input.length) {
+      if (increment % 2 == 0) {
+        var output = output + input.charAt(increment);
+      } else {
+        var output = input.charAt(increment) + output;
+      }
+      increment++;
+    }
+    return output;
+  }
+
+  function hashwithseed(string) {
+    var increment = 3;
+    var input = "5zawL9hxo6m6fFbhJ2zN" + string;
+    var output = "";
+    while (increment < input.length) {
+      if (increment % 2 == 0) {
+        var output = output + input.charAt(increment);
+      } else {
+        var output = input.charAt(increment) + output;
+      }
+      increment++;
+    }
+    return output;
+  }
