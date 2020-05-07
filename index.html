@@ -21,6 +21,12 @@
             <input type=file style="display:none;" id="filePicker">
         </div>
     </div>
+    <button id="menu" onclick="showMenu()"></button>
+    <div id="icon-bar">
+        <button class="skyButton_2" onclick=""><p class="texts">Account</p></button>
+        <button class="skyButton_2" onclick=""><p class="texts">Settings</p></button>
+        
+    </div>
     <div class="menuDiv">
         <button class="skyButton" onclick="toggleSavedSongs()">Manage Recordings</button>
         <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
@@ -485,9 +491,13 @@ function toggleRecord() {
 }
 let savedSongsDiv = document.getElementById("savedSongsDiv")
 let savedSongsDivWrapper = document.getElementById("savedSongsDivWrapper")
+let menu = document.getElementById("icon-bar");
+let button = document.getElementById("menu");
 document.getElementById("touch").addEventListener("click", function() {
     savedSongsDivWrapper.style.display = "none"
     instrumentsWrapper.style.display = "none"
+    menu.style.display = "none"
+    button.style.display = "block"
 })
 
 function toggleSavedSongs() {
@@ -712,4 +722,15 @@ function recordSong(pressedKey) {
         songArray.push(keyPressObject)
     }
 }
+
+//show menu function
+function showMenu() {
+    if (menu.style.display!="block") {
+    menu.style.display="block"
+    button.style.display="none"
+    }
+    else
+        menu.style.display="none"
+}
+
 </script>
