@@ -109,7 +109,7 @@
     <div id="icon-bar">
         <button class="skyButton_2" onclick='resetPages(),showMenu(),document.getElementById("login").style.display = "none"'><p class="texts">Main page</p></button>
         <button class="skyButton_2" onclick="showMenu()"><p class="texts">Close menu</p></button>
-        <button class="skyButton_2" onclick="toggleLogin()"><p class="texts">Login</p></button>
+        <button class="skyButton_2" onclick="toggleLogin()"><p class="texts">Account</p></button>
         <button class="skyButton_2" onclick="toggleSettings()"><p class="texts">Settings</p></button>
     </div>
     <div class="menuDiv">
@@ -868,6 +868,7 @@ let savedSongsDivWrapper = document.getElementById("savedSongsDivWrapper")
 let menu = document.getElementById("icon-bar");
 let menuButton = document.getElementById("menu");
 document.getElementById("touch").addEventListener("click", function() {
+    floatingMessage = document.getElementById("floatingMessage")
     floatingMessage.style.display = "none"
     savedSongsDivWrapper.style.display = "none"
     instrumentsWrapper.style.display = "none"

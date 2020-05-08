@@ -112,7 +112,6 @@ app.post("/createAccount", async function(req, res) { //error is handled
     }
     try{
         for(let i=0;i<savedEmails.length;i++){
-            //DOESNT WORK, TO FIX
             if(savedEmails[i].name == value.email){//checks if someone already registered with that mail
                 res.send("This email is already in use")
                 canProceed = false;
@@ -369,7 +368,6 @@ function sendVerificationCode(credentials,res){ //error handled
           console.log('Email sent: ' + info.response);
           awaitingVerification.push(verificationObj)
           res.send(true)
-          console.log(awaitingVerification)
         }
       });
     }catch(e){
