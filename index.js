@@ -14,11 +14,13 @@ var awaitingVerification = []
 /* ------------------------------------------------------->*/ inLocalhost = false
 app.enable('trust proxy');
 if(!inLocalhost){
-    app.use(function(request, response){
-        if(!request.secure){
-          response.redirect("https://" + request.headers.host + request.url);
-        }
-    });
+    app.use((req, res, next) => {
+            if (req.header('x-forwarded-proto') !== 'https'){
+                res.redirect(`https://${req.header('host')}${req.url}`)
+            }else{
+                next()
+            }
+        })
 }else{
     mongoKey = ""
     discordToken = ""
