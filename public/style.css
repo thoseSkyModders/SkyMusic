@@ -19,11 +19,11 @@
 
 .floatingMessage{
 	position: absolute;
-	width: 60%;
-	left: 16%;
-	height: 30%;
-	top:40%;
-	font-size: 2em;
+	width: 40%;
+	left: 26%;
+	height: 15%;
+	top:70%;
+	font-size: 1.5em;
 	text-align: center;
 	padding: 1em;
 	font-family: Arial;
@@ -500,7 +500,7 @@ body {
   }
   
   .tab button.active {
-	background-color: #ccc;
+	background-color: #dad8b3;
 	color: black
   }
   

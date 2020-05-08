@@ -24,7 +24,7 @@
                 <label class="formLabel"><b>PASSWORD</b></label>
                 <input type="password" placeholder="Enter Password" class="formInput" id="passwordLogin">
       
-                <button onclick = "login()">LOGIN</button>
+                <button onclick = "login(false)">LOGIN</button>
       
                 <span onclick="toggleRegister()"><a href="#">Create account</a></span><span id="forgotLink"><a href="#">Forgot password?</a></span>
       
@@ -65,7 +65,7 @@
     <div id="savedSongsDivWrapper" class="floatingDiv">
 
         <div class="tab">
-            <button class="tablinks active" onclick="openSonglist(event, 'localSongs')">Local songs</button>
+            <button id="localStoredBtn" class="tablinks active" onclick="openSonglist(event, 'localSongs')">Local songs</button>
             <button class="tablinks" onclick="openSonglist(event, 'dbSongs')">DB songs</button>
           </div>
         <!--Local Songs-->
@@ -81,11 +81,10 @@
             <!--Database Songs-->
           <div id="dbSongs" class="tabcontent">
             <h3>Here are all of your saved songs from our database!</h3>
-            <div id="savedSongsDiv" class="topSavedSongsDiv"></div>
+            <div id="dbSongsDiv" class="topSavedSongsDiv"></div>
             <div class = "bottomSavedSongsDiv">
-                <button class="skyButton" onclick="importSongs()">Import songs</button>
-                <button class="skyButton" onclick="downloadSongs()">Download songs</button>
-                <input type=file style="display:none;" id="filePicker">
+                <button class="skyButton" onclick="syncDB()">Load songs from database</button>
+                <button class="skyButton" onclick="storeSongsLocally()">Store songs locally</button>
             </div>
           </div>
     </div>
@@ -93,7 +92,7 @@
 
     <button id="menu" onclick="showMenu()"></button>
     <div id="icon-bar">
-        <button class="skyButton_2" onclick="toggleSecondPage()"><p class="texts">Login</p></button>
+        <button class="skyButton_2" onclick="toggleLogin()"><p class="texts">Login</p></button>
         <button class="skyButton_2" onclick="toggleSettings()"><p class="texts">Settings</p></button>
         
     </div>
@@ -132,9 +131,7 @@
         TO REMOVE ONCE NEW INSTRUMENTS ARE ADDED
         -->
     </div>
-    <div id="floatingMessage" class="floatingMessage">
-        This is a test
-    </div>
+    <div id="floatingMessage" class="floatingMessage"></div>
 </body>
 
 </html>
@@ -143,7 +140,7 @@
 //--------------------------------------------------------------------------------------------------------//
 //LOGIN AND ACCOUNT
 
-function toggleSecondPage(){
+function toggleLogin(){
     document.getElementById("secondPage").style.display = "block"
     showMenu()
 }
@@ -157,8 +154,12 @@ function toggleRegister(){
 
 //--------------------------------------------------------------------------------------------------------//
 
+function toggleSettings(){
+    showMessage("Incoming!",1)
+}
+
 let websiteURL = "https://sky-music.herokuapp.com/"
-   // websiteURL = "http://localhost:8080/"
+    websiteURL = "http://localhost:8080/"
 
 //--------------------------------------------------------------------------------------------------------//
 
@@ -203,8 +204,19 @@ function register(){
 }
 
 //--------------------------------------------------------------------------------------------------------//
+
 var isAuthenticated = false
-function login(){
+preloadCredentials = localStorage.getItem("credentials")
+if(preloadCredentials != null){
+    preloadCredentials = JSON.parse(preloadCredentials)
+    document.getElementById("emailLogin").value = preloadCredentials.email
+    document.getElementById("passwordLogin").value = preloadCredentials.password
+    login(true)
+}
+
+//--------------------------------------------------------------------------------------------------------//
+
+function login(ignoreMessage){
     let mail = document.getElementById("emailLogin").value
     let psw = document.getElementById("passwordLogin").value
     if(mail == "" || psw == ""){
@@ -212,8 +224,8 @@ function login(){
         return;
     }
     let credentials = {
-        email: mail,
-        password: psw
+        password: psw,
+        email: mail
     }
     let request = new XMLHttpRequest();
     request.open("POST", websiteURL+"login");
@@ -222,23 +234,50 @@ function login(){
             response = res.target.response;
             if(response == "true"){
                 isAuthenticated = true
+                globalCredentials = credentials
+                secondPage.style.display = "none"
+                localStorage.setItem("credentials",JSON.stringify(credentials))
+                if(!ignoreMessage) showMessage("Logged in!",1)
+
             }else{
-                showMessage(response,0)
+                if(!ignoreMessage) showMessage(response,0)
             }
         };
         request.onerror = function(e) {
-            showMessage("Error trying to LogIn",0)
+            if(!ignoreMessage) showMessage("Error trying to LogIn",0)
         };
         request.send(JSON.stringify(credentials))
 }
 
 //--------------------------------------------------------------------------------------------------------//
 var globalCredentials = {
-    password: "specy",
-    email: "email"
+    password: "",
+    email: ""
 }
-//getAllSongs(globalCredentials)
-function getAllSongs(credentials){
+function storeSongsLocally(){
+    if(!isAuthenticated){
+        showMessage("You are not logged in",2)
+        return;
+    }
+    if(dbSongs.length == 0){
+        showMessage("There are no songs saved in the database or you haven't loaded them",2)
+        return;
+    }else{
+        for(let i=0;i<dbSongs.length;i++){
+            saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1)
+        }
+    }
+}
+
+//--------------------------------------------------------------------------------------------------------//
+
+var dbSongs = []
+function syncDB(){
+    credentials = globalCredentials;
+    if(!isAuthenticated){
+        showMessage("You are not logged in!",2)
+        return;
+    }
     let request = new XMLHttpRequest();
     request.open("POST", websiteURL+"getSongs");
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
@@ -250,8 +289,10 @@ function getAllSongs(credentials){
                 showMessage(response,0)
                 return;
             }
+            dbSongs = songsFromDB
+            if(songsFromDB.length == 0) showMessage("No songs saved in the database!")
             for(var i = 0 ; i<songsFromDB.length;i++){
-                saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, true)
+                saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, 2)
             }
             console.log(songsFromDB)
         };
@@ -260,10 +301,14 @@ function getAllSongs(credentials){
         };
         request.send(JSON.stringify(credentials))
 }
-var songsToSend1 = [{"name":"a","songNotes":[{"time":534,"key":"Key2"},{"time":711,"key":"Key3"},{"time":889,"key":"Key8"},{"time":1069,"key":"Key7"},{"time":1305,"key":"Key4"},{"time":1517,"key":"Key9"}]},{"name":"b","songNotes":[{"time":429,"key":"Key0"},{"time":622,"key":"Key1"},{"time":806,"key":"Key2"},{"time":1002,"key":"Key7"},{"time":1189,"key":"Key6"}]}]
+
 //--------------------------------------------------------------------------------------------------------//
-//deleteFromDB(globalCredentials,"a")
+
 function deleteFromDB(credentials,song){
+    if(!isAuthenticated){
+        showMessage("You are not logged in!",2)
+        return;
+    }
     var objToSend = {
         email: credentials.email,
         password: credentials.password,
@@ -281,9 +326,14 @@ function deleteFromDB(credentials,song){
         };
         request.send(JSON.stringify(objToSend))
 }
+
 //--------------------------------------------------------------------------------------------------------//
-//saveSongsToDB(globalCredentials,songsToSend1)
+
 function saveSongsToDB(credentials,songsToSend){
+    if(!isAuthenticated){
+        showMessage("You are not logged in!",2)
+        return;
+    }
     var objToSend = {
         email: credentials.email,
         password: credentials.password,
@@ -297,17 +347,21 @@ function saveSongsToDB(credentials,songsToSend){
             console.log(response)
         };
         request.onerror = function(e) {
-            alert("Error trying to get songs!")
+            alert("Error trying to save songs!")
         };
         request.send(JSON.stringify(objToSend))
 }
+
 //--------------------------------------------------------------------------------------------------------//
 
 function resetForms(){
-    //TO ADD CODE TO RESET FORMS
+    for(var i=0; i<inputs.length;i++){
+        inputs.value = ""
+    }
 }
 
 //--------------------------------------------------------------------------------------------------------//
+
 function confirmEmail(){
     var code = document.getElementById("codeConfirmation").value
     document.getElementById("confirmRegistration").style.display = "block"
@@ -350,7 +404,9 @@ for(var i=0; i<inputs.length;i++){
         isTyping = false
     })
 }
+
 //--------------------------------------------------------------------------------------------------------//
+
 let objKeys = {
     "e":"Key0",
     "r":"Key1",
@@ -562,7 +618,7 @@ function importSongs() {
             for (let i = 0; i < inputSongs.length; i++) {
                 let element = document.getElementById("Song-" + inputSongs[i].name)
                 if(element == null) { //if there is an element with this id, it means that the song with that name already exists
-                    saveSong(inputSongs[i].name, inputSongs[i].songNotes, false)
+                    saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1)
                 }else{
                     console.log("The song already exists :"+inputSongs[i].name)
                 }
@@ -640,16 +696,22 @@ function downloadJSON(inArray, fileName) {
         console.log("MIDI not supported, it only works on google chrome")
     }
 
+//--------------------------------------------------------------------------------------------------------//
+
 function onMIDIFailure() {
     isMidiAllowed=false
     console.log('Could not access your MIDI devices.');
 }
+
+//--------------------------------------------------------------------------------------------------------//
 
 function onMIDISuccess(midiAccess) {
     for (var input of midiAccess.inputs.values()){
         input.onmidimessage = getMIDIMessage;
     }
 }
+
+//--------------------------------------------------------------------------------------------------------//
 
 function getMIDIMessage(message) {
     var command = message.data[0];
@@ -690,6 +752,7 @@ function getMIDIMessage(message) {
         }
     }
 }
+//--------------------------------------------------------------------------------------------------------//
 
 //RECORDING MUSIC
 let isRecordToggled = false
@@ -706,7 +769,7 @@ function toggleRecord() {
                     break
                 }else{
                     if(document.getElementById("Song-" + promtText) == null) { //if there is already a song with that name, ask to rename it
-                        saveSong(promtText, songArray, false)
+                        saveSong(promtText, songArray, 1)
                         break
                     }
                     text = "There is already a song with name: " + promtText + " chose another!"
@@ -721,24 +784,32 @@ function toggleRecord() {
     isRecordToggled = !isRecordToggled
     startTime = new Date().getTime()
 }
+
+//--------------------------------------------------------------------------------------------------------//
+
 let savedSongsDiv = document.getElementById("savedSongsDiv")
 let savedSongsDivWrapper = document.getElementById("savedSongsDivWrapper")
 let menu = document.getElementById("icon-bar");
 let menuButton = document.getElementById("menu");
 document.getElementById("touch").addEventListener("click", function() {
+    floatingMessage.style.display = "none"
     savedSongsDivWrapper.style.display = "none"
     instrumentsWrapper.style.display = "none"
     menu.style.display = "none"
     menuButton.style.display = "block"
 })
 
+//--------------------------------------------------------------------------------------------------------//
+
 function toggleSavedSongs() {
+    localStoredBtn.click()
     if(savedSongsDivWrapper.style.display != "block") {
         savedSongsDivWrapper.style.display = "block"
     }else{
         savedSongsDivWrapper.style.display = "none"
     }
 }
+//--------------------------------------------------------------------------------------------------------//
 
 //TAB PAGE FOR SAVED SONGS
 function openSonglist(evt, listType) {
@@ -751,8 +822,9 @@ function openSonglist(evt, listType) {
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
-  document.getElementById(listType).style.display = "block";
   evt.currentTarget.className += " active";
+  document.getElementById(listType).style.display = "block";
+  if(listType == "dbSongs" && dbSongs.length ==0) syncDB() //if it's the first time pressing the button
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -763,18 +835,18 @@ preLoadSongs = localStorage.getItem("savedSongs")
 if(preLoadSongs != null) {
     preLoadSongs = JSON.parse(preLoadSongs)
     for (let i = 0; i < preLoadSongs.length; i++) {
-        saveSong(preLoadSongs[i].name, preLoadSongs[i].songNotes, true)
+        saveSong(preLoadSongs[i].name, preLoadSongs[i].songNotes, 0)
     }
 }
 
 //--------------------------------------------------------------------------------------------------------//
 
-function saveSong(songName, song, isPreloading) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
+function saveSong(songName, song, savingType) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
     let songObj = {
         name: songName,
         songNotes: song
     }
-    if(!isPreloading) { //doesnt save if it is preloading   
+    if(savingType == "1") { //doesnt save if it is preloading   
         var songStorage = localStorage.getItem("savedSongs")
         if(songStorage != null) {
             songStorage = JSON.parse(songStorage)
@@ -798,7 +870,7 @@ function saveSong(songName, song, isPreloading) { //the name of the song, the ar
     })
     songButton.innerHTML = songName
     songButton.className = "skyButton"
-    songButton.style.width = "calc(100% - 120px - 4em)"
+    songButton.style.width = "calc(100% - 140px - 5em)"
     //--------------------------------// This holds the text of the array of the song 
     let songText = document.createElement("div")
     songText.style.display = "none"
@@ -807,34 +879,71 @@ function saveSong(songName, song, isPreloading) { //the name of the song, the ar
     songContainer.appendChild(songButton)
     songContainer.appendChild(songText)
     console.log("song added!")
-    savedSongsDiv.appendChild(songContainer)
-    //--------------------------------// button to delete the song from the saved and to delete it from the menu
+
     let deleteButton = document.createElement("button")
-    deleteButton.innerHTML = "❌"
-    deleteButton.className = "skyButton"
-    deleteButton.style.width = "40px"
-    deleteButton.setAttribute("songName", songName)
-    deleteButton.addEventListener("click", function() {
-        if(confirm("Delete song: " + this.getAttribute("songName") + "?")) {
-            this.parentNode.parentNode.removeChild(this.parentNode)
-            var savedSongs = localStorage.getItem("savedSongs")
-            if(savedSongs != null) {
-                savedSongs = JSON.parse(savedSongs)
-                for (let i = 0; i < savedSongs.length; i++) { //reads trough all the elements of the localStorage and deletes the index of this song
-                    if(savedSongs[i].name == this.getAttribute("songName")) {
-                        savedSongs.splice(i, 1)
-                        break
-                    }
+        deleteButton.innerHTML = "❌"
+        deleteButton.className = "skyButton"
+        deleteButton.style.width = "40px"
+        deleteButton.style.marginRight = "0.1em"
+        deleteButton.setAttribute("songName", songName)
+
+
+        if(savingType == "2"){ //if its a song coming from the database, put the delete button also to delete it from the db
+            songButton.style.width = "calc(100% - 100px - 5em)"
+            deleteButton.innerHTML = "❌"
+            dbSongsDiv.appendChild(songContainer)
+            deleteButton.addEventListener("click", function() {
+                if(confirm("Delete song: " + this.getAttribute("songName") + " from database?")) {
+                    this.parentNode.parentNode.removeChild(this.parentNode)
+                    deleteFromDB(globalCredentials,this.getAttribute("songName"))
                 }
-                localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
+            })
+    }else{
+        savedSongsDiv.appendChild(songContainer)
+            //--------------------------------// button to delete the song from the saved and to delete it from the menu
+        deleteButton.addEventListener("click", function() {
+            if(confirm("Delete song: " + this.getAttribute("songName") + "?")) {
+                this.parentNode.parentNode.removeChild(this.parentNode)
+                var savedSongs = localStorage.getItem("savedSongs")
+                if(savedSongs != null) {
+                    savedSongs = JSON.parse(savedSongs)
+                    for (let i = 0; i < savedSongs.length; i++) { //reads trough all the elements of the localStorage and deletes the index of this song
+                        if(savedSongs[i].name == this.getAttribute("songName")) {
+                            savedSongs.splice(i, 1)
+                            break
+                        }
+                    }
+                    localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
+                }
             }
-        }
-    })
+        })
+
+        let saveToDb = document.createElement("button")
+        saveToDb.innerHTML = "💾"
+        saveToDb.className = "skyButton"
+        saveToDb.style.marginRight = "0.1em"
+        saveToDb.style.width = "40px"
+        saveToDb.setAttribute("songName", songName)
+        saveToDb.addEventListener("click", function() {
+            savedSongsDivWrapper.style.display = "none"
+            let storedSongName = this.getAttribute("songName")
+            songText = document.getElementById("Song-" + storedSongName)
+            let songArrayToDB = []
+            let songObj = {
+                name: storedSongName,
+                songNotes: JSON.parse(songText.innerHTML)
+            }
+            songArrayToDB.push(songObj)
+            saveSongsToDB(globalCredentials,songArrayToDB)
+        })
+        songContainer.appendChild(saveToDb)
+    }
     //--------------------------------// Button to play this song in practice mode
     let trainSong = document.createElement("button")
     trainSong.innerHTML = "🎯"
     trainSong.className = "skyButton"
     trainSong.style.width = "40px"
+    trainSong.style.marginRight = "0.1em"
     trainSong.setAttribute("songName", songName)
     trainSong.addEventListener("click", function() {
         savedSongsDivWrapper.style.display = "none"
@@ -849,6 +958,7 @@ function saveSong(songName, song, isPreloading) { //the name of the song, the ar
     shareButton.style.fontWeight = "bold"
     shareButton.className = "skyButton"
     shareButton.style.width = "40px"
+    shareButton.style.marginRight = "0.1em"
     shareButton.setAttribute("songName", songName)
     shareButton.addEventListener("click", function() {
         let storedSongName = this.getAttribute("songName")
@@ -970,8 +1080,11 @@ function recordSong(pressedKey) {
     }
 }
 
+//--------------------------------------------------------------------------------------------------------//
+
 //show menu function
 function showMenu() {
+    resetForms()
     if (menu.style.display!="block") {
     menu.style.display="block"
     menuButton.style.display="none"
@@ -979,6 +1092,9 @@ function showMenu() {
     else
         menu.style.display="none"
 }
+
+//--------------------------------------------------------------------------------------------------------//
+
 var floatingMessage = document.getElementById("floatingMessage")
 function showMessage(msg,msgType) {
     floatingMessage.innerHTML = msg

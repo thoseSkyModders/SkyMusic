@@ -26,13 +26,6 @@ if(!inLocalhost){
     discordToken = ""
     emailPassword = ""
 }
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'thoseskymodders@gmail.com',
-      pass: emailPassword
-    }
-  });
 //
 
 var transporter = nodemailer.createTransport({
@@ -238,9 +231,9 @@ app.post("/login", async function(req,res) { //error handles
         try{
             var collection = db.collection(value.email)
             var credentials = await collection.find({_id: 0}).toArray()
-        }catch{
+        }catch(e){
             res.send("Error with the server!")
-            console.log("error with the server")
+            console.log("error with the server"+e)
             return
         }
         if(credentials == undefined){
@@ -273,7 +266,7 @@ app.post("/login", async function(req,res) { //error handles
             var collection = db.collection(value.email)
             var credentials = await collection.find({_id: 0}).toArray()
         }catch(e){
-            res.send("Error with the account!"+e)
+            res.send("Error with the account!")
             return;
         }
         if(credentials == undefined){
