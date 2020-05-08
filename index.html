@@ -121,10 +121,11 @@
         <button type="button" id="bellBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bell.png);"/> 
         <button type="button" id="guitarBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/guitar.png);"/>
         <button type="button" id="fluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/flute.png);"/>
+        <button type="button" id="xylophoneBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/xylophone.png);"/>
+        <button type="button" id="drumBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/drum.png);"/> 
     <!--<button type="button" id="hornBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/horn.png);"/>
         <button type="button" id="xylophoneBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/xylophone.png);"/>
         <button type="button" id="bassBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bass.png);"/>
-        <button type="button" id="drumBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/drum.png);"/> 
         <button type="button" id="winterPiano" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/winterPiano.png);"/>
         <button type="button" id="banjoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/banjoBtn.png);"/> 
         <button type="button" id="panfluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/panflute.png);"/>  
@@ -140,7 +141,7 @@
     let websiteURL = "https://sky-music.herokuapp.com/"
     //  websiteURL = "http://localhost:8080/"
 
-    
+
 //--------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------//
 //LOGIN AND ACCOUNT
@@ -463,6 +464,9 @@ let instrumentsNotes = {
     bell: ["Bells/0.mp3","Bells/1.mp3","Bells/2.mp3","Bells/3.mp3","Bells/4.mp3","Bells/5.mp3","Bells/6.mp3","Bells/7.mp3","Bells/7.mp3","Bells/7.mp3","Bells/7.mp3","Bells/7.mp3","Bells/7.mp3","Bells/7.mp3","Bells/7.mp3"],
     guitar: ["Guitar/0.mp3", "Guitar/1.mp3", "Guitar/2.mp3", "Guitar/3.mp3", "Guitar/4.mp3", "Guitar/5.mp3", "Guitar/6.mp3", "Guitar/7.mp3", "Guitar/8.mp3", "Guitar/9.mp3", "Guitar/10.mp3", "Guitar/11.mp3", "Guitar/12.mp3", "Guitar/13.mp3", "Guitar/14.mp3"],
     flute: ["Flute/0.mp3", "Flute/1.mp3", "Flute/2.mp3", "Flute/3.mp3", "Flute/4.mp3", "Flute/5.mp3", "Flute/6.mp3", "Flute/7.mp3", "Flute/8.mp3", "Flute/9.mp3", "Flute/10.mp3", "Flute/11.mp3", "Flute/12.mp3", "Flute/13.mp3", "Flute/14.mp3"],
+    xylophone: ["Xylophone/0.mp3", "Xylophone/1.mp3", "Xylophone/2.mp3", "Xylophone/3.mp3", "Xylophone/4.mp3", "Xylophone/5.mp3", "Xylophone/6.mp3", "Xylophone/7.mp3", "Xylophone/8.mp3", "Xylophone/9.mp3", "Xylophone/10.mp3", "Xylophone/11.mp3", "Xylophone/12.mp3", "Xylophone/13.mp3", "Xylophone/14.mp3"],
+    drum: ["Drum/0.mp3", "Drum/1.mp3", "Drum/2.mp3", "Drum/3.mp3", "Drum/4.mp3", "Drum/5.mp3", "Drum/6.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3"],
+
 }
 //Changes sounds when instrument is selected
 function changeInstrumentSound(instrument) {
@@ -507,7 +511,7 @@ let numOfKeysLeft = 15
 let newRowBreak = [6, 11]
 preload(urls)
     .then(audioBuffers => {
-        if(storedInstrument == "bell"){
+        if(storedInstrument == "bell" || storedInstrument == "drum"){
             numOfKeysLeft = 8
             newRowBreak = [5, 9]
              buttonImages = ["Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle"]

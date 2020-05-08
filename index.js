@@ -26,7 +26,6 @@ if(!inLocalhost){
     discordToken = ""
     emailPassword = ""
 }
-//
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -42,6 +41,9 @@ var port = process.env.PORT || 8080
 setInterval(() => { //to replace with node-cron once i figure out what causes the problem
     removeUnusedVerification()
 }, 60000);
+
+ //----------------------------------------------------------------------------------------------//
+
  function removeUnusedVerification(){
     for(let i=0;i<awaitingVerification.length;i++){
         awaitingVerification[i].timesChecked ++
@@ -52,8 +54,16 @@ setInterval(() => { //to replace with node-cron once i figure out what causes th
         }
     }
  }
+ //----------------------------------------------------------------------------------------------//
+
+ app.get("/",function(req, res) {
+    res.sendFile(__dirname+"/index.html")
+})
+
+//----------------------------------------------------------------------------------------------//
+
 MongoClient.connect(mongoKey,  function(err, db1) {
-    bot.login(discordToken);
+   // bot.login(discordToken);
     bot.on("ready",()=>{
     bot.user.setActivity("errors", {type: "LISTENING" })
     console.log("The bot is online!");
@@ -68,10 +78,6 @@ MongoClient.connect(mongoKey,  function(err, db1) {
     }
     if (err) throw err;
     const db = db1.db("skyMusic");
-//----------------------------------------------------------------------------------------------//
-    app.get("/",function(req, res) {
-        res.sendFile(__dirname+"/index.html")
-    })
 //----------------------------------------------------------------------------------------------//
 app.post("/createAccount", async function(req, res) { //error is handled
     var canProceed = true;
