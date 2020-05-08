@@ -18,8 +18,8 @@
               <h1>Log in to Sky Music!</h1>
               <div>
 
-                <label class="formLabel"><b>USERNAME</b></label>
-                <input type="text" placeholder="Enter Username" class="formInput" id="usernameLogin">
+                <label class="formLabel"><b>EMAIL</b></label>
+                <input type="text" placeholder="Enter email" class="formInput" id="emailLogin">
       
                 <label class="formLabel"><b>PASSWORD</b></label>
                 <input type="password" placeholder="Enter Password" class="formInput" id="passwordLogin">
@@ -38,9 +38,6 @@
 
                   <label class="formLabel"><b>EMAIL</b></label>
                   <input type="text" placeholder="Enter Email" class="formInput" id="emailRegister">
-
-                  <label class="formLabel"><b>USERNAME</b></label>
-                  <input type="text" placeholder="Enter Username" class="formInput" id="usernameRegister">
         
                   <label class="formLabel"><b>PASSWORD</b></label>
                   <input type="password" placeholder="Enter Password" class="formInput" id="passwordRegister">
@@ -113,6 +110,9 @@
         TO REMOVE ONCE NEW INSTRUMENTS ARE ADDED
         -->
     </div>
+    <div id="floatingMessage" class="floatingMessage">
+        This is a test
+    </div>
 </body>
 
 </html>
@@ -143,20 +143,18 @@ let websiteURL = "https://sky-music.herokuapp.com/"
 var registrationCredentials;
 console.log("add input verification like minimum password length, no special characters allowed in nickname etc")
 function register(){
-    let mail = document.getElementById("emailRegister").value
-    let uname = document.getElementById("usernameRegister").value.toLowerCase()
+    let mail = document.getElementById("emailRegister").value.toLowerCase()
     let psw = document.getElementById("passwordRegister").value
-    if(uname == "" || psw == "" || mail == ""){
-        alert("please put email,username and password")
+    if(psw == "" || mail == ""){
+        showMessage("please put email,username and password",2)
         return;
     }
 
     if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)){
-        alert("You put an invalid email!")
+        showMessage("You put an invalid email!",2)
         return;
     }   
     let credentials = {
-        username: uname,
         password: psw,
         email: mail
     }
@@ -168,31 +166,31 @@ function register(){
             registrationCredentials = credentials
             if(response == "true"){
                 setTimeout(() => {
-                    document.getElementById("confirmationLabel").innerHTML = "CODE FOR <br>EMAIL : "+credentials.email+"<br>NICKNAME: "+credentials.username
+                    document.getElementById("confirmationLabel").innerHTML = "CODE FOR: "+credentials.email
                     document.getElementById("confirmRegistration").style.display = "block"
                     document.getElementById("register").style.display = "none"
                 }, 500);
                 return;
             }
-            console.log(response)
+            showMessage(response,1)
         };
         request.onerror = function(e) {
-            alert("Error creating the account!")
+            showMessage("Error creating the account!",1)
         };
         request.send(JSON.stringify(credentials))
 }
 
 //--------------------------------------------------------------------------------------------------------//
-
+var isAuthenticated = false
 function login(){
-    let uname = document.getElementById("usernameLogin").value
+    let mail = document.getElementById("emailLogin").value
     let psw = document.getElementById("passwordLogin").value
-    if(uname == "" || psw == ""){
-        alert("please put username and password")
+    if(mail == "" || psw == ""){
+        showMessage("please put username and password",2)
         return;
     }
     let credentials = {
-        username: uname,
+        email: mail,
         password: psw
     }
     let request = new XMLHttpRequest();
@@ -200,16 +198,23 @@ function login(){
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
             response = res.target.response;
-            console.log(response)
-            globalCredentials = credentials
+            if(response == "true"){
+                isAuthenticated = true
+            }else{
+                showMessage(response,0)
+            }
         };
         request.onerror = function(e) {
-            alert("Error trying to LogIn")
+            showMessage("Error trying to LogIn",0)
         };
         request.send(JSON.stringify(credentials))
 }
 
 //--------------------------------------------------------------------------------------------------------//
+var globalCredentials = {
+    password: "specy",
+    email: "email"
+}
 //getAllSongs(globalCredentials)
 function getAllSongs(credentials){
     let request = new XMLHttpRequest();
@@ -217,10 +222,14 @@ function getAllSongs(credentials){
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
             response = res.target.response;
-            var songsFromDB = JSON.parse(response)
+            try{
+                var songsFromDB = JSON.parse(response)
+            }catch{
+                showMessage(response,0)
+                return;
+            }
             for(var i = 0 ; i<songsFromDB.length;i++){
-                console.log(songsFromDB[i][0])
-                //saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, true)
+                saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, true)
             }
             console.log(songsFromDB)
         };
@@ -229,17 +238,32 @@ function getAllSongs(credentials){
         };
         request.send(JSON.stringify(credentials))
 }
-var songsToSend1 = [{"name":"dasd","songNotes":[{"time":2937,"key":"Key2"},{"time":2943,"key":"Key7"},{"time":2949,"key":"Key0"},{"time":4297,"key":"Key6"},{"time":4306,"key":"Key11"},{"time":4315,"key":"Key2"},{"time":5547,"key":"Key5"},{"time":5549,"key":"Key2"},{"time":5554,"key":"Key7"},{"time":7480,"key":"Key8"},{"time":7814,"key":"Key9"},{"time":8158,"key":"Key5"},{"time":8166,"key":"Key10"},{"time":8183,"key":"Key2"},{"time":9466,"key":"Key2"},{"time":9468,"key":"Key4"},{"time":9477,"key":"Key9"},{"time":10728,"key":"Key4"},{"time":10733,"key":"Key1"},{"time":10737,"key":"Key8"},{"time":12946,"key":"Key4"},{"time":13267,"key":"Key3"},{"time":13275,"key":"Key7"},{"time":13278,"key":"Key5"},{"time":14542,"key":"Key1"},{"time":14547,"key":"Key4"},{"time":14551,"key":"Key8"},{"time":15785,"key":"Key2"},{"time":15788,"key":"Key9"},{"time":15791,"key":"Key4"},{"time":17174,"key":"Key8"},{"time":17647,"key":"Key9"},{"time":18098,"key":"Key10"},{"time":18535,"key":"Key2"},{"time":18549,"key":"Key4"},{"time":18560,"key":"Key9"},{"time":19856,"key":"Key1"},{"time":19858,"key":"Key4"},{"time":19859,"key":"Key8"},{"time":21117,"key":"Key0"},{"time":21120,"key":"Key7"},{"time":21123,"key":"Key2"}]}]
-
+var songsToSend1 = [{"name":"a","songNotes":[{"time":534,"key":"Key2"},{"time":711,"key":"Key3"},{"time":889,"key":"Key8"},{"time":1069,"key":"Key7"},{"time":1305,"key":"Key4"},{"time":1517,"key":"Key9"}]},{"name":"b","songNotes":[{"time":429,"key":"Key0"},{"time":622,"key":"Key1"},{"time":806,"key":"Key2"},{"time":1002,"key":"Key7"},{"time":1189,"key":"Key6"}]}]
 //--------------------------------------------------------------------------------------------------------//
-var globalCredentials = {
-    password: "specy",
-    username: "specy"
+//deleteFromDB(globalCredentials,"a")
+function deleteFromDB(credentials,song){
+    var objToSend = {
+        email: credentials.email,
+        password: credentials.password,
+        songName: song
+    }
+    let request = new XMLHttpRequest();
+    request.open("POST", websiteURL+"deleteSong");
+    request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+    request.onload = (res) => {
+            response = res.target.response;
+            console.log(response)
+        };
+        request.onerror = function(e) {
+            alert("Error trying to delete song!")
+        };
+        request.send(JSON.stringify(objToSend))
 }
+//--------------------------------------------------------------------------------------------------------//
 //saveSongsToDB(globalCredentials,songsToSend1)
 function saveSongsToDB(credentials,songsToSend){
     var objToSend = {
-        username: credentials.username,
+        email: credentials.email,
         password: credentials.password,
         song: songsToSend
     }
@@ -918,5 +942,14 @@ function showMenu() {
     else
         menu.style.display="none"
 }
-
+var floatingMessage = document.getElementById("floatingMessage")
+function showMessage(msg,msgType) {
+    floatingMessage.innerHTML = msg
+var color 
+    if(msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
+    if(msgType == 1) color = "lightgreen" //SUCCESS
+    if(msgType == 2) color = "#dad8b3" //MESSAGE
+    floatingMessage.style.color = color
+    $(floatingMessage).fadeIn(300).delay(1500).fadeOut(300)
+}
 </script>

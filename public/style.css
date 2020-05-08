@@ -17,6 +17,24 @@
     font-family: arial;
 }
 
+.floatingMessage{
+	position: absolute;
+	width: 60%;
+	left: 16%;
+	height: 30%;
+	top:40%;
+	font-size: 2em;
+	text-align: center;
+	padding: 1em;
+	font-family: Arial;
+	font-weight: bold;
+	color: #dad8b3;
+	background-color: rgba(22, 22, 22, 0.95);
+	display: none;
+	z-index: 110;
+	border:solid 2px #dad8b3;
+	border-radius: 1em;
+}
 [id^=Key] {
   display: inline-block;
 	height: calc((100vh - 6vw - 50px)/3);

@@ -7,7 +7,7 @@ var hash = require('sha1')
 //-----------------------------//
 var app = express();
 var mongoKey = process.env.mongoDBKey
-// var mongoKey = 
+// mongoKey = ""
 var awaitingVerification = []
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -41,15 +41,17 @@ setInterval(() => { //to replace with node-cron once i figure out what causes th
 MongoClient.connect(mongoKey,  function(err, db1) {
     if (err) throw err;
     const db = db1.db("skyMusic");
+    const emailDb = db1.db("emailDb");
 //----------------------------------------------------------------------------------------------//
     app.get("/",function(req, res) {
         res.sendFile(__dirname+"/index.html")
     })
 //----------------------------------------------------------------------------------------------//
-app.post("/createAccount", async function(req, res) {
+app.post("/createAccount", async function(req, res) { //error is handled
     var canProceed = true;
     var value = req.body;
-    value.username = value.username.toLowerCase()
+    try{
+    value.email = value.email.toLowerCase()
     if(value.password.length < 5){//checks lenght of password
         res.send("Password must be minimum 5 characters")
         canProceed = false;
@@ -60,61 +62,74 @@ app.post("/createAccount", async function(req, res) {
         canProceed = false;
         return;
     }
-    if(!/^[a-zA-Z0-9]+$/.test(value.username)){//checks validity of username
-        res.send("Invalid username, it must contain only letters and numbers")
+    if(value.email.includes("$")){//checks validity of email
+        res.send("Invalid email, it must not contain a $")
         return;
     }
+    }catch(e){
+        res.send("Error in credentials!")
+        console.log(e)
+        canProceed = false;
+    }
     try{
-        var colNames = await db.listCollections().toArray()
+        var savedEmails = await db.listCollections().toArray()
     }catch{
         res.send("Error while creating the account")
         canProceed = false;
     }
-    for(let i=0;i<colNames.length;i++){
-        //DOESNT WORK, TO FIX
-        if(colNames[i].email == value.email){//checks if someone already registered with that mail
-            res.send("This email is already in use")
-            canProceed = false;
-            break;
+    try{
+        for(let i=0;i<savedEmails.length;i++){
+            //DOESNT WORK, TO FIX
+            if(savedEmails[i].name == value.email){//checks if someone already registered with that mail
+                res.send("This email is already in use")
+                canProceed = false;
+                break;
+            }
         }
-        if(colNames[i].name == value.username){//checks if someone already registered with that username
-            res.send("This nickname is already in use")
-            canProceed = false;
-            break;
+        for(let i=0;i<awaitingVerification.length;i++){ //if there is already a request pending from this mail
+            if(awaitingVerification[i].email == value.email){
+                res.send("You have a pending verification, try again in 5 minutes") //request already existing
+                canProceed = false;
+                break;
+            }
         }
+    }catch(e){
+        res.send("Error!")
+        console.log(e)
+        canProceed = false;
+        return;
     }
-    for(let i=0;i<awaitingVerification.length;i++){ //if there is already a request pending from this mail
-        if(awaitingVerification[i].email == value.email){
-            res.send("You have a pending verification, try again in 5 minutes") //request already existing
-            canProceed = false;
-            break;
-        }
-    }
-    if(canProceed) sendVerificationCode(value), res.send(true) //sent verification, now it waits for next call from the user to verify the account
+    if(canProceed) sendVerificationCode(value,res) //sent verification, now it waits for next call from the user to verify the account
 })
 //----------------------------------------------------------------------------------------------//
-    app.post("/verifyAccount", async function(req,res) {
+    app.post("/verifyAccount", async function(req,res) { //error is handled
         var value = req.body;
         let canProceed = false;
         var credentials;
-        for(let i=0;i<awaitingVerification.length;i++){
-            if(awaitingVerification[i].email == value.email){ //if there is a pending acceptation from this email
-                if(awaitingVerification[i].code == value.code){ //if the code is correct
-                    credentials = awaitingVerification[i]
-                    awaitingVerification.splice(i,1)
-                    canProceed = true;
-                    break;
+        try{
+            for(let i=0;i<awaitingVerification.length;i++){
+                if(awaitingVerification[i].email == value.email){ //if there is a pending acceptation from this email
+                    if(awaitingVerification[i].code == value.code){ //if the code is correct
+                        credentials = awaitingVerification[i]
+                        awaitingVerification.splice(i,1)
+                        canProceed = true;
+                        break;
+                    }
                 }
             }
+        }catch(e){
+            res.send("Error!")
+            console.log(e)
+            return;
         }
         if(canProceed){
             try{
-                console.log("Created account with name: "+credentials.username)
-                await db.createCollection(credentials.username,{capped: true, max:100, size: 5000000}).catch()
-                var collection = db.collection(credentials.username)
+                console.log("Created account with name: "+credentials.email)
+                await db.createCollection(credentials.email).catch()
+                var collection = db.collection(credentials.email)
                 var finalhash = hash(hashwithseed(credentials.password))
                 if(finalhash != null){
-                collection.insertOne({_id:0, username: credentials.username, password: finalhash})
+                await collection.insertOne({_id:0, email: credentials.email, password: finalhash})
                 }
             }catch{}
             res.send(true)
@@ -123,85 +138,102 @@ app.post("/createAccount", async function(req, res) {
         }
     })
 //----------------------------------------------------------------------------------------------//
-app.post("/login", async function(req,res) {
+app.post("/login", async function(req,res) { //error handles
     var value = req.body;
-    //checks username length
-    if(value.username.length > 64 || value.password.length > 128 || value.password.length < 5) {
-        console.log("Invalid username or password length. Attempted username or password length : "+value.username.length+":"+value.password.length)
-        res.send("Invalid credentials")
+    //checks email length
+    try{
+        if(value.email.length > 64 || value.password.length > 128 || value.password.length < 5) {
+            console.log("Invalid email or password length. Attempted username or password length : "+value.email.length+":"+value.password.length)
+            res.send("Invalid credentials")
+            return;
+        } 
+        if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value.email)){
+            console.log("Invalid email")
+            res.send("Invalid email")
+            return;
+        }    
+    }catch(e){
+        res.send("Error!")
+        console.log(e)
         return;
-    } 
-    if(!/^([0-9]|[a-z])+([0-9a-z]+)$/i.test(value.username)) {
-        res.send(false)
-        return;
-    }
-        //checks username for special characters        
+    }   
     try{
         var users = await db.listCollections().toArray()
     }catch{
-        res.send("Error trying to access the DB")
+        res.send("Error trying to Login!")
         return
     }
     var userExists = false
     for(let i=0;i<users.length;i++){
-        if(users[i].name == value.username){ //checks if the username exists
+        if(users[i].name == value.email){ //checks if the username exists
             userExists = true;
             break;
         }
     }
     if(userExists){
         try{
-            var collection = db.collection(value.username)
+            var collection = db.collection(value.email)
             var credentials = await collection.find({_id: 0}).toArray()
         }catch{
-            res.send(false)
+            res.send("Credentials wrong!")
             return;
         }
-        if(checkPassword(value.password,credentials[0].password)){
-            console.log("login done by: "+value.username)
-            res.send(true)
-        }else{
-            console.log("Failed login by: "+value.username)
-            res.send(false)
+        try{
+            if(checkPassword(value.password,credentials[0].password)){
+                console.log("login done by: "+value.email)
+                res.send(true)
+            }else{
+                console.log("Failed login by: "+value.email)
+                res.send("Credentials wrong!")
+            }
+        }catch(e){
+            res.send("Credentials wrong!")
+            console.log(e)
         }
     }else{
-        console.log("User: "+value.username+" doesn't exist!")
-        res.send(false)
+        console.log("User: "+value.email+" doesn't exist!")
+        res.send("Credentials wrong!")
     }
 })
 //----------------------------------------------------------------------------------------------//
-    app.post("/getSongs", async function(req,res) {
+    app.post("/getSongs", async function(req,res) { //error handled
         var value = req.body;
-        console.log(value)
         try{
-            var collection = db.collection(value.username)
+            var collection = db.collection(value.email)
             var credentials = await collection.find({_id: 0}).toArray()
         }catch{
             res.send("Error with the server!")
+            console.log("error with the server")
             return
         }
         if(credentials == undefined){
             res.send("Credentials wrong")
+            console.log("credentials wrong")
             return;
         }
-        if(checkPassword(value.password,credentials[0].password)){
-            var allSongs = await collection.find().toArray()
-                allSongs.splice(0,1) //removes the credentials
-            var songsToSend = []
-                for(var i=0;i<allSongs.length;i++){
-                    songsToSend.push(allSongs[i].song)
-                }
-                res.send(songsToSend)
-                console.log("songs sent to: "+value.username)
-        }else{
-            res.send("Credentials are wrong!")
+        try{
+            if(checkPassword(value.password,credentials[0].password)){
+                var allSongs = await collection.find().toArray()
+                    allSongs.splice(0,1) //removes the credentials
+                var songsToSend = []
+                    for(var i=0;i<allSongs.length;i++){
+                        songsToSend.push(allSongs[i].song)
+                    }
+                    res.send(songsToSend)
+                    console.log("songs sent to: "+value.email)
+            }else{
+                res.send("Credentials are wrong!")
+            }
+        }catch(e){
+            res.send("Error!")
+            console.log(e)
         }
     })
 //----------------------------------------------------------------------------------------------//
     app.post("/saveSongs", async function(req,res) {
         var value = req.body;
         try{
-            var collection = db.collection(value.username)
+            var collection = db.collection(value.email)
             var credentials = await collection.find({_id: 0}).toArray()
         }catch(e){
             res.send("Error with the account!"+e)
@@ -213,23 +245,55 @@ app.post("/login", async function(req,res) {
         }
         console.log("limit the amount of songs u can store")
         var alreadySavedSongs = ""
-        if(checkPassword(value.password,credentials[0].password)){
-            for(var i=0; i<value.song.length;i++){
-                var isSongSaved = await collection.find({name: value.song[i].name}).toArray()
-                console.log(value.song[i])
-                if(isSongSaved.length == 0){
-                    collection.insertOne({song: value.song[i], name: value.song[i].name})
-                }else{
-                    alreadySavedSongs += "\n"+value.song[i].name + " was already saved"
-                }
-            }   
-                res.send("added songs!" + alreadySavedSongs)
-                console.log("added songs!" + alreadySavedSongs)
-        }else{
-            res.send("Credentials are wrong!")
+        try{
+            if(checkPassword(value.password,credentials[0].password)){
+                for(var i=0; i<value.song.length;i++){
+                    var isSongSaved = await collection.find({name: value.song[i].name}).toArray()
+                    if(isSongSaved.length == 0){
+                      await collection.insertOne({song: value.song[i], name: value.song[i].name})
+                    }else{
+                        alreadySavedSongs += "\n"+value.song[i].name + " was already saved"
+                    }
+                }   
+                    res.send("added songs!" + alreadySavedSongs)
+                    console.log("added songs!" + alreadySavedSongs)
+            }else{
+                res.send("Credentials are wrong!")
+            }
+        }catch(e){
+            res.send("Error!")
         }
     })
 //----------------------------------------------------------------------------------------------//
+app.post("/deleteSong", async function(req,res) { //error handled
+    var value = req.body;
+    try{
+        var collection = db.collection(value.email)
+        var credentials = await collection.find({_id: 0}).toArray()
+    }catch{
+        res.send("Error with the server!")
+        console.log("error with the server")
+        return
+    }
+    if(credentials == undefined){
+        res.send("Credentials wrong")
+        console.log("credentials wrong")
+        return;
+    }
+    try{
+        if(checkPassword(value.password,credentials[0].password)){
+          await collection.deleteOne({name: value.songName})
+        }else{
+            res.send("Credentials are wrong!")
+            return;
+        }
+        }catch{
+            res.send("Error!")
+            return;
+        }
+        res.send("Song :"+value.songName+" deleted!")
+        console.log("song deleted")
+})
 
     var server = app.listen(port, () => {
     console.log("server is running on port", server.address().port);
@@ -237,41 +301,47 @@ app.post("/login", async function(req,res) {
 });
 //----------------------------------------------------------------------------------------------//
 //----------------------------------------------------------------------------------------------//
-function sendVerificationCode(credentials){
+function sendVerificationCode(credentials,res){ //error handled
     let verificationCode = ""
     for(var i=0;i<6;i++){
         verificationCode += Math.floor(Math.random()*9)
     }
-    let verificationObj = {
-        email: credentials.email,
-        username: credentials.username,
-        password: credentials.password,
-        code: verificationCode,
-        timesChecked : 0
-    }
+    try{
+        let verificationObj = {
+            email: credentials.email,
+            password: credentials.password,
+            code: verificationCode,
+            timesChecked : 0
+        }
     var mailOptions = {
         from: 'thoseskymodders@gmail.com',
         to: credentials.email,
         subject: 'Verification',
         html: '<center><h1>Your code is: <font style="color: rgba(22, 22, 22, 0.65);">'
             +verificationCode
-            +'</font><br><br> For username : <font style=" color: rgba(22, 22, 22, 0.65);">'
-            +credentials.username
-            +"</font></h1></center>"
+            +'</font></h1></center>'
       };
         transporter.sendMail(mailOptions, function(error, info){
         if (error) {
-          console.log(error);
+          console.log("Error in sending email");
+          res.send("Error!")
         } else {
           console.log('Email sent: ' + info.response);
           awaitingVerification.push(verificationObj)
+          res.send(true)
+          console.log(awaitingVerification)
         }
       });
+    }catch(e){
+        res.send("Error!")
+        return;
+    }
 }
 function hashwithseed(string) {
     var increment = 3;
     var input = "5zawL9hxo6m6fFbhJ2zN" + string;
     var output = "";
+    try{
     while (increment < input.length) {
       if (increment % 2 == 0) {
         var output = output + input.charAt(increment);
@@ -281,12 +351,21 @@ function hashwithseed(string) {
       increment++;
     }
     return output;
+    }catch(e){
+        console.log(e)
+        return false
+    }
   }
   function checkPassword(password,DBpassword){
-    var inputwithseed = hash(hashwithseed(password))
-    if(DBpassword == inputwithseed){
-        return true;
-    }else{
-        return false;
+    try{
+        var inputwithseed = hash(hashwithseed(password))
+        if(DBpassword == inputwithseed){
+            return true;
+        }else{
+            return false;
+        }
+    }catch(e){
+        console.log(e)
+        return false
     }
   }
