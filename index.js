@@ -84,7 +84,7 @@ app.post("/createAccount", async function(req, res) { //error is handled
     var value = req.body;
     try{
     value.email = value.email.toLowerCase()
-    if(value.password.length < 5){//checks lenght of password
+    if(value.password.length < 6){//checks lenght of password
         res.send("Password must be minimum 5 characters")
         canProceed = false;
         return;
@@ -230,7 +230,10 @@ app.post("/login", async function(req,res) { //error handles
         console.log("User: "+value.email+" doesn't exist!")
         res.send("Credentials wrong!")
     }
-})
+})  
+    app.post("/resetPassword", async function(req,res) {
+        res.send("Feature incoming!")
+    })
 //----------------------------------------------------------------------------------------------//
     app.post("/getSongs", async function(req,res) { //error handled
         var value = req.body;

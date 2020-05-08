@@ -13,6 +13,7 @@
 
 <body>
     <div class="secondPage" id="secondPage">
+
         <div id="login">
             <div id="loginContainer">
               <h1>Log in to Sky Music!</h1>
@@ -23,10 +24,9 @@
       
                 <label class="formLabel"><b>PASSWORD</b></label>
                 <input type="password" placeholder="Enter Password" class="formInput" id="passwordLogin">
-      
                 <button onclick = "login(false)">LOGIN</button>
       
-                <span onclick="toggleRegister()"><a href="#">Create account</a></span><span id="forgotLink"><a href="#">Forgot password?</a></span>
+                <span onclick="toggleRegister()"><a href="#">Create account</a></span><span id="forgotLink" onclick="toggleReset()"><a href="#">Forgot password?</a></span>
       
               </div> 
             </div>
@@ -41,21 +41,36 @@
         
                   <label class="formLabel"><b>PASSWORD</b></label>
                   <input type="password" placeholder="Enter Password" class="formInput" id="passwordRegister">
+
+                  <label class="formLabel"><b>CONFIRM PASSWORD</b></label>
+                  <input type="password" placeholder="Enter again Password" class="formInput" id="passwordRegister2">
         
                   <button onclick = "register()">REGISTER</button>
-        
+                  <span onclick="resetPages()"><a href="#">Go back</a></span>
                 </div> 
               </div>
           </div>
           <div id="confirmRegistration">
-            <div id="registerContainer">
+            <div id="confirmContainer">
                 <h1>Register to Sky Music!</h1>
                 <div>       
                   <label id="confirmationLabel" class="formLabel"><b>CODE</b></label>
                   <input type="password" placeholder="Enter code" class="formInput" id="codeConfirmation">
         
                   <button onclick = "confirmEmail()">CONFIRM</button>
-        
+                  <span onclick="resetPages()"><a href="#">Go back</a></span>
+                </div> 
+              </div>
+          </div>
+          <div id="resetPassword">
+            <div id="resetContainer">
+                <h1>Reset a Forgotten Password!</h1>
+                <div>
+
+                  <label class="formLabel"><b>EMAIL</b></label>
+                  <input type="text" placeholder="Enter Email" class="formInput" id="emailReset">
+                  <button onclick = "resetPassword()">SUBMIT</button>
+                  <span onclick="resetPages()"><a href="#">Go back</a></span>
                 </div> 
               </div>
           </div>
@@ -90,11 +105,12 @@
     </div>
 
 
-    <button id="menu" onclick="showMenu()"></button>
+    <button id="menu" style="display: block;"onclick="showMenu()"></button>
     <div id="icon-bar">
+        <button class="skyButton_2" onclick='resetPages(),showMenu(),document.getElementById("login").style.display = "none"'><p class="texts">Main page</p></button>
+        <button class="skyButton_2" onclick="showMenu()"><p class="texts">Close menu</p></button>
         <button class="skyButton_2" onclick="toggleLogin()"><p class="texts">Login</p></button>
         <button class="skyButton_2" onclick="toggleSettings()"><p class="texts">Settings</p></button>
-        
     </div>
     <div class="menuDiv">
         <button class="skyButton" onclick="toggleSavedSongs()">Manage Recordings</button>
@@ -132,7 +148,7 @@
         TO REMOVE ONCE NEW INSTRUMENTS ARE ADDED
         -->
     </div>
-    <div id="floatingMessage" class="floatingMessage"></div>
+    <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
 
 </html>
@@ -146,15 +162,23 @@
 //--------------------------------------------------------------------------------------------------------//
 //LOGIN AND ACCOUNT
 
+function toggleReset(){
+    resetPages()
+    document.getElementById("resetPassword").style.display = "block"
+}
+
+//--------------------------------------------------------------------------------------------------------//
+
 function toggleLogin(){
-    document.getElementById("secondPage").style.display = "block"
+    resetPages()
+    document.getElementById("login").style.display = "block"
     showMenu()
 }
 
 //--------------------------------------------------------------------------------------------------------//
 
 function toggleRegister(){
-    document.getElementById("login").style.display = "none"
+    resetPages()
     document.getElementById("register").style.display = "block"
 }
 
@@ -164,6 +188,41 @@ function toggleSettings(){
     showMessage("Incoming!",1)
 }
 
+function resetPages(){
+    document.getElementById("secondPage").style.display = "block"
+    document.getElementById("login").style.display = "none"
+    document.getElementById("resetPassword").style.display = "none"
+    document.getElementById("register").style.display = "none"
+    document.getElementById("confirmRegistration").style.display = "none"
+}
+//--------------------------------------------------------------------------------------------------------//
+
+function resetPassword(){
+    let mail = document.getElementById("emailReset").value
+    if(mail.trim() == "" || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)){
+        showMessage("please put an email",2)
+        return;
+    }
+    let credentials = {
+        email: mail
+    }
+    let request = new XMLHttpRequest();
+    request.open("POST", websiteURL+"resetPassword");
+    request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+    request.onload = (res) => {
+            response = res.target.response;
+            if(response == "true"){
+                showMessage("success! please check you email.",1)
+            }else{
+                showMessage(response,0)
+            }
+        };
+        request.onerror = function(e) {
+            showMessage("Error trying to LogIn",0)
+        };
+        request.send(JSON.stringify(credentials))
+}
+
 //--------------------------------------------------------------------------------------------------------//
 
 var registrationCredentials;
@@ -171,6 +230,7 @@ console.log("add input verification like minimum password length, no special cha
 function register(){
     let mail = document.getElementById("emailRegister").value.toLowerCase()
     let psw = document.getElementById("passwordRegister").value
+    let psw2 = document.getElementById("passwordRegister2").value
     if(psw == "" || mail == ""){
         showMessage("please put email,username and password",2)
         return;
@@ -179,7 +239,13 @@ function register(){
     if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)){
         showMessage("You put an invalid email!",2)
         return;
-    }   
+    }
+    if(psw != psw2){
+        showMessage("The passwords don't match!",2)
+        document.getElementById("passwordRegister2").value = ""
+        document.getElementById("passwordRegister").value = ""
+        return;
+    }
     let credentials = {
         password: psw,
         email: mail
@@ -224,6 +290,10 @@ function login(ignoreMessage){
     let psw = document.getElementById("passwordLogin").value
     if(mail == "" || psw == ""){
         showMessage("please put username and password",2)
+        return;
+    }
+    if(psw.length < 6){
+        showMessage("Password must be at least 6 characters long",0)
         return;
     }
     let credentials = {
@@ -802,6 +872,7 @@ document.getElementById("touch").addEventListener("click", function() {
     savedSongsDivWrapper.style.display = "none"
     instrumentsWrapper.style.display = "none"
     menu.style.display = "none"
+    console.log(menu)
     menuButton.style.display = "block"
 })
 
@@ -876,7 +947,7 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     })
     songButton.innerHTML = songName
     songButton.className = "skyButton"
-    songButton.style.width = "calc(100% - 140px - 5em)"
+    songButton.style.width = "calc(100% - 135px - 5em)"
     //--------------------------------// This holds the text of the array of the song 
     let songText = document.createElement("div")
     songText.style.display = "none"
@@ -890,12 +961,12 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
         deleteButton.innerHTML = "❌"
         deleteButton.className = "skyButton"
         deleteButton.style.width = "40px"
-        deleteButton.style.marginRight = "0.1em"
+        deleteButton.style.marginLeft = "0.1em"
         deleteButton.setAttribute("songName", songName)
 
 
         if(savingType == "2"){ //if its a song coming from the database, put the delete button also to delete it from the db
-            songButton.style.width = "calc(100% - 100px - 5em)"
+            songButton.style.width = "calc(100% - 95px - 5em)"
             deleteButton.innerHTML = "❌"
             dbSongsDiv.appendChild(songContainer)
             deleteButton.addEventListener("click", function() {
@@ -927,7 +998,7 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
         let saveToDb = document.createElement("button")
         saveToDb.innerHTML = "💾"
         saveToDb.className = "skyButton"
-        saveToDb.style.marginRight = "0.1em"
+        saveToDb.style.marginLeft = "0.1em"
         saveToDb.style.width = "40px"
         saveToDb.setAttribute("songName", songName)
         saveToDb.addEventListener("click", function() {
@@ -949,7 +1020,7 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     trainSong.innerHTML = "🎯"
     trainSong.className = "skyButton"
     trainSong.style.width = "40px"
-    trainSong.style.marginRight = "0.1em"
+    trainSong.style.marginLeft = "0.1em"
     trainSong.setAttribute("songName", songName)
     trainSong.addEventListener("click", function() {
         savedSongsDivWrapper.style.display = "none"
@@ -964,7 +1035,7 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     shareButton.style.fontWeight = "bold"
     shareButton.className = "skyButton"
     shareButton.style.width = "40px"
-    shareButton.style.marginRight = "0.1em"
+    shareButton.style.marginLeft = "0.1em"
     shareButton.setAttribute("songName", songName)
     shareButton.addEventListener("click", function() {
         let storedSongName = this.getAttribute("songName")
@@ -1091,20 +1162,24 @@ function recordSong(pressedKey) {
 //show menu function
 function showMenu() {
     resetForms()
-    if (menu.style.display!="block") {
-    menu.style.display="block"
-    menuButton.style.display="none"
-    }
-    else
+    if (menuButton.style.display!="block") {
         menu.style.display="none"
+        menuButton.style.display="block"
+    }
+    else{
+        menu.style.display="block"
+        menuButton.style.display="none"
+    }
 }
+
 
 //--------------------------------------------------------------------------------------------------------//
 
-var floatingMessage = document.getElementById("floatingMessage")
+var floatingMessage
 function showMessage(msg,msgType) {
+    floatingMessage = document.getElementById("floatingMessage")
     floatingMessage.innerHTML = msg
-var color 
+    var color 
     if(msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
     if(msgType == 1) color = "lightgreen" //SUCCESS
     if(msgType == 2) color = "#dad8b3" //MESSAGE
