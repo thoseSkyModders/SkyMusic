@@ -12,6 +12,7 @@ let emailPassword = process.env.mongoDBKey
 var awaitingVerification = []
 
 /* ------------------------------------------------------->*/ inLocalhost = false
+app.enable('trust proxy');
 if(!inLocalhost){
     app.use(function(request, response){
         if(!request.secure){
