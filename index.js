@@ -1,26 +1,44 @@
-var MongoClient = require('mongodb').MongoClient;
-var ObjectID = require('mongodb').ObjectID;
-var express = require("express");
-//var cron = require("node-cron")
-var nodemailer = require('nodemailer');
-var hash = require('sha1')
+const MongoClient = require('mongodb').MongoClient;
+const Discord = require("discord.js");
+const bot = new Discord.Client();
+const express = require("express");
+const nodemailer = require('nodemailer');
+const hash = require('sha1')
 //-----------------------------//
-var app = express();
-var mongoKey = process.env.mongoDBKey
-// mongoKey = ""
+let app = express();
+let discordToken =  process.env.discordToken
+let mongoKey = process.env.mongoDBKey
+let emailPassword = process.env.mongoDBKey
 var awaitingVerification = []
+
+/* ------------------------------------------------------->*/ inLocalhost = false
+if(!inLocalhost){
+    app.use(function(request, response){
+        if(!request.secure){
+          response.redirect("https://" + request.headers.host + request.url);
+        }
+    });
+}else{
+    mongoKey = ""
+    discordToken = ""
+    emailPassword = ""
+}
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: 'thoseskymodders@gmail.com',
-      pass: process.env.pass
+      pass: emailPassword
     }
   });
 //
 
-
-
-//
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'thoseskymodders@gmail.com',
+      pass: emailPassword
+    }
+  });
 app.use(express.static('public'));
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -39,9 +57,21 @@ setInterval(() => { //to replace with node-cron once i figure out what causes th
     }
  }
 MongoClient.connect(mongoKey,  function(err, db1) {
+    bot.login(discordToken);
+    bot.on("ready",()=>{
+    bot.user.setActivity("errors", {type: "LISTENING" })
+    console.log("The bot is online!");
+    });
+    function reportError(msg){  
+        var errorChannel = bot.channels.cache.get("708298853316558999")
+        let embed = new Discord.MessageEmbed()
+        embed.setTitle("WARNING")
+        .setDescription(msg)
+        .setColor(15158332)
+        errorChannel.send({embed})
+    }
     if (err) throw err;
     const db = db1.db("skyMusic");
-    const emailDb = db1.db("emailDb");
 //----------------------------------------------------------------------------------------------//
     app.get("/",function(req, res) {
         res.sendFile(__dirname+"/index.html")
@@ -73,8 +103,9 @@ app.post("/createAccount", async function(req, res) { //error is handled
     }
     try{
         var savedEmails = await db.listCollections().toArray()
-    }catch{
+    }catch(e){
         res.send("Error while creating the account")
+        reportError(e)
         canProceed = false;
     }
     try{
@@ -108,7 +139,7 @@ app.post("/createAccount", async function(req, res) { //error is handled
         var credentials;
         try{
             for(let i=0;i<awaitingVerification.length;i++){
-                if(awaitingVerification[i].email == value.email){ //if there is a pending acceptation from this email
+                if(awaitingVerification[i].email == value.email){ //if there is a pending verification from this email
                     if(awaitingVerification[i].code == value.code){ //if the code is correct
                         credentials = awaitingVerification[i]
                         awaitingVerification.splice(i,1)
@@ -120,6 +151,7 @@ app.post("/createAccount", async function(req, res) { //error is handled
         }catch(e){
             res.send("Error!")
             console.log(e)
+            reportError(e)
             return;
         }
         if(canProceed){
@@ -131,7 +163,9 @@ app.post("/createAccount", async function(req, res) { //error is handled
                 if(finalhash != null){
                 await collection.insertOne({_id:0, email: credentials.email, password: finalhash})
                 }
-            }catch{}
+            }catch{
+                res.send("Error!")
+            }
             res.send(true)
         }else{
             res.send("The code is not correct, try again!")
@@ -270,7 +304,8 @@ app.post("/deleteSong", async function(req,res) { //error handled
     try{
         var collection = db.collection(value.email)
         var credentials = await collection.find({_id: 0}).toArray()
-    }catch{
+    }catch(e){
+        reportError(e)
         res.send("Error with the server!")
         console.log("error with the server")
         return
