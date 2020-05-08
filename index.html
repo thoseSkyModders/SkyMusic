@@ -60,15 +60,37 @@
               </div>
           </div>
     </div>
+
+
     <div id="savedSongsDivWrapper" class="floatingDiv">
-        <h3>Here are all your saved songs!</h3>
-        <div id="savedSongsDiv" class="topSavedSongsDiv"></div>
-        <div class = "bottomSavedSongsDiv">
-            <button class="skyButton" onclick="importSongs()">Import songs</button>
-            <button class="skyButton" onclick="downloadSongs()">Download songs</button>
-            <input type=file style="display:none;" id="filePicker">
-        </div>
+
+        <div class="tab">
+            <button class="tablinks active" onclick="openSonglist(event, 'localSongs')">Local songs</button>
+            <button class="tablinks" onclick="openSonglist(event, 'dbSongs')">DB songs</button>
+          </div>
+        <!--Local Songs-->
+          <div id="localSongs" class="tabcontent">
+            <h3>Here are all your locally stored songs!</h3>
+            <div id="savedSongsDiv" class="topSavedSongsDiv"></div>
+            <div class = "bottomSavedSongsDiv">
+                <button class="skyButton" onclick="importSongs()">Import songs</button>
+                <button class="skyButton" onclick="downloadSongs()">Download songs</button>
+                <input type=file style="display:none;" id="filePicker">
+            </div>
+          </div>
+            <!--Database Songs-->
+          <div id="dbSongs" class="tabcontent">
+            <h3>Here are all of your saved songs from our database!</h3>
+            <div id="savedSongsDiv" class="topSavedSongsDiv"></div>
+            <div class = "bottomSavedSongsDiv">
+                <button class="skyButton" onclick="importSongs()">Import songs</button>
+                <button class="skyButton" onclick="downloadSongs()">Download songs</button>
+                <input type=file style="display:none;" id="filePicker">
+            </div>
+          </div>
     </div>
+
+
     <button id="menu" onclick="showMenu()"></button>
     <div id="icon-bar">
         <button class="skyButton_2" onclick="toggleSecondPage()"><p class="texts">Login</p></button>
@@ -716,6 +738,21 @@ function toggleSavedSongs() {
     }else{
         savedSongsDivWrapper.style.display = "none"
     }
+}
+
+//TAB PAGE FOR SAVED SONGS
+function openSonglist(evt, listType) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(listType).style.display = "block";
+  evt.currentTarget.className += " active";
 }
 
 //--------------------------------------------------------------------------------------------------------//

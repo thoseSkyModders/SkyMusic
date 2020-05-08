@@ -472,3 +472,44 @@ body {
 	.musicButton { top: 20%; width: 10vh; left:50%; margin-right: -50%; transform: translate(-50%, -50%);}
   */
 }
+
+/* Style the tab */
+.tab {
+	overflow: hidden;
+	border: 1px solid #ccc;
+	background-color: #414141;
+	filter: opacity(90%);
+  }
+  
+  /* Style the buttons inside the tab */
+  .tab button {
+	background-color: inherit;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 14px 16px;
+	transition: 0.3s;
+	font-size: 17px;
+	color: #dad8b3
+  }
+  
+  .tab button:hover {
+	background-color: #ddd;
+	color: black
+  }
+  
+  .tab button.active {
+	background-color: #ccc;
+	color: black
+  }
+  
+  .tabcontent {
+	padding: 6px 12px;
+	border: 1px solid #ccc;
+	border-top: none;
+  }
+
+  #dbSongs {
+	  display: none;
+  }
