@@ -11,7 +11,7 @@ let mongoKey = process.env.mongoDBKey
 let emailPassword = process.env.mongoDBKey
 var awaitingVerification = []
 
-/* ------------------------------------------------------->*/ inLocalhost = true
+/* ------------------------------------------------------->*/ inLocalhost = false
 app.enable('trust proxy');
 if(!inLocalhost){
     app.use((req, res, next) => {
@@ -22,11 +22,9 @@ if(!inLocalhost){
             }
         })
 }else{
-    /*
     mongoKey = ""
     discordToken = ""
     emailPassword = ""
-    */
 }
 
 var transporter = nodemailer.createTransport({
