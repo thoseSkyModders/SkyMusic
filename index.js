@@ -8,7 +8,7 @@ const hash = require('sha1')
 let app = express();
 let discordToken =  process.env.discordToken
 let mongoKey = process.env.mongoDBKey
-let emailPassword = process.env.mongoDBKey
+let emailPassword = process.env.pass
 var awaitingVerification = []
 
 /* ------------------------------------------------------->*/ inLocalhost = false
