@@ -7,6 +7,7 @@ var hash = require('sha1')
 //-----------------------------//
 var app = express();
 var mongoKey = process.env.mongoDBKey
+// var mongoKey = 
 var awaitingVerification = []
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -48,6 +49,21 @@ MongoClient.connect(mongoKey,  function(err, db1) {
 app.post("/createAccount", async function(req, res) {
     var canProceed = true;
     var value = req.body;
+    value.username = value.username.toLowerCase()
+    if(value.password.length < 5){//checks lenght of password
+        res.send("Password must be minimum 5 characters")
+        canProceed = false;
+        return;
+    }
+    if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value.email)){ //check validity of email
+        res.send("Invalid email")
+        canProceed = false;
+        return;
+    }
+    if(!/^[a-zA-Z0-9]+$/.test(value.username)){//checks validity of username
+        res.send("Invalid username, it must contain only letters and numbers")
+        return;
+    }
     try{
         var colNames = await db.listCollections().toArray()
     }catch{
@@ -81,8 +97,6 @@ app.post("/createAccount", async function(req, res) {
         var value = req.body;
         let canProceed = false;
         var credentials;
-        console.log(awaitingVerification[0])
-        console.log(value)
         for(let i=0;i<awaitingVerification.length;i++){
             if(awaitingVerification[i].email == value.email){ //if there is a pending acceptation from this email
                 if(awaitingVerification[i].code == value.code){ //if the code is correct
@@ -94,9 +108,9 @@ app.post("/createAccount", async function(req, res) {
             }
         }
         if(canProceed){
-            console.log("Created account with name: "+credentials.username)
             try{
-                db.createCollection(credentials.username,{capped: true, max:100, size: 5000000})
+                console.log("Created account with name: "+credentials.username)
+                await db.createCollection(credentials.username,{capped: true, max:100, size: 5000000}).catch()
                 var collection = db.collection(credentials.username)
                 var finalhash = hash(hashwithseed(credentials.password))
                 if(finalhash != null){
@@ -118,7 +132,6 @@ app.post("/login", async function(req,res) {
         return;
     } 
     if(!/^([0-9]|[a-z])+([0-9a-z]+)$/i.test(value.username)) {
-        //checks for 
         res.send(false)
         return;
     }
@@ -137,10 +150,14 @@ app.post("/login", async function(req,res) {
         }
     }
     if(userExists){
-        var inputwithseed = hashwithseed(value.password)
-        var collection = db.collection(value.username)
-        var credentials = await collection.find({_id: 0}).toArray()
-        if(credentials[0].password == hash(inputwithseed)){
+        try{
+            var collection = db.collection(value.username)
+            var credentials = await collection.find({_id: 0}).toArray()
+        }catch{
+            res.send(false)
+            return;
+        }
+        if(checkPassword(value.password,credentials[0].password)){
             console.log("login done by: "+value.username)
             res.send(true)
         }else{
@@ -152,18 +169,22 @@ app.post("/login", async function(req,res) {
         res.send(false)
     }
 })
-
+//----------------------------------------------------------------------------------------------//
     app.post("/getSongs", async function(req,res) {
         var value = req.body;
         console.log(value)
-        var collection = db.collection(value.username)
-        var credentials = await collection.find({_id: 0}).toArray()
+        try{
+            var collection = db.collection(value.username)
+            var credentials = await collection.find({_id: 0}).toArray()
+        }catch{
+            res.send("Error with the server!")
+            return
+        }
         if(credentials == undefined){
             res.send("Credentials wrong")
             return;
         }
-        console.log(credentials[0])
-        if(credentials[0].password == value.password){
+        if(checkPassword(value.password,credentials[0].password)){
             var allSongs = await collection.find().toArray()
                 allSongs.splice(0,1) //removes the credentials
             var songsToSend = []
@@ -176,18 +197,34 @@ app.post("/login", async function(req,res) {
             res.send("Credentials are wrong!")
         }
     })
+//----------------------------------------------------------------------------------------------//
     app.post("/saveSongs", async function(req,res) {
         var value = req.body;
-        console.log(value)
-        console.log("CHECK IF A SONG ALREADY EXISTS AND WARN THE USER")
-        var collection = db.collection(value.username)
-        var credentials = await collection.find({_id: 0}).toArray()
+        try{
+            var collection = db.collection(value.username)
+            var credentials = await collection.find({_id: 0}).toArray()
+        }catch(e){
+            res.send("Error with the account!"+e)
+            return;
+        }
+        if(credentials == undefined){
+            res.send("Credentials wrong")
+            return;
+        }
         console.log("limit the amount of songs u can store")
-        if(credentials[0].password == value.password){
-            for(var i=0; i<songsToSend.length;i++){
-                collection.insertOne({song: value.song[i]})
-            }
-                console.log("added songs!")
+        var alreadySavedSongs = ""
+        if(checkPassword(value.password,credentials[0].password)){
+            for(var i=0; i<value.song.length;i++){
+                var isSongSaved = await collection.find({name: value.song[i].name}).toArray()
+                console.log(value.song[i])
+                if(isSongSaved.length == 0){
+                    collection.insertOne({song: value.song[i], name: value.song[i].name})
+                }else{
+                    alreadySavedSongs += "\n"+value.song[i].name + " was already saved"
+                }
+            }   
+                res.send("added songs!" + alreadySavedSongs)
+                console.log("added songs!" + alreadySavedSongs)
         }else{
             res.send("Credentials are wrong!")
         }
@@ -245,18 +282,11 @@ function hashwithseed(string) {
     }
     return output;
   }
-
-  function hashwithseed(string) {
-    var increment = 3;
-    var input = "5zawL9hxo6m6fFbhJ2zN" + string;
-    var output = "";
-    while (increment < input.length) {
-      if (increment % 2 == 0) {
-        var output = output + input.charAt(increment);
-      } else {
-        var output = input.charAt(increment) + output;
-      }
-      increment++;
+  function checkPassword(password,DBpassword){
+    var inputwithseed = hash(hashwithseed(password))
+    if(DBpassword == inputwithseed){
+        return true;
+    }else{
+        return false;
     }
-    return output;
   }
