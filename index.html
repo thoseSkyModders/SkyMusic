@@ -305,7 +305,6 @@ function changeSettings(button){
 //--------------------------------------------------------------------------------------------------------//
 
 function resetPages(){
-    console.log("a")
     document.getElementById("settings").style.display = "none"
     document.getElementById("resetPassword").style.display = "none"
     document.getElementById("verifyPasswordAndCode").style.display = "none"
@@ -420,6 +419,7 @@ function register(){
             registrationCredentials = credentials
             if(response == "true"){
                     resetPages()
+                    document.getElementById("secondPage").style.display = "block"
                     document.getElementById("confirmationLabel").innerHTML = "CODE FOR: "+credentials.email
                     document.getElementById("confirmRegistration").style.display = "block"
                     document.getElementById("register").style.display = "none"

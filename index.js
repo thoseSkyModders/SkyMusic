@@ -171,9 +171,10 @@ app.post("/createAccount", async function(req, res) { //error is handled
                 console.log("Created account with name: "+credentials.email)
                 await db.createCollection(credentials.email).catch()
                 var collection = db.collection(credentials.email)
-                var finalhash = hash(hashwithseed(credentials.password))
+                var passwordseed = makeseed(20)
+                var finalhash = hash(hashwithseed(credentials.password, passwordseed))
                 if(finalhash != null){
-                await collection.insertOne({_id:0, email: credentials.email, password: finalhash})
+                await collection.insertOne({_id:0, email: credentials.email, password: finalhash, seed: passwordseed})
                 }
             }catch{
                 res.send("Error!")
@@ -225,7 +226,7 @@ app.post("/login", async function(req,res) { //error handles
             return;
         }
         try{
-            if(checkPassword(value.password,credentials[0].password)){
+            if(checkPassword(value.password,credentials[0].password,credentials[0].seed)){
                 console.log("login done by: "+value.email)
                 res.send(true)
             }else{
@@ -306,7 +307,7 @@ app.post("/login", async function(req,res) { //error handles
             return;
         }
         try{
-            if(checkPassword(value.password,credentials[0].password)){
+            if(checkPassword(value.password,credentials[0].password,credentials[0].seed)){
                 var allSongs = await collection.find().toArray()
                     allSongs.splice(0,1) //removes the credentials
                 var songsToSend = []
@@ -344,7 +345,7 @@ app.post("/login", async function(req,res) { //error handles
         console.log("limit the amount of songs u can store")
         var alreadySavedSongs = ""
         try{
-            if(checkPassword(value.password,credentials[0].password)){
+            if(checkPassword(value.password,credentials[0].password,credentials[0].seed)){
                 for(var i=0; i<value.song.length;i++){
                     var isSongSaved = await collection.find({name: value.song[i].name}).toArray()
                     if(isSongSaved.length == 0){
@@ -380,7 +381,7 @@ app.post("/deleteSong", async function(req,res) { //error handled
         return;
     }
     try{
-        if(checkPassword(value.password,credentials[0].password)){
+        if(checkPassword(value.password,credentials[0].password,credentials[0].seed)){
           await collection.deleteOne({name: value.songName})
         }else{
             res.send("Credentials are wrong!")
@@ -424,9 +425,10 @@ app.post("/verifyResetCode", async function(req,res) { //error is handled
     if(canProceed){
         try{
             let collection = db.collection(value.email)
-            let finalhash = hash(hashwithseed(value.password))
+            let passwordseed = makeseed(20)
+            let finalhash = hash(hashwithseed(value.password,passwordseed))
             if(finalhash != null){
-            await collection.updateOne({_id:0}, {$set: {password: finalhash}}).catch()
+            await collection.updateOne({_id:0}, {$set: {password: finalhash, seed: passwordseed}}).catch()
             console.log("Successfully reset "+value.email+"'s password")
             res.send(true)
             }
@@ -482,9 +484,9 @@ function sendVerificationCode(credentials,res){ //error handled
         return;
     }
 }
-function hashwithseed(string) {
+function hashwithseed(string, randomseed) {
     var increment = 3;
-    var input = "5zawL9hxo6m6fFbhJ2zN" + string;
+    var input = randomseed + string;
     var output = "";
     try{
     while (increment < input.length) {
@@ -501,9 +503,9 @@ function hashwithseed(string) {
         return false
     }
   }
-  function checkPassword(password,DBpassword){
+  function checkPassword(password,DBpassword,DBseed){
     try{
-        var inputwithseed = hash(hashwithseed(password))
+        var inputwithseed = hash(hashwithseed(password,DBseed))
         if(DBpassword == inputwithseed){
             return true;
         }else{
@@ -550,3 +552,13 @@ function hashwithseed(string) {
     }
 }
 //--------------------------------------------------------------------------------------------------------//
+function makeseed(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
+ //--------------------------------------------------------------------------------------------------------//
