@@ -95,6 +95,7 @@
                 <div>       
                     <button  onclick = "changeSettings(this)" id="Disable next key practice">Disable next key practice</button>
                     <button onclick = "changeSettings(this)" id="Hide practice note animation">Hide practice note animation</button>
+                    <button onclick = "checkMidiAccess()">Check MIDI support</button>
                   <span onclick="resetPages()"><a href="#">Go back</a></span>
                 </div> 
               </div>
@@ -136,6 +137,7 @@
         <button class="skyButton_2" onclick="showMenu()"><p class="texts">Close menu</p></button>
         <button class="skyButton_2" onclick="toggleLogin()"><p class="texts">Account</p></button>
         <button class="skyButton_2" onclick="toggleSettings()"><p class="texts">Settings</p></button>
+        <button class="skyButton_2" onclick='window.open("songLibrary.html")'><p class="texts">Song Library</p></button>
     </div>
     <div class="menuDiv">
         <button class="skyButton" onclick="toggleSavedSongs()">Manage Recordings</button>
@@ -496,10 +498,14 @@ function storeSongsLocally(){
     }else{
         let message = ""
         for(let i=0;i<dbSongs.length;i++){
-            if(document.getElementById("Song-"+dbSongs[i].name) == null){
-                saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1)
+            if(document.getElementById("Song-"+dbSongs[i].name) != null){
+                if(document.getElementById("Song-"+dbSongs[i].name).getAttribute("fromDb") == "true"){
+                    saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1)
+                }else{
+                    message+='Song: "'+dbSongs[i].name+'" Already saved \n'   
+                }
             }else{
-                message+='Song: "'+dbSongs[i].name+'" Already saved \n'
+                saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1)    
             }
         }
         if(message == "") message = "Done!"
@@ -915,29 +921,27 @@ function downloadJSON(inArray, fileName) {
     function checkMidiAccess(){
         try{
             if(navigator.requestMIDIAccess()){
-                console.log("MIDI is supported")
+                showMessage("MIDI is supported!",1)
             }else{
-                console.log("MIDI not supported, it only works on google chrome")
+                showMessage("MIDI is not supported! It only works on google chrome",0)
             }
         }catch{
-            console.log("MIDI not supported, it only works on google chrome")
+            showMessage("MIDI is not supported! It only works on google chrome",0)
         }
     }
-    checkMidiAccess()
     try{
         navigator.requestMIDIAccess()
             .then(onMIDISuccess, onMIDIFailure);
 
     }catch{
         isMidiAllowed=false
-        console.log("MIDI not supported, it only works on google chrome")
+        showMessage("MIDI is not supported! It only works on google chrome",0)
     }
 
 //--------------------------------------------------------------------------------------------------------//
 
 function onMIDIFailure() {
-    isMidiAllowed=false
-    console.log('Could not access your MIDI devices.');
+    showMessage("MIDI is not supported! It only works on google chrome",0)
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1101,6 +1105,7 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     songButton.style.width = "calc(100% - 135px - 5em)"
     //--------------------------------// This holds the text of the array of the song 
     let songText = document.createElement("div")
+    songText.setAttribute("fromDb",false)
     songText.style.display = "none"
     songText.id = "Song-" + songName
     songText.innerHTML = JSON.stringify(song)
@@ -1118,6 +1123,7 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
         var saveToDb
         if(savingType == "2"){ //if its a song coming from the database, put the delete button also to delete it from the db
             songButton.style.width = "calc(100% - 85px - 5em)"
+            songText.setAttribute("fromDb",true)
             deleteButton.innerHTML = "❌"
             dbSongsDiv.appendChild(songContainer)
             deleteButton.addEventListener("click", function() {
@@ -1226,6 +1232,7 @@ function resetButtons() {
     for (let i = 0; i < numOfKeys; i++) {
         let btnBg = document.getElementById("Key" + i).firstChild
         btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        btnBg.style.borderColor = "transparent"
     }
 }
 
