@@ -23,7 +23,7 @@
 	left: 26%;
 	height: 15%;
 	top:70%;
-	font-size: 1.5em;
+	font-size: 1.2em;
 	text-align: center;
 	padding: 1em;
 	font-family: Arial;
@@ -345,7 +345,7 @@ body {
   padding: 5%;
 }
 
-#loginContainer,#resetContainer,#registerContainer,#confirmContainer {
+#loginContainer,#resetContainer,#registerContainer,#confirmContainer,#settingsContainer {
   background: rgba(15,15,15,0.85);
   width: 100%;
   max-height: 100%;
@@ -358,7 +358,7 @@ body {
   margin: auto;
 }
 
-#loginContainer h1,#registerContainer h1,#confirmContainer h1,#resetContainer h1{
+#loginContainer h1,#registerContainer h1,#confirmContainer h1,#resetContainer h1,#settingsContainer h1 {
   text-align: center;
   margin: 0;
 }
@@ -382,7 +382,7 @@ body {
   background-color: #cbd6d2;
 }
 
-#loginContainer button,#resetContainer button,#registerContainer button,#confirmContainer button{
+#loginContainer button,#resetContainer button,#registerContainer button,#confirmContainer button,#settingsContainer button{
   display: block;
   width: 100%;
   border: 0;
@@ -396,12 +396,12 @@ body {
   color: white;
 }
 
-#loginContainer a,#resetContainer a,#registerContainer a,#confirmContainer a{
+#loginContainer a,#resetContainer a,#registerContainer a,#confirmContainer a ,#settingsContainer a{
   color: teal;
   text-decoration: none;
 }
 
-#loginContainer span,#resetContainer span,#registerContainer span,#confirmContainer span{
+#loginContainer span,#resetContainer span,#registerContainer span,#confirmContainer span ,#settingsContainer span{
   display: inline-block;
   width: 50%;
 }
@@ -474,7 +474,7 @@ body {
     background-color: #222;
   }
 
-  #loginContainer,#resetContainer,#registerContainer,#confirmContainer  {
+  #loginContainer,#resetContainer,#registerContainer,#confirmContainer ,#settingsContainer {
     max-width: none;
     border-radius: 0;
   }

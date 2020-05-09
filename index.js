@@ -74,7 +74,7 @@ setInterval(() => {
 //----------------------------------------------------------------------------------------------//
 
 MongoClient.connect(mongoKey,  function(err, db1) {
-    bot.login(discordToken);
+    //bot.login(discordToken);
     bot.on("ready",()=>{
     bot.user.setActivity("errors", {type: "LISTENING" })
     console.log("The bot is online!");
@@ -326,6 +326,10 @@ app.post("/login", async function(req,res) { //error handles
 //----------------------------------------------------------------------------------------------//
     app.post("/saveSongs", async function(req,res) {
         var value = req.body;
+        if(JSON.stringify(value).length > 20000){ //if it's longer than 20000 characters, to prevent too big files from being uploaded
+            res.send("Song is too large, it can't be uploaded")
+            return;
+        }
         try{
             var collection = db.collection(value.email)
             var credentials = await collection.find({_id: 0}).toArray()
@@ -346,10 +350,10 @@ app.post("/login", async function(req,res) { //error handles
                     if(isSongSaved.length == 0){
                       await collection.insertOne({song: value.song[i], name: value.song[i].name})
                     }else{
-                        alreadySavedSongs += "\n"+value.song[i].name + " was already saved"
+                        alreadySavedSongs += "<br>"+value.song[i].name + " was already saved"
                     }
                 }   
-                    res.send("added songs!" + alreadySavedSongs)
+                    res.send("Added songs" + alreadySavedSongs)
                     console.log("added songs!" + alreadySavedSongs)
             }else{
                 res.send("Credentials are wrong!")

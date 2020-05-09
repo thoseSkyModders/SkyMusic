@@ -45,7 +45,7 @@
                   <label class="formLabel"><b>CONFIRM PASSWORD</b></label>
                   <input type="password" placeholder="Enter again Password" class="formInput" id="passwordRegister2">
         
-                  <button onclick = "register()">REGISTER</button>
+                  <button class="submitButton" onclick = "register()">REGISTER</button>
                   <span onclick="resetPages()"><a href="#">Go back</a></span>
                 </div> 
               </div>
@@ -57,7 +57,7 @@
                   <label id="confirmationLabel" class="formLabel"><b>CODE</b></label>
                   <input type="password" placeholder="Enter code" class="formInput" id="codeConfirmation">
         
-                  <button onclick = "confirmEmail()">CONFIRM</button>
+                  <button class="submitButton" onclick = "confirmEmail()">CONFIRM</button>
                   <span onclick="resetPages()"><a href="#">Go back</a></span>
                 </div> 
               </div>
@@ -69,7 +69,7 @@
 
                   <label class="formLabel"><b>EMAIL</b></label>
                   <input type="text" placeholder="Enter Email" class="formInput" id="emailReset">
-                  <button onclick = "resetPassword()">SUBMIT</button>
+                  <button class="submitButton" onclick = "resetPassword()">SUBMIT</button>
                   <span onclick="resetPages()"><a href="#">Go back</a></span>
                 </div> 
               </div>
@@ -84,7 +84,17 @@
                   <input type="password" placeholder="Enter your new password" class="formInput" id="newpassword">
                   <label id="confirmationLabel" class="formLabel"><b>CONFIRM NEW PASSWORD</b></label>
                   <input type="password" placeholder="Re-enter your new password" class="formInput" id="newpasswordconfirm">
-                  <button onclick = "checkResetCode()">SUBMIT</button>
+                  <button class="submitButton" onclick = "checkResetCode()">SUBMIT</button>
+                  <span onclick="resetPages()"><a href="#">Go back</a></span>
+                </div> 
+              </div>
+          </div>
+          <div id="settings">
+            <div id="settingsContainer">
+                <h1>Settings</h1>
+                <div>       
+                    <button  onclick = "changeSettings(this)" id="Disable next key practice">Disable next key practice</button>
+                    <button onclick = "changeSettings(this)" id="Hide practice note animation">Hide practice note animation</button>
                   <span onclick="resetPages()"><a href="#">Go back</a></span>
                 </div> 
               </div>
@@ -170,7 +180,7 @@
 <script type="text/javascript">
 
     let websiteURL = "https://sky-music.herokuapp.com/"
-     //   websiteURL = "http://localhost:8080/"
+       websiteURL = "/"
 
 
 //--------------------------------------------------------------------------------------------------------//
@@ -190,6 +200,20 @@ function toggleLogin(){
     document.getElementById("secondPage").style.display = "block"
     $("#login").fadeIn(300)
     showMenu()
+}
+
+//--------------------------------------------------------------------------------------------------------//
+
+function disableFormButtons(){
+    var buttons = document.getElementsByClassName("submitButton")
+    for(var i = 0; i<buttons.length; i++){
+        buttons[i].disabled = true 
+    }
+    setTimeout(() => {
+        for(var i = 0; i<buttons.length; i++){
+            buttons[i].disabled = false 
+        }
+    }, 3000);
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -226,8 +250,10 @@ function toggleInstrumentList() {
 //--------------------------------------------------------------------------------------------------------//
 
 function toggleSettings(){
-    //document.getElementById("secondPage").style.display = "block"
-    showMessage("Incoming!",1)
+    resetPages()
+    document.getElementById("secondPage").style.display = "block"
+    $("#settings").fadeIn(200)
+    showMenu()
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -237,10 +263,46 @@ function toggleResetConfirm(){
     document.getElementById("secondPage").style.display = "block"
     $("#verifyPasswordAndCode").fadeIn(200)
 }
+let disableAnimation = false
+let disableNextKey = false
 
+if(localStorage.getItem("disableAnimation") != null){
+    if(localStorage.getItem("disableAnimation") == "true"){
+        disableAnimation = true
+        document.getElementById("Hide practice note animation").style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+    }else{
+        disableAnimation = false
+        document.getElementById("Hide practice note animation").style.backgroundColor = "teal"
+    }
+}
+if(localStorage.getItem("disableNextKey") != null){
+    if(localStorage.getItem("disableNextKey") == "true"){
+        disableNextKey = true
+        document.getElementById("Disable next key practice").style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+    }else{
+        disableNextKey = false
+        document.getElementById("Disable next key practice").style.backgroundColor = "teal"
+    }
+}
+
+function changeSettings(button){
+    if(button.style.backgroundColor == "rgba(235, 0, 27, 0.8)" ){
+        button.style.backgroundColor = "teal"
+        if(button.id == "Hide practice note animation") disableAnimation = false, localStorage.setItem("disableAnimation",disableAnimation)
+        if(button.id == "Disable next key practice") disableNextKey = false, localStorage.setItem("disableNextKey",disableNextKey)
+        console.log(button.id)
+    }else{
+        if(button.id == "Hide practice note animation") disableAnimation = true, localStorage.setItem("disableAnimation",disableAnimation)
+        if(button.id == "Disable next key practice") disableNextKey = true, localStorage.setItem("disableNextKey",disableNextKey)
+        button.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+        console.log("disabled")
+    }
+}
 //--------------------------------------------------------------------------------------------------------//
 
 function resetPages(){
+    console.log("a")
+    document.getElementById("settings").style.display = "none"
     document.getElementById("resetPassword").style.display = "none"
     document.getElementById("verifyPasswordAndCode").style.display = "none"
     document.getElementById("secondPage").style.display = "none"
@@ -278,6 +340,7 @@ function resetPassword(){
             showMessage("Error trying to reset password",0)
         };
         request.send(JSON.stringify(credentials))
+        disableFormButtons()
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -312,6 +375,7 @@ function checkResetCode(){
             alert("Error verifying the account!")
         };
         request.send(JSON.stringify(credentials))
+        disableFormButtons()
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -351,6 +415,7 @@ function register(){
             response = res.target.response;
             registrationCredentials = credentials
             if(response == "true"){
+                    resetPages()
                     document.getElementById("confirmationLabel").innerHTML = "CODE FOR: "+credentials.email
                     document.getElementById("confirmRegistration").style.display = "block"
                     document.getElementById("register").style.display = "none"
@@ -362,6 +427,7 @@ function register(){
             showMessage("Error creating the account!",1)
         };
         request.send(JSON.stringify(credentials))
+        disableFormButtons()
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -428,10 +494,16 @@ function storeSongsLocally(){
         showMessage("There are no songs saved in the database or you haven't loaded them",2)
         return;
     }else{
-        showMessage("Done!",1)
+        let message = ""
         for(let i=0;i<dbSongs.length;i++){
-            saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1)
+            if(document.getElementById("Song-"+dbSongs[i].name) == null){
+                saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1)
+            }else{
+                message+='Song: "'+dbSongs[i].name+'" Already saved \n'
+            }
         }
+        if(message == "") message = "Done!"
+        showMessage(message,2)
     }
 }
 
@@ -439,6 +511,7 @@ function storeSongsLocally(){
 
 var dbSongs = []
 function syncDB(){
+    dbSongsDiv.innerHTML = ""
     credentials = globalCredentials;
     if(!isAuthenticated){
         showMessage("You are not logged in!",2)
@@ -458,11 +531,7 @@ function syncDB(){
             dbSongs = songsFromDB
             if(songsFromDB.length == 0) showMessage("No songs saved in the database!")
             for(var i = 0 ; i<songsFromDB.length;i++){
-                if(document.getElementById("Song-" + songsFromDB[i].name) == null){
-                    saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, 2)
-                }else{
-                    showMessage("Song already saved!",2)
-                }
+                saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, 2)
             }
             console.log(songsFromDB)
         };
@@ -514,11 +583,15 @@ function saveSongsToDB(credentials,songsToSend){
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
             response = res.target.response;
-            console.log(response)
+            showMessage(response,2)
         };
         request.onerror = function(e) {
             alert("Error trying to save songs!")
         };
+        if(JSON.stringify(objToSend).length > 20000){
+            showMessage("Song is too large, it can't be uploaded",2)
+            return;
+        }
         request.send(JSON.stringify(objToSend))
 }
 
@@ -664,11 +737,13 @@ const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
 var buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle", "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle", ]
 let usesTouch = false
 let numOfKeysLeft = 15
+let numOfKeys = 15
 let newRowBreak = [6, 11]
 preload(urls)
     .then(audioBuffers => {
         if(storedInstrument == "bell" || storedInstrument == "drum"){
             numOfKeysLeft = 8
+            let numOfKeys = 8
             newRowBreak = [5, 9]
              buttonImages = ["Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle"]
              objKeys = {
@@ -1147,7 +1222,8 @@ async function playSong(song) {
 //--------------------------------------------------------------------------------------------------------//
 
 function resetButtons() {
-    for (let i = 0; i < numOfKeysLeft; i++) {
+    console.log(numOfKeys)
+    for (let i = 0; i < numOfKeys; i++) {
         let btnBg = document.getElementById("Key" + i).firstChild
         btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
     }
@@ -1195,7 +1271,7 @@ function practice(inSong) {
         }
         setTimeout(() => { //delays from the ping so that it lets the key change it's color 
             setTimeout(() => {
-                for(let i = 0; i < nextKeysToPress.length;i++){
+                for(let i = 0; i < nextKeysToPress.length && !disableNextKey;i++){
                      $("#"+nextKeysToPress[i].key).children(":first").animate({"border-color": '#1BB8E8'}, 220)
                 }                 
             }, timeToWait - 320)
@@ -1203,7 +1279,13 @@ function practice(inSong) {
             betweenKeysTimes.splice(0,keysToPress.length) //removes the times of each button since they arent used
             for (let i = 0; i < keysToPress.length; i++) { //it changes the color to the reddish one and removes the keys to be pressed from the array
                 $("#" + keysToPress[i].key).children(":first").cssborderColor = "transparent"
-                $("#" + keysToPress[i].key).children(":first").css("border-color","transparent").animate({backgroundColor: 'rgba(235, 0, 27, 0.7)'}, timeToWait)
+                if(disableAnimation){
+                    $("#" + keysToPress[i].key).children(":first").css("border-color","transparent").css({backgroundColor: 'rgba(235, 0, 27, 0.7)'})
+                
+                }else{
+                    $("#" + keysToPress[i].key).children(":first").css("border-color","transparent").animate({backgroundColor: 'rgba(235, 0, 27, 0.7)'}, timeToWait)
+                
+                }
                 songToPractice.splice(0, 1)   
             }
             timeToWait=betweenKeysTimes[0] - 220 //gets the first time of the array, that one is the time for the next one.
