@@ -458,7 +458,7 @@ function syncDB(){
             dbSongs = songsFromDB
             if(songsFromDB.length == 0) showMessage("No songs saved in the database!")
             for(var i = 0 ; i<songsFromDB.length;i++){
-                if(document.getElementById("Song-" + promtText) == null){
+                if(document.getElementById("Song-" + songsFromDB[i].name) == null){
                     saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, 2)
                 }else{
                     showMessage("Song already saved!",2)
