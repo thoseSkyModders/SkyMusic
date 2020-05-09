@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <link rel="icon" type="image/png" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
@@ -929,29 +931,7 @@ function downloadJSON(inArray, fileName) {
             showMessage("MIDI is not supported! It only works on google chrome",0)
         }
     }
-    try{
-        navigator.requestMIDIAccess()
-            .then(onMIDISuccess, onMIDIFailure);
-
-    }catch{
-        isMidiAllowed=false
-        showMessage("MIDI is not supported! It only works on google chrome",0)
-    }
-
-//--------------------------------------------------------------------------------------------------------//
-
-function onMIDIFailure() {
-    showMessage("MIDI is not supported! It only works on google chrome",0)
-}
-
-//--------------------------------------------------------------------------------------------------------//
-
-function onMIDISuccess(midiAccess) {
-    for (var input of midiAccess.inputs.values()){
-        input.onmidimessage = getMIDIMessage;
-    }
-}
-
+    try{if(navigator.requestMIDIAccess()){}else{}}catch{}
 //--------------------------------------------------------------------------------------------------------//
 
 function getMIDIMessage(message) {

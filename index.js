@@ -438,6 +438,9 @@ app.post("/verifyResetCode", async function(req,res) { //error is handled
         res.send("The code is not correct, try again!")
     }
 })
+    app.get('*', function(req, res){
+        res.status(404).sendFile(__dirname+"/public/errorLoading.html")
+  });
     var server = app.listen(port, () => {
     console.log("server is running on port", server.address().port);
     });

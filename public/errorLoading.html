@@ -1,0 +1,50 @@
+<html>
+<style>
+body{
+    background-color: #131213;
+    color:#dad8b3;
+    font-family: Arial;
+    font-weight: bold;
+}
+#overlay img { 
+    width: 50%;
+    height: 50%;
+}
+.img0{
+    height: 150px;
+    width: 150px;
+    border-radius: 0.2em;
+    box-sizing: border-box;
+    background-color: #2c2c2c;
+    cursor: pointer;
+}
+.skyButton {
+    color: #dad8b3;
+    font-size: 1.5em;
+    background-color: rgba(22, 22, 22, 0.95);
+    padding: 0.25em;
+    cursor: pointer;
+    margin: 0.5em;
+    outline: none;
+    position:fixed;
+}
+.a{
+    font-size: 200px;
+}
+</style>
+    <head>
+        <link rel="icon" type="image/png" href="/favicon.ico">
+        <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon" />
+    </head>
+    <body>
+        <a href="/" class=skyButton style="border:solid 2px #dad8b3; text-decoration: none; border-radius: 0.3em;">GO BACK</a>
+        <div style="text-align: center;">
+            <div id="overlay"><img src="404.gif" alt="Go back!" /></div>
+            <div class="a">
+                4
+                <img class="img0" src="/KeyImages/diamondCircle.png"onclick='new Audio("/Sounds/Nope.mp3").play()'>
+                4
+            </div>
+        </div>
+    </body>
+</html>
