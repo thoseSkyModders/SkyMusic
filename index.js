@@ -3,14 +3,16 @@ const Discord = require("discord.js");
 const bot = new Discord.Client();
 const express = require("express");
 const nodemailer = require('nodemailer');
-const hash = require('sha1')
+const hash = require('sha1');
+const { uuid } = require('uuidv4');
 //-----------------------------//
 let app = express();
 let discordToken =  process.env.discordToken
 let mongoKey = process.env.mongoDBKey
-let emailPassword = process.env.pass
+let emailPassword = process.env.mongoDBKey
 var awaitingVerification = []
-
+var resetverification = []
+console.log("Check again all security!")
 /* ------------------------------------------------------->*/ inLocalhost = false
 app.enable('trust proxy');
 if(!inLocalhost){
@@ -53,7 +55,16 @@ setInterval(() => { //to replace with node-cron once i figure out what causes th
               i--
         }
     }
+    for(let i=0;i<resetverification.length;i++){
+        resetverification[i].timesChecked ++
+        if(resetverification[i].timesChecked > 5){
+            console.log("deleted reset by: "+resetverification[i].email)
+            resetverification.splice(i,1)
+              i--
+        }
+    }
  }
+ 
  //----------------------------------------------------------------------------------------------//
 
  app.get("/",function(req, res) {
@@ -63,7 +74,7 @@ setInterval(() => { //to replace with node-cron once i figure out what causes th
 //----------------------------------------------------------------------------------------------//
 
 MongoClient.connect(mongoKey,  function(err, db1) {
-   // bot.login(discordToken);
+    bot.login(discordToken);
     bot.on("ready",()=>{
     bot.user.setActivity("errors", {type: "LISTENING" })
     console.log("The bot is online!");
@@ -104,6 +115,13 @@ app.post("/createAccount", async function(req, res) { //error is handled
         canProceed = false;
     }
     try{
+        for(let i=0;i<awaitingVerification.length;i++){ //if there is already a request pending from this mail
+            if(awaitingVerification[i].email == value.email){
+                res.send("You have a pending verification, try again in 5 minutes") //request already existing
+                canProceed = false;
+                break;
+            }
+        }
         var savedEmails = await db.listCollections().toArray()
     }catch(e){
         res.send("Error while creating the account")
@@ -114,13 +132,6 @@ app.post("/createAccount", async function(req, res) { //error is handled
         for(let i=0;i<savedEmails.length;i++){
             if(savedEmails[i].name == value.email){//checks if someone already registered with that mail
                 res.send("This email is already in use")
-                canProceed = false;
-                break;
-            }
-        }
-        for(let i=0;i<awaitingVerification.length;i++){ //if there is already a request pending from this mail
-            if(awaitingVerification[i].email == value.email){
-                res.send("You have a pending verification, try again in 5 minutes") //request already existing
                 canProceed = false;
                 break;
             }
@@ -231,7 +242,52 @@ app.post("/login", async function(req,res) { //error handles
     }
 })  
     app.post("/resetPassword", async function(req,res) {
-        res.send("Feature incoming!")
+    var canProceed = false;
+    var value = req.body;
+    try{
+        value.email = value.email.toLowerCase()
+        if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value.email)){ //check validity of email
+            res.send("Invalid email")
+            canProceed = false;
+            return;
+        }
+        if(value.email.includes("$")){//checks validity of email
+            res.send("Invalid email, it must not contain a $")
+            return;
+        }
+    }catch(e){
+        res.send("Error in email!")
+        console.log(e)
+        canProceed = false;
+    }
+    try{
+        for(let i=0;i<resetverification.length;i++){ //if there is already a request pending from this mail
+            if(resetverification[i].email == value.email){
+                res.send("You have a pending reset verification, try again in 5 minutes") //request already existing
+                canProceed = false;
+                return;
+            }
+        }
+        var savedEmails = await db.listCollections().toArray()
+    }catch(e){
+        res.send("Error while checking the account")
+        canProceed = false;
+    }
+    try{
+        for(let i=0;i<savedEmails.length;i++){
+            if(savedEmails[i].name == value.email){//checks if someone already registered with that mail
+                canProceed = true;
+                break;
+            }
+        }
+    }catch(e){
+        res.send("Error!")
+        console.log(e)
+        canProceed = false;
+        return;
+    }
+    if(canProceed) sendresetlink(value,res) //sent verification, now it waits for next call from the user to reset password
+    if(!canProceed) res.send("No email registered!")
     })
 //----------------------------------------------------------------------------------------------//
     app.post("/getSongs", async function(req,res) { //error handled
@@ -333,7 +389,51 @@ app.post("/deleteSong", async function(req,res) { //error handled
         res.send("Song :"+value.songName+" deleted!")
         console.log("song deleted")
 })
-
+app.post("/verifyResetCode", async function(req,res) { //error is handled
+    var value = req.body;
+    let canProceed = false;
+    var customMessage = ""
+    if(value.password.length < 6){
+        res.send("Password needs to be at least 6 characters long!")
+        return;
+    }
+    if(value.password != value.passwordConfirm){
+        res.send("Passwords don't match!")
+        return;
+    }
+    customMessage = "Request doesn't exist"
+    try{
+        for(let i=0;i<resetverification.length;i++){
+            if(resetverification[i].email == value.email){
+                customMessage = "Code is not correct!"
+                if(resetverification[i].code == value.code){
+                    canProceed = true;
+                }
+            }
+       }
+    }
+    catch(e){
+        res.send("Error!")
+        console.log(e)
+        return;
+    }
+    if(canProceed){
+        try{
+            let collection = db.collection(value.email)
+            let finalhash = hash(hashwithseed(value.password))
+            if(finalhash != null){
+            await collection.updateOne({_id:0}, {$set: {password: finalhash}}).catch()
+            console.log("Successfully reset "+value.email+"'s password")
+            res.send(true)
+            }
+        }catch(e){
+            console.log(e)
+            res.send("Error!")
+        }
+    }else{
+        res.send("The code is not correct, try again!")
+    }
+})
     var server = app.listen(port, () => {
     console.log("server is running on port", server.address().port);
     });
@@ -407,3 +507,39 @@ function hashwithseed(string) {
         return false
     }
   }
+  //----------------------------------------------------------------------------------------------//
+  function sendresetlink(credentials,res){ //error handled
+    let resetToken = ""
+    try{
+        resetToken = uuid()
+        let verificationObj = {
+            email: credentials.email,
+            code: resetToken,
+            timesChecked : 0
+        }
+        console.log(verificationObj)
+    var mailOptions = {
+        from: 'thoseskymodders@gmail.com',
+        to: credentials.email,
+        subject: 'Password Reset',
+        html: '<center><h1>Your password reset code is : <font style="color: rgba(22, 22, 22, 0.65);">'
+            +resetToken
+            +'</font></h1></center>'
+      };
+        transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log("Error in sending email");
+          res.send("Error!")
+        } else {
+          console.log('Email sent: ' + info.response);
+          resetverification.push(verificationObj)
+          res.send(true)
+        }
+      });
+    }catch(e){
+        console.log(e)
+        res.send("Error!")
+        return;
+    }
+}
+//--------------------------------------------------------------------------------------------------------//

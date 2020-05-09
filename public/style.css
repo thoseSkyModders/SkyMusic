@@ -13,7 +13,7 @@
 }
 
 * {
-    touch-action: none !important; /* mitigates button issues on iOS */
+   /* touch-action: none !important; mitigates button issues on iOS */
     font-family: arial;
 }
 
@@ -140,6 +140,7 @@
 	height:40px;
 	width:40px;
 	margin:2px;
+	cursor: pointer;
 }
 .instrumentsWrapper{
 	text-align: center;
@@ -148,8 +149,8 @@
 	display: none;
 	width: 12vh;
 	position: absolute;
-	max-height: 60%;
-	overflow-y: auto;
+	height: 60%;
+	overflow-y: scroll;
 	right: 5%;
 	top:10%;
 }
@@ -208,6 +209,15 @@ button span {
 	display: none;
 }
 
+button{
+	-webkit-user-select: none;
+	-moz-user-select: -moz-none;
+	/*IE10*/
+	-ms-user-select: none;
+	user-select: none;
+	/*You just need this if you are only concerned with android and not desktop browsers.*/
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 .bottomSavedSongsDiv {
 	border-top: 2px solid #dad8b3;
   position: sticky;
@@ -345,6 +355,7 @@ body {
   color: white;
   border-radius: 15px;
   max-width: 500px;
+  margin: auto;
 }
 
 #loginContainer h1,#registerContainer h1,#confirmContainer h1,#resetContainer h1{
@@ -478,7 +489,7 @@ body {
 /* Style the tab */
 .tab {
 	overflow: hidden;
-	border-bottom: 2px solid #cbd6d2;
+	border-bottom: 2px solid #dad8b3;
 	background-color: #333;
 	filter: opacity(90%);
   }

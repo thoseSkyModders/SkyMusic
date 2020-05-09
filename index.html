@@ -5,7 +5,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale = 1.0">
     <title>Sky Music</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
 </head>
@@ -74,6 +74,21 @@
                 </div> 
               </div>
           </div>
+          <div id="verifyPasswordAndCode">
+            <div id="resetContainer">
+                <h1>Reset a Forgotten Password!</h1>
+                <div>       
+                  <label id="confirmationLabel" class="formLabel"><b>RESET CODE</b></label>
+                  <input type="text" placeholder="Enter reset code" class="formInput" id="resetcodeConfirmation">
+                  <label id="confirmationLabel" class="formLabel"><b>NEW PASSWORD</b></label>
+                  <input type="password" placeholder="Enter your new password" class="formInput" id="newpassword">
+                  <label id="confirmationLabel" class="formLabel"><b>CONFIRM NEW PASSWORD</b></label>
+                  <input type="password" placeholder="Re-enter your new password" class="formInput" id="newpasswordconfirm">
+                  <button onclick = "checkResetCode()">SUBMIT</button>
+                  <span onclick="resetPages()"><a href="#">Go back</a></span>
+                </div> 
+              </div>
+          </div>
     </div>
 
 
@@ -81,7 +96,7 @@
 
         <div class="tab">
             <button id="localStoredBtn" class="tablinks active" onclick="openSonglist(event, 'localSongs')">Local songs</button>
-            <button class="tablinks" onclick="openSonglist(event, 'dbSongs')">DB songs</button>
+            <button class="tablinks" onclick="openSonglist(event, 'dbSongs')">Database songs</button>
           </div>
         <!--Local Songs-->
           <div id="localSongs" class="tabcontent">
@@ -155,7 +170,7 @@
 <script type="text/javascript">
 
     let websiteURL = "https://sky-music.herokuapp.com/"
-    //  websiteURL = "http://localhost:8080/"
+     //   websiteURL = "http://localhost:8080/"
 
 
 //--------------------------------------------------------------------------------------------------------//
@@ -164,39 +179,79 @@
 
 function toggleReset(){
     resetPages()
-    document.getElementById("resetPassword").style.display = "block"
+    document.getElementById("secondPage").style.display = "block"
+    $("#resetPassword").fadeIn(200)
 }
 
 //--------------------------------------------------------------------------------------------------------//
 
 function toggleLogin(){
     resetPages()
-    document.getElementById("login").style.display = "block"
+    document.getElementById("secondPage").style.display = "block"
+    $("#login").fadeIn(300)
     showMenu()
+}
+
+//--------------------------------------------------------------------------------------------------------//
+
+function toggleSavedSongs() {
+    localStoredBtn.click()
+    if(savedSongsDivWrapper.style.display != "block") {
+        $(savedSongsDivWrapper).fadeIn(150)
+    }else{
+        $(savedSongsDivWrapper).fadeOut(150)
+    }
 }
 
 //--------------------------------------------------------------------------------------------------------//
 
 function toggleRegister(){
     resetPages()
-    document.getElementById("register").style.display = "block"
+    document.getElementById("secondPage").style.display = "block"
+    $("#register").fadeIn(200)
+}
+
+//--------------------------------------------------------------------------------------------------------//
+
+let instrumentsWrapper = document.getElementById("instrumentsNew")
+
+function toggleInstrumentList() {
+    if(instrumentsWrapper.style.display != "block") {
+        $(instrumentsWrapper).fadeIn(200)
+    }else{
+        $(instrumentsWrapper).fadeOut(200)
+    }
 }
 
 //--------------------------------------------------------------------------------------------------------//
 
 function toggleSettings(){
+    //document.getElementById("secondPage").style.display = "block"
     showMessage("Incoming!",1)
 }
 
-function resetPages(){
+//--------------------------------------------------------------------------------------------------------//
+
+function toggleResetConfirm(){
+    resetPages()
     document.getElementById("secondPage").style.display = "block"
+    $("#verifyPasswordAndCode").fadeIn(200)
+}
+
+//--------------------------------------------------------------------------------------------------------//
+
+function resetPages(){
+    document.getElementById("resetPassword").style.display = "none"
+    document.getElementById("verifyPasswordAndCode").style.display = "none"
+    document.getElementById("secondPage").style.display = "none"
     document.getElementById("login").style.display = "none"
     document.getElementById("resetPassword").style.display = "none"
     document.getElementById("register").style.display = "none"
     document.getElementById("confirmRegistration").style.display = "none"
 }
-//--------------------------------------------------------------------------------------------------------//
 
+//--------------------------------------------------------------------------------------------------------//
+var emailreset = "";
 function resetPassword(){
     let mail = document.getElementById("emailReset").value
     if(mail.trim() == "" || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)){
@@ -204,7 +259,7 @@ function resetPassword(){
         return;
     }
     let credentials = {
-        email: mail
+        email: mail 
     }
     let request = new XMLHttpRequest();
     request.open("POST", websiteURL+"resetPassword");
@@ -213,12 +268,48 @@ function resetPassword(){
             response = res.target.response;
             if(response == "true"){
                 showMessage("success! please check you email.",1)
+                emailreset = mail;
+                toggleResetConfirm()
             }else{
                 showMessage(response,0)
             }
         };
         request.onerror = function(e) {
-            showMessage("Error trying to LogIn",0)
+            showMessage("Error trying to reset password",0)
+        };
+        request.send(JSON.stringify(credentials))
+}
+
+//--------------------------------------------------------------------------------------------------------//
+
+function checkResetCode(){
+    var code = document.getElementById("resetcodeConfirmation").value
+    var newpassword = document.getElementById("newpassword").value
+    var newpasswordconfirm = document.getElementById("newpasswordconfirm").value
+    if(code.length != 36){
+        alert("You put an invalid reset code!")
+        return;
+    }
+    let credentials = {
+        code: code,
+        email: emailreset,
+        password: newpassword,
+        passwordConfirm: newpasswordconfirm
+    }
+    let request = new XMLHttpRequest();
+    request.open("POST", websiteURL+"verifyResetCode");
+    request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+    request.onload = (res) => {
+            response = res.target.response;
+            if(response == "true"){
+                alert("Password successfully reset, refreshing in 2 seconds")
+                location.reload()
+                return;
+            }
+            showMessage(response,0)
+        };
+        request.onerror = function(e) {
+            alert("Error verifying the account!")
         };
         request.send(JSON.stringify(credentials))
 }
@@ -226,7 +317,6 @@ function resetPassword(){
 //--------------------------------------------------------------------------------------------------------//
 
 var registrationCredentials;
-console.log("add input verification like minimum password length, no special characters allowed in nickname etc")
 function register(){
     let mail = document.getElementById("emailRegister").value.toLowerCase()
     let psw = document.getElementById("passwordRegister").value
@@ -238,6 +328,10 @@ function register(){
 
     if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)){
         showMessage("You put an invalid email!",2)
+        return;
+    }
+    if(psw.length < 6){
+        showMessage("Password needs to be at least 6 characters!")
         return;
     }
     if(psw != psw2){
@@ -257,11 +351,9 @@ function register(){
             response = res.target.response;
             registrationCredentials = credentials
             if(response == "true"){
-                setTimeout(() => {
                     document.getElementById("confirmationLabel").innerHTML = "CODE FOR: "+credentials.email
                     document.getElementById("confirmRegistration").style.display = "block"
                     document.getElementById("register").style.display = "none"
-                }, 500);
                 return;
             }
             showMessage(response,1)
@@ -336,6 +428,7 @@ function storeSongsLocally(){
         showMessage("There are no songs saved in the database or you haven't loaded them",2)
         return;
     }else{
+        showMessage("Done!",1)
         for(let i=0;i<dbSongs.length;i++){
             saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1)
         }
@@ -503,17 +596,6 @@ document.onkeypress = function(evt) {
     var charStr = String.fromCharCode(charCode)
     if(objKeys[charStr] != null && !isTyping) document.getElementById(objKeys[charStr]).click()
 };
-//--------------------------------------------------------------------------------------------------------//
-
-let instrumentsWrapper = document.getElementById("instrumentsNew")
-
-function toggleInstrumentList() {
-    if(instrumentsWrapper.style.display != "block") {
-        instrumentsWrapper.style.display = "block"
-    }else{
-        instrumentsWrapper.style.display = "none"
-    }
-}
 
 //--------------------------------------------------------------------------------------------------------//
 
@@ -873,20 +955,9 @@ document.getElementById("touch").addEventListener("click", function() {
     savedSongsDivWrapper.style.display = "none"
     instrumentsWrapper.style.display = "none"
     menu.style.display = "none"
-    console.log(menu)
     menuButton.style.display = "block"
 })
 
-//--------------------------------------------------------------------------------------------------------//
-
-function toggleSavedSongs() {
-    localStoredBtn.click()
-    if(savedSongsDivWrapper.style.display != "block") {
-        savedSongsDivWrapper.style.display = "block"
-    }else{
-        savedSongsDivWrapper.style.display = "none"
-    }
-}
 //--------------------------------------------------------------------------------------------------------//
 
 //TAB PAGE FOR SAVED SONGS
@@ -965,9 +1036,9 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
         deleteButton.style.marginLeft = "0.1em"
         deleteButton.setAttribute("songName", songName)
 
-
+        var saveToDb
         if(savingType == "2"){ //if its a song coming from the database, put the delete button also to delete it from the db
-            songButton.style.width = "calc(100% - 95px - 5em)"
+            songButton.style.width = "calc(100% - 85px - 5em)"
             deleteButton.innerHTML = "❌"
             dbSongsDiv.appendChild(songContainer)
             deleteButton.addEventListener("click", function() {
@@ -996,7 +1067,7 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
             }
         })
 
-        let saveToDb = document.createElement("button")
+        saveToDb = document.createElement("button")
         saveToDb.innerHTML = "💾"
         saveToDb.className = "skyButton"
         saveToDb.style.marginLeft = "0.1em"
@@ -1014,7 +1085,6 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
             songArrayToDB.push(songObj)
             saveSongsToDB(globalCredentials,songArrayToDB)
         })
-        songContainer.appendChild(saveToDb)
     }
     //--------------------------------// Button to play this song in practice mode
     let trainSong = document.createElement("button")
@@ -1051,6 +1121,7 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     })
     songContainer.appendChild(trainSong)
     songContainer.appendChild(deleteButton)
+    if(saveToDb != undefined) songContainer.appendChild(saveToDb)
     songContainer.appendChild(shareButton)
 }
 
@@ -1164,11 +1235,11 @@ function recordSong(pressedKey) {
 function showMenu() {
     resetForms()
     if (menuButton.style.display!="block") {
-        menu.style.display="none"
+        $(menu).fadeOut(200)
         menuButton.style.display="block"
     }
     else{
-        menu.style.display="block"
+        $(menu).fadeIn(200)
         menuButton.style.display="none"
     }
 }
@@ -1185,6 +1256,6 @@ function showMessage(msg,msgType) {
     if(msgType == 1) color = "lightgreen" //SUCCESS
     if(msgType == 2) color = "#dad8b3" //MESSAGE
     floatingMessage.style.color = color
-    $(floatingMessage).fadeIn(300).delay(1500).fadeOut(300)
+    $(floatingMessage).fadeIn(200).delay(1500).fadeOut(300)
 }
 </script>
