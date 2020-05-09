@@ -9,7 +9,7 @@ const { uuid } = require('uuidv4');
 let app = express();
 let discordToken =  process.env.discordToken
 let mongoKey = process.env.mongoDBKey
-let emailPassword = process.env.mongoDBKey
+let emailPassword = process.env.pass
 var awaitingVerification = []
 var resetverification = []
 console.log("Check again all security!")
@@ -40,7 +40,7 @@ app.use(express.static('public'));
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 var port = process.env.PORT || 8080
-setInterval(() => { //to replace with node-cron once i figure out what causes the problem
+setInterval(() => {
     removeUnusedVerification()
 }, 60000);
 
