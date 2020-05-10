@@ -147,11 +147,18 @@
 
     <button id="menu" style="display: block;"onclick="showMenu()"></button>
     <div id="icon-bar">
-        <button class="skyButton_2" onclick='resetPages(),showMenu(),document.getElementById("login").style.display = "none"'><p class="texts">Main page</p></button>
         <button class="skyButton_2" onclick="showMenu()"><p class="texts">Close menu</p></button>
+        <button class="skyButton_2" onclick='resetPages(),showMenu(),document.getElementById("login").style.display = "none"'><p class="texts">Main page</p></button>
         <button class="skyButton_2" onclick="toggleLogin()"><p class="texts">Account</p></button>
         <button class="skyButton_2" onclick="toggleSettings()"><p class="texts">Settings</p></button>
         <button class="skyButton_2" onclick='window.open("songLibrary.html")'><p class="texts">Song Library</p></button>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick" />
+            <input type="hidden" name="hosted_button_id" value="MFTNUQL2Z8UWW" />
+            <input style="width: 60%; position:absolute; bottom:0%; margin-left:20%;" type="image" src="https://cdn.discordapp.com/attachments/705815759879798824/709162406168756314/paypal-donate-button.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+            <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+            </form>
+            
     </div>
     <div class="menuDiv">
         <button class="skyButton" onclick="toggleSavedSongs()">Manage Recordings</button>
@@ -1170,7 +1177,6 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
         saveToDb.style.width = "40px"
         saveToDb.setAttribute("songName", songName)
         saveToDb.addEventListener("click", function() {
-            savedSongsDivWrapper.style.display = "none"
             let storedSongName = this.getAttribute("songName")
             songText = document.getElementById("Song-" + storedSongName)
             let songArrayToDB = []
