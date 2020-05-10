@@ -442,6 +442,7 @@ body {
 
 .secondPage{
 	display: none;
+	backdrop-filter: blur(10px);
 	position: absolute;
 	height: 100%;
 	width: 100%;

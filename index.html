@@ -98,7 +98,8 @@
                     <button  onclick = "changeSettings(this)" id="Disable next key practice">Disable next key practice</button>
                     <button onclick = "changeSettings(this)" id="Hide practice note animation">Hide practice note animation</button>
                     <button onclick = "checkMidiAccess()">Check MIDI support</button>
-                  <span onclick="resetPages()"><a href="#">Go back</a></span>
+                    <button onclick = "resetLocalStorage()">Reset all songs and settings</button>
+                    <span onclick="resetPages()"><a href="#">Go back</a></span>
                 </div> 
               </div>
           </div>
@@ -218,6 +219,14 @@ function disableFormButtons(){
             buttons[i].disabled = false 
         }
     }, 3000);
+}
+
+function resetLocalStorage(){
+    if(confirm("Do you really want to delete every song saved and settings?")){
+        if(confirm("do you REALLY REALLY want to delete ALL?")){
+            localStorage.clear();
+        }
+    }
 }
 
 //--------------------------------------------------------------------------------------------------------//
