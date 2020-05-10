@@ -12,7 +12,6 @@ let mongoKey = process.env.mongoDBKey
 let emailPassword = process.env.pass
 var awaitingVerification = []
 var resetverification = []
-console.log("Check again all security!")
 /* ------------------------------------------------------->*/ inLocalhost = false
 app.enable('trust proxy');
 if(!inLocalhost){
@@ -72,20 +71,28 @@ setInterval(() => {
 })
 
 //----------------------------------------------------------------------------------------------//
-
+var botIsOnline = false
 MongoClient.connect(mongoKey,  function(err, db1) {
-    //bot.login(discordToken);
-    bot.on("ready",()=>{
-    bot.user.setActivity("errors", {type: "LISTENING" })
-    console.log("The bot is online!");
-    });
+    try{
+        bot.login(discordToken);
+        bot.on("ready",()=>{
+            bot.user.setActivity("errors", {type: "LISTENING" })
+            console.log("The bot is online!");
+            botIsOnline = true
+        });
+    }catch{
+        console.log("Error with the bot")
+    }
     function reportError(msg){  
+        if(!botIsOnline) return;
+        try{
         var errorChannel = bot.channels.cache.get("708298853316558999")
         let embed = new Discord.MessageEmbed()
         embed.setTitle("WARNING")
         .setDescription(msg)
         .setColor(15158332)
         errorChannel.send({embed})
+        }catch{console.log("Error with the bot!")}
     }
     if (err) throw err;
     const db = db1.db("skyMusic");
@@ -440,12 +447,12 @@ app.post("/verifyResetCode", async function(req,res) { //error is handled
         res.send("The code is not correct, try again!")
     }
 })
-    app.get('*', function(req, res){
-        res.status(404).sendFile(__dirname+"/public/errorLoading.html")
-  });
     var server = app.listen(port, () => {
     console.log("server is running on port", server.address().port);
     });
+});
+app.get('*', function(req, res){
+    res.status(404).sendFile(__dirname+"/public/errorLoading.html")
 });
 //----------------------------------------------------------------------------------------------//
 //----------------------------------------------------------------------------------------------//
@@ -553,12 +560,12 @@ function hashwithseed(string, randomseed) {
 }
 //--------------------------------------------------------------------------------------------------------//
 function makeseed(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-       result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
+        var result           = '';
+        var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+           result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
  }
  //--------------------------------------------------------------------------------------------------------//

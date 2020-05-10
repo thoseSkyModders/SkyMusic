@@ -17,6 +17,11 @@
     font-family: arial;
 }
 
+.btnText{
+	color: transparent;
+	font-family: Arial;
+	font-size: 1.5em;
+}
 .floatingMessage{
 	position: absolute;
 	width: 40%;
@@ -50,6 +55,7 @@
 
 .btnBg {
   z-index: 0;
+  padding-top: 1.3em;
   border-radius: 0.75em;
   box-sizing: border-box;
   border: 5px solid transparent;
@@ -386,7 +392,7 @@ body {
   display: block;
   width: 100%;
   border: 0;
-  padding: 0.75em;
+  padding: 0.6em;
   margin: 1em 0 1em;
   border-radius: 5px;
   cursor: pointer;

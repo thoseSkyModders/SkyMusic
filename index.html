@@ -2,16 +2,26 @@
 <html>
 
 <head>
-    <link rel="icon" type="image/png" href="/favicon.ico">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166077524-1"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-166077524-1');
+        </script>
+
+    <link rel="icon" type="image/png" href="/favicon.ico"/>
     <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale = 1.0">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale = 1.0"/>
     <title>Sky Music</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="style.css" type="text/css">
 </head>
-<link rel="stylesheet" href="style.css" type="text/css">
 
 <body>
     <div class="secondPage" id="secondPage">
@@ -80,11 +90,11 @@
             <div id="resetContainer">
                 <h1>Reset a Forgotten Password!</h1>
                 <div>       
-                  <label id="confirmationLabel" class="formLabel"><b>RESET CODE</b></label>
+                  <label class="formLabel"><b>RESET CODE</b></label>
                   <input type="text" placeholder="Enter reset code" class="formInput" id="resetcodeConfirmation">
-                  <label id="confirmationLabel" class="formLabel"><b>NEW PASSWORD</b></label>
+                  <label class="formLabel"><b>NEW PASSWORD</b></label>
                   <input type="password" placeholder="Enter your new password" class="formInput" id="newpassword">
-                  <label id="confirmationLabel" class="formLabel"><b>CONFIRM NEW PASSWORD</b></label>
+                  <label class="formLabel"><b>CONFIRM NEW PASSWORD</b></label>
                   <input type="password" placeholder="Re-enter your new password" class="formInput" id="newpasswordconfirm">
                   <button class="submitButton" onclick = "checkResetCode()">SUBMIT</button>
                   <span onclick="resetPages()"><a href="#">Go back</a></span>
@@ -97,6 +107,7 @@
                 <div>       
                     <button  onclick = "changeSettings(this)" id="Disable next key practice">Disable next key practice</button>
                     <button onclick = "changeSettings(this)" id="Hide practice note animation">Hide practice note animation</button>
+                    <button onclick = "changeSettings(this)" id="Display Note Names">Display Note Names</button>
                     <button onclick = "checkMidiAccess()">Check MIDI support</button>
                     <button onclick = "resetLocalStorage()">Reset all songs and settings</button>
                     <span onclick="resetPages()"><a href="#">Go back</a></span>
@@ -159,7 +170,6 @@
         <div class="Row1" id="row1"></div>
         <div class="Row2" id="row2"></div>
         <div class="Row3" id="row3"></div>
-    </div>
     </div>
     <div id="instrumentsNew" class="instrumentsWrapper">
         <button type="button" id="pianoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/piano.png);"/>
@@ -225,6 +235,7 @@ function resetLocalStorage(){
     if(confirm("Do you really want to delete every song saved and settings?")){
         if(confirm("do you REALLY REALLY want to delete ALL?")){
             localStorage.clear();
+            location.reload();
         }
     }
 }
@@ -303,12 +314,22 @@ function changeSettings(button){
         button.style.backgroundColor = "teal"
         if(button.id == "Hide practice note animation") disableAnimation = false, localStorage.setItem("disableAnimation",disableAnimation)
         if(button.id == "Disable next key practice") disableNextKey = false, localStorage.setItem("disableNextKey",disableNextKey)
-        console.log(button.id)
+        if(button.id == "Display Note Names"){
+            var keyTexts = document.getElementsByClassName("btnText")
+            for(var i=0; i<keyTexts.length;i++){
+                keyTexts[i].style.color = "transparent"
+            }
+        }
     }else{
         if(button.id == "Hide practice note animation") disableAnimation = true, localStorage.setItem("disableAnimation",disableAnimation)
         if(button.id == "Disable next key practice") disableNextKey = true, localStorage.setItem("disableNextKey",disableNextKey)
+        if(button.id == "Display Note Names"){
+            var keyTexts = document.getElementsByClassName("btnText")
+            for(var i=0; i<keyTexts.length;i++){
+                keyTexts[i].style.color = "white"
+            }
+        }
         button.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
-        console.log("disabled")
     }
 }
 //--------------------------------------------------------------------------------------------------------//
@@ -550,7 +571,6 @@ function syncDB(){
             for(var i = 0 ; i<songsFromDB.length;i++){
                 saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, 2)
             }
-            console.log(songsFromDB)
         };
         request.onerror = function(e) {
             alert("Error trying to get songs!")
@@ -575,7 +595,7 @@ function deleteFromDB(credentials,song){
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
             response = res.target.response;
-            console.log(response)
+            showMessage(response,2)
         };
         request.onerror = function(e) {
             alert("Error trying to delete song!")
@@ -643,7 +663,7 @@ function confirmEmail(){
                 location.reload()
                 return;
             }
-            console.log(response)
+            showMessage(response,0)
         };
         request.onerror = function(e) {
             alert("Error verifying the account!")
@@ -752,6 +772,7 @@ function preload(urls) {
 //BUTTONS
 const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
 var buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle", "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle", ]
+var keyNames = ["C","E","D","F","G","A","B","C","D","E","F","G","A","B","C",]
 let usesTouch = false
 let numOfKeysLeft = 15
 let numOfKeys = 15
@@ -780,7 +801,7 @@ preload(urls)
             usesTouch = false
             const btn = document.createElement('div')
             let background = "./KeyImages/" + buttonImages[i] + ".png"
-            btn.innerHTML = "<div class='btnBg'></div><img class='btnImg' src='" + background + "'/>"
+            btn.innerHTML = "<div class='btnBg'><a class='btnText'>"+keyNames[i]+"</a></div><img class='btnImg' src='" + background + "'/>"
             btn.id = "Key" + i++
             if(i == newRowBreak[0]) j = 2
             if(i == newRowBreak[1]) j = 3
@@ -875,6 +896,7 @@ function importSongs() {
                     saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1)
                 }else{
                     console.log("The song already exists :"+inputSongs[i].name)
+                    showMessage("The song already exists :"+inputSongs[i].name,2)
                 }
             }
         }
@@ -1217,7 +1239,6 @@ async function playSong(song) {
 //--------------------------------------------------------------------------------------------------------//
 
 function resetButtons() {
-    console.log(numOfKeys)
     for (let i = 0; i < numOfKeys; i++) {
         let btnBg = document.getElementById("Key" + i).firstChild
         btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
