@@ -31,7 +31,7 @@ if(!inLocalhost){
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'thoseskymodders@gmail.com',
+      user: 'thoseskymoddersv@gmail.com',
       pass: emailPassword
     }
   });
