@@ -26,13 +26,29 @@
     <body>
         <a href="/"class=skyButton style="border:solid 2px #dad8b3; text-decoration: none; border-radius: 0.3em; padding: 0.2em;">GO BACK</a><br><br>
         <ul>
-            <li><a>You are my sunshine (by Pod)</a> <a class=skyButton href="/librarySongs/You_are_my_Sunshine.json" title="Download" download>⬇️</a><br><br></li>
-            <li><a>Ode to joy (by Specy)</a> <a class=skyButton href="/librarySongs/Ode_to_joy.json" title="Download" download>⬇️</a><br><br></li>
-            <li><a>The lion sleeps tonight (by Specy)</a> <a class=skyButton href="/librarySongs/The_lion_sleeps_tonight.json" title="Download" download>⬇️</a><br><br></li>       
-        
+            <li><a>You are my sunshine</a> <a class=skyButton onclick='downloadJSON("You_are_my_Sunshine")' title="Download">⬇️</a><br><br></li>
+            <li><a>Ode to joy</a> <a class=skyButton onclick='downloadJSON("Ode_to_joy")' title="Download">⬇️</a><br><br></li>
+            <li><a>The lion sleeps tonight</a> <a class=skyButton onclick='downloadJSON("The_lion_sleeps_tonight")' title="Download">⬇️</a><br><br></li>
         
  
         </ul>
         <a href="https://discord.gg/NFFRTed" style="margin: 0.5em;"><img src="/discord.png" width="250" height="65"></a> 
     </body>
+    <script>
+        function downloadJSON(song){
+            let request = new XMLHttpRequest();
+            request.open('GET', "./librarySongs/"+song+".txt");
+            request.responseType = 'text';
+            request.onload = function() {
+                var inArray = JSON.parse(request.response)
+                var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
+                var dlAnchorElem = document.createElement("a")
+                dlAnchorElem.setAttribute("href",     dataStr     );
+                dlAnchorElem.setAttribute("download", song+".txt");
+                dlAnchorElem.click(); 
+                dlAnchorElem.remove()
+            };
+            request.send();
+        }
+    </script>
 </html>
