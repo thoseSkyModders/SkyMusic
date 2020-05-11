@@ -928,6 +928,14 @@ function downloadSongs() {
 //--------------------------------------------------------------------------------------------------------//
 
 function downloadJSON(inArray, fileName) {
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
+var dlAnchorElem = document.createElement("a")
+dlAnchorElem.setAttribute("href",     dataStr     );
+dlAnchorElem.setAttribute("download", fileName+".txt");
+dlAnchorElem.click(); 
+dlAnchorElem.remove()
+/*
+OLD METHOD
     var json = JSON.stringify(inArray)
     
     //Convert JSON string to BLOB.
@@ -951,6 +959,7 @@ function downloadJSON(inArray, fileName) {
         a.click()
         document.body.removeChild(a)
     }
+    */
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1219,7 +1228,7 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
         }
         let array = []
         array.push(songObj)
-        downloadJSON(array, storedSongName + ".json")
+        downloadJSON(array, storedSongName)
     })
     songContainer.appendChild(trainSong)
     songContainer.appendChild(deleteButton)
