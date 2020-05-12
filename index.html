@@ -894,24 +894,25 @@ function timer(elem) {
 let filePicker = document.getElementById("filePicker")
 
 function importSongs() {
+    var isreading = false
     filePicker.addEventListener("change", function() { //once file is picked it reads the content
         let fr = new FileReader()
         fr.onload = function() {
             inputSongs = JSON.parse(fr.result)
-            for (let i = 0; i < inputSongs.length; i++) {
+            for (let i = 0; i < inputSongs.length && !isreading; i++) {
                 let element = document.getElementById("Song-" + inputSongs[i].name)
                 if(element == null) { //if there is an element with this id, it means that the song with that name already exists
                     saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1)
                 }else{
-                    console.log("The song already exists :"+inputSongs[i].name)
-                    showMessage("The song already exists :"+inputSongs[i].name,2)
+                    console.log("The song already exists: "+inputSongs[i].name+" n"+i)
+                    //showMessage("The song already exists: "+inputSongs[i].name,2) gets annoying after a while, idk if adding it back
                 }
             }
+            isreading = true
         }
         fr.readAsText(this.files[0])
     })
     filePicker.click()
-    $(filePicker).prop("value", "") //resets the path of the file picker so that the file can be picked twice in a row (not that it will be useful)
 }
 
 //--------------------------------------------------------------------------------------------------------//
