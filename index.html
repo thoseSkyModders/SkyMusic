@@ -164,7 +164,7 @@
         <button class="skyButton" onclick="toggleSavedSongs()">Manage Recordings</button>
         <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
         <button class="musicButton" id="toggleInstruments" onclick="toggleInstrumentList()"></button>
-        <button id="stopSong"></button>
+        <button id="stopSong" onclick="stopSong()"></button>
     </div>
     <div class="videoWrapper video">
         <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
@@ -198,7 +198,7 @@
     </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
-
+<input type="sleeping" placeholder="username" style="display: none"> <!-- Easter egg-->
 </html>
 <script type="text/javascript">
 
@@ -1239,17 +1239,28 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
 }
 
 //--------------------------------------------------------------------------------------------------------//
+var isSongStopped = false
+function stopSong(){
+    isSongStopped = true
+    document.getElementById("stopSong").style.visibility = "hidden"
+    resetButtons()
+}
 
 async function playSong(song) {
+    document.getElementById("stopSong").style.visibility = "visible"
     let delayTime = 0
     let previousTime = 0
     usesTouch = false
+    isSongStopped = false
     for (let i = 0; i < song.length; i++) {
+        if(isSongStopped) break;
         delayTime = song[i].time - previousTime //how much time has to pass from one note to the other
         previousTime = song[i].time //the time from the start of the previous note, to be later calculated to get the delayTime
         await delay(delayTime)
         document.getElementById(song[i].key).click()
     }
+    isSongStopped = false
+    document.getElementById("stopSong").style.visibility = "hidden"
 }
 
 
@@ -1275,6 +1286,7 @@ let timeToWait = 0
 let nextKeysToPress = []
 betweenKeysTimes.push(0) //offsets the first key
 function practice(inSong) {
+    document.getElementById("stopSong").style.visibility = "visible"
     if(inSong.length != 0) { //If there is a song to be added, if there isn't it means that it comes from a ping from the button
         //RESET OF VALUES AND SETTING UP THE SONG
         betweenKeysTimes = []
@@ -1288,7 +1300,10 @@ function practice(inSong) {
             betweenKeysTimes.push(songToPractice[i].time - songToPractice[i-1].time)
         }
     }
-    if(songToPractice.length == 0) return
+    if(songToPractice.length == 0){
+        document.getElementById("stopSong").style.visibility = "hidden"
+        return
+    }
     keysToWait--   
     if(keysToWait == 0) {
         keysToPress = []
