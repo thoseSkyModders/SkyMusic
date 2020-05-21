@@ -102,16 +102,16 @@
               </div>
           </div>
           <div id="settings">
-            <div id="settingsContainer">
+              <div id="settingsContainer">
                 <h1>Settings</h1>
-                <div>       
+                <div style="overflow-y:scroll; height: 72vh; margin-bottom: 1em;">       
                     <button  onclick = "changeSettings(this)" id="Disable next key practice">Disable next key practice</button>
                     <button onclick = "changeSettings(this)" id="Hide practice note animation">Hide practice note animation</button>
                     <button onclick = "changeSettings(this)" id="Display Note Names">Display Note Names</button>
                     <button onclick = "checkMidiAccess()">Check MIDI support</button>
                     <button onclick = "resetLocalStorage()">Reset all songs and settings</button>
-                    <span onclick="resetPages()"><a href="#">Go back</a></span>
                 </div> 
+                <span onclick="resetPages()"><a href="#">Go back</a></span>
               </div>
           </div>
     </div>
@@ -633,8 +633,8 @@ function saveSongsToDB(credentials,songsToSend){
         request.onerror = function(e) {
             alert("Error trying to save songs!")
         };
-        if(JSON.stringify(objToSend).length > 20000){
-            showMessage("Song is too large, it can't be uploaded",2)
+        if(JSON.stringify(objToSend).length > 30000){
+            showMessage("Song is too big, it can't be uploaded",2)
             return;
         }
         request.send(JSON.stringify(objToSend))
@@ -860,7 +860,13 @@ function resetKeyClass(element) {
     
 }
 
-
+var webVersion = localStorage.getItem("version")
+var currentVersion =  "1.6"
+var changelogMessage = "Update version 1.6, changes:<br> *Changed export format to let people edit/play songs on Sky studio AND import songs from Sky studio"
+if(webVersion != currentVersion){
+    localStorage.setItem("version",currentVersion)
+    showMessage(changelogMessage,2,8000)
+}
 //--------------------------------------------------------------------------------------------------------//
 
 //Changes the brightness when button clicked.
@@ -898,7 +904,8 @@ function importSongs() {
     filePicker.addEventListener("change", function() { //once file is picked it reads the content
         let fr = new FileReader()
         fr.onload = function() {
-            inputSongs = JSON.parse(fr.result)
+            var inputSongs = JSON.parse(fr.result)
+            inputSongs = convertToOldFormat(inputSongs)
             for (let i = 0; i < inputSongs.length && !isreading; i++) {
                 let element = document.getElementById("Song-" + inputSongs[i].name)
                 if(element == null) { //if there is an element with this id, it means that the song with that name already exists
@@ -922,14 +929,60 @@ function downloadSongs() {
     if(songs != null) { //if there were some songs saved
         songs = JSON.parse(songs)
         if(songs.length != 0) { //if there were some songs saved
-            downloadJSON(songs, "mySongs.json")
+            downloadJSON(songs, "mySongs")
         }
     }
 }
 
 //--------------------------------------------------------------------------------------------------------//
 
+function convertToNewFormat(songs){
+var convertedSongs = []
+    for(var i=0;i<songs.length;i++){
+        var newFormat = {
+        name:songs[i].name,
+        bpm:240,
+        bitsPerPage:16,
+        pitchLevel: 0,
+        songNotes: []
+        }
+        for(var j=0;j<songs[i].songNotes.length;j++){
+            var keyObj={
+                time:songs[i].songNotes[j].time,
+                key: "1"+songs[i].songNotes[j].key
+            }
+            newFormat.songNotes.push(keyObj)
+        }
+        convertedSongs.push(newFormat)
+    }
+    return convertedSongs
+}
+
+function convertToOldFormat(songs){
+   if(!isNaN(songs[0].songNotes[0].key[0])){
+    var convertedSongs = []
+    for(var i=0;i<songs.length;i++){
+        var oldFormat = {
+        name:songs[i].name, 
+        songNotes: []
+        }
+        for(var j=0;j<songs[i].songNotes.length;j++){
+            var keyObj={
+                time:songs[i].songNotes[j].time,
+                key:songs[i].songNotes[j].key.substr(1)
+            }
+            oldFormat.songNotes.push(keyObj)
+        }
+        convertedSongs.push(oldFormat)
+    } 
+    return convertedSongs
+   }else{
+       return songs
+   }
+}
+
 function downloadJSON(inArray, fileName) {
+    inArray = convertToNewFormat(inArray)
     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
 var dlAnchorElem = document.createElement("a")
 dlAnchorElem.setAttribute("href",     dataStr     );
@@ -1383,7 +1436,8 @@ function showMenu() {
 //--------------------------------------------------------------------------------------------------------//
 
 var floatingMessage
-function showMessage(msg,msgType) {
+function showMessage(msg,msgType,duration) {
+    if(duration == undefined) duration = 1500
     floatingMessage = document.getElementById("floatingMessage")
     floatingMessage.innerHTML = msg
     var color 
@@ -1391,6 +1445,6 @@ function showMessage(msg,msgType) {
     if(msgType == 1) color = "lightgreen" //SUCCESS
     if(msgType == 2) color = "#dad8b3" //MESSAGE
     floatingMessage.style.color = color
-    $(floatingMessage).fadeIn(200).delay(1500).fadeOut(300)
+    $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
 }
 </script>

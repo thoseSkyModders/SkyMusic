@@ -50,6 +50,7 @@
             request.responseType = 'text';
             request.onload = function() {
                 var inArray = JSON.parse(request.response)
+                inArray = convertToNewFormat(inArray)
                 var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
                 var dlAnchorElem = document.createElement("a")
                 dlAnchorElem.setAttribute("href",     dataStr     );
@@ -58,6 +59,29 @@
                 dlAnchorElem.remove()
             };
             request.send();
+        }
+
+        function convertToNewFormat(songs){
+            console.log(songs)
+        var convertedSongs = []
+            for(var i=0;i<songs.length;i++){
+                var newFormat = {
+                name:songs[i].name,
+                bpm:240,
+                bitsPerPage:16,
+                pitchLevel: 0,
+                songNotes: []
+                }
+                for(var j=0;j<songs[i].songNotes.length;j++){
+                    var keyObj={
+                        time:songs[i].songNotes[j].time,
+                        key: "1"+songs[i].songNotes[j].key
+                    }
+                    newFormat.songNotes.push(keyObj)
+                }
+                convertedSongs.push(newFormat)
+            }
+            return convertedSongs
         }
     </script>
 </html>

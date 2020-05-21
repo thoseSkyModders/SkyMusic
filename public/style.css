@@ -33,7 +33,7 @@
 	left: 28.5%;
 	height: 15%;
 	top:70%;
-	font-size: 1.2em;
+	font-size: 1em;
 	text-align: center;
 	padding: 1em;
 	font-family: Arial;
@@ -130,10 +130,10 @@
 
 #stopSong {
   background-image: url(icons/stop.png);
+  background-color: transparent;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #dad8b3;
   visibility: hidden;
   background-size: contain;
   background-repeat: no-repeat;
@@ -428,6 +428,7 @@ body {
 }
 
 #loginContainer span,#resetContainer span,#registerContainer span,#confirmContainer span ,#settingsContainer span{
+  font-weight: bold;
   display: inline-block;
   width: 50%;
 }
@@ -441,6 +442,7 @@ body {
 }
 
 #icon-bar {
+	border-right: solid 1.5px #dad8b3;
 	width: 30%;
 	height: 100%;
 	position: absolute;
