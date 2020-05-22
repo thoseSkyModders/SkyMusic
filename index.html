@@ -164,6 +164,7 @@
         <button class="skyButton" onclick="toggleSavedSongs()">Manage Recordings</button>
         <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
         <button class="musicButton" id="toggleInstruments" onclick="toggleInstrumentList()"></button>
+        <button class="pitchButton" id="togglePitchList" onclick="togglePitchList()">Key</button>
         <button id="stopSong" onclick="stopSong()"></button>
     </div>
     <div class="videoWrapper video">
@@ -195,6 +196,20 @@
         <button type="button" id="panfluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/panflute.png);"/>  
         TO REMOVE ONCE NEW INSTRUMENTS ARE ADDED
         -->
+    </div>
+    <div id="pitchTab" class="instrumentsWrapper">
+    <button class="pitchSelection" onclick="changePitch(this)">1</button>
+    <button class="pitchSelection" onclick="changePitch(this)">2</button>
+    <button class="pitchSelection" onclick="changePitch(this)">3</button>
+    <button class="pitchSelection" onclick="changePitch(this)">4</button>
+    <button class="pitchSelection" onclick="changePitch(this)">5</button>
+    <button class="pitchSelection" onclick="changePitch(this)">6</button>
+    <button class="pitchSelection" onclick="changePitch(this)">7</button>
+    <button class="pitchSelection" onclick="changePitch(this)">8</button>
+    <button class="pitchSelection" onclick="changePitch(this)">9</button>
+    <button class="pitchSelection" onclick="changePitch(this)">10</button>
+    <button class="pitchSelection" onclick="changePitch(this)">11</button>
+    <button class="pitchSelection" onclick="changePitch(this)" style="border:none;">12</button>
     </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
@@ -272,10 +287,21 @@ function toggleRegister(){
 let instrumentsWrapper = document.getElementById("instrumentsNew")
 
 function toggleInstrumentList() {
+    $(pitchTab).fadeOut(50)
     if(instrumentsWrapper.style.display != "block") {
         $(instrumentsWrapper).fadeIn(200)
     }else{
         $(instrumentsWrapper).fadeOut(200)
+    }
+}
+
+let pitchTab = document.getElementById("pitchTab")
+function togglePitchList() {
+    $(instrumentsWrapper).fadeOut(50)
+    if(pitchTab.style.display != "block") {
+        $(pitchTab).fadeIn(200)
+    }else{
+        $(pitchTab).fadeOut(200)
     }
 }
 
@@ -729,7 +755,22 @@ function changeInstrument(button) {
 }
 
 //--------------------------------------------------------------------------------------------------------//
-
+function changePitch(value){
+    document.getElementById("togglePitchList").innerHTML = "Key "+value.innerHTML
+    var buttons = document.getElementsByClassName("pitchSelection")
+    for(var i = 0;i<buttons.length;i++){
+        buttons[i].style.color = "#dad8b3"
+    }
+    value.style.color = "rgba(235, 0, 27, 0.7)"
+    pitchTab.style.display = "none"
+    value = parseInt(value.innerHTML)
+    var pitchValue = 0.97+(value*0.03)
+    if(!isNaN(pitchValue)){
+        pitchKey = pitchValue.toFixed(2)
+        localStorage.setItem("pitchKey",pitchKey)
+    }
+    console.log(pitchValue)
+}
 //Loads the buttons with sounds
 const db_url = './Sounds/'
 let instrumentsNotes = {
@@ -757,6 +798,17 @@ if(localStorage.getItem("instrument")) {
     localStorage.setItem("instrument", "piano")
 }
 
+//to change the key
+var pitchKey = localStorage.getItem("pitchKey")
+    pitchKey = parseFloat(pitchKey)
+if(pitchKey==null || pitchKey == "" || isNaN(pitchKey)){
+    pitchKey = 1
+    localStorage.setItem("pitchKey",1)
+}
+var keyButtonName = parseInt((pitchKey-0.97)/0.03)
+var keyButtons = document.getElementsByClassName("pitchSelection")
+    keyButtons[keyButtonName-1].style.color = "rgba(235, 0, 27, 0.7)"
+document.getElementById("togglePitchList").innerHTML = "Key "+keyButtonName
 //Changes url of the instrument using the stored value in localStorage
 var urls = instrumentsNotes[storedInstrument]
 
@@ -839,6 +891,7 @@ preload(urls)
                 }
                 const source = a_ctx.createBufferSource()
                 source.buffer = buf
+                source.playbackRate.value = pitchKey;
                 source.connect(a_ctx.destination)
                 source.start(0)
                 reply_click(btn.id)
@@ -861,11 +914,11 @@ function resetKeyClass(element) {
 }
 
 var webVersion = localStorage.getItem("version")
-var currentVersion =  "1.6"
-var changelogMessage = "Update version 1.6, changes:<br> *Changed export format to let people edit/play songs on Sky studio AND import songs from Sky studio"
+var currentVersion =  "1.7"
+var changelogMessage = "Update version 1.7<br> *Added key change, 1 is C major, i dont know if the other keys are accurate, it needs tuning"
 if(webVersion != currentVersion){
     localStorage.setItem("version",currentVersion)
-    showMessage(changelogMessage,2,8000)
+    showMessage(changelogMessage,2,10000)
 }
 //--------------------------------------------------------------------------------------------------------//
 
@@ -1116,6 +1169,7 @@ let menu = document.getElementById("icon-bar");
 let menuButton = document.getElementById("menu");
 document.getElementById("touch").addEventListener("click", function() {
     floatingMessage = document.getElementById("floatingMessage")
+    pitchTab.style.display = "none"
     floatingMessage.style.display = "none"
     savedSongsDivWrapper.style.display = "none"
     instrumentsWrapper.style.display = "none"

@@ -157,6 +157,32 @@
   vertical-align: middle;
   cursor: pointer;
 }
+.pitchButton{
+	background: rgba(22, 22, 22, 0.65);
+	background-size: 25px 25px;
+	background-repeat: no-repeat;
+	background-position: center;
+    border-radius: 50%;
+	color:#dad8b3;
+	font-weight: bold;
+	height: 40px;
+	width: 40px;
+	border: none;
+  	margin-left: 1em;
+  	vertical-align: middle;
+  	cursor: pointer;
+}
+
+.pitchSelection{
+	border: none;
+	width: 40px;
+	border-bottom: solid 1.5px #dad8b3;
+	background-color: transparent;
+	margin-bottom: 5px;
+	font-size: 30px;
+	color:#dad8b3;
+	font-weight: bold;
+}
 .instrumentButton{
 	background-position: center;
 	background-size: contain;
