@@ -764,7 +764,7 @@ function changePitch(value){
     value.style.color = "rgba(235, 0, 27, 0.7)"
     pitchTab.style.display = "none"
     value = parseInt(value.innerHTML)
-    var pitchValue = 0.97+(value*0.03)
+    var pitchValue = 0.93+(value*0.07)
     if(!isNaN(pitchValue)){
         pitchKey = pitchValue.toFixed(2)
         localStorage.setItem("pitchKey",pitchKey)
@@ -805,7 +805,7 @@ if(pitchKey==null || pitchKey == "" || isNaN(pitchKey)){
     pitchKey = 1
     localStorage.setItem("pitchKey",1)
 }
-var keyButtonName = parseInt((pitchKey-0.97)/0.03)
+var keyButtonName = parseInt(((pitchKey-0.93)/0.07).toFixed(2))
 var keyButtons = document.getElementsByClassName("pitchSelection")
     keyButtons[keyButtonName-1].style.color = "rgba(235, 0, 27, 0.7)"
 document.getElementById("togglePitchList").innerHTML = "Key "+keyButtonName
