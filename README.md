@@ -2,29 +2,38 @@ This is a tool created for the sky team to help users learn how to play songs wi
 
 <h3>You can do the following things</h3>
 
-*Play a song with many different instruments
-*Record a song
-*Share your song/songs with other users
-*Import songs
-*Practice songs 
+*Play a song with many different instruments<br>
+*Record a song<br>
+*Share your song/songs with other users<br>
+*Import songs<br>
+*Practice songs <br>
 
 We have more things incoming so check us out!
 
 <h2> thoseSkyModders </h2>
 
 <h3>Developers</h3>
--Medic (js-html)
--Placeholder Username (css-html)
--Specy (js-html-audio files)
--Auth Zero (js-security)
+-Medic (js-html)<br>
+-Placeholder Username (css-html)<br>
+-Specy (js-html-audio files)<br>
+-Auth Zero (js-security)<br>
 
 --------------------------------
 
 <h3>Testers</h3>
 
--Mosh
--Annihilate
--Soe
--Scarlet
--Pod
--Zeelux
+-Mosh<br>
+-Annihilate<br>
+-Soe<br>
+-Scarlet<br>
+-Pod<br>
+-Zeelux<br>
+
+
+If you want to open the website to make some changes, you must run the backend first, to do so you must have node.js, once you do:
+
+-npm install
+
+in the index.js change "inLocalhost" (line 15) to true and thenyou can do: "node ." to run the backend, 
+you will then see in the console "server is running on port xxxx", go to your browser and open
+localhost:portName (replace portName with the number you got in "xxxx", it should be 8080 > localhost:8080)

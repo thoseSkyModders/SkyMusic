@@ -12,7 +12,8 @@ let mongoKey = process.env.mongoDBKey
 let emailPassword = process.env.pass
 var awaitingVerification = []
 var resetverification = []
-/* ------------------------------------------------------->*/ inLocalhost = false
+/* ------------------------------------------------------->*/ var inLocalhost = false
+//If you want to edit something, just put inLocalhost = true and it will let you use the website without the account system
 app.enable('trust proxy');
 if(!inLocalhost){
     app.use((req, res, next) => {
@@ -74,9 +75,10 @@ var server = app.listen(port, () => {
     });
 //----------------------------------------------------------------------------------------------//
 var botIsOnline = false
+if(!inLocalhost){
 MongoClient.connect(mongoKey,  function(err, db1) {
     try{
-        bot.login(discordToken);
+        //bot.login(discordToken);
         bot.on("ready",()=>{
             bot.user.setActivity("errors", {type: "LISTENING" })
             console.log("The bot is online!");
@@ -336,7 +338,7 @@ app.post("/login", async function(req,res) { //error handles
 //----------------------------------------------------------------------------------------------//
     app.post("/saveSongs", async function(req,res) {
         var value = req.body;
-        if(JSON.stringify(value).length > 20000){ //if it's longer than 20000 characters, to prevent too big files from being uploaded
+        if(JSON.stringify(value).length > 30000){ //if it's longer than 30000 characters, to prevent too big files from being uploaded
             res.send("Song is too large, it can't be uploaded")
             return;
         }
@@ -453,6 +455,7 @@ app.post("/verifyResetCode", async function(req,res) { //error is handled
 app.get('*', function(req, res){
     res.status(404).sendFile(__dirname+"/public/errorLoading.html")
 });
+}
 //----------------------------------------------------------------------------------------------//
 //----------------------------------------------------------------------------------------------//
 function sendVerificationCode(credentials,res){ //error handled
