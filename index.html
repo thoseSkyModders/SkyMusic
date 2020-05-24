@@ -914,8 +914,8 @@ function resetKeyClass(element) {
 }
 
 var webVersion = localStorage.getItem("version")
-var currentVersion =  "1.7"
-var changelogMessage = "Update version 1.7<br> *Added key change, 1 is C major, i dont know if the other keys are accurate, it needs tuning"
+var currentVersion =  "1.7.1"
+var changelogMessage = "Update version "+currentVersion+"<br> *Made buttons easier to press"
 if(webVersion != currentVersion){
     localStorage.setItem("version",currentVersion)
     showMessage(changelogMessage,2,10000)

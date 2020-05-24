@@ -46,17 +46,17 @@
 	border-radius: 1em;
 }
 [id^=Key] {
-  display: inline-block;
-	height: calc((100vh - 6vw - 50px)/3);
-	max-height: 80px;
-	width: calc(90%/5);
-	max-width: 80px;
-	margin: 1%;
-	background: transparent;
-	cursor: pointer;
-	outline: none;
-  position: relative;
-}
+	display: inline-block;
+	  height: calc((100vh - 6vw - 50px)/3);
+	  max-height: 80px;
+	  width: calc(90%/5);
+	  max-width: 80px;
+	  padding:1%;
+	  background: transparent;
+	  cursor: pointer;
+	  outline: none;
+	  position: relative;
+  }
 
 .btnBg {
   z-index: 0;
@@ -72,12 +72,12 @@
 }
 
 .btnImg {
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
   z-index: 1;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 10%;
+  left: 10%;
   object-fit: contain;
   object-position: center;
   pointer-events: none;
