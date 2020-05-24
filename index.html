@@ -12,8 +12,8 @@
         gtag('config', 'UA-166077524-1');
         </script>
 
-    <link rel="icon" type="image/png" href="/favicon.ico"/>
-    <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon" />
+    <link rel="icon" type="image/png" href="/favicon.png"/>
+    <link rel="shortcut icon" href="/favicon.png?v=2" type="image/x-icon" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
@@ -763,13 +763,12 @@ function changePitch(value){
     }
     value.style.color = "rgba(235, 0, 27, 0.7)"
     pitchTab.style.display = "none"
-    value = parseInt(value.innerHTML)
-    var pitchValue = 0.93+(value*0.07)
+    var pValue = parseInt(value.innerHTML)
+    var pitchValue = Math.pow(2, (pValue - 1) / 12)
     if(!isNaN(pitchValue)){
         pitchKey = pitchValue.toFixed(2)
         localStorage.setItem("pitchKey",pitchKey)
     }
-    console.log(pitchValue)
 }
 //Loads the buttons with sounds
 const db_url = './Sounds/'
@@ -805,7 +804,7 @@ if(pitchKey==null || pitchKey == "" || isNaN(pitchKey)){
     pitchKey = 1
     localStorage.setItem("pitchKey",1)
 }
-var keyButtonName = parseInt(((pitchKey-0.93)/0.07).toFixed(2))
+var keyButtonName = parseInt((Math.log2(pitchKey) * 12 + 1).toFixed(0))
 var keyButtons = document.getElementsByClassName("pitchSelection")
     keyButtons[keyButtonName-1].style.color = "rgba(235, 0, 27, 0.7)"
 document.getElementById("togglePitchList").innerHTML = "Key "+keyButtonName
