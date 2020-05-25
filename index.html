@@ -211,6 +211,11 @@
     <button class="pitchSelection" onclick="changePitch(this)">11</button>
     <button class="pitchSelection" onclick="changePitch(this)" style="border:none;">12</button>
     </div>
+    <div id="songRange" class="songRange">
+        <input type="number" id="startingNoteRange" value="0"><br>
+        <input id="rangePicker" type="range" max="10" min="0" orient="vertical" ><br>
+        <input type="button" style="background-color: transparent; border: none; font-size: 1.5em; outline: none;" onclick="retry()" value="🔄">
+    </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
 <input type="sleeping" placeholder="username" style="display: none"> <!-- Easter egg-->
@@ -304,7 +309,12 @@ function togglePitchList() {
         $(pitchTab).fadeOut(200)
     }
 }
+function toggleSongRange(){
+    let songRange = document.getElementById("songRange")
+    $(instrumentsWrapper).fadeOut(50)
+    $(pitchTab).fadeOut(50)
 
+}
 //--------------------------------------------------------------------------------------------------------//
 
 function toggleSettings(){
@@ -913,8 +923,8 @@ function resetKeyClass(element) {
 }
 
 var webVersion = localStorage.getItem("version")
-var currentVersion =  "1.7.1"
-var changelogMessage = "Update version "+currentVersion+"<br> *Made buttons easier to press"
+var currentVersion =  "1.8"
+var changelogMessage = "Update version "+currentVersion+"<br> *Added practice retry! Now you can chose from where you want to restart the song while you practice it"
 if(webVersion != currentVersion){
     localStorage.setItem("version",currentVersion)
     showMessage(changelogMessage,2,10000)
@@ -1317,6 +1327,12 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
         let storedSongName = this.getAttribute("songName")
         songText = document.getElementById("Song-" + storedSongName)
         practice(JSON.parse(songText.innerHTML))
+        startingNoteRange.value = 0
+        rangePicker.value = 0
+        rangePicker.max = JSON.parse(songText.innerHTML).length-1
+        currentSong = JSON.parse(songText.innerHTML)
+        $(songRange).fadeIn(200)
+        toggleSongRange()
     })
     //--------------------------------// Button to share this song
     let shareButton = document.createElement("button")
@@ -1350,6 +1366,7 @@ function stopSong(){
     isSongStopped = true
     document.getElementById("stopSong").style.visibility = "hidden"
     resetButtons()
+    $(songRange).fadeOut(200)
 }
 
 async function playSong(song) {
@@ -1408,6 +1425,7 @@ function practice(inSong) {
     }
     if(songToPractice.length == 0){
         document.getElementById("stopSong").style.visibility = "hidden"
+        $(songRange).fadeOut(200)
         return
     }
     keysToWait--   
@@ -1451,6 +1469,21 @@ function practice(inSong) {
 }
 //--------------------------------------------------------------------------------------------------------//
 
+ var rangePicker = document.getElementById("rangePicker")
+ var startingNoteRange = document.getElementById("startingNoteRange")
+ rangePicker.value = 0
+ rangePicker.addEventListener("input",function(){
+    startingNoteRange.value = rangePicker.value
+ })
+var currentSong
+var retrySong 
+var pressedRetry = false
+function retry(){
+    var startPoint = parseInt(startingNoteRange.value)
+    retrySong = currentSong.slice(startPoint,currentSong.length)
+    practice(retrySong)
+    resetButtons()
+}
 //delay function
 const delay = ms => new Promise(res => setTimeout(res, ms))
 
