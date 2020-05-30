@@ -46,17 +46,17 @@
 	border-radius: 1em;
 }
 [id^=Key] {
-	display: inline-block;
-	  height: calc((100vh - 6vw - 50px)/3);
-	  max-height: 80px;
-	  width: calc(90%/5);
-	  max-width: 80px;
-	  padding:1%;
-	  background: transparent;
-	  cursor: pointer;
-	  outline: none;
-	  position: relative;
-  }
+  display: inline-block;
+  height: calc((100vh - 6vw - 30px)/3);
+  max-height: 80px;
+  width: calc((100% - 10vw)/5);
+  max-width: 80px;
+  padding:1vw;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+}
 
 .btnBg {
   z-index: 0;
@@ -87,6 +87,9 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+input[type=number] {
+  -moz-appearance: textfield;
+}
 #startingNoteRange{
 	font-family: Arial;
 	text-align: center;
@@ -99,14 +102,52 @@ input::-webkit-inner-spin-button {
 	outline: none;
 	user-select: none;
 }
+/*
 input[type=range][orient=vertical]{
-    writing-mode: bt-lr; /* IE */
-    -webkit-appearance: slider-vertical; /* WebKit */
+    writing-mode: bt-lr;
+    -webkit-appearance: slider-vertical;
     width: 30px;
     height: 90%;
 	padding: 0 5px;
 	cursor: pointer;
 	user-select: none;
+}
+*/
+
+input[type=range][orient=vertical] {
+  -webkit-appearance: slider-vertical;
+  writing-mode: bt-lr;
+  width: 10px;
+  height: 90%;
+  border-radius: 5px;  
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+input[type=range][orient=vertical]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; 
+  background: #4c8bf5;
+  cursor: pointer;
+  border: 0;
+}
+
+input[type=range][orient=vertical]::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4c8bf5;
+  cursor: pointer;
+  border: 0;
+}
+input[type=range][orient=vertical]:hover {
+  opacity: 1; /* Fully shown on mouse-over */
 }
 @media only screen and (orientation:portrait) {
 	.songRange{
@@ -129,12 +170,12 @@ input[type=range][orient=vertical]{
 	}
 }
 .btnImg {
-  width: 80%;
-  height: 80%;
+  width: calc(100% - 2vw);
+  height: calc(100% - 2vw);
   z-index: 1;
   position: absolute;
-  top: 10%;
-  left: 10%;
+  top: 1vw;
+  left: 1vw;
   object-fit: contain;
   object-position: center;
   pointer-events: none;
