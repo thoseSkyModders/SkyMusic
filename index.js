@@ -12,7 +12,7 @@ let mongoKey = process.env.mongoDBKey
 let emailPassword = process.env.pass
 var awaitingVerification = []
 var resetverification = []
-/* ------------------------------------------------------->*/ var inLocalhost = true
+/* ------------------------------------------------------->*/ var inLocalhost = false
 //If you want to edit something, just put inLocalhost = true and it will let you use the website without the account system
 app.enable('trust proxy');
 if(!inLocalhost){
@@ -24,11 +24,9 @@ if(!inLocalhost){
             }
         })
 }else{
-    /*
     mongoKey = ""
     discordToken = ""
     emailPassword = ""
-    */
 }
 
 var transporter = nodemailer.createTransport({
