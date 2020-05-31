@@ -1,0 +1,234 @@
+<html>
+    <style>
+        * {
+            font-family: Arial;
+            font-size: 20px;
+            color: white;
+        }
+        .button {
+            background-color: #787878;
+            padding: 0.3em;
+            border: solid 2px white;
+            border-radius: 4px;
+            cursor: pointer;
+            user-select: none;
+            width: 15%;
+            margin: 10px 1% 10px 1%;
+        }
+        body {
+            text-align: center;
+            background-color: #404040;
+        }
+        select {
+            background-color: #787878;
+            border: solid 2px white;
+            border-radius: 4px;
+            user-select: none;
+        }
+    </style>
+    <script src="https://unpkg.com/@tonejs/midi"></script>
+    <body>
+        <h1 style="color: red;">THIS IS A BETA MADE JUST TO TEST THINGS, IT MIGHT NOT WORK</h1>
+        <h3>
+            *This is a MIDI to sky music conversion tool, select your .mid file and hope it's convertable!<br />
+            <br />
+            *It takes a lot of trial and error sometimes, some songs aren't converable at all<br />
+            *The custom offset is a number value that you can try to place in case none of the keys work
+        </h3>
+        <div>
+            <button class="button" style="background-color: limegreen;" onclick="importSongs()">Select Song</button>
+            <select class="button" id="keyNote">
+                <option selected>C major</option>
+                <option>D major</option>
+                <option>D♭ major</option>
+                <option>E♭ major</option>
+                <option>E major</option>
+                <option>F major</option>
+                <option>G♭ major</option>
+                <option>G major</option>
+                <option>A♭ major</option>
+                <option>A major</option>
+                <option>B♭ major</option>
+                <option>B major</option>
+            </select>
+            <input type="file" style="display: none;" id="filePicker" /><br />
+            <input type="number" id="customOffset" placeholder="custom offset" style="width: 19%; color: black;" />
+            <button class="button" style="width: 11%; background-color:#D32F2F;" onclick="fStopSong()">Stop song</button><br>
+        </div>
+        <button class="button" id="convertAgain" style="width: 32%;" onclick="load()" disabled>Convert again </button><br>
+        <button class="button" id="downloadButton" style="width: 32%;" onclick="downloadJSON()" disabled>Download converted song</button>
+        <div id="notes"></div>
+    </body>
+    <script>
+var selectedKey = 0
+keyNote.addEventListener("change", function() {
+    selectedKey = this.selectedIndex
+    customOffset.value = ""
+})
+
+//-----------------------------------------------------------------------------------//
+
+var notesHandler = document.getElementById("notes")
+var keys = []
+var songsArray = []
+for(var i = 0; i < 15; i++) {
+    var audio = document.createElement("audio")
+    audio.controls = 'controls';
+    audio.src = 'Sounds/Piano/' + i + ".mp3";
+    audio.type = 'audio/mp3';
+    audio.style.display = "none"
+    audio.id = "Key" + i
+    keys.push(audio)
+    notesHandler.appendChild(audio)
+}
+var stopSong = false
+function fStopSong(){
+  console.log("a")
+   stopSong = true
+}
+//-----------------------------------------------------------------------------------//
+
+async function load() {
+  stopSong = false
+    midi = globalMidi
+    if(customOffset.value != "") {
+        selectedKey = customOffset.value
+    }
+    var song = {
+        name: "",
+        songNotes: []
+    }
+    var key = "C major"
+    if(midi.header.keySignatures.length > 0) {
+        var key = midi.header.keySignatures[0].key + " "
+        key += midi.header.keySignatures[0].scale
+    }
+    song.name = midi.name
+    midi.tracks.forEach(track => {
+        const notes = track.notes
+        notes.forEach(note => {
+            console.log(note.midi)
+            var noteToAdd = note.midi - 12 - selectedKey
+            switch (noteToAdd) {
+                case 36:
+                    noteToAdd = 1
+                    break;
+                case 38:
+                    noteToAdd = 2
+                    break;
+                case 40:
+                    noteToAdd = 3
+                    break;
+                case 41:
+                    noteToAdd = 4
+                    break;
+                case 43:
+                    noteToAdd = 5
+                    break;
+                case 45:
+                    noteToAdd = 6
+                    break;
+                case 47:
+                    noteToAdd = 7
+                    break;
+                case 48:
+                    noteToAdd = 8
+                    break;
+                case 50:
+                    noteToAdd = 9
+                    break;
+                case 52:
+                    noteToAdd = 10
+                    break;
+                case 53:
+                    noteToAdd = 11
+                    break;
+                case 55:
+                    noteToAdd = 12
+                    break;
+                case 57:
+                    noteToAdd = 13
+                    break;
+                case 59:
+                    noteToAdd = 14
+                    break;
+                case 60:
+                    noteToAdd = 15
+                    break;
+            }
+            if(noteToAdd < 15 && noteToAdd > 0) {
+                var keyObj = {
+                    time: note.ticks,
+                    key: "Key" + (noteToAdd - 1)
+                }
+                song.songNotes.push(keyObj)
+            }
+            
+        })
+    })
+    songsArray = []
+    songsArray.push(song)
+    playSong(song.songNotes)
+    document.getElementById("convertAgain").disabled = false
+    downloadButton.disabled = false
+}
+
+//-----------------------------------------------------------------------------------//
+
+function downloadJSON() {
+    if(songsArray.length == 0) {
+        alert("Convert a song first!");
+        return
+    }
+    if(songsArray[0].name == "") {
+        var name = prompt("Please enter your name", "Harry Potter");
+        if(name != null) {
+            songsArray[0].name = name
+        } else {
+            songsArray[0].name = "Untitled"
+        }
+        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(songsArray));
+        var dlAnchorElem = document.createElement("a")
+        dlAnchorElem.setAttribute("href", dataStr);
+        dlAnchorElem.setAttribute("download", songsArray[0].name + ".txt");
+        dlAnchorElem.click();
+        dlAnchorElem.remove()
+    }
+}
+
+//-----------------------------------------------------------------------------------//
+async function playSong(song) {
+    let delayTime = 0
+    let previousTime = 0
+    for(let i = 0; i < song.length; i++) {
+        if(stopSong) break;
+        delayTime = song[i].time - previousTime //how much time has to pass from one note to the other
+        previousTime = song[i].time
+        await delay(delayTime)
+        document.getElementById(song[i].key).currentTime = 0
+        document.getElementById(song[i].key).play()
+    }
+    stopSong = false
+}
+
+//-----------------------------------------------------------------------------------//
+
+const delay = ms => new Promise(res => setTimeout(res, ms))
+
+//-----------------------------------------------------------------------------------//
+var globalMidi 
+function importSongs() {
+    var isreading = false
+    filePicker.addEventListener("change", function() {
+        const reader = new FileReader()
+        reader.onload = function(e) {
+            const midi = new Midi(e.target.result)
+            globalMidi = midi
+            load()
+        }
+        reader.readAsArrayBuffer(this.files[0])
+    })
+    filePicker.click()
+}
+</script>
+</html>
