@@ -78,7 +78,7 @@ var botIsOnline = false
 if(!inLocalhost){
 MongoClient.connect(mongoKey,  function(err, db1) {
     try{
-        //bot.login(discordToken);
+        bot.login(discordToken);
         bot.on("ready",()=>{
             bot.user.setActivity("errors", {type: "LISTENING" })
             console.log("The bot is online!");

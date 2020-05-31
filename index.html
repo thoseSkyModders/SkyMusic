@@ -774,7 +774,12 @@ function changeInstrument(button) {//function to change the instrument
 //--------------------------------------------------------------------------------------------------------//
 function changePitch(value){
     document.getElementById("togglePitchList").innerHTML = "Key "+value.innerHTML
+    keyButtonName = value.innerHTML
     var buttons = document.getElementsByClassName("pitchSelection")
+    var keyBtnTxt = document.getElementsByClassName("btnText")
+    for(var i = 0;i < keyBtnTxt.length ;i++){
+        keyBtnTxt[i].innerHTML = keyNames[keyButtonName-1][i]
+    }
     for(var i = 0;i<buttons.length;i++){
         buttons[i].style.color = "#dad8b3"
     }
@@ -846,9 +851,22 @@ function preload(urls) {
 //--------------------------------------------------------------------------------------------------------//
 
 //BUTTONS
+var keyNames = {
+	0:["C","D","E","F","G","A","B","C","D","E","F","G","A","B","C"],
+	1:["D♭","E♭","F","G♭","A♭","B♭","C","D♭","E♭","F","G♭","A♭","B♭","C","D♭"],
+	2:["D","E","F♯","G","A","B","C♯","D","E","F♯","G","A","B","C♯","D"],
+	3:["E♭","F","G","A♭","B♭","C","D","E♭","F","G","A♭","B♭","C","D","E♭"],
+	4:["E","F♯","G♯","A","B","C♯","D♯","E","F♯","G♯","A","B","C♯","D♯","E"],
+	5:["F","G","A","B♭","C","D","E","F","G","A","B♭","C","D","E","F"],
+	6:["G♭","A♭","B♭","C♭","D♭","E♭","F","G♭","A♭","B♭","C♭","D♭","E♭","F","G♭"],
+	7:["G","A","B","C","D","E","F♯","G","A","B","C","D","E","F♯","G"],
+	8:["A♭","B♭","C","D♭","E♭","F","G","A♭","B♭","C","D♭","E♭","F","G","A♭"],
+	9:["A","B","C♯","D","E","F♯","G♯","A","B","C♯","D","E","F♯","G♯","A"],
+	10:["B♭","C","D","E♭","F","G","A","B♭","C","D","E♭","F","G","A","B♭"],
+	11:["B","C♯","D♯","E","F♯","G♯","A♯","B","C♯","D♯","E","F♯","G♯","A♯","B"]
+}
 const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
 var buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle", "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle", ]
-var keyNames = ["C","D","E","F","G","A","B","C","D","E","F","G","A","B","C",]
 let numOfKeysLeft = 15
 let numOfKeys = 15
 let newRowBreak = [6, 11]
@@ -875,7 +893,7 @@ preload(urls)
             //Creates button and sets the buttons properties .
             const btn = document.createElement('div')
             let background = "./KeyImages/" + buttonImages[i] + ".png"
-            btn.innerHTML = "<div class='btnBg'><a class='btnText'>"+keyNames[i]+"</a></div><img class='btnImg' src='" + background + "'/>"
+            btn.innerHTML = "<div class='btnBg'><a class='btnText'>"+keyNames[keyButtonName-1][i]+"</a></div><img class='btnImg' src='" + background + "'/>"
             btn.id = "Key" + i++
             if(i == newRowBreak[0]) j = 2
             if(i == newRowBreak[1]) j = 3
@@ -924,8 +942,8 @@ function resetKeyClass(element) {
 }
 
 var webVersion = localStorage.getItem("version")
-var currentVersion =  "1.8"
-var changelogMessage = "Update version "+currentVersion+"<br> *Added practice retry! Now you can chose from where you want to restart the song while you practice it"
+var currentVersion =  "1.9"
+var changelogMessage = "Update version "+currentVersion+'<br> *Changed the "Display note names" setting, now updates with the change in key<br> suggested by -Larky'
 if(webVersion != currentVersion){
     localStorage.setItem("version",currentVersion)
     showMessage(changelogMessage,2,10000)
