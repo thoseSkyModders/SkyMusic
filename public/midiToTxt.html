@@ -176,12 +176,13 @@ async function load() {
 //-----------------------------------------------------------------------------------//
 
 function downloadJSON() {
+    console.log(songsArray  )
     if(songsArray.length == 0) {
         alert("Convert a song first!");
         return
     }
     if(songsArray[0].name == "") {
-        var name = prompt("Please enter your name", "Harry Potter");
+        var name = prompt("Please enter your name", "Untitled");
         if(name != null) {
             songsArray[0].name = name
         } else {
