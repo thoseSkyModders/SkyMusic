@@ -847,12 +847,20 @@ var urls = instrumentsNotes[storedInstrument]
 
 //--------------------------------------------------------------------------------------------------------//
 
-var reverb
-    fetch("reverb.wav").then(r => r.arrayBuffer()).then(b => a_ctx.decodeAudioData(b, function(buf){
-        reverb = buf
-    }, function(){
-        console.log("error")
-    }))
+function set_up_reverb() {
+    fetch("reverb2.wav")
+        .then(r => r.arrayBuffer())
+        .then(b => a_ctx.decodeAudioData(b))
+        .then(impulse_response => {
+            let convolver = a_ctx.createConvolver()
+            let gainNode = a_ctx.createGain()
+            gainNode.gain.value = 1.5
+            convolver.buffer = impulse_response
+            convolver.connect(gainNode)
+            gainNode.connect(a_ctx.destination)
+            a_reverb_destination = convolver
+        })
+}
 
 //--------------------------------------------------------------------------------------------------------//
 
@@ -887,6 +895,10 @@ var keyNames = {
 	11:["B","C♯","D♯","E","F♯","G♯","A♯","B","C♯","D♯","E","F♯","G♯","A♯","B"]
 }
 const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
+
+let a_reverb_destination = a_ctx.destination // replaced by reverb path when loaded
+set_up_reverb()
+
 var buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle", "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle", ]
 let numOfKeysLeft = 15
 let numOfKeys = 15
@@ -942,13 +954,7 @@ preload(urls)
                 source.buffer = buf
                 source.playbackRate.value = pitchKey;
                 if(reverbToggled){
-                    let convolver = a_ctx.createConvolver();
-                    let gainNode = a_ctx.createGain()
-                    gainNode.gain.value = 1.5;
-                    convolver.buffer = reverb
-                    source.connect(convolver)
-                    convolver.connect(gainNode)
-                    gainNode.connect(a_ctx.destination);
+                    source.connect(a_reverb_destination)
                 }else{
                     source.connect(a_ctx.destination)
                 }
