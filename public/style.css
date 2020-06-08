@@ -247,13 +247,13 @@ input[type=range][orient=vertical]:hover {
 	background-size: 25px 25px;
 	background-repeat: no-repeat;
 	background-position: center;
-  border-radius: 50%;
+    border-radius: 50%;
 	height: 40px;
 	width: 40px;
 	border: none;
-  margin-left: 1em;
-  vertical-align: middle;
-  cursor: pointer;
+    margin-left: 0.5em;
+    vertical-align: middle;
+    cursor: pointer;
 }
 .pitchButton{
 	background: rgba(22, 22, 22, 0.65);
@@ -266,7 +266,7 @@ input[type=range][orient=vertical]:hover {
 	height: 40px;
 	width: 40px;
 	border: none;
-  	margin-left: 1em;
+  	margin-left: 0.5em;
   	vertical-align: middle;
   	cursor: pointer;
 }

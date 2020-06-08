@@ -165,7 +165,7 @@
         <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
         <button class="musicButton" id="toggleInstruments" onclick="toggleInstrumentList()"></button>
         <button class="pitchButton" id="togglePitchList" onclick="togglePitchList()">Key</button>
-        <button class="pitchButton" id="toggleReverbBtn" onclick="toggleReverb()">R</button>
+        <button class="pitchButton" style="font-size: 1.3em;"id="toggleReverbBtn" onclick="toggleReverb()">R</button>
         <button id="stopSong" onclick="stopSong()"></button>
     </div>
     <div class="videoWrapper video">
@@ -847,6 +847,15 @@ var urls = instrumentsNotes[storedInstrument]
 
 //--------------------------------------------------------------------------------------------------------//
 
+var reverb
+    fetch("reverb.wav").then(r => r.arrayBuffer()).then(b => a_ctx.decodeAudioData(b, function(buf){
+        reverb = buf
+    }, function(){
+        console.log("error")
+    }))
+
+//--------------------------------------------------------------------------------------------------------//
+
 function preload(urls) {
     const requests = urls.map(url => fetch(db_url + url)
         .then(r => r.arrayBuffer()) // this time we request as ArrayBuffer
@@ -923,9 +932,9 @@ preload(urls)
             function buttonPressEvent(btn) {
                 let btnBg = btn.firstChild
                 let btnImg = btn.childNodes[1]
+                $(btn).children(":first").finish()
                 let bgColor = btnBg.style.backgroundColor
-                $(btn).children(":first").stop(false,true)
-                if(bgColor != "rgba(22, 22, 22, 0.65)" || bgColor != "rgba(60, 60, 60, 0.65)" || bgColor !="") {
+                if(bgColor == "rgba(235, 0, 27, 0.7)") {
                     btnBg.style.borderColor = "transparent"
                     practice([])
                 }
@@ -934,9 +943,12 @@ preload(urls)
                 source.playbackRate.value = pitchKey;
                 if(reverbToggled){
                     let convolver = a_ctx.createConvolver();
-                    convolver.buffer = buf
+                    let gainNode = a_ctx.createGain()
+                    gainNode.gain.value = 1.5;
+                    convolver.buffer = reverb
                     source.connect(convolver)
-                    convolver.connect(a_ctx.destination)
+                    convolver.connect(gainNode)
+                    gainNode.connect(a_ctx.destination);
                 }else{
                     source.connect(a_ctx.destination)
                 }
@@ -961,8 +973,8 @@ function resetKeyClass(element) {
 }
 
 var webVersion = localStorage.getItem("version")
-var currentVersion =  "1.9"
-var changelogMessage = "Update version "+currentVersion+'<br> *Changed the "Display note names" setting, now updates with the change in key<br> suggested by -Larky'
+var currentVersion =  "2.0"
+var changelogMessage = "Update version "+currentVersion+'<br> *Added cave mode, (R) <br>*Fixed bug that would block the practice if you pressed the key too fast'
 if(webVersion != currentVersion){
     localStorage.setItem("version",currentVersion)
     showMessage(changelogMessage,2,10000)
