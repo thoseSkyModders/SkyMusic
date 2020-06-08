@@ -165,14 +165,13 @@
         <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
         <button class="musicButton" id="toggleInstruments" onclick="toggleInstrumentList()"></button>
         <button class="pitchButton" id="togglePitchList" onclick="togglePitchList()">Key</button>
+        <button class="pitchButton" id="toggleReverbBtn" onclick="toggleReverb()">R</button>
         <button id="stopSong" onclick="stopSong()"></button>
     </div>
     <div class="videoWrapper video">
         <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
         <video preload="auto" playsinline="" muted="" autoplay="" loop="" data-vscid="jvm0gu2z7">
-            <source src="./AnimatedBG/skygame-banner.webm" type="video/webm;codecs=&quot;vp8, vorbis&quot;">
-            <source src="./AnimatedBG/skygame-banner.ogv" type="video/ogv;codecs=&quot;ogv, ogg, vorbis &quot;">
-            <source src="./AnimatedBG/skygame-banner.mp4" type="video/mp4;codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
+            <source src="./AnimatedBG/skygame-banner2.mp4" type="video/mp4;codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
         </video>
     </div>
     <div id=touch>
@@ -238,7 +237,7 @@ function toggleReset(){
 
 //--------------------------------------------------------------------------------------------------------//
 
-function toggleLogin(){
+function toggleLogin(){//This function shows the page that contains the login 
     resetPages()
     document.getElementById("secondPage").style.display = "block"
     $("#login").fadeIn(300)
@@ -247,7 +246,7 @@ function toggleLogin(){
 
 //--------------------------------------------------------------------------------------------------------//
 
-function disableFormButtons(){
+function disableFormButtons(){//It disables every form buttons (the ones to register for example) for 3seconds to prevent multiple requests sent to the server
     var buttons = document.getElementsByClassName("submitButton")
     for(var i = 0; i<buttons.length; i++){
         buttons[i].disabled = true 
@@ -259,7 +258,9 @@ function disableFormButtons(){
     }, 3000);
 }
 
-function resetLocalStorage(){
+//--------------------------------------------------------------------------------------------------------//
+
+function resetLocalStorage(){//Resets everything contained into localstorage
     if(confirm("Do you really want to delete every song saved and settings?")){
         if(confirm("do you REALLY REALLY want to delete ALL?")){
             localStorage.clear();
@@ -270,7 +271,7 @@ function resetLocalStorage(){
 
 //--------------------------------------------------------------------------------------------------------//
 
-function toggleSavedSongs() {
+function toggleSavedSongs() {//Shows the page that contains the local/database songs
     localStoredBtn.click()
     if(savedSongsDivWrapper.style.display != "block") {
         $(savedSongsDivWrapper).fadeIn(150)
@@ -281,17 +282,28 @@ function toggleSavedSongs() {
 
 //--------------------------------------------------------------------------------------------------------//
 
-function toggleRegister(){
+function toggleRegister(){//Shows the register page
     resetPages()
     document.getElementById("secondPage").style.display = "block"
     $("#register").fadeIn(200)
 }
 
+var reverbToggled = false
+function toggleReverb(){
+    let toggleReverbBtn = document.getElementById("toggleReverbBtn")
+    if(reverbToggled){
+        toggleReverbBtn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        reverbToggled = false
+    }else{
+        toggleReverbBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+        reverbToggled = true
+    }
+}
 //--------------------------------------------------------------------------------------------------------//
 
 let instrumentsWrapper = document.getElementById("instrumentsNew")
 
-function toggleInstrumentList() {
+function toggleInstrumentList() {//Shows the side menu (on the right) to chose the instrument
     $(pitchTab).fadeOut(50)
     if(instrumentsWrapper.style.display != "block") {
         $(instrumentsWrapper).fadeIn(200)
@@ -301,7 +313,7 @@ function toggleInstrumentList() {
 }
 
 let pitchTab = document.getElementById("pitchTab")
-function togglePitchList() {
+function togglePitchList() {//Shows the side menu (on the right) to chose the pitch level
     $(instrumentsWrapper).fadeOut(50)
     if(pitchTab.style.display != "block") {
         $(pitchTab).fadeIn(200)
@@ -309,7 +321,7 @@ function togglePitchList() {
         $(pitchTab).fadeOut(200)
     }
 }
-function toggleSongRange(){
+function toggleSongRange(){//Shows the sideways input range to pick from what note to retry
     let songRange = document.getElementById("songRange")
     $(instrumentsWrapper).fadeOut(50)
     $(pitchTab).fadeOut(50)
@@ -317,7 +329,7 @@ function toggleSongRange(){
 }
 //--------------------------------------------------------------------------------------------------------//
 
-function toggleSettings(){
+function toggleSettings(){//Shows the settings page
     resetPages()
     document.getElementById("secondPage").style.display = "block"
     $("#settings").fadeIn(200)
@@ -326,16 +338,19 @@ function toggleSettings(){
 
 //--------------------------------------------------------------------------------------------------------//
 
-function toggleResetConfirm(){
+function toggleResetConfirm(){//Shows the page to confirm the registration of the accout
     resetPages()
     document.getElementById("secondPage").style.display = "block"
     $("#verifyPasswordAndCode").fadeIn(200)
 }
+
+//--------------------------------------------------------------------------------------------------------//
+
 let disableAnimation = false
 let disableNextKey = false
-
+//THIS loads the important settings that are saved into localstorage
 if(localStorage.getItem("disableAnimation") != null){
-    if(localStorage.getItem("disableAnimation") == "true"){
+    if(localStorage.getItem("disableAnimation") == "true"){//to disable the key animation (from transparent to red)
         disableAnimation = true
         document.getElementById("Hide practice note animation").style.backgroundColor = "rgba(235, 0, 27, 0.8)"
     }else{
@@ -344,7 +359,7 @@ if(localStorage.getItem("disableAnimation") != null){
     }
 }
 if(localStorage.getItem("disableNextKey") != null){
-    if(localStorage.getItem("disableNextKey") == "true"){
+    if(localStorage.getItem("disableNextKey") == "true"){//to disable the blue outline for the next key
         disableNextKey = true
         document.getElementById("Disable next key practice").style.backgroundColor = "rgba(235, 0, 27, 0.8)"
     }else{
@@ -353,14 +368,14 @@ if(localStorage.getItem("disableNextKey") != null){
     }
 }
 
-function changeSettings(button){
+function changeSettings(button){//function that once gotten the button, reads its id and choses which setting it is applied to and writes localstorage with said value
     if(button.style.backgroundColor == "rgba(235, 0, 27, 0.8)" ){
         button.style.backgroundColor = "teal"
         if(button.id == "Hide practice note animation") disableAnimation = false, localStorage.setItem("disableAnimation",disableAnimation)
         if(button.id == "Disable next key practice") disableNextKey = false, localStorage.setItem("disableNextKey",disableNextKey)
         if(button.id == "Display Note Names"){
             var keyTexts = document.getElementsByClassName("btnText")
-            for(var i=0; i<keyTexts.length;i++){
+            for(var i=0; i<keyTexts.length;i++){//makes the text inside the key buttons invisible
                 keyTexts[i].style.color = "transparent"
             }
         }
@@ -369,7 +384,7 @@ function changeSettings(button){
         if(button.id == "Disable next key practice") disableNextKey = true, localStorage.setItem("disableNextKey",disableNextKey)
         if(button.id == "Display Note Names"){
             var keyTexts = document.getElementsByClassName("btnText")
-            for(var i=0; i<keyTexts.length;i++){
+            for(var i=0; i<keyTexts.length;i++){//makes the text inside the key buttons white
                 keyTexts[i].style.color = "white"
             }
         }
@@ -378,7 +393,7 @@ function changeSettings(button){
 }
 //--------------------------------------------------------------------------------------------------------//
 
-function resetPages(){
+function resetPages(){//this hides all the pages that are contained into the second screen
     document.getElementById("settings").style.display = "none"
     document.getElementById("resetPassword").style.display = "none"
     document.getElementById("verifyPasswordAndCode").style.display = "none"
@@ -391,9 +406,9 @@ function resetPages(){
 
 //--------------------------------------------------------------------------------------------------------//
 var emailreset = "";
-function resetPassword(){
+function resetPassword(){//Function to reset the email
     let mail = document.getElementById("emailReset").value
-    if(mail.trim() == "" || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)){
+    if(mail.trim() == "" || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)){//tests if the email is an actual email format
         showMessage("please put an email",2)
         return;
     }
@@ -405,7 +420,7 @@ function resetPassword(){
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
             response = res.target.response;
-            if(response == "true"){
+            if(response == "true"){//if the server validates the credentials, it sends a reset code in the email and proceedes to the next page
                 showMessage("success! please check you email.",1)
                 emailreset = mail;
                 toggleResetConfirm()
@@ -416,17 +431,17 @@ function resetPassword(){
         request.onerror = function(e) {
             showMessage("Error trying to reset password",0)
         };
-        request.send(JSON.stringify(credentials))
-        disableFormButtons()
+        request.send(JSON.stringify(credentials))//sends the credentials data
+        disableFormButtons()//stops all buttons for 3 seconds
 }
 
 //--------------------------------------------------------------------------------------------------------//
 
-function checkResetCode(){
+function checkResetCode(){//Function to confirm the password reset
     var code = document.getElementById("resetcodeConfirmation").value
     var newpassword = document.getElementById("newpassword").value
     var newpasswordconfirm = document.getElementById("newpasswordconfirm").value
-    if(code.length != 36){
+    if(code.length != 36){//checks if the code is correct format or not
         alert("You put an invalid reset code!")
         return;
     }
@@ -441,7 +456,7 @@ function checkResetCode(){
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
             response = res.target.response;
-            if(response == "true"){
+            if(response == "true"){//if the server answers with a true, the account password is reset and page is reloaded
                 alert("Password successfully reset, refreshing in 2 seconds")
                 location.reload()
                 return;
@@ -451,31 +466,31 @@ function checkResetCode(){
         request.onerror = function(e) {
             alert("Error verifying the account!")
         };
-        request.send(JSON.stringify(credentials))
+        request.send(JSON.stringify(credentials))//sends credentials to be validated
         disableFormButtons()
 }
 
 //--------------------------------------------------------------------------------------------------------//
 
 var registrationCredentials;
-function register(){
+function register(){//function to register the account to the website
     let mail = document.getElementById("emailRegister").value.toLowerCase()
     let psw = document.getElementById("passwordRegister").value
     let psw2 = document.getElementById("passwordRegister2").value
-    if(psw == "" || mail == ""){
+    if(psw == "" || mail == ""){//checks if the input forms aren't empty
         showMessage("please put email,username and password",2)
         return;
     }
 
-    if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)){
+    if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)){//tests if the email is a valid email
         showMessage("You put an invalid email!",2)
         return;
     }
-    if(psw.length < 6){
+    if(psw.length < 6){//checks if the password is at least long 6 characters
         showMessage("Password needs to be at least 6 characters!")
         return;
     }
-    if(psw != psw2){
+    if(psw != psw2){//checks if the two passwords from the forms match
         showMessage("The passwords don't match!",2)
         document.getElementById("passwordRegister2").value = ""
         document.getElementById("passwordRegister").value = ""
@@ -491,7 +506,7 @@ function register(){
     request.onload = (res) => {
             response = res.target.response;
             registrationCredentials = credentials
-            if(response == "true"){
+            if(response == "true"){//if the server response is true, it proceedes to the next step of the account verification
                     resetPages()
                     document.getElementById("secondPage").style.display = "block"
                     document.getElementById("confirmationLabel").innerHTML = "CODE FOR: "+credentials.email
@@ -504,7 +519,7 @@ function register(){
         request.onerror = function(e) {
             showMessage("Error creating the account!",1)
         };
-        request.send(JSON.stringify(credentials))
+        request.send(JSON.stringify(credentials))//sends the credentials to the server
         disableFormButtons()
 }
 
@@ -512,7 +527,7 @@ function register(){
 
 var isAuthenticated = false
 preloadCredentials = localStorage.getItem("credentials")
-if(preloadCredentials != null){
+if(preloadCredentials != null){//This is not a really secure way but i don't know how else to do it, it gets the password and email previously used and automatically logins when the page is opened
     preloadCredentials = JSON.parse(preloadCredentials)
     document.getElementById("emailLogin").value = preloadCredentials.email
     document.getElementById("passwordLogin").value = preloadCredentials.password
@@ -521,7 +536,8 @@ if(preloadCredentials != null){
 
 //--------------------------------------------------------------------------------------------------------//
 
-function login(ignoreMessage){
+function login(ignoreMessage){//this does the actual login, it's only used to check if the credentials are correct or not, any changes made are verified again in the server
+//the ignore message is for the first login that doesn't need to say anything
     let mail = document.getElementById("emailLogin").value
     let psw = document.getElementById("passwordLogin").value
     if(mail == "" || psw == ""){
@@ -563,25 +579,25 @@ var globalCredentials = {
     password: "",
     email: ""
 }
-function storeSongsLocally(){
-    if(!isAuthenticated){
+function storeSongsLocally(){//this function loads the songs from the database and loads them into the localstorage.
+    if(!isAuthenticated){//sees if the user is logged in
         showMessage("You are not logged in",2)
         return;
     }
-    if(dbSongs.length == 0){
+    if(dbSongs.length == 0){//checks if there are no songs saved
         showMessage("There are no songs saved in the database or you haven't loaded them",2)
         return;
     }else{
-        let message = ""
+        let message = ""//this is the message shown if some songs are already saved
         for(let i=0;i<dbSongs.length;i++){
-            if(document.getElementById("Song-"+dbSongs[i].name) != null){
-                if(document.getElementById("Song-"+dbSongs[i].name).getAttribute("fromDb") == "true"){
-                    saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1)
+            if(document.getElementById("Song-"+dbSongs[i].name) != null){//checks if there is already a song saved locally with that name
+                if(document.getElementById("Song-"+dbSongs[i].name).getAttribute("fromDb") == "true"){//saves it only if the already saved one is from the database tab
+                    saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1)//saves the song locally
                 }else{
                     message+='Song: "'+dbSongs[i].name+'" Already saved \n'   
                 }
             }else{
-                saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1)    
+                saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1) //saves the song locally
             }
         }
         if(message == "") message = "Done!"
@@ -592,7 +608,8 @@ function storeSongsLocally(){
 //--------------------------------------------------------------------------------------------------------//
 
 var dbSongs = []
-function syncDB(){
+function syncDB(){//Function that syncs the songs from the database in the client, this is triggered once when you open the database tab (to reduce load) and all
+    // the times you press the "load songs from database" button 
     dbSongsDiv.innerHTML = ""
     credentials = globalCredentials;
     if(!isAuthenticated){
@@ -612,7 +629,7 @@ function syncDB(){
             }
             dbSongs = songsFromDB
             if(songsFromDB.length == 0) showMessage("No songs saved in the database!")
-            for(var i = 0 ; i<songsFromDB.length;i++){
+            for(var i = 0 ; i<songsFromDB.length;i++){//saves each individual song
                 saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, 2)
             }
         };
@@ -624,7 +641,7 @@ function syncDB(){
 
 //--------------------------------------------------------------------------------------------------------//
 
-function deleteFromDB(credentials,song){
+function deleteFromDB(credentials,song){//function to delete a song from the database of the account
     if(!isAuthenticated){
         showMessage("You are not logged in!",2)
         return;
@@ -632,7 +649,7 @@ function deleteFromDB(credentials,song){
     var objToSend = {
         email: credentials.email,
         password: credentials.password,
-        songName: song
+        songName: song//this is done from the song name, it deletes everything that has this name
     }
     let request = new XMLHttpRequest();
     request.open("POST", websiteURL+"deleteSong");
@@ -649,7 +666,7 @@ function deleteFromDB(credentials,song){
 
 //--------------------------------------------------------------------------------------------------------//
 
-function saveSongsToDB(credentials,songsToSend){
+function saveSongsToDB(credentials,songsToSend){//saves a song to the database, first value is the credentials, second is the songs array to store
     if(!isAuthenticated){
         showMessage("You are not logged in!",2)
         return;
@@ -678,7 +695,7 @@ function saveSongsToDB(credentials,songsToSend){
 
 //--------------------------------------------------------------------------------------------------------//
 
-function resetForms(){
+function resetForms(){//this resets the value of every form input
     for(var i=0; i<inputs.length;i++){
         inputs.value = ""
     }
@@ -686,7 +703,7 @@ function resetForms(){
 
 //--------------------------------------------------------------------------------------------------------//
 
-function confirmEmail(){
+function confirmEmail(){//function to confirm the email. 
     var code = document.getElementById("codeConfirmation").value
     document.getElementById("confirmRegistration").style.display = "block"
     if(code.length != 6){
@@ -702,7 +719,7 @@ function confirmEmail(){
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
             response = res.target.response;
-            if(response == "true"){
+            if(response == "true"){//if the server response is a true, it means that the account is created and it can continue with the login
                 alert("Account verified, refreshing in 2 seconds")
                 location.reload()
                 return;
@@ -720,7 +737,8 @@ function confirmEmail(){
 //LOADING WEBSITE
 inputs = document.getElementsByTagName("input")
 var isTyping = false
-for(var i=0; i<inputs.length;i++){
+for(var i=0; i<inputs.length;i++){//this sets for every input an event listener, this is done to prevent the keys from being clicked from the
+    //letters being pressed, once it focuses it ignores every press, when unfocused it doesn't ignore them anymore
     inputs[i].addEventListener("focusin",function(){
         isTyping = true
     })
@@ -731,7 +749,7 @@ for(var i=0; i<inputs.length;i++){
 
 //--------------------------------------------------------------------------------------------------------//
 
-let objKeys = {
+let objKeys = {//those are the keyboards keys used to play the piano from the pc, it's not handy but it's still another function to have
     "e":"Key0",
     "r":"Key1",
     "t":"Key2",
@@ -752,14 +770,15 @@ document.onkeypress = function(evt) {
     evt = evt || window.event
     var charCode = evt.keyCode || evt.which
     var charStr = String.fromCharCode(charCode)
+    //gets which key has been pressed and gets the corrisponding key associated to it and clicks it
     if(objKeys[charStr] != null && !isTyping) document.getElementById(objKeys[charStr]).dispatchEvent(click);
 };
 
 //--------------------------------------------------------------------------------------------------------//
 
-function changeInstrument(button) {
-    let chosenInstrument = button.id.replace("Btn", "")
-    document.getElementById("toggleInstruments").style.backgroundImage = button.style.backgroundImage
+function changeInstrument(button) {//function to change the instrument
+    let chosenInstrument = button.id.replace("Btn", "")//gets which instrument has been selected
+    document.getElementById("toggleInstruments").style.backgroundImage = button.style.backgroundImage//changes the image of the menu to the one instrument chosen
     instrumentsWrapper.style.display = "none"
     changeInstrumentSound(chosenInstrument)
 }
@@ -767,7 +786,12 @@ function changeInstrument(button) {
 //--------------------------------------------------------------------------------------------------------//
 function changePitch(value){
     document.getElementById("togglePitchList").innerHTML = "Key "+value.innerHTML
+    keyButtonName = value.innerHTML
     var buttons = document.getElementsByClassName("pitchSelection")
+    var keyBtnTxt = document.getElementsByClassName("btnText")
+    for(var i = 0;i < keyBtnTxt.length ;i++){
+        keyBtnTxt[i].innerHTML = keyNames[keyButtonName-1][i]
+    }
     for(var i = 0;i<buttons.length;i++){
         buttons[i].style.color = "#dad8b3"
     }
@@ -839,9 +863,22 @@ function preload(urls) {
 //--------------------------------------------------------------------------------------------------------//
 
 //BUTTONS
+var keyNames = {
+	0:["C","D","E","F","G","A","B","C","D","E","F","G","A","B","C"],
+	1:["D♭","E♭","F","G♭","A♭","B♭","C","D♭","E♭","F","G♭","A♭","B♭","C","D♭"],
+	2:["D","E","F♯","G","A","B","C♯","D","E","F♯","G","A","B","C♯","D"],
+	3:["E♭","F","G","A♭","B♭","C","D","E♭","F","G","A♭","B♭","C","D","E♭"],
+	4:["E","F♯","G♯","A","B","C♯","D♯","E","F♯","G♯","A","B","C♯","D♯","E"],
+	5:["F","G","A","B♭","C","D","E","F","G","A","B♭","C","D","E","F"],
+	6:["G♭","A♭","B♭","C♭","D♭","E♭","F","G♭","A♭","B♭","C♭","D♭","E♭","F","G♭"],
+	7:["G","A","B","C","D","E","F♯","G","A","B","C","D","E","F♯","G"],
+	8:["A♭","B♭","C","D♭","E♭","F","G","A♭","B♭","C","D♭","E♭","F","G","A♭"],
+	9:["A","B","C♯","D","E","F♯","G♯","A","B","C♯","D","E","F♯","G♯","A"],
+	10:["B♭","C","D","E♭","F","G","A","B♭","C","D","E♭","F","G","A","B♭"],
+	11:["B","C♯","D♯","E","F♯","G♯","A♯","B","C♯","D♯","E","F♯","G♯","A♯","B"]
+}
 const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
 var buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle", "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle", ]
-var keyNames = ["C","D","E","F","G","A","B","C","D","E","F","G","A","B","C",]
 let numOfKeysLeft = 15
 let numOfKeys = 15
 let newRowBreak = [6, 11]
@@ -868,7 +905,7 @@ preload(urls)
             //Creates button and sets the buttons properties .
             const btn = document.createElement('div')
             let background = "./KeyImages/" + buttonImages[i] + ".png"
-            btn.innerHTML = "<div class='btnBg'><a class='btnText'>"+keyNames[i]+"</a></div><img class='btnImg' src='" + background + "'/>"
+            btn.innerHTML = "<div class='btnBg'><a class='btnText'>"+keyNames[keyButtonName-1][i]+"</a></div><img class='btnImg' src='" + background + "'/>"
             btn.id = "Key" + i++
             if(i == newRowBreak[0]) j = 2
             if(i == newRowBreak[1]) j = 3
@@ -887,15 +924,22 @@ preload(urls)
                 let btnBg = btn.firstChild
                 let btnImg = btn.childNodes[1]
                 let bgColor = btnBg.style.backgroundColor
-                if(bgColor != "rgba(22, 22, 22, 0.65)" && bgColor != "rgba(60, 60, 60, 0.65)" && bgColor !="") {
-                    $(btn).children(":first").stop()
+                $(btn).children(":first").stop(false,true)
+                if(bgColor != "rgba(22, 22, 22, 0.65)" || bgColor != "rgba(60, 60, 60, 0.65)" || bgColor !="") {
                     btnBg.style.borderColor = "transparent"
                     practice([])
                 }
                 const source = a_ctx.createBufferSource()
                 source.buffer = buf
                 source.playbackRate.value = pitchKey;
-                source.connect(a_ctx.destination)
+                if(reverbToggled){
+                    let convolver = a_ctx.createConvolver();
+                    convolver.buffer = buf
+                    source.connect(convolver)
+                    convolver.connect(a_ctx.destination)
+                }else{
+                    source.connect(a_ctx.destination)
+                }
                 source.start(0)
                 reply_click(btn.id)
                 recordSong(btn.id)
@@ -917,8 +961,8 @@ function resetKeyClass(element) {
 }
 
 var webVersion = localStorage.getItem("version")
-var currentVersion =  "1.8"
-var changelogMessage = "Update version "+currentVersion+"<br> *Added practice retry! Now you can chose from where you want to restart the song while you practice it"
+var currentVersion =  "1.9"
+var changelogMessage = "Update version "+currentVersion+'<br> *Changed the "Display note names" setting, now updates with the change in key<br> suggested by -Larky'
 if(webVersion != currentVersion){
     localStorage.setItem("version",currentVersion)
     showMessage(changelogMessage,2,10000)
