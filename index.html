@@ -911,9 +911,9 @@ preload(urls)
             function buttonPressEvent(btn) {
                 let btnBg = btn.firstChild
                 let btnImg = btn.childNodes[1]
+                $(btn).children(":first").finish()
                 let bgColor = btnBg.style.backgroundColor
-                if(bgColor != "rgba(22, 22, 22, 0.65)" && bgColor != "rgba(60, 60, 60, 0.65)" && bgColor !="") {
-                    $(btn).children(":first").stop()
+                if(bgColor == "rgba(235, 0, 27, 0.7)") {
                     btnBg.style.borderColor = "transparent"
                     practice([])
                 }
