@@ -848,13 +848,13 @@ var urls = instrumentsNotes[storedInstrument]
 //--------------------------------------------------------------------------------------------------------//
 
 function set_up_reverb() {
-    fetch("reverb2.wav")
+    fetch("reverb4.wav")
         .then(r => r.arrayBuffer())
         .then(b => a_ctx.decodeAudioData(b))
         .then(impulse_response => {
             let convolver = a_ctx.createConvolver()
             let gainNode = a_ctx.createGain()
-            gainNode.gain.value = 1.5
+            gainNode.gain.value = 2
             convolver.buffer = impulse_response
             convolver.connect(gainNode)
             gainNode.connect(a_ctx.destination)
