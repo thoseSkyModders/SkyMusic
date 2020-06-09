@@ -165,7 +165,7 @@
         <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
         <button class="musicButton" id="toggleInstruments" onclick="toggleInstrumentList()"></button>
         <button class="pitchButton" id="togglePitchList" onclick="togglePitchList()">Key</button>
-        <button class="pitchButton" style="font-size: 1.3em;"id="toggleReverbBtn" onclick="toggleReverb()">R</button>
+        <button class="pitchButton" style="font-size: 1.3em; background-image: url(./icons/reverb.png);"id="toggleReverbBtn" onclick="toggleReverb()"></button>
         <button id="stopSong" onclick="stopSong()"></button>
     </div>
     <div class="videoWrapper video">
@@ -854,7 +854,7 @@ function set_up_reverb() {
         .then(impulse_response => {
             let convolver = a_ctx.createConvolver()
             let gainNode = a_ctx.createGain()
-            gainNode.gain.value = 2
+            gainNode.gain.value = 2.5
             convolver.buffer = impulse_response
             convolver.connect(gainNode)
             gainNode.connect(a_ctx.destination)

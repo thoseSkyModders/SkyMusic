@@ -165,6 +165,7 @@
         <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
         <button class="musicButton" id="toggleInstruments" onclick="toggleInstrumentList()"></button>
         <button class="pitchButton" id="togglePitchList" onclick="togglePitchList()">Key</button>
+        <button class="pitchButton" style="font-size: 1.3em; background-image: url(./icons/reverb.png);"id="toggleReverbBtn" onclick="toggleReverb()"></button>
         <button id="stopSong" onclick="stopSong()"></button>
     </div>
     <div class="videoWrapper video">
@@ -287,6 +288,17 @@ function toggleRegister(){//Shows the register page
     $("#register").fadeIn(200)
 }
 
+var reverbToggled = false
+function toggleReverb(){
+    let toggleReverbBtn = document.getElementById("toggleReverbBtn")
+    if(reverbToggled){
+        toggleReverbBtn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        reverbToggled = false
+    }else{
+        toggleReverbBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+        reverbToggled = true
+    }
+}
 //--------------------------------------------------------------------------------------------------------//
 
 let instrumentsWrapper = document.getElementById("instrumentsNew")
@@ -835,6 +847,23 @@ var urls = instrumentsNotes[storedInstrument]
 
 //--------------------------------------------------------------------------------------------------------//
 
+function set_up_reverb() {
+    fetch("reverb4.wav")
+        .then(r => r.arrayBuffer())
+        .then(b => a_ctx.decodeAudioData(b))
+        .then(impulse_response => {
+            let convolver = a_ctx.createConvolver()
+            let gainNode = a_ctx.createGain()
+            gainNode.gain.value = 2.5
+            convolver.buffer = impulse_response
+            convolver.connect(gainNode)
+            gainNode.connect(a_ctx.destination)
+            a_reverb_destination = convolver
+        })
+}
+
+//--------------------------------------------------------------------------------------------------------//
+
 function preload(urls) {
     const requests = urls.map(url => fetch(db_url + url)
         .then(r => r.arrayBuffer()) // this time we request as ArrayBuffer
@@ -866,6 +895,10 @@ var keyNames = {
 	11:["B","C♯","D♯","E","F♯","G♯","A♯","B","C♯","D♯","E","F♯","G♯","A♯","B"]
 }
 const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
+
+let a_reverb_destination = a_ctx.destination // replaced by reverb path when loaded
+set_up_reverb()
+
 var buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle", "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle", ]
 let numOfKeysLeft = 15
 let numOfKeys = 15
@@ -920,7 +953,11 @@ preload(urls)
                 const source = a_ctx.createBufferSource()
                 source.buffer = buf
                 source.playbackRate.value = pitchKey;
-                source.connect(a_ctx.destination)
+                if(reverbToggled){
+                    source.connect(a_reverb_destination)
+                }else{
+                    source.connect(a_ctx.destination)
+                }
                 source.start(0)
                 reply_click(btn.id)
                 recordSong(btn.id)
@@ -942,8 +979,8 @@ function resetKeyClass(element) {
 }
 
 var webVersion = localStorage.getItem("version")
-var currentVersion =  "1.9"
-var changelogMessage = "Update version "+currentVersion+'<br> *Changed the "Display note names" setting, now updates with the change in key<br> suggested by -Larky'
+var currentVersion =  "2.0"
+var changelogMessage = "Update version "+currentVersion+'<br> *Added cave mode, (R) <br>*Fixed bug that would block the practice if you pressed the key too fast'
 if(webVersion != currentVersion){
     localStorage.setItem("version",currentVersion)
     showMessage(changelogMessage,2,10000)
