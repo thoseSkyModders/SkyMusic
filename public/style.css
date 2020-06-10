@@ -1,38 +1,39 @@
 @font-face {
-  font-family: consola;
-  src: url('fonts/CONSOLA.TTF');
-  font-weight: normal;
-  font-style: normal;
+	font-family: consola;
+	src: url('fonts/CONSOLA.TTF');
+	font-weight: normal;
+	font-style: normal;
 }
 
 @font-face {
-  font-family: consola;
-  src: url('fonts/CONSOLAB.TTF');
-  font-weight: bold;
-  font-style: normal;
+	font-family: consola;
+	src: url('fonts/CONSOLAB.TTF');
+	font-weight: bold;
+	font-style: normal;
 }
 
 * {
-   /* touch-action: none !important; mitigates button issues on iOS */
-    font-family: arial;
+	/* touch-action: none !important; mitigates button issues on iOS */
+	font-family: arial;
 }
 
-.btnText{
-  color: transparent;
-  font-family: Arial;
-  font-size: 1.5em;
-  position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.btnText {
+	color: transparent;
+	font-family: Arial;
+	font-size: 1.5em;
+	position: absolute;
+	z-index: 2;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
-.floatingMessage{
+
+.floatingMessage {
 	position: absolute;
 	width: 40%;
 	left: 28.5%;
 	height: 15%;
-	top:70%;
+	top: 70%;
 	font-size: 1em;
 	text-align: center;
 	padding: 1em;
@@ -42,35 +43,37 @@
 	background-color: rgba(22, 22, 22, 0.95);
 	display: none;
 	z-index: 110;
-	border:solid 2px #dad8b3;
+	border: solid 2px #dad8b3;
 	border-radius: 1em;
 }
+
 [id^=Key] {
-  display: inline-block;
-  height: calc((100vh - 6vw - 30px)/3);
-  max-height: 80px;
-  width: calc((100% - 10vw)/5);
-  max-width: 80px;
-  padding:1vw;
-  background: transparent;
-  cursor: pointer;
-  outline: none;
-  position: relative;
+	display: inline-block;
+	height: calc((100vh - 6vw - 30px)/3);
+	max-height: 80px;
+	width: calc((100% - 10vw)/5);
+	max-width: 80px;
+	padding: 1vw;
+	background: transparent;
+	cursor: pointer;
+	outline: none;
+	position: relative;
 }
 
 .btnBg {
-  z-index: 0;
-  padding-top: 1.3em;
-  border-radius: 0.75em;
-  box-sizing: border-box;
-  border: 5px solid transparent;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(22, 22, 22, 0.65);
-  cursor: pointer;
-  display: block;
+	z-index: 0;
+	padding-top: 1.3em;
+	border-radius: 0.75em;
+	box-sizing: border-box;
+	border: 5px solid transparent;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(22, 22, 22, 0.65);
+	cursor: pointer;
+	display: block;
 }
-.songRange{
+
+.songRange {
 	z-index: 0;
 	display: none;
 	text-align: center;
@@ -78,30 +81,34 @@
 	width: 12vh;
 	position: absolute;
 	right: 5%;
-	top:20%;
+	top: 20%;
 	height: 50%;
 	user-select: none;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
+
 input[type=number] {
-  -moz-appearance: textfield;
+	-moz-appearance: textfield;
 }
-#startingNoteRange{
+
+#startingNoteRange {
 	font-family: Arial;
 	text-align: center;
 	border: none;
 	width: 30px;
-	color:#dad8b3;
-	background-color:rgba(22, 22, 22, 0.65) ;
-	padding:2px 5px 2px 5px ;
+	color: #dad8b3;
+	background-color: rgba(22, 22, 22, 0.65);
+	padding: 2px 5px 2px 5px;
 	border-radius: 6px;
 	outline: none;
 	user-select: none;
 }
+
 /*
 input[type=range][orient=vertical]{
     writing-mode: bt-lr;
@@ -115,206 +122,248 @@ input[type=range][orient=vertical]{
 */
 
 input[type=range][orient=vertical] {
-  -webkit-appearance: slider-vertical;
-  writing-mode: bt-lr;
-  width: 10px;
-  height: 90%;
-  border-radius: 5px;  
-  background: #d3d3d3;
-  outline: none;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
+	-webkit-appearance: slider-vertical;
+	writing-mode: bt-lr;
+	width: 10px;
+	height: 90%;
+	border-radius: 5px;
+	background: #d3d3d3;
+	outline: none;
+	opacity: 0.7;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
 }
 
 input[type=range][orient=vertical]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 25px;
-  height: 25px;
-  border-radius: 50%; 
-  background: #4c8bf5;
-  cursor: pointer;
-  border: 0;
+	-webkit-appearance: none;
+	appearance: none;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: #4c8bf5;
+	cursor: pointer;
+	border: 0;
 }
 
 input[type=range][orient=vertical]::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  background: #4c8bf5;
-  cursor: pointer;
-  border: 0;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: #4c8bf5;
+	cursor: pointer;
+	border: 0;
 }
+
 input[type=range][orient=vertical]:hover {
-  opacity: 1; /* Fully shown on mouse-over */
+	opacity: 1;
+	/* Fully shown on mouse-over */
 }
+
 @media only screen and (orientation:portrait) {
-	.songRange{
+	.songRange {
 		display: none;
 		text-align: center;
 		border-radius: 1em;
 		position: absolute;
 		width: 90%;
 		left: 5%;
-		top:85%;
+		top: 85%;
 		user-select: none;
 	}
-	input[type=range][orient=vertical]{
-		writing-mode: bt-lr; /* IE */
-		-webkit-appearance: slider-horizontal; /* WebKit */
+
+	input[type=range][orient=vertical] {
+		writing-mode: bt-lr;
+		/* IE */
+		-webkit-appearance: slider-horizontal;
+		/* WebKit */
 		width: 80%;
 		height: 8px;
 		padding: 0 5px;
 		user-select: none;
 	}
 }
+
 .btnImg {
-  width: calc(100% - 2vw);
-  height: calc(100% - 2vw);
-  z-index: 1;
-  position: absolute;
-  top: 1vw;
-  left: 1vw;
-  object-fit: contain;
-  object-position: center;
-  pointer-events: none;
-  cursor: pointer;
-  display: block;
+	width: calc(100% - 2vw);
+	height: calc(100% - 2vw);
+	z-index: 1;
+	position: absolute;
+	top: 1vw;
+	left: 1vw;
+	object-fit: contain;
+	object-position: center;
+	pointer-events: none;
+	cursor: pointer;
+	display: block;
 }
 
 @keyframes click-key {
-	from {transform: scale(1, 1);}
-	50% {transform: scale(0.5, 1);}
-	50% {transform: scale(0, 1);}
-	to {transform: scale(1, 1);}
+	from {
+		transform: scale(1, 1);
+	}
+
+	50% {
+		transform: scale(0.5, 1);
+	}
+
+	50% {
+		transform: scale(0, 1);
+	}
+
+	to {
+		transform: scale(1, 1);
+	}
 }
 
 @keyframes click-scale {
-  from {transform: scale(1);}
-  50% {transform: scale(0.9);}
-  to {transform: scale(1);}
+	from {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(0.9);
+	}
+
+	to {
+		transform: scale(1);
+	}
 }
 
 .keyScale {
-  animation-name: click-scale;
-    animation-timing-function: linear;
-    animation-duration: 0.15s;
-    animation-iteration-count: initial;
-  animation-play-state: 1;
-  /* For Chrome & Safari */
-   
-  -webkit-animation-name: click-scale;
-  -webkit-animation-timing-function: linear;
-  -webkit-animation-duration:0.15s;
-  -webkit-animation-iteration-count: initial;
-  -webkit-animation-play-state: 1;
-}
-
-.keyTurn{
-	animation-name: click-key;
-    animation-timing-function: linear;
-    animation-duration: 0.15s;
-    animation-iteration-count: initial;
+	animation-name: click-scale;
+	animation-timing-function: linear;
+	animation-duration: 0.15s;
+	animation-iteration-count: initial;
 	animation-play-state: 1;
 	/* For Chrome & Safari */
-   
+
+	-webkit-animation-name: click-scale;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-duration: 0.15s;
+	-webkit-animation-iteration-count: initial;
+	-webkit-animation-play-state: 1;
+}
+
+.keyTurn {
+	animation-name: click-key;
+	animation-timing-function: linear;
+	animation-duration: 0.15s;
+	animation-iteration-count: initial;
+	animation-play-state: 1;
+	/* For Chrome & Safari */
+
 	-webkit-animation-name: click-key;
 	-webkit-animation-timing-function: linear;
-	-webkit-animation-duration:0.15s;
+	-webkit-animation-duration: 0.15s;
 	-webkit-animation-iteration-count: initial;
 	-webkit-animation-play-state: 1;
 }
 
 #stopSong {
-  background-image: url(icons/stop.png);
-  background-color: transparent;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  visibility: hidden;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  border: 0;
-  vertical-align: middle;
-  cursor: pointer;
-  margin-left: 1em;
+	background-image: url(icons/stop.png);
+	background-color: transparent;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	visibility: hidden;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	border: 0;
+	vertical-align: middle;
+	cursor: pointer;
+	margin-left: 1em;
 }
-.musicButton{
+
+.musicButton {
 	background: rgba(22, 22, 22, 0.65);
 	background-image: url('./images/piano.png');
 	background-size: 25px 25px;
 	background-repeat: no-repeat;
 	background-position: center;
-    border-radius: 50%;
+	border-radius: 50%;
 	height: 40px;
 	width: 40px;
 	border: none;
-    margin-left: 0.5em;
-    vertical-align: middle;
-	cursor: pointer;
-	outline: none;
-}
-.pitchButton{
-	background: rgba(22, 22, 22, 0.65);
-	background-size: 25px 25px;
-	background-repeat: no-repeat;
-	background-position: center;
-    border-radius: 50%;
-	color:#dad8b3;
-	font-weight: bold;
-	height: 40px;
-	width: 40px;
-	border: none;
-  	margin-left: 0.5em;
-  	vertical-align: middle;
+	margin-left: 0.5em;
+	vertical-align: middle;
 	cursor: pointer;
 	outline: none;
 }
 
-.pitchSelection{
+.pitchButton {
+	background: rgba(22, 22, 22, 0.65);
+	background-size: 25px 25px;
+	background-repeat: no-repeat;
+	background-position: center;
+	border-radius: 50%;
+	color: #dad8b3;
+	font-weight: bold;
+	height: 40px;
+	width: 40px;
+	border: none;
+	margin-left: 0.5em;
+	vertical-align: middle;
+	cursor: pointer;
+	outline: none;
+}
+
+.pitchSelection {
 	border: none;
 	width: 40px;
 	border-bottom: solid 1.5px #dad8b3;
 	background-color: transparent;
 	margin-bottom: 5px;
 	font-size: 30px;
-	color:#dad8b3;
+	color: #dad8b3;
 	font-weight: bold;
 }
-.instrumentButton{
+
+.instrumentButton {
 	background-position: center;
 	background-size: contain;
 	background-color: transparent;
 	border: none;
-	height:40px;
-	width:40px;
-	margin:2px;
+	height: 40px;
+	width: 40px;
+	margin: 2px;
 	cursor: pointer;
 	outline: none;
 }
-.instrumentsWrapper{
+
+.instrumentsWrapper {
 	text-align: center;
 	border-radius: 1em;
-	background-color: rgba(22, 22, 22, 0.65); ;
+	background-color: rgba(22, 22, 22, 0.65);
+	;
 	display: none;
 	width: 12vh;
 	position: absolute;
 	height: 60%;
 	overflow-y: scroll;
 	right: 5%;
-	top:10%;
+	top: 10%;
 	z-index: 1;
 }
+
 @keyframes bounce-background {
 	from {
-    background-position: top;
-  }
-	50% {background-position: bottom;}
-	50% {background-position: middle;}
-	to {background-position: top;}
+		background-position: top;
+	}
+
+	50% {
+		background-position: bottom;
+	}
+
+	50% {
+		background-position: middle;
+	}
+
+	to {
+		background-position: top;
+	}
 }
+
 /*
 .musicButton:hover{
 	animation-name: bounce-background;
@@ -362,7 +411,7 @@ button span {
 	display: none;
 }
 
-button{
+button {
 	-webkit-user-select: none;
 	-moz-user-select: -moz-none;
 	/*IE10*/
@@ -371,24 +420,25 @@ button{
 	/*You just need this if you are only concerned with android and not desktop browsers.*/
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
 .bottomSavedSongsDiv {
 	border-top: 2px solid #dad8b3;
-  position: sticky;
-  bottom: 0;
-  padding: 0.5em;
-  box-sizing: border-box;
-  background: #333;
-  width: 100%;
-  display: inline-flex;
+	position: sticky;
+	bottom: 0;
+	padding: 0.5em;
+	box-sizing: border-box;
+	background: #333;
+	width: 100%;
+	display: inline-flex;
 }
 
 .bottomSavedSongsDiv .skyButton {
-  width: calc(50% - 1em);
+	width: calc(50% - 1em);
 }
 
 .topSavedSongsDiv {
-  padding: 0.5em;
-  box-sizing: border-box;
+	padding: 0.5em;
+	box-sizing: border-box;
 }
 
 .inputFile {
@@ -412,14 +462,14 @@ button{
 	border-radius: 1.5em;
 	display: none;
 	z-index: 10;
-  max-height: 90vh;
-  overflow: auto;
+	max-height: 90vh;
+	overflow: auto;
 }
 
 .floatingDiv h3 {
-  padding: 0.2em;
-  box-sizing: border-box;
-  margin-bottom: 0;
+	padding: 0.2em;
+	box-sizing: border-box;
+	margin-bottom: 0;
 }
 
 div.fileinputs {
@@ -469,7 +519,7 @@ div.fakefile {
 .menuDiv {
 	width: 100%;
 	text-align: center;
-  height: 50px;
+	height: 50px;
 }
 
 body {
@@ -479,93 +529,116 @@ body {
 }
 
 #touch {
-  height: calc(100vh - 50px);
+	height: calc(100vh - 50px);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-  padding: 1%;
-  box-sizing: border-box;
-  text-align: center;
+	padding: 1%;
+	box-sizing: border-box;
+	text-align: center;
 }
 
-#login,#register,#confirmRegistration,#resetPassword {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  padding: 5%;
+#login,
+#register,
+#confirmRegistration,
+#resetPassword {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: 5%;
 }
 
-#loginContainer,#resetContainer,#registerContainer,#confirmContainer,#settingsContainer {
-  background: rgba(15,15,15,0.85);
-  width: 100%;
-  max-height: 100%;
-  overflow: auto;
-  padding: 1.5em;
-  box-sizing: border-box;
-  color: white;
-  border-radius: 15px;
-  max-width: 500px;
-  margin: auto;
+#loginContainer,
+#resetContainer,
+#registerContainer,
+#confirmContainer,
+#settingsContainer {
+	background: rgba(15, 15, 15, 0.85);
+	width: 100%;
+	max-height: 100%;
+	overflow: auto;
+	padding: 1.5em;
+	box-sizing: border-box;
+	color: white;
+	border-radius: 15px;
+	max-width: 500px;
+	margin: auto;
 }
 
-#loginContainer h1,#registerContainer h1,#confirmContainer h1,#resetContainer h1,#settingsContainer h1 {
-  text-align: center;
-  margin: 0;
+#loginContainer h1,
+#registerContainer h1,
+#confirmContainer h1,
+#resetContainer h1,
+#settingsContainer h1 {
+	text-align: center;
+	margin: 0;
 }
 
-.formLabel{
-  display: block;
-  padding: 1em 0 0.5em;
-  box-sizing: border-box;
-  font-size: 15px;
-  box-sizing: border-box
+.formLabel {
+	display: block;
+	padding: 1em 0 0.5em;
+	box-sizing: border-box;
+	font-size: 15px;
+	box-sizing: border-box
 }
 
-.formInput{
-  display: block;
-  width: 100%;
-  border: 0;
-  padding: 1em;
-  box-sizing: border-box;
-  border-radius: 5px;
-  outline: 0;
-  background-color: #cbd6d2;
+.formInput {
+	display: block;
+	width: 100%;
+	border: 0;
+	padding: 1em;
+	box-sizing: border-box;
+	border-radius: 5px;
+	outline: 0;
+	background-color: #cbd6d2;
 }
 
-#loginContainer button,#resetContainer button,#registerContainer button,#confirmContainer button,#settingsContainer button{
-  display: block;
-  width: 100%;
-  border: 0;
-  padding: 0.6em;
-  margin: 1em 0 1em;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 20px;
-  background: teal;
-  color: white;
+#loginContainer button,
+#resetContainer button,
+#registerContainer button,
+#confirmContainer button,
+#settingsContainer button {
+	display: block;
+	width: 100%;
+	border: 0;
+	padding: 0.6em;
+	margin: 1em 0 1em;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 20px;
+	background: teal;
+	color: white;
 }
 
-#loginContainer a,#resetContainer a,#registerContainer a,#confirmContainer a ,#settingsContainer a{
-  color: teal;
-  text-decoration: none;
+#loginContainer a,
+#resetContainer a,
+#registerContainer a,
+#confirmContainer a,
+#settingsContainer a {
+	color: teal;
+	text-decoration: none;
 }
 
-#loginContainer span,#resetContainer span,#registerContainer span,#confirmContainer span ,#settingsContainer span{
-  font-weight: bold;
-  display: inline-block;
-  width: 50%;
+#loginContainer span,
+#resetContainer span,
+#registerContainer span,
+#confirmContainer span,
+#settingsContainer span {
+	font-weight: bold;
+	display: inline-block;
+	width: 50%;
 }
 
 #registerLink {
-  text-align: left;
+	text-align: left;
 }
 
 #forgotLink {
-  text-align: right;
+	text-align: right;
 }
 
 #icon-bar {
@@ -595,7 +668,7 @@ body {
 	padding: 30px;
 }
 
-.secondPage{
+.secondPage {
 	display: none;
 	backdrop-filter: blur(10px);
 	position: absolute;
@@ -603,6 +676,7 @@ body {
 	width: 100%;
 	z-index: 30;
 }
+
 .skyButton_2 {
 	background-color: rgba(22, 22, 22, 0.2);
 	border: 0;
@@ -625,19 +699,27 @@ body {
 }
 
 @media only screen and (max-height: 450px) {
-  #login,#register,#confirmRegistration,#resetPassword {
-    padding: 0;
-    background-color: #222;
-  }
 
-  #loginContainer,#resetContainer,#registerContainer,#confirmContainer ,#settingsContainer {
-    max-width: none;
-    border-radius: 0;
-  }
+	#login,
+	#register,
+	#confirmRegistration,
+	#resetPassword {
+		padding: 0;
+		background-color: #222;
+	}
+
+	#loginContainer,
+	#resetContainer,
+	#registerContainer,
+	#confirmContainer,
+	#settingsContainer {
+		max-width: none;
+		border-radius: 0;
+	}
 }
 
-@media only screen and (max-width: 800px){
-  /*
+@media only screen and (max-width: 800px) {
+	/*
 	.musicButton { top: 20%; width: 10vh; left:50%; margin-right: -50%; transform: translate(-50%, -50%);}
   */
 }
@@ -648,10 +730,10 @@ body {
 	border-bottom: 2px solid #dad8b3;
 	background-color: #333;
 	filter: opacity(90%);
-  }
-  
-  /* Style the buttons inside the tab */
-  .tab button {
+}
+
+/* Style the buttons inside the tab */
+.tab button {
 	background-color: inherit;
 	float: left;
 	border: none;
@@ -661,18 +743,18 @@ body {
 	transition: 0.3s;
 	font-size: 17px;
 	color: #dad8b3
-  }
-  
-  .tab button:hover {
+}
+
+.tab button:hover {
 	background-color: #ddd;
 	color: black
-  }
-  
-  .tab button.active {
+}
+
+.tab button.active {
 	background-color: #dad8b3;
 	color: black
-  }
+}
 
-  #dbSongs {
-	  display: none;
-  }
+#dbSongs {
+	display: none;
+}
