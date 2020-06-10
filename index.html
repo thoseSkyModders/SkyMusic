@@ -180,21 +180,25 @@
         <div class="Row3" id="row3"></div>
     </div>
     <div id="instrumentsNew" class="instrumentsWrapper">
-        <button type="button" id="pianoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/piano.png);"/>
-        <button type="button" id="harpBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/harp.png);"/>
-        <button type="button" id="bellBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bell.png);"/> 
-        <button type="button" id="guitarBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/guitar.png);"/>
-        <button type="button" id="fluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/flute.png);"/>
-        <button type="button" id="xylophoneBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/xylophone.png);"/>
-        <button type="button" id="drumBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/drum.png);"/> 
-    <!--<button type="button" id="hornBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/horn.png);"/>
-        <button type="button" id="xylophoneBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/xylophone.png);"/>
-        <button type="button" id="bassBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bass.png);"/>
-        <button type="button" id="winterPiano" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/winterPiano.png);"/>
-        <button type="button" id="banjoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/banjoBtn.png);"/> 
-        <button type="button" id="panfluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/panflute.png);"/>  
+        <button type="button" id="pianoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/piano.png);"></button>
+        <button type="button" id="harpBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/harp.png);"></button>
+        <button type="button" id="guitarBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/guitar.png);"></button>
+        <button type="button" id="fluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/flute.png);"></button>
+        <button type="button" id="xylophoneBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/xylophone.png);"></button>
+        <button type="button" id="hornBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/horn.png);"></button>
+        <button type="button" id="drumBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/drum.png);"></button>
+        <button type="button" id="bellBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bell.png);"></button>
+        <!--<button type="button" id="bassBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bass.png);"/></button>
+        <button type="button" id="winterPiano" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/winterPiano.png);"/></button>
+        <button type="button" id="banjoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/banjoBtn.png);"/></button> 
+        <button type="button" id="panfluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/panflute.png);"/></button>  
         TO REMOVE ONCE NEW INSTRUMENTS ARE ADDED
         -->
+        <div style="color: rgba(235, 0, 27, 1); font-size:1.2em; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">
+            OLD
+        </div>
+        <button type="button" id="oldHarpBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/harp.png);"/>
+        
     </div>
     <div id="pitchTab" class="instrumentsWrapper">
     <button class="pitchSelection" onclick="changePitch(this)">1</button>
@@ -809,12 +813,13 @@ const db_url = './Sounds/'
 let instrumentsNotes = {
     piano: ["Piano/0.mp3", "Piano/1.mp3", "Piano/2.mp3", "Piano/3.mp3", "Piano/4.mp3", "Piano/5.mp3", "Piano/6.mp3", "Piano/7.mp3", "Piano/8.mp3", "Piano/9.mp3", "Piano/10.mp3", "Piano/11.mp3", "Piano/12.mp3", "Piano/13.mp3", "Piano/14.mp3"],
     harp: ["Harp/0.mp3", "Harp/1.mp3", "Harp/2.mp3", "Harp/3.mp3", "Harp/4.mp3", "Harp/5.mp3", "Harp/6.mp3", "Harp/7.mp3", "Harp/8.mp3", "Harp/9.mp3", "Harp/10.mp3", "Harp/11.mp3", "Harp/12.mp3", "Harp/13.mp3", "Harp/14.mp3"],
+    oldHarp: ["OldHarp/0.mp3", "OldHarp/1.mp3", "OldHarp/2.mp3", "OldHarp/3.mp3", "OldHarp/4.mp3", "OldHarp/5.mp3", "OldHarp/6.mp3", "OldHarp/7.mp3", "OldHarp/8.mp3", "OldHarp/9.mp3", "OldHarp/10.mp3", "OldHarp/11.mp3", "OldHarp/12.mp3", "OldHarp/13.mp3", "OldHarp/14.mp3"],
     bell: ["Bells/0.mp3","Bells/1.mp3","Bells/2.mp3","Bells/3.mp3","Bells/4.mp3","Bells/5.mp3","Bells/6.mp3","Bells/7.mp3","Bells/7.mp3","Bells/7.mp3","Bells/7.mp3","Bells/7.mp3","Bells/7.mp3","Bells/7.mp3","Bells/7.mp3"],
     guitar: ["Guitar/0.mp3", "Guitar/1.mp3", "Guitar/2.mp3", "Guitar/3.mp3", "Guitar/4.mp3", "Guitar/5.mp3", "Guitar/6.mp3", "Guitar/7.mp3", "Guitar/8.mp3", "Guitar/9.mp3", "Guitar/10.mp3", "Guitar/11.mp3", "Guitar/12.mp3", "Guitar/13.mp3", "Guitar/14.mp3"],
     flute: ["Flute/0.mp3", "Flute/1.mp3", "Flute/2.mp3", "Flute/3.mp3", "Flute/4.mp3", "Flute/5.mp3", "Flute/6.mp3", "Flute/7.mp3", "Flute/8.mp3", "Flute/9.mp3", "Flute/10.mp3", "Flute/11.mp3", "Flute/12.mp3", "Flute/13.mp3", "Flute/14.mp3"],
     xylophone: ["Xylophone/0.mp3", "Xylophone/1.mp3", "Xylophone/2.mp3", "Xylophone/3.mp3", "Xylophone/4.mp3", "Xylophone/5.mp3", "Xylophone/6.mp3", "Xylophone/7.mp3", "Xylophone/8.mp3", "Xylophone/9.mp3", "Xylophone/10.mp3", "Xylophone/11.mp3", "Xylophone/12.mp3", "Xylophone/13.mp3", "Xylophone/14.mp3"],
     drum: ["Drum/0.mp3", "Drum/1.mp3", "Drum/2.mp3", "Drum/3.mp3", "Drum/4.mp3", "Drum/5.mp3", "Drum/6.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3"],
-
+    horn: ["Horn/0.mp3", "Horn/1.mp3", "Horn/2.mp3", "Horn/3.mp3", "Horn/4.mp3", "Horn/5.mp3", "Horn/6.mp3", "Horn/7.mp3", "Horn/8.mp3", "Horn/9.mp3", "Horn/10.mp3", "Horn/11.mp3", "Horn/12.mp3", "Horn/13.mp3", "Horn/14.mp3"],
 }
 //Changes sounds when instrument is selected
 function changeInstrumentSound(instrument) {
@@ -979,8 +984,8 @@ function resetKeyClass(element) {
 }
 
 var webVersion = localStorage.getItem("version")
-var currentVersion =  "2.0"
-var changelogMessage = "Update version "+currentVersion+'<br> *Added cave mode, (R) <br>*Fixed bug that would block the practice if you pressed the key too fast'
+var currentVersion =  "2.1"
+var changelogMessage = "Update version "+currentVersion+'<br> *Added horn and original harp <br>(version 2.0)<br>*Added cave mode'
 if(webVersion != currentVersion){
     localStorage.setItem("version",currentVersion)
     showMessage(changelogMessage,2,10000)
@@ -1426,6 +1431,7 @@ function stopSong(){
 
 async function playSong(song) {
     document.getElementById("stopSong").style.visibility = "visible"
+    $(songRange).fadeOut(200)
     let delayTime = 0
     let previousTime = 0
     isSongStopped = false

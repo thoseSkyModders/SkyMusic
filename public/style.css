@@ -253,7 +253,8 @@ input[type=range][orient=vertical]:hover {
 	border: none;
     margin-left: 0.5em;
     vertical-align: middle;
-    cursor: pointer;
+	cursor: pointer;
+	outline: none;
 }
 .pitchButton{
 	background: rgba(22, 22, 22, 0.65);
@@ -268,7 +269,8 @@ input[type=range][orient=vertical]:hover {
 	border: none;
   	margin-left: 0.5em;
   	vertical-align: middle;
-  	cursor: pointer;
+	cursor: pointer;
+	outline: none;
 }
 
 .pitchSelection{
@@ -290,6 +292,7 @@ input[type=range][orient=vertical]:hover {
 	width:40px;
 	margin:2px;
 	cursor: pointer;
+	outline: none;
 }
 .instrumentsWrapper{
 	text-align: center;
