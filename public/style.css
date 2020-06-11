@@ -63,7 +63,7 @@
 .btnBg {
 	z-index: 0;
 	padding-top: 1.3em;
-	border-radius: 0.75em;
+	border-radius: 0.9em;
 	box-sizing: border-box;
 	border: 5px solid transparent;
 	width: 100%;
@@ -72,7 +72,13 @@
 	cursor: pointer;
 	display: block;
 }
-
+#exitFullScreenBtn{
+	position: absolute;
+	left:15px;
+	bottom:10px;
+	display: none;
+	width: 35px;
+}
 .songRange {
 	z-index: 0;
 	display: none;

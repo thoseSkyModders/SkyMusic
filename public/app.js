@@ -12,8 +12,9 @@ function toggleReset() {
     document.getElementById("secondPage").style.display = "block"
     $("#resetPassword").fadeIn(200)
 }
-
+let exitFullScreenBtn = document.getElementById("exitFullScreenBtn")
 function exitFullScreen(){
+    exitFullScreenBtn.style.display = "none"
     if (document.exitFullscreen) {
         document.exitFullscreen();
       } else if (document.mozCancelFullScreen) { /* Firefox */
@@ -35,6 +36,7 @@ function toggleFullScreen(){
         if(isDesktop){
             return
         }
+        exitFullScreenBtn.style.display = "block"
         let el = document.documentElement;
         // Supports most browsers and their versions.
         let requestMethod = el.requestFullScreen || el.webkitRequestFullScreen ||
