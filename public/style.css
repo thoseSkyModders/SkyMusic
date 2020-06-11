@@ -81,11 +81,7 @@
 }
 @media only screen and (orientation:portrait) {
 	#exitFullScreenBtn{
-		position: absolute;
-		right:15px;
-		bottom:10px;
-		display: none;
-		width: 35px;
+		left:calc(100vw - 50px);
 	}
 }
 .songRange {
