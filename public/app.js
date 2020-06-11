@@ -12,7 +12,27 @@ function toggleReset() {
     document.getElementById("secondPage").style.display = "block"
     $("#resetPassword").fadeIn(200)
 }
-
+window.addEventListener("load",function() {
+    setTimeout(function(){
+        // This hides the address bar:
+        window.scrollTo(0, 1);
+        toggleFullScreen()
+    }, 0);
+});
+function toggleFullScreen(){
+        //Makes the website full screen
+        let fullScreenDom = document.documentElement;
+    
+        if (fullScreenDom.requestFullscreen) {
+          fullScreenDom.requestFullscreen();
+        } else if (fullScreenDom.mozRequestFullScreen) { /* Firefox */
+          fullScreenDom.mozRequestFullScreen();
+        } else if (fullScreenDom.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+          fullScreenDom.webkitRequestFullscreen();
+        } else if (fullScreenDom.msRequestFullscreen) { /* IE/Edge */
+          fullScreenDom.msRequestFullscreen();
+        }
+}
 //--------------------------------------------------------------------------------------------------------//
 
 function ignoreRotation(){
@@ -792,6 +812,7 @@ preload(urls)
             })
 
             function buttonPressEvent(btn) {
+                toggleFullScreen()
                 let btnBg = btn.firstChild
                 let btnImg = btn.childNodes[1]
                 $(btn).children(":first").finish()

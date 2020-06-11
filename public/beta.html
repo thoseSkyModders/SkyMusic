@@ -236,22 +236,5 @@
 </body>
 <input type="sleeping" placeholder="username" style="display: none"> <!-- Easter egg-->
 <script type="text/javascript" src="app.js"></script>
-<script>
-    //Makes the website full screen
-    try {
-    let fullScreenDom = document.documentElement;
-    
-      if (fullScreenDom.requestFullscreen) {
-        fullScreenDom.requestFullscreen();
-      } else if (fullScreenDom.mozRequestFullScreen) { /* Firefox */
-        fullScreenDom.mozRequestFullScreen();
-      } else if (fullScreenDom.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-        fullScreenDom.webkitRequestFullscreen();
-      } else if (fullScreenDom.msRequestFullscreen) { /* IE/Edge */
-        fullScreenDom.msRequestFullscreen();
-      }
-    } catch {
-        console.log("No full screen :c")
-    }
-    </script>
+
 </html>
