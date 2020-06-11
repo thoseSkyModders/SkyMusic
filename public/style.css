@@ -79,6 +79,15 @@
 	display: none;
 	width: 35px;
 }
+@media only screen and (orientation:portrait) {
+	#exitFullScreenBtn{
+		position: absolute;
+		right:15px;
+		bottom:10px;
+		display: none;
+		width: 35px;
+	}
+}
 .songRange {
 	z-index: 0;
 	display: none;
