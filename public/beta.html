@@ -18,6 +18,14 @@
           })(document);
           smartlook('init', '733210bc901cb85d79d7d23131054a0a6f13ea53');
       </script>
+          <meta name="description" content="Play/Practice/Share Sky songs with many instruments,keys and functions!">
+          <meta name="keywords" content="Sky,Music,piano,harp,xylophone,drum,guitar,horn,bell,record,share,midi">
+          <meta name="author" content="John Doe">
+          <meta property="og:image" content="https://repository-images.githubusercontent.com/261796811/08f6ec80-9ce7-11ea-8bf1-800c977cfaf1">
+          <meta property="og:site_name" content="Sky Music">
+          <meta property="og:title" content="Sky Music App!">
+          <meta property="og:url" content="https://sky-music.herokuapp.com/">
+          <meta property="og:description" content="Play/Practice/Share Sky songs with many instruments,keys and functions!">
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="shortcut icon" href="/favicon.png?v=2" type="image/x-icon" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
@@ -151,7 +159,7 @@
           </div>
     </div>
     <button id="menu" style="display: block;"onclick="showMenu()"></button>
-    <div id="icon-bar">
+    <div id="icon-bar" style="height: 100vh;">
         <button class="skyButton_2" onclick='resetPages(),showMenu(),document.getElementById("login").style.display = "none"'><p class="texts">Main page</p></button>
         <button class="skyButton_2" onclick="toggleLogin()"><p class="texts">Account</p></button>
         <button class="skyButton_2" onclick="toggleSettings()"><p class="texts">Settings</p></button>
@@ -228,4 +236,18 @@
 </body>
 <input type="sleeping" placeholder="username" style="display: none"> <!-- Easter egg-->
 <script type="text/javascript" src="app.js"></script>
+<script>
+    //Makes the website full screen
+    let document = document.documentElement;
+    
+      if (document.requestFullscreen) {
+        document.requestFullscreen();
+      } else if (document.mozRequestFullScreen) { /* Firefox */
+        document.mozRequestFullScreen();
+      } else if (document.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        document.webkitRequestFullscreen();
+      } else if (document.msRequestFullscreen) { /* IE/Edge */
+        document.msRequestFullscreen();
+      }
+    </script>
 </html>
