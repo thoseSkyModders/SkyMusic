@@ -12,22 +12,32 @@ function toggleReset() {
     document.getElementById("secondPage").style.display = "block"
     $("#resetPassword").fadeIn(200)
 }
-toggleFullScreen()
+
+function exitFullScreen(){
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) { /* Firefox */
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { /* IE/Edge */
+        document.msExitFullscreen();
+      }
+}
 function toggleFullScreen(){
         //Makes the website full screen
         if(!(typeof window.orientation !== "undefined") || !(navigator.userAgent.indexOf('IEMobile') !== -1)){
             return
         }
-        let fullScreenDom = document.documentElement;
-    
-        if (fullScreenDom.requestFullscreen) {
-          fullScreenDom.requestFullscreen();
-        } else if (fullScreenDom.mozRequestFullScreen) { /* Firefox */
-          fullScreenDom.mozRequestFullScreen();
-        } else if (fullScreenDom.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-          fullScreenDom.webkitRequestFullscreen();
-        } else if (fullScreenDom.msRequestFullscreen) { /* IE/Edge */
-          fullScreenDom.msRequestFullscreen();
+        let el = document.documentElement;
+        // Supports most browsers and their versions.
+        let requestMethod = el.requestFullScreen || el.webkitRequestFullScreen ||
+          el.mozRequestFullScreen || el.msRequestFullScreen;   
+        if (requestMethod) { 
+          requestMethod.call(el);    // Native full screen.
+        } else if (typeof window.ActiveXObject !== 'undefined') {    
+          let wscript = new ActiveXObject('WScript.Shell');    // Older IE.
+          if (wscript !== null) wscript.SendKeys('{F11}');
         }
 }
 //--------------------------------------------------------------------------------------------------------//
