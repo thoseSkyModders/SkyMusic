@@ -158,7 +158,25 @@ input[type=range][orient=vertical]:hover {
 	opacity: 1;
 	/* Fully shown on mouse-over */
 }
+#rotateDevice{
+display: none;
+}
 
+.bottom{
+	margin-top: 30%;
+}
+
+@media only screen and (orientation:portrait) {
+	#rotateDevice{
+		display: block;
+		text-align: center;
+		z-index: 1000;
+		background-color: rgba(235, 233, 202, 0.9);
+		position:absolute;
+		width:100%;
+		height:100%;
+	}
+}
 @media only screen and (orientation:portrait) {
 	.songRange {
 		display: none;
@@ -646,7 +664,7 @@ body {
 	width: 30%;
 	height: 100%;
 	position: absolute;
-	filter: opacity(90%);
+	filter: opacity(95%);
 	-webkit-backdrop-filter: blur(20px);
 	backdrop-filter: blur(20px);
 	display: none;
@@ -667,7 +685,11 @@ body {
 	height: 45px;
 	padding: 30px;
 }
-
+@media only screen and (orientation:portrait){
+	#menu{
+		bottom: 0;
+	}
+}
 .secondPage {
 	display: none;
 	backdrop-filter: blur(10px);

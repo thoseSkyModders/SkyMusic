@@ -5,13 +5,27 @@
  | |  | | | |  
  | |__| |_| |_ 
   \____/|_____|     
-                                                                                       
+
  */
 function toggleReset() {
     resetPages()
     document.getElementById("secondPage").style.display = "block"
     $("#resetPassword").fadeIn(200)
 }
+
+//--------------------------------------------------------------------------------------------------------//
+
+function ignoreRotation(){
+    console.log("ignored")
+    localStorage.setItem("ignoreRotateWarning",true)
+    document.getElementById("rotateDevice").style.display = "none"
+}
+//to show/hide the portrait rotate warning
+let userDeniedRotate = localStorage.getItem("ignoreRotateWarning")
+if(userDeniedRotate == "true"){
+    document.getElementById("rotateDevice").style.display = "none"
+}
+
 
 //--------------------------------------------------------------------------------------------------------//
 
@@ -448,7 +462,7 @@ function syncDB() { //Function that syncs the songs from the database in the cli
     request.onload = (res) => {
         response = res.target.response;
         try {
-            let songsFromDB = JSON.parse(response)
+            var songsFromDB = JSON.parse(response)
         } catch {
             showMessage(response, 0)
             return;
@@ -865,22 +879,26 @@ let filePicker = document.getElementById("filePicker")
 function importSongs() {
     let isreading = false
     filePicker.addEventListener("change", function () { //once file is picked it reads the content
-        let fr = new FileReader()
-        fr.onload = function () {
-            let inputSongs = JSON.parse(fr.result)
-            inputSongs = convertToOldFormat(inputSongs)
-            for (let i = 0; i < inputSongs.length && !isreading; i++) {
-                let element = document.getElementById("Song-" + inputSongs[i].name)
-                if (element == null) { //if there is an element with this id, it means that the song with that name already exists
-                    saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1)
-                } else {
-                    console.log("The song already exists: " + inputSongs[i].name + " n" + i)
-                    //showMessage("The song already exists: "+inputSongs[i].name,2) gets annoying after a while, idk if adding it back
+            let fr = new FileReader()
+            fr.onload = function () {
+                try {
+                let inputSongs = JSON.parse(fr.result)
+                inputSongs = convertToOldFormat(inputSongs)
+                for (let i = 0; i < inputSongs.length && !isreading; i++) {
+                    let element = document.getElementById("Song-" + inputSongs[i].name)
+                    if (element == null) { //if there is an element with this id, it means that the song with that name already exists
+                        saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1)
+                    } else {
+                        console.log("The song already exists: " + inputSongs[i].name + " n" + i)
+                        //showMessage("The song already exists: "+inputSongs[i].name,2) gets annoying after a while, idk if adding it back
+                    }
+                }
+                isreading = true
+                } catch {
+                    showMessage("Error importing song",0,1000)
                 }
             }
-            isreading = true
-        }
-        fr.readAsText(this.files[0])
+            fr.readAsText(this.files[0])
     })
     filePicker.click()
 }
@@ -1059,7 +1077,7 @@ function toggleRecord() {
         if (songArray.length != 0) {
             let text = "Please enter the song name:"
             while (true) {
-                let promtText = prompt(text, "Jingle bells") //asks for the song name
+                let promtText = prompt(text, "") //asks for the song name
                 if (promtText == null || promtText == "") {
                     console.log("User ignored the save")
                     break
@@ -1146,10 +1164,11 @@ if (preLoadSongs != null) {
 //--------------------------------------------------------------------------------------------------------//
 
 function saveSong(songName, song, savingType) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
-    let songObj = {
-        name: songName,
-        songNotes: song
-    }
+    try {
+        let songObj = {
+            name: songName,
+            songNotes: song
+        }
     if (savingType == "1") { //doesnt save if it is preloading   
         let songStorage = localStorage.getItem("savedSongs")
         if (songStorage != null) {
@@ -1191,7 +1210,6 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     deleteButton.style.width = "40px"
     deleteButton.style.marginLeft = "0.1em"
     deleteButton.setAttribute("songName", songName)
-
     let saveToDb
     if (savingType == "2") { //if its a song coming from the database, put the delete button also to delete it from the db
         songButton.style.width = "calc(100% - 85px - 5em)"
@@ -1264,7 +1282,7 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     })
     //--------------------------------// Button to share this song
     let shareButton = document.createElement("button")
-    shareButton.innerHTML = "<img src='icons/share.png' alt='share' width='20px' style='vertical-align: bottom'/>"
+    shareButton.innerHTML = "<img src='icons/download.png' alt='share'  width='25px' style='vertical-align: bottom; margin:-2.5px;'\/>"
     shareButton.style.color = "lightgreen"
     shareButton.style.fontWeight = "bold"
     shareButton.className = "skyButton"
@@ -1282,10 +1300,13 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
         array.push(songObj)
         downloadJSON(array, storedSongName)
     })
-    songContainer.appendChild(trainSong)
     songContainer.appendChild(deleteButton)
+    songContainer.appendChild(trainSong)
     if (saveToDb != undefined) songContainer.appendChild(saveToDb)
     songContainer.appendChild(shareButton)
+    } catch {
+        showMessage("Error importing song!",0,1500)
+    }
 }
 
 //--------------------------------------------------------------------------------------------------------//

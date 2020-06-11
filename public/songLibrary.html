@@ -21,95 +21,146 @@
             cursor: pointer;
             margin: 0.5em;
             outline: none;
-}
+        }
+        .downloadSong{
+            vertical-align: middle;
+            width: 60px;
+            height: 60px;
+        }
+        skyButton{
+            color: #dad8b3;
+            border: solid #dad8b3 1.5px;
+            background-color: rgba(22, 22, 22, 0.65);
+            border-radius: 0.5em;
+            font-size: 1em;
+            padding: 0.4em;
+            box-sizing: border-box;
+            cursor: pointer;
+            margin: 0.5em;
+            outline: none; 
+        }
     </style>
     <head>
         <link rel="icon" type="image/png" href="/favicon.ico">
         <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon" />
     </head>
     <body>
+        <div id="notes"></div>
         <a href="/"class=skyButton style="border:solid 2px #dad8b3; text-decoration: none; border-radius: 0.3em; padding: 0.2em;">GO BACK</a><br><br>
         <div style="font-size: 2em; font-family: Arial;">
             <span>Download android app</span>
             <a style="vertical-align: middle;" href="SkyMusic.apk" download><img src="/download.png"width="75" height="75" ></a>
+            <a href="https://discord.gg/NFFRTed" style="margin: 0.5em; vertical-align: middle"><img src="/discord.png" width="250" height="65"></a>
         </div>
-        <a href="https://discord.gg/NFFRTed" style="margin: 0.5em;"><img src="/discord.png" width="250" height="65"></a> <br><br>
+        <div style="border-top: solid 2px #dad8b3; margin: 2em 0 2em 0; padding: 1em;">
+            Press a song to hear it (Wait for it to load), to download it press the <img class="downloadSong"> button.<br><br>
+            Once downloaded, go to the main website, press "manage recordings" then "import songs" and select the text file you just downladed.
+        </div>
         <ul>
             <h1>Song Pack</h1>
 
-            <li><a>Song pack 1</a> <a class=skyButton onclick='downloadJSON("Song_pack_1")' title="Download">⬇️</a><br><br></li>
+            <li><a>Song pack 1</a> <img class="downloadSong" onclick='downloadJSON("Song_pack_1")'><br><br></li>
 
             <h1>Easy</h1>
 
-            <li><a>You are my sunshine</a> <a class=skyButton onclick='downloadJSON("You_are_my_Sunshine")' title="Download">⬇️</a><br><br></li>
-            <li><a>Ode to joy</a> <a class=skyButton onclick='downloadJSON("Ode_to_joy")' title="Download">⬇️</a><br><br></li>
-            <li><a>The lion sleeps tonight</a> <a class=skyButton onclick='downloadJSON("The_lion_sleeps_tonight")' title="Download">⬇️</a><br><br></li>
-            <li><a>undertale</a> <a class=skyButton onclick='downloadJSON("undertale")' title="Download">⬇️</a><br><br></li>
-            <li><a>Kum Ba Yah</a> <a class=skyButton onclick='downloadJSON("Kum_Ba_Yah")' title="Download">⬇️</a><br><br></li>
-            <li><a>Do-Re-Mi</a> <a class=skyButton onclick='downloadJSON("Do-Re-Mi")' title="Download">⬇️</a><br><br></li>
-            <li><a>Binary Sunset Star Wars</a> <a class=skyButton onclick='downloadJSON("Binary_Sunset_Star_Wars")' title="Download">⬇️</a><br><br></li>
-            <li><a>bad romance chorus</a> <a class=skyButton onclick='downloadJSON("bad_romance_chorus")' title="Download">⬇️</a><br><br></li>
-            <li><a>Tetris Theme</a> <a class=skyButton onclick='downloadJSON("Tetris_Theme")' title="Download">⬇️</a><br><br></li>
-            <li><a>Clementine</a> <a class=skyButton onclick='downloadJSON("Clementine")' title="Download">⬇️</a><br><br></li>
-            <li><a>Ive Been Working on the Railroad</a> <a class=skyButton onclick='downloadJSON("Ive_Been_Working_on_the_Railroad")' title="Download">⬇️</a><br><br></li>
-            <li><a>la Cucaracha</a> <a class=skyButton onclick='downloadJSON("la_Cucaracha")' title="Download">⬇️</a><br><br></li>
-            <li><a>Lily - Alan Walker</a> <a class=skyButton onclick='downloadJSON("Lily_-_Alan_Walker")' title="Download">⬇️</a><br><br></li>
-            <li><a>Shatter me</a> <a class=skyButton onclick='downloadJSON("Shatter_me")' title="Download">⬇️</a><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">You are my sunshine</skyButton> <img class="downloadSong" onclick='downloadJSON("You_are_my_Sunshine")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Ode to joy</skyButton> <img class="downloadSong" onclick='downloadJSON("Ode_to_joy")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">The lion sleeps tonight</skyButton> <img class="downloadSong" onclick='downloadJSON("The_lion_sleeps_tonight")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">undertale</skyButton> <img class="downloadSong" onclick='downloadJSON("undertale")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Kum Ba Yah</skyButton> <img class="downloadSong" onclick='downloadJSON("Kum_Ba_Yah")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Do-Re-Mi</skyButton> <img class="downloadSong" onclick='downloadJSON("Do-Re-Mi")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Binary Sunset Star Wars</skyButton> <img class="downloadSong" onclick='downloadJSON("Binary_Sunset_Star_Wars")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">bad romance chorus</skyButton> <img class="downloadSong" onclick='downloadJSON("bad_romance_chorus")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Tetris Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Tetris_Theme")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Clementine</skyButton> <img class="downloadSong" onclick='downloadJSON("Clementine")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Ive Been Working on the Railroad</skyButton> <img class="downloadSong" onclick='downloadJSON("Ive_Been_Working_on_the_Railroad")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">la Cucaracha</skyButton> <img class="downloadSong" onclick='downloadJSON("la_Cucaracha")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Lily - Alan Walker</skyButton> <img class="downloadSong" onclick='downloadJSON("Lily_-_Alan_Walker")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Shatter me</skyButton> <img class="downloadSong" onclick='downloadJSON("Shatter_me")'><br><br></li>
 
             <h1>Medium</h1>
 
-            <li><a>Davy Joness Theme</a> <a class=skyButton onclick='downloadJSON("Davy_Joness_Theme")' title="Download">⬇️</a><br><br></li>
-            <li><a>Hedwigs Theme Harry Potter</a> <a class=skyButton onclick='downloadJSON("Hedwigs_Theme_Harry_Potter")' title="Download">⬇️</a><br><br></li>
-            <li><a>Flohwalzer</a> <a class=skyButton onclick='downloadJSON("Flohwalzer")' title="Download">⬇️</a><br><br></li>
-            <li><a>Oh Susanna</a> <a class=skyButton onclick='downloadJSON("Oh_Susanna")' title="Download">⬇️</a><br><br></li>
-            <li><a>Take Me to church</a> <a class=skyButton onclick='downloadJSON("Take_Me_to_church")' title="Download">⬇️</a><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Davy Joness Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Davy_Joness_Theme")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Hedwigs Theme Harry Potter</skyButton> <img class="downloadSong" onclick='downloadJSON("Hedwigs_Theme_Harry_Potter")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Flohwalzer</skyButton> <img class="downloadSong" onclick='downloadJSON("Flohwalzer")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Oh Susanna</skyButton> <img class="downloadSong" onclick='downloadJSON("Oh_Susanna")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Take Me to church</skyButton> <img class="downloadSong" onclick='downloadJSON("Take_Me_to_church")'><br><br></li>
 
             <h1>Hard</h1>
 
-            <li><a>Music sheet 8 Extended</a> <a class=skyButton onclick='downloadJSON("Music_sheet_8_Extended")' title="Download">⬇️</a><br><br></li>
-            <li><a>Speak Softly, Love - Godfather Theme</a> <a class=skyButton onclick='downloadJSON("Speak_Softly_Love_-_Godfather_Theme")' title="Download">⬇️</a><br><br></li>
-            <li><a>Rather be</a> <a class=skyButton onclick='downloadJSON("Rather_be")' title="Download">⬇️</a><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Music sheet 8 Extended</skyButton> <img class="downloadSong" onclick='downloadJSON("Music_sheet_8_Extended")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Speak Softly Love - Godfather Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Speak_Softly_Love_-_Godfather_Theme")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Rather be</skyButton> <img class="downloadSong" onclick='downloadJSON("Rather_be")'><br><br></li>
             
             </ul>
     </body>
     <script>
-        function downloadJSON(song){
+        var downloadButtons = document.getElementsByClassName("downloadSong")
+        for(var i = 0;i<downloadButtons.length;i++){
+            downloadButtons[i].src = "icons/download.png"
+        }
+        function downloadJSON(song) {
             let request = new XMLHttpRequest();
-            request.open('GET', "./librarySongs/"+song+".txt");
+            request.open('GET', "./librarySongs/" + song + ".txt");
             request.responseType = 'text';
-            request.onload = function() {
+            request.onload = function () {
                 var inArray = JSON.parse(request.response)
                 var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
                 var dlAnchorElem = document.createElement("a")
-                dlAnchorElem.setAttribute("href",     dataStr     );
-                dlAnchorElem.setAttribute("download", song+".txt");
-                dlAnchorElem.click(); 
+                dlAnchorElem.setAttribute("href", dataStr);
+                dlAnchorElem.setAttribute("download", song + ".txt");
+                dlAnchorElem.click();
                 dlAnchorElem.remove()
             };
             request.send();
         }
-
-        function convertToNewFormat(songs){
-            console.log(songs)
-        var convertedSongs = []
-            for(var i=0;i<songs.length;i++){
-                var newFormat = {
-                name:songs[i].name,
-                bpm:240,
-                bitsPerPage:16,
-                pitchLevel: 0,
-                songNotes: []
-                }
-                for(var j=0;j<songs[i].songNotes.length;j++){
-                    var keyObj={
-                        time:songs[i].songNotes[j].time,
-                        key: "1"+songs[i].songNotes[j].key
-                    }
-                    newFormat.songNotes.push(keyObj)
-                }
-                convertedSongs.push(newFormat)
-            }
-            return convertedSongs
+    
+        var notesHandler = document.getElementById("notes")
+        var keys = []
+        var songsArray = []
+        for (var i = 0; i < 15; i++) {
+            var audio = document.createElement("audio")
+            audio.controls = 'controls';
+            audio.src = 'Sounds/Xylophone/' + i + ".mp3";
+            audio.type = 'audio/mp3';
+            audio.style.display = "none"
+            audio.id = "Key" + i
+            keys.push(audio)
+            notesHandler.appendChild(audio)
         }
+        let stopSong = false
+        async function playSong(songName) {
+            songName = songName.split(" ").join("_")
+            console.log(songName)
+            stopSong = true
+            await delay(1500)
+            let request = new XMLHttpRequest();
+            request.open('GET', "./librarySongs/" + songName + ".txt");
+            request.responseType = 'text';
+            request.onload = async function () {
+                song = JSON.parse(request.response)[0].songNotes
+                console.log(song)
+                let delayTime = 0
+                let previousTime = 0
+                stopSong = false
+                for (let i = 0; i < song.length; i++) {
+                    var keyToPlay = song[i].key.substr(1)
+                    if (stopSong) break;
+                    delayTime = song[i].time -
+                        previousTime //how much time has to pass from one note to the other
+                    previousTime = song[i].time
+                    await delay(delayTime)
+                    document.getElementById(keyToPlay).currentTime = 0
+                    document.getElementById(keyToPlay).play()
+                }
+                stopSong = false
+            }
+            request.send()
+        }
+    
+        //-----------------------------------------------------------------------------------//
+    
+        const delay = ms => new Promise(res => setTimeout(res, ms))
     </script>
+    
 </html>
