@@ -12,15 +12,12 @@ function toggleReset() {
     document.getElementById("secondPage").style.display = "block"
     $("#resetPassword").fadeIn(200)
 }
-window.addEventListener("load",function() {
-    setTimeout(function(){
-        // This hides the address bar:
-        window.scrollTo(0, 1);
-        toggleFullScreen()
-    }, 0);
-});
+toggleFullScreen()
 function toggleFullScreen(){
         //Makes the website full screen
+        if(!(typeof window.orientation !== "undefined") || !(navigator.userAgent.indexOf('IEMobile') !== -1)){
+            return
+        }
         let fullScreenDom = document.documentElement;
     
         if (fullScreenDom.requestFullscreen) {
