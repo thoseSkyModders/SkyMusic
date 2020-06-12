@@ -12,6 +12,43 @@ function toggleReset() {
     document.getElementById("secondPage").style.display = "block"
     $("#resetPassword").fadeIn(200)
 }
+let setScaleDiv = document.getElementById("setScale")
+let pageZoom = parseFloat(localStorage.getItem("pageZoom"))
+console.log(pageZoom)
+if(pageZoom === null || pageZoom == "" ||pageZoom < 0 || pageZoom > 2 || isNaN(pageZoom)){
+    pageZoom = 1
+    setScaleDiv.style.display = "block"
+}
+let scaleNumber = document.getElementById("scaleNumber")
+function changeScale(number){
+    pageZoom+=parseInt(number)/10
+    document.body.style.zoom = pageZoom
+    scaleNumber.innerHTML = Math.floor(pageZoom*100)
+}
+
+function toggleScaleDiv(){
+    $(setScaleDiv).fadeIn(200)
+    resetPages()
+}
+
+let ignoreFullScreen = (localStorage.getItem("ignoreFullScreen") == "true")
+if(ignoreFullScreen) turnOffFullscreen.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+function toggleFullScreenSetting(){
+    let turnOffFullscreen = document.getElementById("turnOffFullscreen")
+    ignoreFullScreen = !ignoreFullScreen
+    if(ignoreFullScreen){
+        turnOffFullscreen.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+    }else{
+        turnOffFullscreen.style.backgroundColor = "teal"
+    }
+    localStorage.setItem("ignoreFullScreen",ignoreFullScreen)
+    console.log(ignoreFullScreen)
+}
+changeScale(0)
+function confirmScale(){
+    localStorage.setItem("pageZoom",pageZoom)
+    $(setScaleDiv).fadeOut(200)
+}
 let exitFullScreenBtn = document.getElementById("exitFullScreenBtn")
 function exitFullScreen(){
     exitFullScreenBtn.style.display = "none"
@@ -33,7 +70,8 @@ function checkIfMobile() {
 let isDesktop = !checkIfMobile()
 function toggleFullScreen(){
         //Makes the website full screen
-        if(isDesktop){
+        document.getElementById("video1").play()
+        if(isDesktop || ignoreFullScreen){
             return
         }
         exitFullScreenBtn.style.display = "block"
