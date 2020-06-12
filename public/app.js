@@ -1146,27 +1146,40 @@ function getMIDIMessage(message) {
 let isRecordToggled = false
 let startTime
 
+
+function askSongName(){
+    var promptDiv = document.getElementById("promptDiv")
+    var promptMessage = document.getElementById("promptMessage")
+    document.getElementById("promptInput").value = ""
+    promptMessage.innerHTML = "Write song name"
+    promptDiv.style.display = "block"
+    document.getElementById("promptOK").addEventListener("click",function(){
+        var promptInput = document.getElementById("promptInput").value
+        if(promptInput == null || promptInput == "" || promptInput == " "){
+            promptMessage.innerHTML = "Please write a non empty name"
+        }else{
+            if (document.getElementById("Song-" + promptInput) == null) { //if there is already a song with that name, ask to rename it
+                saveSong(promptInput, songArray, 1)
+                promptDiv.style.display = "none"
+                songArray = []
+            }else{
+                promptMessage.innerHTML = "There is already a song with the name: "+promptInput+" chose another"
+            }
+        }
+    })
+    document.getElementById("promptCancel").addEventListener("click",function(){
+        promptDiv.style.display = "none"
+        songArray = [] 
+    })
+}
 function toggleRecord() {
     if (isRecordToggled) { //if the recording is toggled already then it means it was listening, now stops listening and saves the song
         if (songArray.length != 0) {
-            let text = "Please enter the song name:"
-            while (true) {
-                let promtText = prompt(text, "") //asks for the song name
-                if (promtText == null || promtText == "") {
-                    console.log("User ignored the save")
-                    break
-                } else {
-                    if (document.getElementById("Song-" + promtText) == null) { //if there is already a song with that name, ask to rename it
-                        saveSong(promtText, songArray, 1)
-                        break
-                    }
-                    text = "There is already a song with name: " + promtText + " chose another!"
-                }
-            }
+            askSongName()
         }
-        songArray = []
         toggleRecordBtn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
     } else {
+        songArray = []
         toggleRecordBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
     }
     isRecordToggled = !isRecordToggled
@@ -1203,6 +1216,7 @@ document.getElementById("touch").addEventListener("click", function () {
     instrumentsWrapper.style.display = "none"
     menu.style.display = "none"
     menuButton.style.display = "block"
+    promptDiv.style.display = "none"
 })
 
 //--------------------------------------------------------------------------------------------------------//
