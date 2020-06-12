@@ -22,7 +22,7 @@ if(pageZoom === null || pageZoom == "" ||pageZoom < 0 || pageZoom > 2 || isNaN(p
 let scaleNumber = document.getElementById("scaleNumber")
 function changeScale(number){
     pageZoom+=parseInt(number)/10
-    document.body.style.zoom = pageZoom
+    firstPage.style.zoom = pageZoom
     scaleNumber.innerHTML = Math.floor(pageZoom*100)
 }
 

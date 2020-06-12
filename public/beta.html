@@ -172,6 +172,13 @@
             </div>
           </div>
     </div>
+    <div class="videoWrapper video">
+        <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
+        <video id="video1"preload="auto" playsinline="" muted autoplay loop data-vscid="jvm0gu2z7">
+            <source src="./AnimatedBG/skygame-banner2.mp4" type="video/mp4;codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
+        </video>
+    </div>
+<div id="firstPage">
     <button id="menu" style="display: block;"onclick="showMenu()"></button>
     <div id="icon-bar" style="height: 200vh;">
         <button class="skyButton_2" onclick='resetPages(),showMenu(),document.getElementById("login").style.display = "none"'><p class="texts">Main page</p></button>
@@ -194,12 +201,6 @@
         <button class="pitchButton" id="togglePitchList" onclick="togglePitchList()">Key</button>
         <button class="pitchButton" style="font-size: 1.3em; background-image: url(./icons/reverb.png);"id="toggleReverbBtn" onclick="toggleReverb()"></button>
         <button id="stopSong" onclick="stopSong()"></button>
-    </div>
-    <div class="videoWrapper video">
-        <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
-        <video id="video1"preload="auto" playsinline="" muted autoplay loop data-vscid="jvm0gu2z7">
-            <source src="./AnimatedBG/skygame-banner2.mp4" type="video/mp4;codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
-        </video>
     </div>
     <div id=touch>
         <div class="Row1" id="row1"></div>
@@ -246,6 +247,7 @@
         <input id="rangePicker" type="range" max="10" min="0" orient="vertical" ><br>
         <input type="button" style="background-color: transparent; border: none; font-size: 1.5em; outline: none;" onclick="retry()" value="🔄">
     </div>
+</div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
 <input type="sleeping" placeholder="username" style="display: none"> <!-- Easter egg-->
