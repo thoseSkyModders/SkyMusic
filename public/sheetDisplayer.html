@@ -1,0 +1,279 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: lightgray;
+        }
+
+        * {
+            text-align: center;
+            font-size: 30px;
+            font-family: Arial;
+        }
+
+        .tabs {
+            border: solid 2px black;
+            zoom: 0.5;
+            border-radius: 10px;
+            margin: 10px;
+        }
+
+        .generateBtn {
+            color: white;
+            cursor: pointer;
+            width: 60%;
+            padding: 5px;
+            height: 50px;
+            border: 2px black solid;
+            margin-top: 5px;
+            border-radius: 8px;
+            text-align: center;
+            background-color: limegreen;
+            user-select: none;
+            margin-bottom: 5%;
+        }
+
+        #songsHolder {
+            width: 60%;
+            height: 30%;
+            margin-left: 20%;
+            border: solid 3px black;
+            border-radius: 8px;
+            overflow-x: hidden;
+            padding: 10px;
+        }
+
+        .skyButton {
+            color: #dad8b3;
+            border: solid #dad8b3 1.5px;
+            background-color: rgba(22, 22, 22, 0.65);
+            border-radius: 0.5em;
+            font-size: 0.8em;
+            padding: 0.4em;
+            box-sizing: border-box;
+            cursor: pointer;
+            margin: 0.1em;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!--<div>
+            <textarea type="text" spellcheck="false" placeholder="Write song here" autocomplete="off" id="input"></textarea><br>
+            <input type="button" onclick="generate()"class="generateBtn" value="Generate!">
+        </div>-->
+    <div style="overflow-y: scroll;" id="songsHolder">
+    </div>
+    <div id="tabsHolder" style="text-align:left;  scale: 0.5;">
+
+    </div>
+</body>
+<script>
+    const TAB_WIDTH = "150"
+    const TAB_HEIGHT = "100"
+    var tabsHolder = document.getElementById("tabsHolder")
+    var tabColors = { //array that contains all the colors of the different cubes, can be changed individually
+        0: ["limegreen", "limegreen", "limegreen", "limegreen", "limegreen", "limegreen", ],
+        1: ["deepskyblue", "deepskyblue", "deepskyblue", "deepskyblue", "deepskyblue"],
+        2: ["deeppink", "deeppink", "deeppink", "deeppink", "deeppink", "deeppink", ]
+    }
+
+
+    var savedSongs = JSON.parse(localStorage.getItem("savedSongs"))
+    var songsHolder = document.getElementById("songsHolder")
+    for (var i = 0; i < savedSongs.length; i++) {
+        var button = document.createElement("button")
+        button.className = "skyButton"
+        button.style.width = "90%"
+        button.innerHTML = savedSongs[i].name
+        button.addEventListener("click", function () {
+            generate(this.innerHTML)
+        })
+        songsHolder.appendChild(button)
+    }
+    //--------------------------------------------------//
+    //--------------------------------------------------//
+    //generates the canvas and adds all the tabs
+    function generate(name) {
+        var song
+        for (var i = 0; i < savedSongs.length; i++) {
+            if (savedSongs[i].name == name) song = savedSongs[i].songNotes
+        }
+        var convertedSong = ""
+        for (var i = 0; i < song.length; i++) {
+            if(song[i].key[0] != "K") song[i].key = song[i].key.substr(1)
+            var key = parseInt(song[i].key.replace("Key", ""))
+            switch (key) {
+                case 0:
+                    key = "A1"
+                    break;
+                case 1:
+                    key = "A2"
+                    break;
+                case 2:
+                    key = "A3"
+                    break;
+                case 3:
+                    key = "A4"
+                    break;
+                case 4:
+                    key = "A5"
+                    break;
+                case 5:
+                    key = "B1"
+                    break;
+                case 6:
+                    key = "B2"
+                    break;
+                case 7:
+                    key = "B3"
+                    break;
+                case 8:
+                    key = "B4"
+                    break;
+                case 9:
+                    key = "B5"
+                    break;
+                case 10:
+                    key = "C1"
+                    break;
+                case 11:
+                    key = "C2"
+                    break;
+                case 12:
+                    key = "C3"
+                    break;
+                case 13:
+                    key = "C4"
+                    break;
+                case 14:
+                    key = "C5"
+            }
+            convertedSong += key
+            if(i == song.length-1){
+                break
+            }
+            if ((song[i+1].time - song[i].time) > 80) {
+                convertedSong += " "
+            }
+            console.log(song[i+1].time - song[i].time)
+            if ((song[i+1].time - song[i].time) > 500) {
+                convertedSong += ". "
+                console.log("a")
+            }
+            if ((song[i+1].time - song[i].time) > 1500) {
+                convertedSong += "\n"
+                console.log("a")
+            }
+        }
+        var indexes = [] //this holds where there needs to add a line break
+        tabsHolder.innerHTML = "" //resets the table that holds all the tabs
+        var input = convertedSong //this contains all the notes that will be played
+        input = input.split("\n").join("\n ") //adds a space to the new line
+            .split(".").join("") //removes the dots, this will create a null array later on that we will use to ignore the drawing of the canvas
+            .split("-").join("") //for now removes the - 
+
+        if (input.length < 2) { //warns the user if they haven't put any notes 
+            alert("Place a song first!")
+            return;
+        }
+        var parsedInput = input.split(" ") //splits every note combination at spaces
+        var numOfTabs = 0 //this keeps track of how many tabs there are
+
+        for (var i = 0; i < parsedInput.length; i++) {
+            numOfTabs++
+            if (parsedInput[i].includes(
+                "\n")) { //if there is a new line, it removes the new line and saves at what number there is the new line break 
+                indexes.push(numOfTabs)
+                parsedInput[i] = parsedInput[i].replace("\n", "")
+            }
+            parsedInput[i] = parsedInput[i].match(
+                /.{2}/g) //splits the individual parts into the notes A1B2 will become ["A1","B2"]
+            addTab(parsedInput[i])
+        }
+        var allTabs = document.getElementsByClassName("tabs")
+        for (var i = 0; i < indexes.length; i++) { //adds a line break
+            var lineBreak = document.createElement("div")
+            lineBreak.style.borderTop = "solid 2px gray"
+            lineBreak.style.width = "100%"
+            tabsHolder.insertBefore(lineBreak, allTabs[indexes[i]]);
+        }
+    }
+
+    //--------------------------------------------------//
+    //adds the desired notes to the tab
+    function addTab(notesToAdd) {
+        var tab = document.createElement("canvas") //creates the canvas
+        tab.style.backgroundColor = "white"
+        tab.style.height = TAB_HEIGHT + "px"
+        tab.style.width = TAB_WIDTH + "px"
+        tab.className = "tabs"
+        var tabContext = tab.getContext("2d")
+        tabsHolder.appendChild(tab) //appends the canvas to the tab holder
+        if (notesToAdd == null) {
+            return;
+        }
+        for (var i = 0; i < notesToAdd.length; i++) {
+            for (var y = 1; y < 5; y++) { //this creates the vertical lines
+                tabContext.beginPath();
+                tabContext.moveTo(60 * y, 0); //moves to the top 
+                tabContext.strokeStyle = '#cccccc';
+                tabContext.lineWidth = 4;
+                tabContext.lineTo(60 * y, TAB_HEIGHT * 2); //draws to the bottom
+                tabContext.stroke()
+            }
+            for (var x = 1; x < 5; x++) { //this creates the horizontal lines
+                tabContext.beginPath();
+                tabContext.moveTo(0, 50 * x); //moves to the left
+                tabContext.strokeStyle = '#cccccc';
+                tabContext.lineWidth = 4;
+                tabContext.lineTo(TAB_WIDTH * 2, 50 * x); //draws a line to the right
+                tabContext.stroke()
+            }
+            try {
+                var offsetX = parseInt(notesToAdd[i].charAt(1) -
+                    1) //gets the number of the note. this will be the key to be drawn from the left to the right
+                var offsetY = parseInt(notesToAdd[i].charCodeAt(0) -
+                    65) //gets the number of the note from the top to the bottom, A=0 B=1 C=2
+                tabContext.fillStyle = tabColors[offsetY][offsetX] //selects the color of the cube from the color table
+                roundRect(tabContext, offsetX * 60 + 5, offsetY * 50 + 5, 50, 40,
+                    10) //draws the square //x,y,size,size,radious
+            } catch { //if there was an error it says that the current tab has a letter error
+                tabContext.font = "100px Arial"
+                tabContext.fillStyle = "red"
+                tabContext.fillText("Error", 40, 110)
+            }
+        }
+
+    }
+
+    //--------------------------------------------------//
+
+    function roundRect(ctx, x, y, width, height,
+    radius) { //i copied this from a stack overflow post, it's to make a rounded square
+        radius = {
+            tl: radius,
+            tr: radius,
+            br: radius,
+            bl: radius
+        };
+        ctx.beginPath();
+        ctx.moveTo(x + radius.tl, y);
+        ctx.lineTo(x + width - radius.tr, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+        ctx.lineTo(x + width, y + height - radius.br);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius.br, y + height);
+        ctx.lineTo(x + radius.bl, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+        ctx.lineTo(x, y + radius.tl);
+        ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+    }
+</script>
+
+</html>
