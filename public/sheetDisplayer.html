@@ -4,13 +4,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            background-color: lightgray;
+            background: rgb(115,181,210);
+            background: linear-gradient(190deg, rgba(115,181,210,1) 0%, rgba(108,160,114,1) 63%);
         }
 
         * {
             text-align: center;
             font-size: 30px;
             font-family: Arial;
+            font-weight: bold;
+            color: rgba(22, 22, 22, 0.9)
         }
 
         .tabs {
@@ -36,13 +39,13 @@
         }
 
         #songsHolder {
-            width: 60%;
+            width: 90%;
             height: 30%;
-            margin-left: 20%;
-            border: solid 3px black;
+            border: solid 3px #dad8b3;
             border-radius: 8px;
             overflow-x: hidden;
             padding: 10px;
+            margin-bottom:0.5em;
         }
 
         .skyButton {
@@ -67,6 +70,7 @@
         </div>-->
     <div style="overflow-y: scroll;" id="songsHolder">
     </div>
+    For other visual sheets, please visit <a href="https://sky-music.github.io/">this website</a>
     <div id="tabsHolder" style="text-align:left;  scale: 0.5;">
 
     </div>
@@ -84,7 +88,10 @@
 
     var savedSongs = JSON.parse(localStorage.getItem("savedSongs"))
     var songsHolder = document.getElementById("songsHolder")
-    for (var i = 0; i < savedSongs.length; i++) {
+    var hasSongs = false 
+    if(savedSongs != null){
+        for (var i = 0; i < savedSongs.length; i++) {
+        hasSongs = true
         var button = document.createElement("button")
         button.className = "skyButton"
         button.style.width = "90%"
@@ -93,7 +100,12 @@
             generate(this.innerHTML)
         })
         songsHolder.appendChild(button)
+    } 
     }
+    
+    if(!hasSongs){
+        songsHolder.innerHTML = "There are no saved songs yet!"
+    }  
     //--------------------------------------------------//
     //--------------------------------------------------//
     //generates the canvas and adds all the tabs
@@ -261,6 +273,8 @@
             bl: radius
         };
         ctx.beginPath();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "transparent";
         ctx.moveTo(x + radius.tl, y);
         ctx.lineTo(x + width - radius.tr, y);
         ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
