@@ -587,19 +587,27 @@ body {
 
 #promptDiv{
 	z-index: 100;
-	display: none;
+	display: ;
 	padding: 1em;
-	max-height: 200px;
 	position: absolute;
 	text-align: center;
 	width: 40%;
 	left: 30%;
 	top:5%;
-	height: 30%;
 	color:#dad8b3;
 	border: solid 2px #dad8b3;
 	border-radius: 0.8em;
 	background-color: rgba(15, 15, 15, 0.85);
+}
+#promptInput {
+	width: 92%;
+	text-align: center;
+	margin: 10px 0 5px;
+	height: 20px;
+}
+#promptOK, #promptCancel {
+	width: 46%;
+	margin: 1%;
 }
 #touch {
 	height: calc(100vh - 50px);
