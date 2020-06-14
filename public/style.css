@@ -583,8 +583,11 @@ body {
 	padding: 0;
 	overflow: hidden;
 	min-height: 100vh;
+	-ms-touch-action: none;
 }
-
+html{
+	-ms-touch-action: none;
+}
 #promptDiv{
 	z-index: 100;
 	display: none;
