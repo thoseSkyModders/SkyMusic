@@ -1148,6 +1148,10 @@ let startTime
 
 
 function askSongName(){
+    var keyHeight = "calc((100vh - 6vw - 50px)/3)"
+    var touchHeight = "calc(100vh - 50px)"
+    $('[id^=Key]').css('height', $("#Key0").height());
+    document.getElementById("touch").style.height = document.getElementById("touch").clientHeight + "px"
     var promptDiv = document.getElementById("promptDiv")
     var promptMessage = document.getElementById("promptMessage")
     document.getElementById("promptInput").value = ""
@@ -1162,6 +1166,8 @@ function askSongName(){
                 saveSong(promptInput, songArray, 1)
                 promptDiv.style.display = "none"
                 songArray = []
+                $('[id^=Key]').css('height', keyHeight)
+                document.getElementById("touch").style.height = touchHeight;
             }else{
                 promptMessage.innerHTML = "There is already a song with the name: "+promptInput+" chose another"
             }
@@ -1170,6 +1176,8 @@ function askSongName(){
     document.getElementById("promptCancel").addEventListener("click",function(){
         promptDiv.style.display = "none"
         songArray = [] 
+        $('[id^=Key]').css('height', keyHeight)
+        document.getElementById("touch").style.height = touchHeight;
     })
 }
 function toggleRecord() {
@@ -1217,6 +1225,8 @@ document.getElementById("touch").addEventListener("click", function () {
     menu.style.display = "none"
     menuButton.style.display = "block"
     promptDiv.style.display = "none"
+    $('[id^=Key]').css('height', "calc((100vh - 6vw - 50px)/3)")
+    document.getElementById("touch").style.height = "calc(100vh - 50px)";
 })
 
 //--------------------------------------------------------------------------------------------------------//

@@ -15,7 +15,7 @@ var resetverification = []
 
 
 //If you want to edit something, just put inLocalhost = true and it will let you use the website without the account system
-/* ------------------------------------------------------->*/       var inLocalhost = true
+/* ------------------------------------------------------->*/       var inLocalhost = false
 
 
 app.enable('trust proxy');
@@ -28,11 +28,9 @@ if (!inLocalhost) {
         }
     })
 } else {
-    /*
     mongoKey = ""
     discordToken = ""
     emailPassword = ""
-    */
 }
 
 var transporter = nodemailer.createTransport({
@@ -74,7 +72,7 @@ function removeUnusedVerification() {
 //----------------------------------------------------------------------------------------------//
 
 app.get("/", function (req, res) {
-    res.sendFile(__dirname + "index.html")
+    res.sendFile(__dirname + "/index.html")
 })
 var server = app.listen(port, () => {
     console.log("server is running on port", server.address().port);
