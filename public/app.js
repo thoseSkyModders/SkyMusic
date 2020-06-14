@@ -933,8 +933,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "2.1"
-let changelogMessage = "Update version " + currentVersion + '<br> *Added horn and original harp <br>(version 2.0)<br>*Added cave mode'
+let currentVersion = "3"
+let changelogMessage = "Update version " + currentVersion + '<br>Added horn, changed library, Added help page and more!'
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 10000)
