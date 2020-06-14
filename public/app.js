@@ -32,7 +32,7 @@ function changeScale(number){
     scaleNumber.innerHTML = Math.floor(pageZoom*100)
 }
 
-body.addEventListener('touchstart', (e) => {
+document.getElementsByTagName("BODY")[0].addEventListener('touchstart', (e) => {
 
     // is not near edge of view, exit
     if (e.pageX > 10 && e.pageX < window.innerWidth - 10) return;
