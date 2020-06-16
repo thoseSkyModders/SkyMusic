@@ -4,6 +4,7 @@ const bot = new Discord.Client();
 const express = require("express");
 const nodemailer = require('nodemailer');
 const hash = require('sha1');
+const crypto = require('crypto');
 const { uuid } = require('uuidv4');
 //-----------------------------//
 let app = express();
@@ -12,6 +13,8 @@ let mongoKey = process.env.mongoDBKey
 let emailPassword = process.env.pass
 var awaitingVerification = []
 var resetverification = []
+const shareKey = process.env.shareKey
+const shareIv = process.env.shareIv
 
 
 //If you want to edit something, just put inLocalhost = true and it will let you use the website without the account system
@@ -319,6 +322,44 @@ if (!inLocalhost) {
             if (canProceed) sendresetlink(value, res) //sent verification, now it waits for next call from the user to reset password
             if (!canProceed) res.send("No email registered!")
         })
+
+        app.post("/generateShareLink", async function (req, res) { //error handled
+            var value = req.body;
+            try{
+                var link = "https://sky-music.herokuapp.com?songUrl="+encrypt(JSON.stringify(value))
+            }catch{
+                res.send(false)
+                return
+            }
+            res.send(link)
+        })
+
+        app.post("/getByLink",async function (req, res) {
+            try{
+                var value = JSON.parse(decrypt(req.body.url))
+                if(value.songName == undefined){
+                    res.send(false)
+                    return
+                }
+            }catch{
+                res.send(false)
+                return
+            }
+            try {
+                var collection = db.collection(value.email)
+            }catch{
+                res.send(false)
+                return
+            }
+            try{
+                var song = await collection.find({name: value.songName}).toArray()
+                song = [song[0].song]
+            }catch{
+                res.send(false)
+                return
+            }
+            res.send(song)
+        })
         //----------------------------------------------------------------------------------------------//
         app.post("/getSongs", async function (req, res) { //error handled
             var value = req.body;
@@ -610,3 +651,12 @@ function makeseed(length) {
     return result;
 }
 //--------------------------------------------------------------------------------------------------------//
+function decrypt(text) {
+    const decipher = crypto.createDecipheriv("aes192", shareKey, shareIv)
+    return decipher.update(text, 'hex', 'utf8') + decipher.final('utf8')
+}
+//--------------------------------------------------------------------------------------------------------//
+  function encrypt(text) {
+    const cipher = crypto.createCipheriv("aes192", shareKey, shareIv)
+    return cipher.update(text, 'utf8', 'hex') + cipher.final('hex')
+}

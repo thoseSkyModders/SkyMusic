@@ -377,6 +377,64 @@ function resetPassword() { //Function to reset the email
 
 //--------------------------------------------------------------------------------------------------------//
 
+
+function generateShareLink(name){
+    let request = new XMLHttpRequest();
+    request.open("POST", "/generateShareLink");
+    request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+    request.onload = (res) => {
+        response = res.target.response;
+        console.log(response)
+        const el = document.createElement('textarea');
+        el.value = response;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        showMessage("Link copied!",1,1500)
+    };
+    var data = {
+        email: globalCredentials.email,
+        songName: name
+    }
+    request.send(JSON.stringify(data))
+}
+
+function getByLink(songUrl){
+     songUrl = {
+         url:songUrl.split("?songUrl=")[1]
+     }
+     let request = new XMLHttpRequest();
+     request.open("POST", "/getByLink");
+     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+     request.onload = (res) => {
+         response = res.target.response;
+         if(response == "false"){
+             showMessage("Invalid link!",0,2500)
+             return
+         }
+         response = JSON.parse(response)
+         try {
+            let inputSongs = response
+            for (let i = 0; i < inputSongs.length; i++) {
+                let element = document.getElementById("Song-" + inputSongs[i].name)
+                if (element == null) { //if there is an element with this id, it means that the song with that name already exists
+                    saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1)
+                    showMessage("Added song by link: "+inputSongs[i].name,1,1500)
+                } else {
+                    showMessage("The song already exists: "+inputSongs[i].name,2,1500)
+                }
+            }
+            } catch {
+                showMessage("Error importing song",0,1500)
+            }
+     }
+     console.log(songUrl)
+     request.send(JSON.stringify(songUrl))
+}
+if(window.location.href.includes("?songUrl=")){
+    getByLink(window.location.href)
+}
 function checkResetCode() { //Function to confirm the password reset
     let code = document.getElementById("resetcodeConfirmation").value
     let newpassword = document.getElementById("newpassword").value
@@ -933,8 +991,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "3"
-let changelogMessage = "Update version " + currentVersion + '<br>Added horn, changed library, Added help page and more!'
+let currentVersion = "3.1"
+let changelogMessage = "Update version " + currentVersion + '<br>Added share by link for account songs!'
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 10000)
@@ -1340,7 +1398,6 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     deleteButton.setAttribute("songName", songName)
     let saveToDb
     if (savingType == "2") { //if its a song coming from the database, put the delete button also to delete it from the db
-        songButton.style.width = "calc(100% - 85px - 5em)"
         songText.setAttribute("fromDb", true)
         deleteButton.innerHTML = "❌"
         dbSongsDiv.appendChild(songContainer)
@@ -1349,6 +1406,16 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
                 this.parentNode.parentNode.removeChild(this.parentNode)
                 deleteFromDB(globalCredentials, this.getAttribute("songName"))
             }
+        })
+    var shareLink = document.createElement("button")
+        shareLink.innerHTML = "<img src='icons/share.png' alt='share'  width='25px' style='vertical-align: bottom; margin:-2.5px;'\/>"
+        shareLink.className = "skyButton"
+        shareLink.style.marginLeft = "0.1em"
+        shareLink.style.width = "40px"
+        shareLink.setAttribute("songName", songName)
+        shareLink.addEventListener("click", function () {
+            console.log(this.getAttribute("songName"))
+            generateShareLink(this.getAttribute("songName"))
         })
     } else {
         savedSongsDiv.appendChild(songContainer)
@@ -1430,8 +1497,13 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     })
     songContainer.appendChild(deleteButton)
     songContainer.appendChild(trainSong)
-    if (saveToDb != undefined) songContainer.appendChild(saveToDb)
+    if (saveToDb != undefined){
+        songContainer.appendChild(saveToDb)
+    }else{
+        songContainer.appendChild(shareLink)
+            }
     songContainer.appendChild(shareButton)
+    
     } catch {
         showMessage("Error importing song!",0,1500)
     }
