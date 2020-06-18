@@ -44,7 +44,7 @@
 
 <body>
     <div id="setScale" align=center>
-        <h2>Welcome to Sky Music!</h2>
+        <h2 id="welcome-text">Welcome to Sky Music!</h2>
         <div id="scale-text">
         Press + and - to change how the page looks!<br>
         You can always change this in the settings<br>
@@ -140,9 +140,10 @@
                 <h1 id="settings-tab-text" >Settings</h1>
                 <div style="overflow-y:scroll; height: 72vh; margin-bottom: 1em;">
                   <select name="Language" onchange="changeLanguage(this.value)"id="language-selector">
-                    <option selected disabled>Select language</option>
+                    <option id="language-selector-text" selected disabled>Select language</option>
                     <option>English</option>
                     <option>Italiano</option>
+                    <option>Français</option>
                   </select>   
                     <button onclick = "toggleScaleDiv()" id="change-zoom-button" >Change website zoom</button>
                     <button onclick = "toggleFullScreenSetting()" id="turnOffFullscreen">Turn off auto fullscreen</button>    
