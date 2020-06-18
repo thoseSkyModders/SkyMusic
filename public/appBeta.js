@@ -72,14 +72,17 @@ var translateElements = {
 }
 var translateText = {
     English:["Press + and - to change how the page looks!\nYou can always change this in the settings","CONFIRM","The website is better used in Landscape, please rotate your device.","Click anywhere to close","Account","EMAIL","PASSWORD","LOGIN","Create account","Forgot password?","Register to Sky Music!","EMAIL","PASSWORD","CONFIRM PASSWORD","REGISTER","Register to Sky Music!","CODE","CONFIRM","Go back","Reset Password!","EMAIL","SUBMIT","Go back","Reset Password!","RESET CODE","NEW PASSWORD","CONFIRM NEW PASSWORD","SUBMIT","Go back","Settings","Change website zoom","Turn off auto fullscreen","Disable next key practice","Hide practice note animation","Display Note Names","Check MIDI support","Reset all songs and settings","Go back","My songs","Account songs","Here are all your songs!","Import songs","Here are all the songs saved in your account!","Reload","Store all songs locally","Cancel","OK","Main page","Account","Settings","Song Library","Need help?","Manage Recordings","Start/Stop recording","OLD","Go back","Download songs","Select language","Welcome to Sky Music!","Never show again"],
-    Italiano:["Premi + e - per cambiare l'aspetto del sito!\nPuoi sempre cambiarlo nelle impostazioni","CONFERMA","È consigliato l'uso del sito in orizzontale, ruota il dispositivo.","Premi ovunque per chiudere","Account","EMAIL","PASSWORD","LOGIN","Crea account","Password dimenticata?","Registrati su Sky Music!","EMAIL","PASSWORD","CONFERMA PASSWORD","REGISTRATI","Registrati su Sky Music!","CODICE","CONFERMA","Indietro","Resetta la Password!","EMAIL","INVIA","Indietro","Resetta la Password!","CODICE DI RESET","NUOVA PASSWORD","CONFERMA NUOVA PASSWORD","INVIA","Torna indietro","Impostazioni","Cambia zoom del sito","Disattiva schermo intero automatico","Disattiva indizzio prossima nota","Nascondi animazione nella pratica","Mostra nomi delle note","Controlla supporto MIDI","Resetta tutte le canzoni e impostazioni","Indietro","Le mie canzoni","Canzoni dell'account","Ecco tutte le tue canzoni!","Importa canzoni","Ecco tutte le canzoni salvate nel tuo account!!","Ricarica","Salva tutto localmente","Cancella","OK","Pagina iniziale","Account","Impostazioni","Libreria canzoni","Bisogno di aiuto?","Gestisci registrazioni","Inizia/Ferma registrazione","OLD","Indietro","Scarica canzoni","Seleziona lingua","Benvenuto su Sky Music!","Non mostrare più"],
+    Italiano:["Premi + e - per cambiare l'aspetto del sito!\nPuoi sempre cambiarlo nelle impostazioni","CONFERMA","È consigliato l'uso del sito in orizzontale, ruota il dispositivo.","Premi ovunque per chiudere","Account","EMAIL","PASSWORD","LOGIN","Crea account","Password dimenticata?","Registrati su Sky Music!","EMAIL","PASSWORD","CONFERMA PASSWORD","REGISTRATI","Registrati su Sky Music!","CODICE","CONFERMA","Indietro","Resetta la Password!","EMAIL","INVIA","Indietro","Resetta la Password!","CODICE DI RESET","NUOVA PASSWORD","CONFERMA NUOVA PASSWORD","INVIA","Torna indietro","Impostazioni","Cambia zoom del sito","Disattiva schermo intero automatico","Disattiva indizio prossima nota","Nascondi animazione nella pratica","Mostra nomi delle note","Controlla supporto MIDI","Resetta tutte le canzoni e impostazioni","Indietro","Le mie canzoni","Canzoni dell'account","Ecco tutte le tue canzoni!","Importa canzoni","Ecco tutte le canzoni salvate nel tuo account!!","Ricarica","Salva tutto localmente","Cancella","OK","Pagina iniziale","Account","Impostazioni","Libreria canzoni","Bisogno di aiuto?","Gestisci registrazioni","Inizia/Ferma registrazione","VECCHIO","Indietro","Scarica canzoni","Seleziona lingua","Benvenuto su Sky Music!","Non mostrare più"],
     Français:["Appuie sur + et - pour changer l'apparence de la page!\nTu pourras toujours modifier cela plus tard dans Réglages","CONFIRMER","Le site est bien mieux en format paysage, tourne ton appareil s'il te plait.","Appuie n'importe où pour fermer","Compte","EMAIL","MOT DE PASSE","SE CONNECTER","Créer un compte","Mot de passe oublié ?","S'inscrire sur Sky Music!","EMAIL","MOT DE PASSE","CONFIRMER LE MOT DE PASSE","INSCRIPTION","S'inscrire sur Sky Music!","CODE","CONFIRMER","Retour","Reinitialiser le mot de passe!","EMAIL","SOUMETTRE","Retour","Reinitialiser le mot de passe!","REINITIAISER LE CODE","NOUVEAU MOT DE PASSE","CONFIRMER LE NOUVEAU MOT DE PASSE","SOUMETTRE","Retour","Réglages","Modifier le zoom","Désactiver le plein écran automatique","Désactiver l'entraînement pour la clé suivante","Masquer l'animation des notes de l'entraînement","Afficher le nom des notes","Voir support MIDI","Reinitialiser toutes les chansons et réglages","Retour","Mes chansons","Chansons du compte","Voici toutes tes chansons!","Importer des chansons","Voici toutes les chansons sauvegardées sur ton compte!","Recharger","Enregistrer les chansons localement","Fermer","OK","Page principale","Compte","Réglages","Bibliothèque des chansons","Besoin d'aide ?","Gérer les enregistrements","Start/Stop l'enregistrement","ANCIEN","Retour","Télécharger des chansons","Choisir la langue","Bienvenue sur Sky Music","Ne me montre plus jamais"],
-}
+    Traditional_chinese_繁體中文:["按下 + 和 - 更改頁面的大小！\n您隨時可以在設定中更改此設定","確認","本網站更適合橫向使用，請旋轉您的設備。","點擊任意位置來關閉視窗","帳號","電子郵件","密碼","登入","創建帳號","忘記密碼？","註冊 Sky Music!","電子郵件","密碼","確認密碼","註冊","註冊 Sky Music!","驗証碼","確認","返回","重設密碼！","電子郵件","遞交","返回","重設密碼！","重設用驗証碼","新密碼","確認新密碼","遞交","返回","設定","改變頁面大小","關閉自動全屏","禁用 練習模式顯示下一鍵","隱藏 練習模式按鍵動畫","顯示音名","檢查支援MIDI","重設所有歌曲和設定","返回","本地歌曲","帳號歌曲","這是您的所有歌曲！","匯入歌曲","這是您帳號中保存的所有歌曲！","重新匯入","將所有歌曲存儲在本地","取消","OK","主頁","帳號","設定","歌曲庫","需要幫忙？","管理錄音","開始/停止 錄製","舊版","返回","下載歌曲","選擇語言","歡迎來到Sky Music!","不要再顯示"],
+    Português_Brasileiro:["Pressione + e - para personalizar o site!\nVocê pode alterar em configurações","CONFIRMAR","A experiencia fica melhor em posição de retrato. Por favor rotacione o seu dispositivo.","Toque para fechar","CONTA","EMAIL","SENHA","LOGAR","Criar conta","Esqueceu a senha?","Registrar para Sky Music!","EMAIL","SENHA","CONFIRMAR SENHA","REGISTRAR","Registrar para Sky Music!","CÓDIGO","CONFIRMAR","Voltar","Resetar Senha!","EMAIL","ENVIAR","Voltar","Resetar Senha!","RESETAR CÓDIGO","NOVA SENHA","CONFIRMAR NOVA SENHA","ENVIAR","Voltar","Configurações","Alterar Zoom do site","Desligar modo Tela Interia automático","Desativar próxima tecla ao praticar","Esconder animação da nota ao praticar","Mostrar as Notas","Checar suporte MIDI","Resetar todas as músicas e configurações","Voltar","Minhas Músicas","Músicas da conta","Aqui estão todas as suas músicas!","Importar Música","Aqui estão todas as suas músicas salvas na conta!","Recarregar","Armazenar todas as músicas no dispositivo","Cancelar","OK","Página Principal","Conta","Configurações","Biblioteca de Músicas","Precisa de ajuda?","Gerenciar Gravações","Começar/Parar gravação","ANTIGO","Voltar","Baixar Música","Selecionar Idioma","Bem Vindo ao Sky Music!","Não mostrar novamente"],
+    Deutsch:["Drücken Sie die Taste + und – um das Aussehen der Seite zu ändern!\nSie können dies immer in den Einstellungen ändern","BESTÄTIGEN"," Die Website hat eine bessere Verwendung im Querformat. Bitte drehen Sie Ihr Gerät.", "Klicken Sie bitte irgendwo auf den Bildschirm, um zu schließen","Konto","EMAIL","PASSWORT","ANMELDEN","Reg","Haben Sie das Passwort vergessen?","Registriere dich zu Sky Music!","EMAIL","PASSWORT","PASSWORT BESTÄTIGEN","REGISTRIEREN","Registriere dich zu Sky Music!","CODE","BESTÄTIGEN","Zurück","Passwort zurücksetzen!","EMAIL","BESTÄTIGEN","Zurück","Passwort zurücksetzen!","CODE ZURÜCKSETZEN","NEUES PASSWORT","NEUES PASSWORT BESTÄTIGEN","BESTÄTIGEN","Zurück","Einstellungen","Website-Zoom ändern","Automatischen Vollbildmodus ausschalten","Hinweis auf die nächste Note deaktivieren","Übungsnotenanimation ausblenden","Notennamen anzeigen","MIDI-Unterstützung überprüfen","Alle Lieder und Einstellungen zurücksetzen","Zurück","Meine Lieder","Konto Lieder","Hier sind alle deine Lieder!","Lieder importieren ","Hier sind alle gespeicherten Lieder auf deinem Konto!","Neu laden","Alle Lieder lokal speichern","Beenden","OK","Hauptseite","Konto","Einstellungen","Liederbibliothek","Brauchen Sie Hilfe?","Aufnahmen verwalten","Aufname starten/stoppen","ALT","Zurück","Lieder runterladen","Sprache auswählen","Willkommen zu Sky Music!","Nicht mehr anzeigen"],
+    Русский:["Нажмите + и -, чтобы изменить внешний вид страницы!\nВы всегда можете изменить это в настройках","ПОДТВЕРДИТЬ","Веб-сайт лучше использовать в альбомной ориентации, поверните устройство","Нажмите в любом месте, чтобы закрыть","Аккаунт","Е-МЕЙЛ","ПАРОЛЬ","ЛОГИН","Создать аккаунт","Забыли пароль?","Зарегистрироваться в Sky Music!","Е-МЕЙЛ","ПАРОЛЬ","ПОДТВЕРДИТЬ ПАРОЛЬ","РЕГИСТРАЦИЯ","Зарегистрироваться в Sky Music!","КОД","ПОДТВЕРДИТЬ","Вернуться назад","Сбросить пароль!","Е-МЕЙЛ","ПОДТВЕРДИТЬ","Вернуться назад","Сбросить пароль!","СБРОСИТЬ КОД","НОВЫЙ ПАРОЛЬ","ПОДТВЕРДИТЬ НОВЫЙ ПАРОЛЬ","ПОДТВЕРДИТЬ","Вернуться назад","Настройки","Изменить масштабирование веб-сайта","Отключить автоматический полноэкранный режим","Отключить следующую ключевую практику","Скрыть анимацию заметки для практики","Показать имена заметок","Проверить поддержку MIDI","Сбросить все песни и настройки","Вернуться назад","Мои песни","Песни аккаунта","Вот все ваши песни!","Импортировать песни","Вот все песни, сохраненные в вашем аккаунте!, ","Перезагрузить","Сохранить все песни локально","Отмена","ОК","Главная страница","Аккаунт","Настройки","Библиотека песен","Нужна помощь?","Управление записями","Запуск/остановка записи","СТАРЫЕ","Вернуться назад","Скачать песни ","Выбрать язык","Добро пожаловать в Sky Music!","Больше не показывать"],
 
+}
 //--------------------------------------------------------------------------------------------------------//
 
 function changeLanguage(language){
-    console.log(language)
     localStorage.setItem("language",language)
     try{
         let length = translateText[language].length
@@ -93,6 +96,7 @@ function changeLanguage(language){
 
 var savedLanguage = localStorage.getItem("language")
 var userLanguage = navigator.language || navigator.userLanguage; 
+    userLanguage = userLanguage.toLowerCase()
 if(savedLanguage == null){
     switch(userLanguage){
         case "fr":    changeLanguage("Français")
@@ -109,31 +113,48 @@ if(savedLanguage == null){
             break;
         case "fr-mc": changeLanguage("Français")
             break;
-        case "de":    changeLanguage("English")
+
+
+        case "de":    changeLanguage("Deutsch")
             break;
-        case "de-de": changeLanguage("English")
+        case "de-de": changeLanguage("Deutsch")
             break;
-        case "de-at": changeLanguage("English")
+        case "de-at": changeLanguage("Deutsch")
             break;
-        case "de-lu": changeLanguage("English")
+        case "de-lu": changeLanguage("Deutsch")
             break;
-        case "de-ch": changeLanguage("English")
+        case "de-ch": changeLanguage("Deutsch")
             break;
-        case "it-IT": changeLanguage("Italiano")
+
+        case "ru": changeLanguage("Русский")
+            break;
+        
+        case "it-it": changeLanguage("Italiano")
             break;
         case "it":    changeLanguage("Italiano")
             break;  
         case "it-ch": changeLanguage("Italiano")
             break;  
-        case "zh-hk": changeLanguage("English")//Chinese
+
+
+        case "pt-br": changeLanguage("Português_Brasileiro")
             break;
-        case "zh-cn": changeLanguage("English")
+        case "pt":    changeLanguage("Português_Brasileiro")
+            break;
+
+        case "zh":    changeLanguage("Traditional_chinese_繁體中文")//Chinese
+            break;
+        case "zh-hk": changeLanguage("Traditional_chinese_繁體中文")
+            break;
+        case "zh-cn": changeLanguage("Traditional_chinese_繁體中文")
             break;   
-        case "zh-sg": changeLanguage("English")
+        case "zh-sg": changeLanguage("Traditional_chinese_繁體中文")
             break;   
-        case "zh-tw": changeLanguage("English")
-            break;                
-        default: changeLanguage("English")           
+        case "zh-tw": changeLanguage("Traditional_chinese_繁體中文")
+            break;  
+            
+            
+        default:      changeLanguage("English")           
     }
 }else{
     changeLanguage(savedLanguage)
@@ -151,7 +172,6 @@ function toggleReset() {
 
 let setScaleDiv = document.getElementById("setScale")
 let pageZoom = parseFloat(localStorage.getItem("pageZoom"))
-console.log(pageZoom)
 if(pageZoom === null || pageZoom == "" ||pageZoom < 0 || pageZoom > 2 || isNaN(pageZoom)){
     pageZoom = 1
     setScaleDiv.style.display = "block"
