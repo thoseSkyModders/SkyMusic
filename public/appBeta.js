@@ -67,13 +67,16 @@ var translateElements = {
     55:"go-back-register",
     56:"download-songs-button",
     57:"language-selector-text",
-    58:"welcome-text"
+    58:"welcome-text",
+    59:"ignore-button-rotation"
 }
 var translateText = {
-    English:["Press + and - to change how the page looks!\nYou can always change this in the settings","CONFIRM","The website is better used in Landscape, please rotate your device.","Click anywhere to close","Account","EMAIL","PASSWORD","LOGIN","Create account","Forgot password?","Register to Sky Music!","EMAIL","PASSWORD","CONFIRM PASSWORD","REGISTER","Register to Sky Music!","CODE","CONFIRM","Go back","Reset Password!","EMAIL","SUBMIT","Go back","Reset Password!","RESET CODE","NEW PASSWORD","CONFIRM NEW PASSWORD","SUBMIT","Go back","Settings","Change website zoom","Turn off auto fullscreen","Disable next key practice","Hide practice note animation","Display Note Names","Check MIDI support","Reset all songs and settings","Go back","My songs","Account songs","Here are all your songs!","Import songs","Here are all the songs saved in your account!","Reload","Store all songs locally","Cancel","OK","Main page","Account","Settings","Song Library","Need help?","Manage Recordings","Start/Stop recording","OLD","Go back","Download songs","Select language","Welcome to Sky Music!"],
-    Italiano:["Premi + e - per cambiare l'aspetto del sito!\nPuoi sempre cambiarlo nelle impostazioni","CONFERMA","È consigliato l'uso del sito in orizzontale, ruota il dispositivo.","Premi ovunque per chiudere","Account","EMAIL","PASSWORD","LOGIN","Crea account","Password dimenticata?","Registrati su Sky Music!","EMAIL","PASSWORD","CONFERMA PASSWORD","REGISTRATI","Registrati su Sky Music!","CODICE","CONFERMA","Indietro","Resetta la Password!","EMAIL","INVIA","Indietro","Resetta la Password!","CODICE DI RESET","NUOVA PASSWORD","CONFERMA NUOVA PASSWORD","INVIA","Torna indietro","Impostazioni","Cambia zoom del sito","Disattiva schermo intero automatico","Disattiva indizzio prossima nota","Nascondi animazione nella pratica","Mostra nomi delle note","Controlla supporto MIDI","Resetta tutte le canzoni e impostazioni","Indietro","Le mie canzoni","Canzoni dell'account","Ecco tutte le tue canzoni!","Importa canzoni","Ecco tutte le canzoni salvate nel tuo account!!","Ricarica","Salva tutto localmente","Cancella","OK","Pagina iniziale","Account","Impostazioni","Libreria canzoni","Aiuto?","Gestisci registrazioni","Inizia/Ferma registrazione","OLD","Indietro","Scarica canzoni","Seleziona lingua","Benvenuto su Sky Music!"],
-    Français:["Appuie sur + et - pour changer l'apparence de la page!\nTu pourras toujours modifier cela plus tard dans Réglages","CONFIRMER","Le site est bien mieux en format paysage, tourne ton appareil s'il te plait.","Appuie n'importe où pour fermer","Compte","EMAIL","MOT DE PASSE","SE CONNECTER","Créer un compte","Mot de passe oublié ?","S'inscrire sur Sky Music!","EMAIL","MOT DE PASSE","CONFIRMER LE MOT DE PASSE","INSCRIPTION","S'inscrire sur Sky Music!","CODE","CONFIRMER","Retour","Reinitialiser le mot de passe!","EMAIL","SOUMETTRE","Retour","Reinitialiser le mot de passe!","REINITIAISER LE CODE","NOUVEAU MOT DE PASSE","CONFIRMER LE NOUVEAU MOT DE PASSE","SOUMETTRE","Retour","Réglages","Modifier le zoom","Désactiver le plein écran automatique","Désactiver l'entraînement pour la clé suivante","Masquer l'animation des notes de l'entraînement","Afficher le nom des notes","Voir support MIDI","Reinitialiser toutes les chansons et réglages","Retour","Mes chansons","Chansons du compte","Voici toutes tes chansons!","Importer des chansons","Voici toutes les chansons sauvegardées sur ton compte!","Recharger","Enregistrer les chansons localement","Fermer","OK","Page principale","Compte","Réglages","Bibliothèque des chansons","Besoin d'aide ?","Gérer les enregistrements","Commencer/Arrêter l'enregistrement","ANCIEN","Retour","Télécharger des chansons","Choisir la langue","Welcome to Sky Music!"],
+    English:["Press + and - to change how the page looks!\nYou can always change this in the settings","CONFIRM","The website is better used in Landscape, please rotate your device.","Click anywhere to close","Account","EMAIL","PASSWORD","LOGIN","Create account","Forgot password?","Register to Sky Music!","EMAIL","PASSWORD","CONFIRM PASSWORD","REGISTER","Register to Sky Music!","CODE","CONFIRM","Go back","Reset Password!","EMAIL","SUBMIT","Go back","Reset Password!","RESET CODE","NEW PASSWORD","CONFIRM NEW PASSWORD","SUBMIT","Go back","Settings","Change website zoom","Turn off auto fullscreen","Disable next key practice","Hide practice note animation","Display Note Names","Check MIDI support","Reset all songs and settings","Go back","My songs","Account songs","Here are all your songs!","Import songs","Here are all the songs saved in your account!","Reload","Store all songs locally","Cancel","OK","Main page","Account","Settings","Song Library","Need help?","Manage Recordings","Start/Stop recording","OLD","Go back","Download songs","Select language","Welcome to Sky Music!","Never show again"],
+    Italiano:["Premi + e - per cambiare l'aspetto del sito!\nPuoi sempre cambiarlo nelle impostazioni","CONFERMA","È consigliato l'uso del sito in orizzontale, ruota il dispositivo.","Premi ovunque per chiudere","Account","EMAIL","PASSWORD","LOGIN","Crea account","Password dimenticata?","Registrati su Sky Music!","EMAIL","PASSWORD","CONFERMA PASSWORD","REGISTRATI","Registrati su Sky Music!","CODICE","CONFERMA","Indietro","Resetta la Password!","EMAIL","INVIA","Indietro","Resetta la Password!","CODICE DI RESET","NUOVA PASSWORD","CONFERMA NUOVA PASSWORD","INVIA","Torna indietro","Impostazioni","Cambia zoom del sito","Disattiva schermo intero automatico","Disattiva indizzio prossima nota","Nascondi animazione nella pratica","Mostra nomi delle note","Controlla supporto MIDI","Resetta tutte le canzoni e impostazioni","Indietro","Le mie canzoni","Canzoni dell'account","Ecco tutte le tue canzoni!","Importa canzoni","Ecco tutte le canzoni salvate nel tuo account!!","Ricarica","Salva tutto localmente","Cancella","OK","Pagina iniziale","Account","Impostazioni","Libreria canzoni","Bisogno di aiuto?","Gestisci registrazioni","Inizia/Ferma registrazione","OLD","Indietro","Scarica canzoni","Seleziona lingua","Benvenuto su Sky Music!","Non mostrare più"],
+    Français:["Appuie sur + et - pour changer l'apparence de la page!\nTu pourras toujours modifier cela plus tard dans Réglages","CONFIRMER","Le site est bien mieux en format paysage, tourne ton appareil s'il te plait.","Appuie n'importe où pour fermer","Compte","EMAIL","MOT DE PASSE","SE CONNECTER","Créer un compte","Mot de passe oublié ?","S'inscrire sur Sky Music!","EMAIL","MOT DE PASSE","CONFIRMER LE MOT DE PASSE","INSCRIPTION","S'inscrire sur Sky Music!","CODE","CONFIRMER","Retour","Reinitialiser le mot de passe!","EMAIL","SOUMETTRE","Retour","Reinitialiser le mot de passe!","REINITIAISER LE CODE","NOUVEAU MOT DE PASSE","CONFIRMER LE NOUVEAU MOT DE PASSE","SOUMETTRE","Retour","Réglages","Modifier le zoom","Désactiver le plein écran automatique","Désactiver l'entraînement pour la clé suivante","Masquer l'animation des notes de l'entraînement","Afficher le nom des notes","Voir support MIDI","Reinitialiser toutes les chansons et réglages","Retour","Mes chansons","Chansons du compte","Voici toutes tes chansons!","Importer des chansons","Voici toutes les chansons sauvegardées sur ton compte!","Recharger","Enregistrer les chansons localement","Fermer","OK","Page principale","Compte","Réglages","Bibliothèque des chansons","Besoin d'aide ?","Gérer les enregistrements","Start/Stop l'enregistrement","ANCIEN","Retour","Télécharger des chansons","Choisir la langue","Bienvenue sur Sky Music","Ne me montre plus jamais"],
 }
+
+//--------------------------------------------------------------------------------------------------------//
 
 function changeLanguage(language){
     console.log(language)
@@ -83,10 +86,10 @@ function changeLanguage(language){
         for(var i = 0;i<length;i++){
             $("#"+translateElements[i]).text(translateText[language][i])
         }
-    }catch{
-
-    }
+    }catch{}
 }
+
+//--------------------------------------------------------------------------------------------------------//
 
 var savedLanguage = localStorage.getItem("language")
 var userLanguage = navigator.language || navigator.userLanguage; 
@@ -135,7 +138,8 @@ if(savedLanguage == null){
 }else{
     changeLanguage(savedLanguage)
 }
-console.log(userLanguage)
+
+//--------------------------------------------------------------------------------------------------------//
 
 function toggleReset() {
     resetPages()
@@ -162,7 +166,7 @@ function changeScale(number){
     scaleNumber.innerHTML = Math.floor(pageZoom*100)
 }
 
-document.getElementsByTagName("BODY")[0].addEventListener('touchstart', (e) => {
+document.getElementsByTagName("body")[0].addEventListener('touchstart', (e) => {
 
     // is not near edge of view, exit
     if (e.pageX > 10 && e.pageX < window.innerWidth - 10) return;
