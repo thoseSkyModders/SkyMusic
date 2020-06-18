@@ -78,7 +78,7 @@ var translateText = {
     Português_Brasileiro:["Pressione + e - para personalizar o site!\nVocê pode alterar em configurações","CONFIRMAR","A experiencia fica melhor em posição de retrato. Por favor rotacione o seu dispositivo.","Toque para fechar","CONTA","EMAIL","SENHA","LOGAR","Criar conta","Esqueceu a senha?","Registrar para Sky Music!","EMAIL","SENHA","CONFIRMAR SENHA","REGISTRAR","Registrar para Sky Music!","CÓDIGO","CONFIRMAR","Voltar","Resetar Senha!","EMAIL","ENVIAR","Voltar","Resetar Senha!","RESETAR CÓDIGO","NOVA SENHA","CONFIRMAR NOVA SENHA","ENVIAR","Voltar","Configurações","Alterar Zoom do site","Desligar modo Tela Interia automático","Desativar próxima tecla ao praticar","Esconder animação da nota ao praticar","Mostrar as Notas","Checar suporte MIDI","Resetar todas as músicas e configurações","Voltar","Minhas Músicas","Músicas da conta","Aqui estão todas as suas músicas!","Importar Música","Aqui estão todas as suas músicas salvas na conta!","Recarregar","Armazenar todas as músicas no dispositivo","Cancelar","OK","Página Principal","Conta","Configurações","Biblioteca de Músicas","Precisa de ajuda?","Gerenciar Gravações","Começar/Parar gravação","ANTIGO","Voltar","Baixar Música","Selecionar Idioma","Bem Vindo ao Sky Music!","Não mostrar novamente"],
     Deutsch:["Drücken Sie die Taste + und – um das Aussehen der Seite zu ändern!\nSie können dies immer in den Einstellungen ändern","BESTÄTIGEN"," Die Website hat eine bessere Verwendung im Querformat. Bitte drehen Sie Ihr Gerät.", "Klicken Sie bitte irgendwo auf den Bildschirm, um zu schließen","Konto","EMAIL","PASSWORT","ANMELDEN","Reg","Haben Sie das Passwort vergessen?","Registriere dich zu Sky Music!","EMAIL","PASSWORT","PASSWORT BESTÄTIGEN","REGISTRIEREN","Registriere dich zu Sky Music!","CODE","BESTÄTIGEN","Zurück","Passwort zurücksetzen!","EMAIL","BESTÄTIGEN","Zurück","Passwort zurücksetzen!","CODE ZURÜCKSETZEN","NEUES PASSWORT","NEUES PASSWORT BESTÄTIGEN","BESTÄTIGEN","Zurück","Einstellungen","Website-Zoom ändern","Automatischen Vollbildmodus ausschalten","Hinweis auf die nächste Note deaktivieren","Übungsnotenanimation ausblenden","Notennamen anzeigen","MIDI-Unterstützung überprüfen","Alle Lieder und Einstellungen zurücksetzen","Zurück","Meine Lieder","Konto Lieder","Hier sind alle deine Lieder!","Lieder importieren ","Hier sind alle gespeicherten Lieder auf deinem Konto!","Neu laden","Alle Lieder lokal speichern","Beenden","OK","Hauptseite","Konto","Einstellungen","Liederbibliothek","Brauchen Sie Hilfe?","Aufnahmen verwalten","Aufname starten/stoppen","ALT","Zurück","Lieder runterladen","Sprache auswählen","Willkommen zu Sky Music!","Nicht mehr anzeigen"],
     Русский:["Нажмите + и -, чтобы изменить внешний вид страницы!\nВы всегда можете изменить это в настройках","ПОДТВЕРДИТЬ","Веб-сайт лучше использовать в альбомной ориентации, поверните устройство","Нажмите в любом месте, чтобы закрыть","Аккаунт","Е-МЕЙЛ","ПАРОЛЬ","ЛОГИН","Создать аккаунт","Забыли пароль?","Зарегистрироваться в Sky Music!","Е-МЕЙЛ","ПАРОЛЬ","ПОДТВЕРДИТЬ ПАРОЛЬ","РЕГИСТРАЦИЯ","Зарегистрироваться в Sky Music!","КОД","ПОДТВЕРДИТЬ","Вернуться назад","Сбросить пароль!","Е-МЕЙЛ","ПОДТВЕРДИТЬ","Вернуться назад","Сбросить пароль!","СБРОСИТЬ КОД","НОВЫЙ ПАРОЛЬ","ПОДТВЕРДИТЬ НОВЫЙ ПАРОЛЬ","ПОДТВЕРДИТЬ","Вернуться назад","Настройки","Изменить масштабирование веб-сайта","Отключить автоматический полноэкранный режим","Отключить следующую ключевую практику","Скрыть анимацию заметки для практики","Показать имена заметок","Проверить поддержку MIDI","Сбросить все песни и настройки","Вернуться назад","Мои песни","Песни аккаунта","Вот все ваши песни!","Импортировать песни","Вот все песни, сохраненные в вашем аккаунте!, ","Перезагрузить","Сохранить все песни локально","Отмена","ОК","Главная страница","Аккаунт","Настройки","Библиотека песен","Нужна помощь?","Управление записями","Запуск/остановка записи","СТАРЫЕ","Вернуться назад","Скачать песни ","Выбрать язык","Добро пожаловать в Sky Music!","Больше не показывать"],
-
+    한국어: ["+와 -로 페이지가 어떻게 보여지는지 조정하세요!\n이는 언제나 설정에서 변경하실 수 있어요.","확인","본 웹사이트는 가로 모드에 최적화되어 있습니다. 기기를 돌려 주세요.","아무 곳이나 클릭하여 닫기","계정","이메일","비밀번호","로그인","계정 만들기","비밀번호 찾기","Sky Music에 회원가입하세요!","이메일","비밀번호","비밀번호 확인","회원가입","Sky Music에 회원가입하세요!","코드","확인","뒤로가기","비밀번호를 초기화했습니다!","이메일","확인","뒤로가기","비밀번호를 초기화했습니다!","리셋 코드","새 비밀번호","새 비밀번호 확인","확인","뒤로가기","설정","웹사이트 줌 조정","자동 전체화면 끄기","다음 키 연습 끄기","연습 음 애니매이션 끄기","음계 이름 끄기","MIDI 지원 확인","모든 곡과 설정 초기화","뒤로가기","내 곡","계정 곡","여기에서 당신의 모든 곡들을 보실 수 있습니다!","곡 불러오기","여기에서 당신의 계정에 저장된 모든 곡들을 보실 수 있습니다!","새로고침","모든 곡을 로컬 저장소에 보관하기","취소","확인","메인 페이지","계정","설정","곡 라이브러리","도움이 필요하세요?","녹음본 관리","녹음 시작/중지","구","뒤로가기","곡 다운로드","언어 선택","Sky Music에 오신 것을 환영합니다!","다시 보지 않기"],
 }
 //--------------------------------------------------------------------------------------------------------//
 
@@ -126,9 +126,11 @@ if(savedLanguage == null){
         case "de-ch": changeLanguage("Deutsch")
             break;
 
+
         case "ru": changeLanguage("Русский")
             break;
         
+
         case "it-it": changeLanguage("Italiano")
             break;
         case "it":    changeLanguage("Italiano")
@@ -142,6 +144,7 @@ if(savedLanguage == null){
         case "pt":    changeLanguage("Português_Brasileiro")
             break;
 
+
         case "zh":    changeLanguage("Traditional_chinese_繁體中文")//Chinese
             break;
         case "zh-hk": changeLanguage("Traditional_chinese_繁體中文")
@@ -152,7 +155,12 @@ if(savedLanguage == null){
             break;   
         case "zh-tw": changeLanguage("Traditional_chinese_繁體中文")
             break;  
-            
+
+
+        case "ko": changeLanguage("한국어")
+            break;
+        case "ko-kr": changeLanguage("한국어")
+            break;
             
         default:      changeLanguage("English")           
     }
