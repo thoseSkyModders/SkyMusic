@@ -6,6 +6,8 @@
         body {
             background: rgb(115,181,210);
             background: linear-gradient(190deg, rgba(115,181,210,1) 0%, rgba(108,160,114,1) 63%);
+            padding:0;
+            text-align: center;
         }
 
         * {
@@ -18,7 +20,7 @@
 
         .tabs {
             border: solid 2px black;
-            zoom: 0.5;
+            zoom: 0.45;
             border-radius: 10px;
             margin: 10px;
         }
@@ -41,6 +43,7 @@
         #songsHolder {
             width: 90%;
             height: 30%;
+            margin: 0 auto;
             border: solid 3px #dad8b3;
             border-radius: 8px;
             overflow-x: hidden;
@@ -64,16 +67,11 @@
 </head>
 
 <body>
-    <!--<div>
-            <textarea type="text" spellcheck="false" placeholder="Write song here" autocomplete="off" id="input"></textarea><br>
-            <input type="button" onclick="generate()"class="generateBtn" value="Generate!">
-        </div>-->
+    <a href="/"class=skyButton style="border:solid 2px #dad8b3; text-decoration: none; border-radius: 0.3em; padding: 0.2em; float: left; margin-bottom: 2vh;">GO BACK</a>
     <div style="overflow-y: scroll;" id="songsHolder">
     </div>
-    For other visual sheets, please visit <a href="https://sky-music.github.io/">this website</a>
-    <div id="tabsHolder" style="text-align:left;  scale: 0.5;">
-
-    </div>
+    For other visual sheets visit <a href="https://sky-music.github.io/">this website</a>
+    <div id="tabsHolder" style="text-align:left;"></div>
 </body>
 <script>
     const TAB_WIDTH = "150"
@@ -210,6 +208,7 @@
         for (var i = 0; i < indexes.length; i++) { //adds a line break
             var lineBreak = document.createElement("div")
             lineBreak.style.borderTop = "solid 2px gray"
+            lineBreak.style.margin = "1vh"
             lineBreak.style.width = "100%"
             tabsHolder.insertBefore(lineBreak, allTabs[indexes[i]]);
         }
