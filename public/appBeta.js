@@ -230,6 +230,7 @@ function toggleScaleDiv(){
 //--------------------------------------------------------------------------------------------------------//
 
 let ignoreFullScreen = (localStorage.getItem("ignoreFullScreen") == "true")
+var isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream //ignores if it's from ios 
 if(ignoreFullScreen) turnOffFullscreen.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
 function toggleFullScreenSetting(){
     let turnOffFullscreen = document.getElementById("turnOffFullscreen")
@@ -278,7 +279,7 @@ let isDesktop = !checkIfMobile()
 function toggleFullScreen(){
         //Makes the website full screen
         document.getElementById("video1").play()
-        if(isDesktop || ignoreFullScreen){
+        if(isDesktop || ignoreFullScreen || isiOS){
             return
         }
         exitFullScreenBtn.style.display = "block"
