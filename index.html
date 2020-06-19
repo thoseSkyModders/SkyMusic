@@ -36,28 +36,30 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale = 1.0"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
     <title>Sky Music</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 
-<body>
+<body style="touch-action: pan-x pan-y;">
     <div id="setScale" align=center>
-        <h2>Welcome to Sky Music!</h2>
+        <h2 id="welcome-text">Welcome to Sky Music!</h2>
+        <div id="scale-text">
         Press + and - to change how the page looks!<br>
         You can always change this in the settings<br>
+        </div>
         <button class="skyButton" style="width: 30px;" onclick="changeScale(-1)">-</button>
         <div type="number" id="scaleNumber" >100</div>%
         <button class="skyButton" style="width: 30px;" onclick="changeScale(1)">+</button><br>
-        <button class="skyButton" onclick="confirmScale()" style="width: 90%;">CONFIRM</button>
+        <button class="skyButton" id="confirm-scale" onclick="confirmScale()" style="width: 90%;">CONFIRM</button>
     </div>
     <!--https://www.flaticon.com/free-icon/rotate-smartphone_81564?term=rotate%20phone&page=1&position=22-->
     <div id="rotateDevice" onclick="this.style.display = 'none'">
-        <button onclick="ignoreRotation()"class="skyButton" style=" position:absolute; left: 0;">Never show again</button>
+        <button onclick="ignoreRotation()"class="skyButton" id="ignore-button-rotation" style=" position:absolute; left: 0;">Never show again</button>
         <img src="icons/rotate.svg" width="50%" height="50%">
-        <h1 style="margin:0.5em;">The website is better used in Landscape, please rotate your device.</h1>
-        <h2 class="bottom" style="color: rgba(235, 0, 27, 1)">Click anywhere to close</h2>
+        <h1 style="margin:0.5em;" id="rotate-device-text">The website is better used in Landscape, please rotate your device.</h1>
+        <h2 class="bottom" id="click-to-close-rotation"style="color: rgba(235, 0, 27, 1)">Click anywhere to close</h2>
     </div>
     <!--https://www.flaticon.com/free-icon/fullscreen_483332?term=exit%20fullscreen&page=1&position=2-->
     <img id="exitFullScreenBtn"src="icons/exitFullScreen.png" onclick="exitFullScreen()">
@@ -65,87 +67,100 @@
 
         <div id="login">
             <div id="loginContainer">
-              <h1>Account</h1>
+              <h1 id="account-tab-text">Account</h1>
               <div>
-                <label class="formLabel"><b>EMAIL</b></label>
+                <label id="email-text-login" class="formLabel"><b>EMAIL</b></label>
                 <input type="text" placeholder="Enter email" class="formInput" id="emailLogin">
       
-                <label class="formLabel"><b>PASSWORD</b></label>
+                <label id="password-text-login" class="formLabel"><b>PASSWORD</b></label>
                 <input type="password" placeholder="Enter Password" class="formInput" id="passwordLogin">
-                <button onclick = "login(false)">LOGIN</button>
+                <button id="login-button" onclick = "login(false)">LOGIN</button>
       
-                <span onclick="toggleRegister()"><a href="#">Create account</a></span><span id="forgotLink" onclick="toggleReset()"><a href="#">Forgot password?</a></span>
+                <span onclick="toggleRegister()"><a id="create-account-button" href="#">Create account</a></span><span id="forgotLink" onclick="toggleReset()"><a id="forgot-password-text" href="#">Forgot password?</a></span>
               </div> 
             </div>
           </div>
           <div id="register">
             <div id="registerContainer">
-                <h1>Register to Sky Music!</h1>
+                <h1 id="register-tab-text">Register to Sky Music!</h1>
                 <div>
-                  <label class="formLabel"><b>EMAIL</b></label>
+                  <label id="email-text-register" class="formLabel"><b>EMAIL</b></label>
                   <input type="text" placeholder="Enter Email" class="formInput" id="emailRegister">
         
-                  <label class="formLabel"><b>PASSWORD</b></label>
+                  <label id="password-text-register" class="formLabel"><b>PASSWORD</b></label>
                   <input type="password" placeholder="Enter Password" class="formInput" id="passwordRegister">
 
-                  <label class="formLabel"><b>CONFIRM PASSWORD</b></label>
+                  <label id="confirm-password-text-register" class="formLabel"><b>CONFIRM PASSWORD</b></label>
                   <input type="password" placeholder="Enter again Password" class="formInput" id="passwordRegister2">
         
-                  <button class="submitButton" onclick = "register()">REGISTER</button>
-                  <span onclick="resetPages()"><a href="#">Go back</a></span>
+                  <button id="register-button" class="submitButton" onclick = "register()">REGISTER</button>
+                  <span  onclick="resetPages()"><a id="go-back-register" href="#">Go back</a></span>
                 </div> 
               </div>
           </div>
           <div id="confirmRegistration">
             <div id="confirmContainer">
-                <h1>Register to Sky Music!</h1>
+                <h1 id="confirm-register-tab-text" >Register to Sky Music!</h1>
                 <div>       
-                  <label id="confirmationLabel" class="formLabel"><b>CODE</b></label>
+                  <label id="code-text-confirm"  id="confirmationLabel" class="formLabel"><b>CODE</b></label>
                   <input type="password" placeholder="Enter code" class="formInput" id="codeConfirmation">
-                  <button class="submitButton" onclick = "confirmEmail()">CONFIRM</button>
-                  <span onclick="resetPages()"><a href="#">Go back</a></span>
+                  <button id="confirm-button-confirm" class="submitButton" onclick = "confirmEmail()">CONFIRM</button>
+                  <span id="go-back-confirm" onclick="resetPages()"><a href="#">Go back</a></span>
                 </div> 
               </div>
           </div>
           <div id="resetPassword">
             <div id="resetContainer">
-                <h1>Reset Password!</h1>
+                <h1 id="reset-tab-text" >Reset Password!</h1>
                 <div>
-                  <label class="formLabel"><b>EMAIL</b></label>
+                  <label id="email-text-reset" class="formLabel"><b>EMAIL</b></label>
                   <input type="text" placeholder="Enter Email" class="formInput" id="emailReset">
-                  <button class="submitButton" onclick = "resetPassword()">SUBMIT</button>
-                  <span onclick="resetPages()"><a href="#">Go back</a></span>
+                  <button id="submit-text-reset" class="submitButton" onclick = "resetPassword()">SUBMIT</button>
+                  <span id="go-back-reset" onclick="resetPages()"><a href="#">Go back</a></span>
                 </div> 
               </div>
           </div>
           <div id="verifyPasswordAndCode">
             <div id="resetContainer">
-                <h1>Reset Password!</h1>
+                <h1 id="verify-tab-text" >Reset Password!</h1>
                 <div>       
-                  <label class="formLabel"><b>RESET CODE</b></label>
+                  <label id="code-text-verify" class="formLabel"><b>RESET CODE</b></label>
                   <input type="text" placeholder="Enter reset code" class="formInput" id="resetcodeConfirmation">
-                  <label class="formLabel"><b>NEW PASSWORD</b></label>
+                  <label id="password1-text-verify" class="formLabel"><b>NEW PASSWORD</b></label>
                   <input type="password" placeholder="Enter your new password" class="formInput" id="newpassword">
-                  <label class="formLabel"><b>CONFIRM NEW PASSWORD</b></label>
+                  <label id="password2-text-verify"class="formLabel"><b>CONFIRM NEW PASSWORD</b></label>
                   <input type="password" placeholder="Re-enter your new password" class="formInput" id="newpasswordconfirm">
-                  <button class="submitButton" onclick = "checkResetCode()">SUBMIT</button>
-                  <span onclick="resetPages()"><a href="#">Go back</a></span>
+                  <button id="submit-button-verify" class="submitButton" onclick = "checkResetCode()">SUBMIT</button>
+                  <span id="go-back-verify" onclick="resetPages()"><a href="#">Go back</a></span>
                 </div> 
               </div>
           </div>
           <div id="settings">
               <div id="settingsContainer">
-                <h1>Settings</h1>
-                <div style="overflow-y:scroll; height: 72vh; margin-bottom: 1em;">   
-                    <button  onclick = "toggleScaleDiv()">Change website zoom</button>
-                    <button  onclick = "toggleFullScreenSetting()" id="turnOffFullscreen">Turn off auto fullscreen</button>    
-                    <button  onclick = "changeSettings(this)" id="Disable next key practice">Disable next key practice</button>
-                    <button onclick = "changeSettings(this)" id="Hide practice note animation">Hide practice note animation</button>
-                    <button onclick = "changeSettings(this)" id="Display Note Names">Display Note Names</button>
-                    <button onclick = "checkMidiAccess()">Check MIDI support</button>
-                    <button onclick = "resetLocalStorage()">Reset all songs and settings</button>
+                <h1 id="settings-tab-text" >Settings</h1>
+                <div style="overflow-y:scroll; height: 72vh; margin-bottom: 1em;">
+                  <select name="Language" onchange="changeLanguage(this.value)"id="language-selector">
+                    <option id="language-selector-text" selected disabled>Select language</option>
+                    <option>English</option>
+                    <option>Traditional_chinese_繁體中文</option>
+                    <option>Italiano</option>
+                    <option>Français</option>
+                    <option>Português_Brasileiro</option>
+                    <option>Deutsch</option>
+                    <option>Русский</option>
+                    <option>한국어</option>
+                    <option>Română</option>
+                    <option>Español</option>
+                  </select>   
+                    <button onclick = "toggleScaleDiv()" id="change-zoom-button" >Change website zoom</button>
+                    <button onclick = "toggleFullScreenSetting()" id="turnOffFullscreen">Turn off auto fullscreen</button>    
+                    <button  onclick = "changeSettings(this)" id="Disable-next-key-practice">Disable next key practice</button>
+                    <button onclick = "changeSettings(this)" id="Hide-practice-note-animation">Hide practice note animation</button>
+                    <button onclick = "changeSettings(this)" id="Display-Note-Names">Display Note Names</button>
+                    <button onclick = "checkMidiAccess()" id="check-midi-button" >Check MIDI support</button>
+                    <button onclick = "resetLocalStorage()" id="reset-all-button" >Reset all songs and settings</button>
                 </div> 
-                <span onclick="resetPages()"><a href="#">Go back</a></span>
+                <span id="go-back-settings" onclick="resetPages()"><a href="#">Go back</a></span>
               </div>
           </div>
     </div>
@@ -154,25 +169,25 @@
     <div id="savedSongsDivWrapper" class="floatingDiv">
         <div class="tab">
             <button id="localStoredBtn" class="tablinks active" onclick="openSonglist(event, 'localSongs')">My songs</button>
-            <button class="tablinks" onclick="openSonglist(event, 'dbSongs')">Database songs</button>
+            <button id="accountBtn" class="tablinks" onclick="openSonglist(event, 'dbSongs')">Account songs</button>
           </div>
         <!--Local Songs-->
           <div id="localSongs" class="tabcontent">
-            <h3 id="localSongsH3">Here are all your songs!</h3>
+            <h3 id="local-tab-text">Here are all your songs!</h3>
             <div id="savedSongsDiv" class="topSavedSongsDiv"></div>
             <div class = "bottomSavedSongsDiv">
-                <button class="skyButton" onclick="importSongs()">Import songs</button>
-                <button class="skyButton" onclick="downloadSongs()">Download songs</button>
+                <button id="import-button" class="skyButton" onclick="importSongs()">Import songs</button>
+                <button id="download-songs-button" class="skyButton" onclick="downloadSongs()">Download songs</button>
                 <input type=file style="display:none;" id="filePicker">
             </div>
           </div>
         <!--Database Songs-->
           <div id="dbSongs" class="tabcontent">
-            <h3>Here are all the songs saved in your account!</h3>
+            <h3 id="account-songs-tab-text" >Here are all the songs saved in your account!</h3>
             <div id="dbSongsDiv" class="topSavedSongsDiv"></div>
             <div class = "bottomSavedSongsDiv">
-                <button class="skyButton" onclick="syncDB()">Reload</button>
-                <button class="skyButton" onclick="storeSongsLocally()">Store all songs locally</button>
+                <button id="reload-button" class="skyButton" onclick="syncDB()">Reload</button>
+                <button id="store-all-button" class="skyButton" onclick="storeSongsLocally()">Store all songs locally</button>
             </div>
           </div>
     </div>
@@ -185,17 +200,17 @@
     <div id="promptDiv">
         <div id="promptMessage">Write song name</div>
         <input type="text" id="promptInput" placeholder="Song name"><br>
-        <input class="skyButton" id="promptOK" type="button" value="OK"><!--
-        --><input class="skyButton" id="promptCancel" type="button" value="Cancel">
+        <input class="skyButton" id="promptCancel" type="button" value="Cancel">
+        <input class="skyButton" id="promptOK" type="button" value="OK">
     </div>
 <div id="firstPage">
     <button id="menu" style="display: block;"onclick="showMenu()"></button>
     <div id="icon-bar" style="height: 200vh;">
-        <button class="skyButton_2" onclick='resetPages(),showMenu(),document.getElementById("login").style.display = "none"'><p class="texts">Main page</p></button>
-        <button class="skyButton_2" onclick="toggleLogin()"><p class="texts">Account</p></button>
-        <button class="skyButton_2" onclick="toggleSettings()"><p class="texts">Settings</p></button>
-        <button class="skyButton_2" onclick='window.open("songLibrary.html")'><p class="texts">Song Library</p></button>
-        <button class="skyButton_2" onclick='window.open("help.html")'><p class="texts">Need help?</p></button>
+        <button class="skyButton_2" onclick='resetPages(),showMenu(),document.getElementById("login").style.display = "none"'><p id="main-page-text-menu" class="texts">Main page</p></button>
+        <button class="skyButton_2" onclick="toggleLogin()"><p id="account-text-menu" class="texts">Account</p></button>
+        <button class="skyButton_2" onclick="toggleSettings()"><p id="settings-text-menu" class="texts">Settings</p></button>
+        <button class="skyButton_2" onclick='window.open("songLibrary.html")'><p id="library-text-menu" class="texts">Song Library</p></button>
+        <button class="skyButton_2" onclick='window.open("help.html")'><p id="help-text-menu"  class="texts">Need help?</p></button>
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
             <input type="hidden" name="cmd" value="_s-xclick" />
             <input type="hidden" name="hosted_button_id" value="MFTNUQL2Z8UWW" />
@@ -205,11 +220,11 @@
             
     </div>
     <div class="menuDiv">
-        <button class="skyButton" onclick="toggleSavedSongs()">Manage Recordings</button>
+        <button class="skyButton" id="manageRecordingsBtn" onclick="toggleSavedSongs()">Manage Recordings</button>
         <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
         <button class="musicButton" id="toggleInstruments" onclick="toggleInstrumentList()"></button>
         <button class="pitchButton" id="togglePitchList" onclick="togglePitchList()">Key</button>
-        <button class="pitchButton" style="font-size: 1.3em; background-image: url(./icons/reverb.png);"id="toggleReverbBtn" onclick="toggleReverb()"></button>
+        <button class="pitchButton" id="toggleReverbBtn" style="font-size: 1.3em; background-image: url(./icons/reverb.png);" onclick="toggleReverb()"></button>
         <button id="stopSong" onclick="stopSong()"></button>
     </div>
     <div id=touch>
@@ -232,7 +247,7 @@
         <button type="button" id="panfluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/panflute.png);"/></button>  
         TO REMOVE ONCE NEW INSTRUMENTS ARE ADDED
         -->
-        <div style="color: rgba(235, 0, 27, 1); font-size:1.2em; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">
+        <div id="old-text" style="color: rgba(235, 0, 27, 1); font-weight: bold; margin-top: 15px; margin-bottom: 5px;">
             OLD
         </div>
         <button type="button" id="oldHarpBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/harp.png);"/>
@@ -261,6 +276,6 @@
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
 <input type="sleeping" placeholder="username" style="display: none"> <!-- Easter egg-->
-<script type="text/javascript" src="app.js"></script>
+<script type="text/javascript" src="beta.js"></script>
 
 </html>
