@@ -70,18 +70,35 @@ var translateElements = {
     58:"welcome-text",
     59:"ignore-button-rotation"
 }
+var systemMessagesText = {
+    English:["Write song name","Please write a non empty name","There is already a song with this name: ","Please put an email","success! please check you email.","Error trying to reset password","Link copied!","Invalid link!","Added song by link: ","The song already exists:","Error importing song","Password successfully reset!","Error verifying the account!","Please put email,username and password","You put an invalid email!","Password must be at least 6 characters long!","The passwords don't match!","Error creating the account!","Please put username and password","Logged in!","Error trying to LogIn","You are not logged in!","There are no songs saved in the database or you haven't loaded them","Already saved \n","Done!","Error trying to get songs!","Error trying to delete song!","Error trying to save songs!","Song is too big, it can't be uploaded!","You put an invalid code!","Account verified!","Error verifying the account!","Error importing song!","MIDI is supported!","MIDI is not supported! It only works on google chrome"],
+    Italiano:["Scrivi il nome della canzone!","Scrivi un nome non vuoto","C'è già una canzone con questo nome:  ","Inserisci una email","Fatto! Controlla la tua email","Errore nel reset della password","Link copiato!","Link invalido!","Aggiunta canzone da link: ","Questa canzone è già salvata:","Errore nell'importazione","Password resettata!","Errore nella verifica dell'account!","Inserisci email,username e password","Hai inserito una mail non valida!","La password deve essere almeno 6 caratteri!","Le password non sono uguali!","Errore nella creazione dell'account!","Inserisci username e password","Loggato!","Errore nel login!","Non sei loggato!","Non ci sono canzoni salvate o non hai ricaricato!","Già salvata \n","Fatto!","Errore nel riperimento delle canzoni!!","Errore nella cancellazione della canzone!","Errore nel salvataggio!","Canzone troppo grande, non può essere caricata!","Hai inserito un codice non valido!","Account verificato!","Errore nella verifica dell'account!","Errore nell'importazione!","MIDI è supportato!","MIDI non supportato! Funziona solo su chrome!"],
+    Français:["Write song name","Please write a non empty name","There is already a song with this name: ","Please put an email","success! please check you email.","Error trying to reset password","Link copied!","Invalid link!","Added song by link: ","The song already exists:","Error importing song","Password successfully reset!","Error verifying the account!","Please put email,username and password","You put an invalid email!","Password must be at least 6 characters long!","The passwords don't match!","Error creating the account!","Please put username and password","Logged in!","Error trying to LogIn","You are not logged in!","There are no songs saved in the database or you haven't loaded them","Already saved \n","Done!","Error trying to get songs!","Error trying to delete song!","Error trying to save songs!","Song is too big, it can't be uploaded!","You put an invalid code!","Account verified!","Error verifying the account!","Error importing song!","MIDI is supported!","MIDI is not supported! It only works on google chrome"],
+    Traditional_chinese_繁體中文:["命名歌曲","請輸入歌曲名稱","這個歌曲名稱已被使用: ","請輸入電郵地址","成功！請檢查您的電子郵件。","嘗試重設密碼時出錯","已復制鏈結！","無效的鏈結！","通過鏈結添加了歌曲：","這首歌已經存在：","導入歌曲時出錯","密碼重置成功！","驗證帳號時出錯！","請輸入電子郵件，用戶名稱和密碼","您輸入了無效的電子郵件！","密碼必須至少有6個字符長！","密碼不匹配！","創建帳戶時出錯！","請輸入用戶名和密碼","登錄！","登錄時出錯","你沒有登錄！","數據庫中沒有保存任何歌曲，或者您尚未加載它們","已保存\n","完成!","獲取歌曲時出錯！","刪除歌曲時出錯！","嘗試保存歌曲時出錯！","歌曲太大，無法上傳！","您輸入了無效的密碼！","帳戶已驗證！","驗證帳戶時出錯！","導入歌曲時出錯！","支援MIDI！","不支援MIDI！此功能僅適用於谷歌瀏覽器"],
+    Português_Brasileiro:["Nome da música","Por favor coloque um nome.","Já tem uma música com esse nome: ","Coloque seu email.","Sucesso! Por favor, verifique seu email.","Erro ao tentar resetar a senha","Link copiado!","Link inválido!","Música adicionada pelo link: ","A música já existe:","Erro ao importar música","Senha resetada com sucesso!","Erro ao verificar a conta!","Por favor coloque um email, usuário e senha","Você digitou um email inválido!","A senha precisa ter no mínimo 6 caracteres!","As senhas são diferentes.","Erro ao criar conta!","Por favor coloque usuário e senha","Logado!","Erro no Login","Você não está logado!","Não tem músicas salvas no sistema ou você ainda não carregou elas.","Já foi salvo. \n","Feito!","Erro ao tentar encontrar músicas!","Erro ao deletar música!","Erro ao salvar música!","A música é muito grande, não tem como fazer upload!","Código inválido!","Conta verificada!","Erro ao verificar conta!","Erro ao importar música!","MIDI é suportado!","MIDI não é suportado! Só funciona no Google Chrome"],
+    Deutsch:["Write song name","Please write a non empty name","There is already a song with this name: ","Please put an email","success! please check you email.","Error trying to reset password","Link copied!","Invalid link!","Added song by link: ","The song already exists:","Error importing song","Password successfully reset!","Error verifying the account!","Please put email,username and password","You put an invalid email!","Password must be at least 6 characters long!","The passwords don't match!","Error creating the account!","Please put username and password","Logged in!","Error trying to LogIn","You are not logged in!","There are no songs saved in the database or you haven't loaded them","Already saved \n","Done!","Error trying to get songs!","Error trying to delete song!","Error trying to save songs!","Song is too big, it can't be uploaded!","You put an invalid code!","Account verified!","Error verifying the account!","Error importing song!","MIDI is supported!","MIDI is not supported! It only works on google chrome"],
+    Русский:["Write song name","Please write a non empty name","There is already a song with this name: ","Please put an email","success! please check you email.","Error trying to reset password","Link copied!","Invalid link!","Added song by link: ","The song already exists:","Error importing song","Password successfully reset!","Error verifying the account!","Please put email,username and password","You put an invalid email!","Password must be at least 6 characters long!","The passwords don't match!","Error creating the account!","Please put username and password","Logged in!","Error trying to LogIn","You are not logged in!","There are no songs saved in the database or you haven't loaded them","Already saved \n","Done!","Error trying to get songs!","Error trying to delete song!","Error trying to save songs!","Song is too big, it can't be uploaded!","You put an invalid code!","Account verified!","Error verifying the account!","Error importing song!","MIDI is supported!","MIDI is not supported! It only works on google chrome"],
+    한국어:["Write song name","Please write a non empty name","There is already a song with this name: ","Please put an email","success! please check you email.","Error trying to reset password","Link copied!","Invalid link!","Added song by link: ","The song already exists:","Error importing song","Password successfully reset!","Error verifying the account!","Please put email,username and password","You put an invalid email!","Password must be at least 6 characters long!","The passwords don't match!","Error creating the account!","Please put username and password","Logged in!","Error trying to LogIn","You are not logged in!","There are no songs saved in the database or you haven't loaded them","Already saved \n","Done!","Error trying to get songs!","Error trying to delete song!","Error trying to save songs!","Song is too big, it can't be uploaded!","You put an invalid code!","Account verified!","Error verifying the account!","Error importing song!","MIDI is supported!","MIDI is not supported! It only works on google chrome"],
+    Română:["Write song name","Please write a non empty name","There is already a song with this name: ","Please put an email","success! please check you email.","Error trying to reset password","Link copied!","Invalid link!","Added song by link: ","The song already exists:","Error importing song","Password successfully reset!","Error verifying the account!","Please put email,username and password","You put an invalid email!","Password must be at least 6 characters long!","The passwords don't match!","Error creating the account!","Please put username and password","Logged in!","Error trying to LogIn","You are not logged in!","There are no songs saved in the database or you haven't loaded them","Already saved \n","Done!","Error trying to get songs!","Error trying to delete song!","Error trying to save songs!","Song is too big, it can't be uploaded!","You put an invalid code!","Account verified!","Error verifying the account!","Error importing song!","MIDI is supported!","MIDI is not supported! It only works on google chrome"],
+    Español:["Write song name","Please write a non empty name","There is already a song with this name: ","Please put an email","success! please check you email.","Error trying to reset password","Link copied!","Invalid link!","Added song by link: ","The song already exists:","Error importing song","Password successfully reset!","Error verifying the account!","Please put email,username and password","You put an invalid email!","Password must be at least 6 characters long!","The passwords don't match!","Error creating the account!","Please put username and password","Logged in!","Error trying to LogIn","You are not logged in!","There are no songs saved in the database or you haven't loaded them","Already saved \n","Done!","Error trying to get songs!","Error trying to delete song!","Error trying to save songs!","Song is too big, it can't be uploaded!","You put an invalid code!","Account verified!","Error verifying the account!","Error importing song!","MIDI is supported!","MIDI is not supported! It only works on google chrome"],
+    
+}
 var translateText = {
     English:["Press + and - to change how the page looks!\nYou can always change this in the settings","CONFIRM","The website is better used in Landscape, please rotate your device.","Click anywhere to close","Account","EMAIL","PASSWORD","LOGIN","Create account","Forgot password?","Register to Sky Music!","EMAIL","PASSWORD","CONFIRM PASSWORD","REGISTER","Register to Sky Music!","CODE","CONFIRM","Go back","Reset Password!","EMAIL","SUBMIT","Go back","Reset Password!","RESET CODE","NEW PASSWORD","CONFIRM NEW PASSWORD","SUBMIT","Go back","Settings","Change website zoom","Turn off auto fullscreen","Disable next key practice","Hide practice note animation","Display Note Names","Check MIDI support","Reset all songs and settings","Go back","My songs","Account songs","Here are all your songs!","Import songs","Here are all the songs saved in your account!","Reload","Store all songs locally","Cancel","OK","Main page","Account","Settings","Song Library","Need help?","Manage Recordings","Start/Stop recording","OLD","Go back","Download songs","Select language","Welcome to Sky Music!","Never show again"],
     Italiano:["Premi + e - per cambiare l'aspetto del sito!\nPuoi sempre cambiarlo nelle impostazioni","CONFERMA","È consigliato l'uso del sito in orizzontale, ruota il dispositivo.","Premi ovunque per chiudere","Account","EMAIL","PASSWORD","LOGIN","Crea account","Password dimenticata?","Registrati su Sky Music!","EMAIL","PASSWORD","CONFERMA PASSWORD","REGISTRATI","Registrati su Sky Music!","CODICE","CONFERMA","Indietro","Resetta la Password!","EMAIL","INVIA","Indietro","Resetta la Password!","CODICE DI RESET","NUOVA PASSWORD","CONFERMA NUOVA PASSWORD","INVIA","Torna indietro","Impostazioni","Cambia zoom del sito","Disattiva schermo intero automatico","Disattiva indizio prossima nota","Nascondi animazione nella pratica","Mostra nomi delle note","Controlla supporto MIDI","Resetta tutte le canzoni e impostazioni","Indietro","Le mie canzoni","Canzoni dell'account","Ecco tutte le tue canzoni!","Importa canzoni","Ecco tutte le canzoni salvate nel tuo account!!","Ricarica","Salva tutto localmente","Cancella","OK","Pagina iniziale","Account","Impostazioni","Libreria canzoni","Bisogno di aiuto?","Gestisci registrazioni","Inizia/Ferma registrazione","VECCHIO","Indietro","Scarica canzoni","Seleziona lingua","Benvenuto su Sky Music!","Non mostrare più"],
     Français:["Appuie sur + et - pour changer l'apparence de la page!\nTu pourras toujours modifier cela plus tard dans Réglages","CONFIRMER","Le site est bien mieux en format paysage, tourne ton appareil s'il te plait.","Appuie n'importe où pour fermer","Compte","EMAIL","MOT DE PASSE","SE CONNECTER","Créer un compte","Mot de passe oublié ?","S'inscrire sur Sky Music!","EMAIL","MOT DE PASSE","CONFIRMER LE MOT DE PASSE","INSCRIPTION","S'inscrire sur Sky Music!","CODE","CONFIRMER","Retour","Reinitialiser le mot de passe!","EMAIL","SOUMETTRE","Retour","Reinitialiser le mot de passe!","REINITIAISER LE CODE","NOUVEAU MOT DE PASSE","CONFIRMER LE NOUVEAU MOT DE PASSE","SOUMETTRE","Retour","Réglages","Modifier le zoom","Désactiver le plein écran automatique","Désactiver l'entraînement pour la clé suivante","Masquer l'animation des notes de l'entraînement","Afficher le nom des notes","Voir support MIDI","Reinitialiser toutes les chansons et réglages","Retour","Mes chansons","Chansons du compte","Voici toutes tes chansons!","Importer des chansons","Voici toutes les chansons sauvegardées sur ton compte!","Recharger","Enregistrer les chansons localement","Fermer","OK","Page principale","Compte","Réglages","Bibliothèque des chansons","Besoin d'aide ?","Gérer les enregistrements","Start/Stop l'enregistrement","ANCIEN","Retour","Télécharger des chansons","Choisir la langue","Bienvenue sur Sky Music","Ne me montre plus jamais"],
     Traditional_chinese_繁體中文:["按下 + 和 - 更改頁面的大小！\n您隨時可以在設定中更改此設定","確認","本網站更適合橫向使用，請旋轉您的設備。","點擊任意位置來關閉視窗","帳號","電子郵件","密碼","登入","創建帳號","忘記密碼？","註冊 Sky Music!","電子郵件","密碼","確認密碼","註冊","註冊 Sky Music!","驗証碼","確認","返回","重設密碼！","電子郵件","遞交","返回","重設密碼！","重設用驗証碼","新密碼","確認新密碼","遞交","返回","設定","改變頁面大小","關閉自動全屏","禁用 練習模式顯示下一鍵","隱藏 練習模式按鍵動畫","顯示音名","檢查支援MIDI","重設所有歌曲和設定","返回","本地歌曲","帳號歌曲","這是您的所有歌曲！","匯入歌曲","這是您帳號中保存的所有歌曲！","重新匯入","將所有歌曲存儲在本地","取消","OK","主頁","帳號","設定","歌曲庫","需要幫忙？","管理錄音","開始/停止 錄製","舊版","返回","下載歌曲","選擇語言","歡迎來到Sky Music!","不要再顯示"],
-    Português_Brasileiro:["Pressione + e - para personalizar o site!\nVocê pode alterar em configurações","CONFIRMAR","A experiencia fica melhor em posição de retrato. Por favor rotacione o seu dispositivo.","Toque para fechar","CONTA","EMAIL","SENHA","LOGAR","Criar conta","Esqueceu a senha?","Registrar para Sky Music!","EMAIL","SENHA","CONFIRMAR SENHA","REGISTRAR","Registrar para Sky Music!","CÓDIGO","CONFIRMAR","Voltar","Resetar Senha!","EMAIL","ENVIAR","Voltar","Resetar Senha!","RESETAR CÓDIGO","NOVA SENHA","CONFIRMAR NOVA SENHA","ENVIAR","Voltar","Configurações","Alterar Zoom do site","Desligar modo Tela Interia automático","Desativar próxima tecla ao praticar","Esconder animação da nota ao praticar","Mostrar as Notas","Checar suporte MIDI","Resetar todas as músicas e configurações","Voltar","Minhas Músicas","Músicas da conta","Aqui estão todas as suas músicas!","Importar Música","Aqui estão todas as suas músicas salvas na conta!","Recarregar","Armazenar todas as músicas no dispositivo","Cancelar","OK","Página Principal","Conta","Configurações","Biblioteca de Músicas","Precisa de ajuda?","Gerenciar Gravações","Começar/Parar gravação","ANTIGO","Voltar","Baixar Música","Selecionar Idioma","Bem Vindo ao Sky Music!","Não mostrar novamente"],
+    Português_Brasileiro:["Pressione + e - para alterar o tamanho dos ícones!\nVocê pode modificar em configurações quando quiser","OK","A experiencia fica melhor em posição de retrato. Por favor rotacione o seu dispositivo.","Toque para fechar.","CONTA","EMAIL","SENHA","LOGIN","Criar uma conta.","Esqueci minha senha.","Criar conta Sky Music!","EMAIL","SENHA","CONFIRMAR SENHA","CRIAR","Minha Conta Sky Music!","CÓDIGO","CONFIRMAR","Voltar","Resetar Senha!","EMAIL","ENVIAR","Voltar","Resetar Senha!","CÓDIGO DE RESET","NOVA SENHA","CONFIRMAR NOVA SENHA","ENVIAR","Voltar","Configurações","Alterar tamanho dos ícones","Desligar Tela Interia (Auto)","Desativar próxima tecla ao praticar","Desativar animação de nota ao praticar","Mostrar as Notas(CDEFGAB)","Checar suporte MIDI","Resetar todas as músicas e configurações.","Voltar","Minhas Músicas","Músicas na Nuvem","Aqui estão todas as suas músicas!","Importar Música","Aqui estão todas as suas músicas salvas na Nuvem!","Recarregar","Armazenar todas as músicas no dispositivo local.","Cancelar","OK","Página Principal","Minha Conta","Configurações","Biblioteca de Músicas","Precisa de ajuda?","Minhas Gravações","Iniciar/Parar gravação","ANTIGO","Voltar","Baixar Música","Trocar Idioma","Bem Vindo ao Sky Music!","Não mostre novamente"],
     Deutsch:["Drücken Sie die Taste + und – um das Aussehen der Seite zu ändern!\nSie können dies immer in den Einstellungen ändern","BESTÄTIGEN"," Die Website hat eine bessere Verwendung im Querformat. Bitte drehen Sie Ihr Gerät.", "Klicken Sie bitte irgendwo auf den Bildschirm, um zu schließen","Konto","EMAIL","PASSWORT","ANMELDEN","Reg","Haben Sie das Passwort vergessen?","Registriere dich zu Sky Music!","EMAIL","PASSWORT","PASSWORT BESTÄTIGEN","REGISTRIEREN","Registriere dich zu Sky Music!","CODE","BESTÄTIGEN","Zurück","Passwort zurücksetzen!","EMAIL","BESTÄTIGEN","Zurück","Passwort zurücksetzen!","CODE ZURÜCKSETZEN","NEUES PASSWORT","NEUES PASSWORT BESTÄTIGEN","BESTÄTIGEN","Zurück","Einstellungen","Website-Zoom ändern","Automatischen Vollbildmodus ausschalten","Hinweis auf die nächste Note deaktivieren","Übungsnotenanimation ausblenden","Notennamen anzeigen","MIDI-Unterstützung überprüfen","Alle Lieder und Einstellungen zurücksetzen","Zurück","Meine Lieder","Konto Lieder","Hier sind alle deine Lieder!","Lieder importieren ","Hier sind alle gespeicherten Lieder auf deinem Konto!","Neu laden","Alle Lieder lokal speichern","Beenden","OK","Hauptseite","Konto","Einstellungen","Liederbibliothek","Brauchen Sie Hilfe?","Aufnahmen verwalten","Aufname starten/stoppen","ALT","Zurück","Lieder runterladen","Sprache auswählen","Willkommen zu Sky Music!","Nicht mehr anzeigen"],
     Русский:["Нажмите + и -, чтобы изменить внешний вид страницы!\nВы всегда можете изменить это в настройках","ПОДТВЕРДИТЬ","Веб-сайт лучше использовать в альбомной ориентации, поверните устройство","Нажмите в любом месте, чтобы закрыть","Аккаунт","Е-МЕЙЛ","ПАРОЛЬ","ЛОГИН","Создать аккаунт","Забыли пароль?","Зарегистрироваться в Sky Music!","Е-МЕЙЛ","ПАРОЛЬ","ПОДТВЕРДИТЬ ПАРОЛЬ","РЕГИСТРАЦИЯ","Зарегистрироваться в Sky Music!","КОД","ПОДТВЕРДИТЬ","Вернуться назад","Сбросить пароль!","Е-МЕЙЛ","ПОДТВЕРДИТЬ","Вернуться назад","Сбросить пароль!","СБРОСИТЬ КОД","НОВЫЙ ПАРОЛЬ","ПОДТВЕРДИТЬ НОВЫЙ ПАРОЛЬ","ПОДТВЕРДИТЬ","Вернуться назад","Настройки","Изменить масштабирование веб-сайта","Отключить автоматический полноэкранный режим","Отключить следующую ключевую практику","Скрыть анимацию заметки для практики","Показать имена заметок","Проверить поддержку MIDI","Сбросить все песни и настройки","Вернуться назад","Мои песни","Песни аккаунта","Вот все ваши песни!","Импортировать песни","Вот все песни, сохраненные в вашем аккаунте!, ","Перезагрузить","Сохранить все песни локально","Отмена","ОК","Главная страница","Аккаунт","Настройки","Библиотека песен","Нужна помощь?","Управление записями","Запуск/остановка записи","СТАРЫЕ","Вернуться назад","Скачать песни ","Выбрать язык","Добро пожаловать в Sky Music!","Больше не показывать"],
-    한국어: ["+와 -로 페이지가 어떻게 보여지는지 조정하세요!\n이는 언제나 설정에서 변경하실 수 있어요.","확인","본 웹사이트는 가로 모드에 최적화되어 있습니다. 기기를 돌려 주세요.","아무 곳이나 클릭하여 닫기","계정","이메일","비밀번호","로그인","계정 만들기","비밀번호 찾기","Sky Music에 회원가입하세요!","이메일","비밀번호","비밀번호 확인","회원가입","Sky Music에 회원가입하세요!","코드","확인","뒤로가기","비밀번호를 초기화했습니다!","이메일","확인","뒤로가기","비밀번호를 초기화했습니다!","리셋 코드","새 비밀번호","새 비밀번호 확인","확인","뒤로가기","설정","웹사이트 줌 조정","자동 전체화면 끄기","다음 키 연습 끄기","연습 음 애니매이션 끄기","음계 이름 끄기","MIDI 지원 확인","모든 곡과 설정 초기화","뒤로가기","내 곡","계정 곡","여기에서 당신의 모든 곡들을 보실 수 있습니다!","곡 불러오기","여기에서 당신의 계정에 저장된 모든 곡들을 보실 수 있습니다!","새로고침","모든 곡을 로컬 저장소에 보관하기","취소","확인","메인 페이지","계정","설정","곡 라이브러리","도움이 필요하세요?","녹음본 관리","녹음 시작/중지","구","뒤로가기","곡 다운로드","언어 선택","Sky Music에 오신 것을 환영합니다!","다시 보지 않기"],
+    한국어:["+와 -로 페이지가 어떻게 보여지는지 조정하세요!\n이는 언제나 설정에서 변경하실 수 있어요.","확인","본 웹사이트는 가로 모드에 최적화되어 있습니다. 기기를 돌려 주세요.","아무 곳이나 클릭하여 닫기","계정","이메일","비밀번호","로그인","계정 만들기","비밀번호 찾기","Sky Music에 회원가입하세요!","이메일","비밀번호","비밀번호 확인","회원가입","Sky Music에 회원가입하세요!","코드","확인","뒤로가기","비밀번호를 초기화했습니다!","이메일","확인","뒤로가기","비밀번호를 초기화했습니다!","리셋 코드","새 비밀번호","새 비밀번호 확인","확인","뒤로가기","설정","웹사이트 줌 조정","자동 전체화면 끄기","다음 키 연습 끄기","연습 음 애니매이션 끄기","음계 이름 끄기","MIDI 지원 확인","모든 곡과 설정 초기화","뒤로가기","내 곡","계정 곡","여기에서 당신의 모든 곡들을 보실 수 있습니다!","곡 불러오기","여기에서 당신의 계정에 저장된 모든 곡들을 보실 수 있습니다!","새로고침","모든 곡을 로컬 저장소에 보관하기","취소","확인","메인 페이지","계정","설정","곡 라이브러리","도움이 필요하세요?","녹음본 관리","녹음 시작/중지","구","뒤로가기","곡 다운로드","언어 선택","Sky Music에 오신 것을 환영합니다!","다시 보지 않기"],
+    Română:["Apăsa + și - ca sa schimbi cum arată pagina! Întotdeauna poți sa schimbi asta în setări.","CONFIRMĂ","Site-ul web este mai bine utilizat în Landscape, vă rugăm să rotiți dispozitivul.","Apăsa oriunde pentru a închide","Cont","EMAIL","PAROLA","Autentificare","Creează cont","Ai uitat parola?","Registra la Sky Music!","EMAIL","PAROLA","CONFIRMA PAROLA","INREGISTREAZA","Inregistreaza la Sky Music!","CODUL","CONFIRMA","intoarce-te","Resetează Parola","EMAIL","TRIMITE","întoarce-te","Resetează Parola!","RESETEAZA CODUL","PAROLA NOUĂ","CONFIRMA PAROLA NOUĂ","TRIMITE","Întoarce-te","Setări","Schimbați zoom-ul site-ului","Turn off auto fullscreen","Dezactivați următoarea practică cheie","Ascundeți animarea notelor de practică","Afișați numele notelor","Verificați suportul MIDI","Resetați toate melodiile și setările","intoarce-te","Melodiile mele","Cont de Cântece","Aici sunt toate melodiile tale","Importa melodii","Aici sunt toate melodiile salvate în contul dvs.!","Reîncărcați","Stocați toate melodiile local","Anulare","OK","Pagina principală","Cont","Setări","Biblioteca de cântece","Aveți nevoie de ajutor?","Gestionați înregistrările","Începeți / opriți înregistrarea","VECHE","intoarce-te","Descarca cântece","Selectați o limba","Bun venit la Sky Music!","Nu arătați vreodată dinou"],
+    Español:["¡Presione + y - para cambiar como la página se ve!\nSiempre puedes cambiar esto en ajustes","CONFIRMAR","Recomendamos usar el sitio web horizontalmente, por favor gire su dispositivo.","Presione cualquier lugar de la pantalla para cerrar","CUENTA","CORREO ELECTRÓNICO","CONTRASEÑA","Iniciar Sesión","Crear cuenta","¿Olvidaste tu contraseña?","¡Registrate a Sky Music!","CORREO ELECTRÓNICO","CONTRASEÑA","CONFIRME CONTRASEÑA","REGISTRAR","¡Registrate a Sky Music!","CODIGO","CONFIRMAR","Regresar","¡Reiniciar contraseña!","CORREO ELECTRÓNICO","ENVIAR","Regresar","¡Reiniciar Contraseña!","REINICIAR CODIGO","NUEVA CONTRASEÑA","CONFIRMAR NUEVA CONTRASEÑA","ENVIAR","Regresar","Ajustes","Cambiar el aumento de la pantalla","Desactivar pantalla completa automática","Desactivar práctica automática de la siguiente nota","Ocultar animación de nota durante práctica","Mostrar nombre de notas","Revisar compatibilidad de MIDI","Reiniciar canciones y configuraciones hechas","Regresar","Mis canciones","Canciones en la cuenta","¡Aquí estan todas tus canciones guardadas!","Importar canciones","¡Aqui están todas las canciones guardadas en tu cuenta!","Recargar","Descargar canciones a tu dispositivo","Cancelar","OK","Página principal","Cuenta","Configuración","Biblioteca de canciones","¿Necesitas ayuda?","Administrar Canciones","Iniciar/Detener grabación","Versión antigua","Regresar","Descargar canciones","Escoger Lenguaje","¡Bienvenido a Sky Music!","No volver a mostrar"],
 }
+
 //--------------------------------------------------------------------------------------------------------//
 
+var selectedLanguage = "English"
 function changeLanguage(language){
     localStorage.setItem("language",language)
     try{
@@ -89,6 +106,7 @@ function changeLanguage(language){
         for(var i = 0;i<length;i++){
             $("#"+translateElements[i]).text(translateText[language][i])
         }
+        selectedLanguage = language
     }catch{}
 }
 
@@ -99,68 +117,68 @@ var userLanguage = navigator.language || navigator.userLanguage;
     userLanguage = userLanguage.toLowerCase()
 if(savedLanguage == null){
     switch(userLanguage){
-        case "fr":    changeLanguage("Français")
-            break;
-        case "fr-fr": changeLanguage("Français")
-            break;
-        case "fr-be": changeLanguage("Français")
-            break;
-        case "fr-ca": changeLanguage("Français")
-            break;
-        case "fr-lu": changeLanguage("Français")
-            break;
-        case "fr-ch": changeLanguage("Français")
-            break;
-        case "fr-mc": changeLanguage("Français")
-            break;
+        case "fr":    changeLanguage("Français"); break;
+        case "fr-fr": changeLanguage("Français"); break;
+        case "fr-be": changeLanguage("Français"); break;
+        case "fr-ca": changeLanguage("Français"); break;
+        case "fr-lu": changeLanguage("Français"); break;
+        case "fr-ch": changeLanguage("Français"); break;
+        case "fr-mc": changeLanguage("Français"); break;
 
 
-        case "de":    changeLanguage("Deutsch")
-            break;
-        case "de-de": changeLanguage("Deutsch")
-            break;
-        case "de-at": changeLanguage("Deutsch")
-            break;
-        case "de-lu": changeLanguage("Deutsch")
-            break;
-        case "de-ch": changeLanguage("Deutsch")
-            break;
+        case "ro":    changeLanguage("Română"); break;
 
 
-        case "ru": changeLanguage("Русский")
-            break;
-        
-
-        case "it-it": changeLanguage("Italiano")
-            break;
-        case "it":    changeLanguage("Italiano")
-            break;  
-        case "it-ch": changeLanguage("Italiano")
-            break;  
+        case "de":    changeLanguage("Deutsch"); break;
+        case "de-de": changeLanguage("Deutsch"); break;
+        case "de-at": changeLanguage("Deutsch"); break;
+        case "de-lu": changeLanguage("Deutsch"); break;
+        case "de-ch": changeLanguage("Deutsch"); break;
 
 
-        case "pt-br": changeLanguage("Português_Brasileiro")
-            break;
-        case "pt":    changeLanguage("Português_Brasileiro")
-            break;
+        case "ru":    changeLanguage("Русский"); break;
 
 
-        case "zh":    changeLanguage("Traditional_chinese_繁體中文")//Chinese
-            break;
-        case "zh-hk": changeLanguage("Traditional_chinese_繁體中文")
-            break;
-        case "zh-cn": changeLanguage("Traditional_chinese_繁體中文")
-            break;   
-        case "zh-sg": changeLanguage("Traditional_chinese_繁體中文")
-            break;   
-        case "zh-tw": changeLanguage("Traditional_chinese_繁體中文")
-            break;  
+        case "es":    changeLanguage("Español"); break;
+        case "es-ar": changeLanguage("Español"); break;
+        case "es-bo": changeLanguage("Español"); break;
+        case "es-cl": changeLanguage("Español"); break;
+        case "es-co": changeLanguage("Español"); break;
+        case "es-cr": changeLanguage("Español"); break;
+        case "es-do": changeLanguage("Español"); break;
+        case "es-ec": changeLanguage("Español"); break;
+        case "es-sv": changeLanguage("Español"); break;
+        case "es-gt": changeLanguage("Español"); break;
+        case "es-hn": changeLanguage("Español"); break;
+        case "es-mx": changeLanguage("Español"); break;
+        case "es-ni": changeLanguage("Español"); break;
+        case "es-pa": changeLanguage("Español"); break;
+        case "es-py": changeLanguage("Español"); break;
+        case "es-pe": changeLanguage("Español"); break;
+        case "es-pr": changeLanguage("Español"); break;
+        case "es-es": changeLanguage("Español"); break;
+        case "es-uy": changeLanguage("Español"); break;
+        case "es-ve": changeLanguage("Español"); break;
 
 
-        case "ko": changeLanguage("한국어")
-            break;
-        case "ko-kr": changeLanguage("한국어")
-            break;
+        case "it-it": changeLanguage("Italiano"); break;
+        case "it":    changeLanguage("Italiano"); break;  
+        case "it-ch": changeLanguage("Italiano"); break;  
+
+
+        case "pt-br": changeLanguage("Português_Brasileiro"); break;
+        case "pt":    changeLanguage("Português_Brasileiro"); break;
+
+
+        case "zh":    changeLanguage("Traditional_chinese_繁體中文"); break;
+        case "zh-hk": changeLanguage("Traditional_chinese_繁體中文"); break;
+        case "zh-cn": changeLanguage("Traditional_chinese_繁體中文"); break;   
+        case "zh-sg": changeLanguage("Traditional_chinese_繁體中文"); break;   
+        case "zh-tw": changeLanguage("Traditional_chinese_繁體中文"); break;  
+
+
+        case "ko":    changeLanguage("한국어"); break;
+        case "ko-kr": changeLanguage("한국어"); break;
             
         default:      changeLanguage("English")           
     }
@@ -511,7 +529,7 @@ let emailreset = "";
 function resetPassword() { //Function to reset the email
     let mail = document.getElementById("emailReset").value
     if (mail.trim() == "" || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) { //tests if the email is an actual email format
-        showMessage("please put an email", 2)
+        showMessage(systemMessagesText[selectedLanguage][3], 2) //put an email
         return;
     }
     let credentials = {
@@ -523,7 +541,7 @@ function resetPassword() { //Function to reset the email
     request.onload = (res) => {
         response = res.target.response;
         if (response == "true") { //if the server validates the credentials, it sends a reset code in the email and proceedes to the next page
-            showMessage("success! please check you email.", 1)
+            showMessage(systemMessagesText[selectedLanguage][4], 1) //Success, check email
             emailreset = mail;
             toggleResetConfirm()
         } else {
@@ -531,7 +549,7 @@ function resetPassword() { //Function to reset the email
         }
     };
     request.onerror = function (e) {
-        showMessage("Error trying to reset password", 0)
+        showMessage(systemMessagesText[selectedLanguage][5], 0) //error resetting password
     };
     request.send(JSON.stringify(credentials)) //sends the credentials data
     disableFormButtons() //stops all buttons for 3 seconds
@@ -553,7 +571,7 @@ function generateShareLink(name){
         el.select();
         document.execCommand('copy');
         document.body.removeChild(el);
-        showMessage("Link copied!",1,1500)
+        showMessage(systemMessagesText[selectedLanguage][6],1,1500) //link copied
     };
     var data = {
         email: globalCredentials.email,
@@ -572,7 +590,7 @@ function getByLink(songUrl){
      request.onload = (res) => {
          response = res.target.response;
          if(response == "false"){
-             showMessage("Invalid link!",0,2500)
+             showMessage(systemMessagesText[selectedLanguage][7],0,2500) //invalid link
              return
          }
          response = JSON.parse(response)
@@ -582,13 +600,13 @@ function getByLink(songUrl){
                 let element = document.getElementById("Song-" + inputSongs[i].name)
                 if (element == null) { //if there is an element with this id, it means that the song with that name already exists
                     saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1)
-                    showMessage("Added song by link: "+inputSongs[i].name,1,1500)
+                    showMessage(systemMessagesText[selectedLanguage][8]+inputSongs[i].name,1,1500) //Added song by link
                 } else {
-                    showMessage("The song already exists: "+inputSongs[i].name,2,1500)
+                    showMessage(systemMessagesText[selectedLanguage][9]+inputSongs[i].name,2,1500) // song already exists
                 }
             }
             } catch {
-                showMessage("Error importing song",0,1500)
+                showMessage(systemMessagesText[selectedLanguage][10],0,1500) //error importing song
             }
      }
      console.log(songUrl)
@@ -617,14 +635,14 @@ function checkResetCode() { //Function to confirm the password reset
     request.onload = (res) => {
         response = res.target.response;
         if (response == "true") { //if the server answers with a true, the account password is reset and page is reloaded
-            alert("Password successfully reset!")
+            alert(systemMessagesText[selectedLanguage][11]) //password resetted
             location.reload()
             return;
         }
         showMessage(response, 0)
     };
     request.onerror = function (e) {
-        alert("Error verifying the account!")
+        alert(systemMessagesText[selectedLanguage][12]) //error verifying account
     };
     request.send(JSON.stringify(credentials)) //sends credentials to be validated
     disableFormButtons()
@@ -639,20 +657,20 @@ function register() { //function to register the account to the website
     let psw = document.getElementById("passwordRegister").value
     let psw2 = document.getElementById("passwordRegister2").value
     if (psw == "" || mail == "") { //checks if the input forms aren't empty
-        showMessage("please put email,username and password", 2)
+        showMessage(systemMessagesText[selectedLanguage][13], 2) //put email, username, password
         return;
     }
 
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) { //tests if the email is a valid email
-        showMessage("You put an invalid email!", 2)
+        showMessage(systemMessagesText[selectedLanguage][14], 2) //invalid email
         return;
     }
     if (psw.length < 6) { //checks if the password is at least long 6 characters
-        showMessage("Password needs to be at least 6 characters!")
+        showMessage(systemMessagesText[selectedLanguage][15]) //password must be at least 6 characters long
         return;
     }
     if (psw != psw2) { //checks if the two passwords from the forms match
-        showMessage("The passwords don't match!", 2)
+        showMessage(systemMessagesText[selectedLanguage][16], 2) //passwords don't match
         document.getElementById("passwordRegister2").value = ""
         document.getElementById("passwordRegister").value = ""
         return;
@@ -678,7 +696,7 @@ function register() { //function to register the account to the website
         showMessage(response, 1)
     };
     request.onerror = function (e) {
-        showMessage("Error creating the account!", 1)
+        showMessage(systemMessagesText[selectedLanguage][17], 1) //error creating account
     };
     request.send(JSON.stringify(credentials)) //sends the credentials to the server
     disableFormButtons()
@@ -702,11 +720,11 @@ function login(ignoreMessage) { //this does the actual login, it's only used to 
     let mail = document.getElementById("emailLogin").value
     let psw = document.getElementById("passwordLogin").value
     if (mail == "" || psw == "") {
-        showMessage("please put username and password", 2)
+        showMessage(systemMessagesText[selectedLanguage][18], 2)
         return;
     }
     if (psw.length < 6) {
-        showMessage("Password must be at least 6 characters long", 0)
+        showMessage(systemMessagesText[selectedLanguage][15], 0)
         return;
     }
     let credentials = {
@@ -723,14 +741,14 @@ function login(ignoreMessage) { //this does the actual login, it's only used to 
             globalCredentials = credentials
             secondPage.style.display = "none"
             localStorage.setItem("credentials", JSON.stringify(credentials))
-            if (!ignoreMessage) showMessage("Logged in!", 1)
+            if (!ignoreMessage) showMessage(systemMessagesText[selectedLanguage][19], 1)
 
         } else {
             if (!ignoreMessage) showMessage(response, 0)
         }
     };
     request.onerror = function (e) {
-        if (!ignoreMessage) showMessage("Error trying to LogIn", 0)
+        if (!ignoreMessage) showMessage(systemMessagesText[selectedLanguage][20], 0)
     };
     request.send(JSON.stringify(credentials))
 }
@@ -743,11 +761,11 @@ let globalCredentials = {
 
 function storeSongsLocally() { //this function loads the songs from the database and loads them into the localstorage.
     if (!isAuthenticated) { //sees if the user is logged in
-        showMessage("You are not logged in", 2)
+        showMessage(systemMessagesText[selectedLanguage][21], 2)
         return;
     }
     if (dbSongs.length == 0) { //checks if there are no songs saved
-        showMessage("There are no songs saved in the database or you haven't loaded them", 2)
+        showMessage(systemMessagesText[selectedLanguage][22], 2) //no songs saved
         return;
     } else {
         let message = "" //this is the message shown if some songs are already saved
@@ -756,13 +774,13 @@ function storeSongsLocally() { //this function loads the songs from the database
                 if (document.getElementById("Song-" + dbSongs[i].name).getAttribute("fromDb") == "true") { //saves it only if the already saved one is from the database tab
                     saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1) //saves the song locally
                 } else {
-                    message += 'Song: "' + dbSongs[i].name + '" Already saved \n'
+                    message += 'Song: "' + dbSongs[i].name + '" '+systemMessagesText[selectedLanguage][23] //already saved
                 }
             } else {
                 saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1) //saves the song locally
             }
         }
-        if (message == "") message = "Done!"
+        if (message == "") message = systemMessagesText[selectedLanguage][24]
         showMessage(message, 2)
     }
 }
@@ -776,7 +794,7 @@ function syncDB() { //Function that syncs the songs from the database in the cli
     dbSongsDiv.innerHTML = ""
     let credentials = globalCredentials;
     if (!isAuthenticated) {
-        showMessage("You are not logged in!", 2)
+        showMessage(systemMessagesText[selectedLanguage][21], 2) //not logged
         return;
     }
     let request = new XMLHttpRequest();
@@ -791,13 +809,13 @@ function syncDB() { //Function that syncs the songs from the database in the cli
             return;
         }
         dbSongs = songsFromDB
-        if (songsFromDB.length == 0) showMessage("No songs saved in the database!")
+        if (songsFromDB.length == 0) showMessage(systemMessagesText[selectedLanguage][22]) //no songs saved in the database
         for (let i = 0; i < songsFromDB.length; i++) { //saves each individual song
             saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, 2)
         }
     };
     request.onerror = function (e) {
-        alert("Error trying to get songs!")
+        alert(systemMessagesText[selectedLanguage][25]) //error trying to get songs
     };
     request.send(JSON.stringify(credentials))
 }
@@ -806,7 +824,7 @@ function syncDB() { //Function that syncs the songs from the database in the cli
 
 function deleteFromDB(credentials, song) { //function to delete a song from the database of the account
     if (!isAuthenticated) {
-        showMessage("You are not logged in!", 2)
+        showMessage(systemMessagesText[selectedLanguage][2], 2) //not logged
         return;
     }
     let objToSend = {
@@ -822,7 +840,7 @@ function deleteFromDB(credentials, song) { //function to delete a song from the 
         showMessage(response, 2)
     };
     request.onerror = function (e) {
-        alert("Error trying to delete song!")
+        alert(systemMessagesText[selectedLanguage][26]) //error trying to delete
     };
     request.send(JSON.stringify(objToSend))
 }
@@ -831,7 +849,7 @@ function deleteFromDB(credentials, song) { //function to delete a song from the 
 
 function saveSongsToDB(credentials, songsToSend) { //saves a song to the database, first value is the credentials, second is the songs array to store
     if (!isAuthenticated) {
-        showMessage("You are not logged in!", 2)
+        showMessage(systemMessagesText[selectedLanguage][2], 2) //not logged
         return;
     }
     let objToSend = {
@@ -847,10 +865,10 @@ function saveSongsToDB(credentials, songsToSend) { //saves a song to the databas
         showMessage(response, 2)
     };
     request.onerror = function (e) {
-        alert("Error trying to save songs!")
+        alert(systemMessagesText[selectedLanguage][27]) //error trying ot save songs
     };
-    if (JSON.stringify(objToSend).length > 30000) {
-        showMessage("Song is too big, it can't be uploaded", 2)
+    if (JSON.stringify(objToSend).length > 50000) {
+        showMessage(systemMessagesText[selectedLanguage][28], 2) //song is too big
         return;
     }
     request.send(JSON.stringify(objToSend))
@@ -870,7 +888,7 @@ function confirmEmail() { //function to confirm the email.
     let code = document.getElementById("codeConfirmation").value
     document.getElementById("confirmRegistration").style.display = "block"
     if (code.length != 6) {
-        alert("You put an invalid code!")
+        alert(systemMessagesText[selectedLanguage][29]) //you put an invalid code
         return;
     }
     let credentials = {
@@ -883,14 +901,14 @@ function confirmEmail() { //function to confirm the email.
     request.onload = (res) => {
         response = res.target.response;
         if (response == "true") { //if the server response is a true, it means that the account is created and it can continue with the login
-            alert("Account verified!")
+            alert(systemMessagesText[selectedLanguage][30]) //account verified
             location.reload()
             return;
         }
         showMessage(response, 0)
     };
     request.onerror = function (e) {
-        alert("Error verifying the account!")
+        alert(systemMessagesText[selectedLanguage][12]) //error verifying account
     };
     request.send(JSON.stringify(credentials))
 }
@@ -1110,8 +1128,9 @@ preload(urls)
                 return
             }
 
-            btn.addEventListener("pointerdown", function () {
+            btn.addEventListener("pointerdown", function (e) {
                 buttonPressEvent(this)
+                e.preventDefault()
             })
 
             function buttonPressEvent(btn) {
@@ -1213,13 +1232,13 @@ function importSongs() {
                     if (element == null) { //if there is an element with this id, it means that the song with that name already exists
                         saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1)
                     } else {
-                        console.log("The song already exists: " + inputSongs[i].name + " n" + i)
+                        console.log(systemMessagesText[selectedLanguage][9] + inputSongs[i].name + " n" + i) //song already exists
                         //showMessage("The song already exists: "+inputSongs[i].name,2) gets annoying after a while, idk if adding it back
                     }
                 }
                 isreading = true
                 } catch {
-                    showMessage("Error importing song",0,1000)
+                    showMessage(systemMessagesText[selectedLanguage][10],0,1000) //error importing song
                 }
             }
             fr.readAsText(this.files[0])
@@ -1312,12 +1331,12 @@ let isMidiAllowed = true;
 function checkMidiAccess() {
     try {
         if (navigator.requestMIDIAccess()) {
-            showMessage("MIDI is supported!", 1)
+            showMessage(systemMessagesText[selectedLanguage][33], 1) //midi is supported
         } else {
-            showMessage("MIDI is not supported! It only works on google chrome", 0)
+            showMessage(systemMessagesText[selectedLanguage][34], 0) //midi is not supported
         }
     } catch {
-        showMessage("MIDI is not supported! It only works on google chrome", 0)
+        showMessage(systemMessagesText[selectedLanguage][34], 0) //midi is not supported
     }
 }
 try {
@@ -1405,12 +1424,12 @@ function askSongName(){
     var promptDiv = document.getElementById("promptDiv")
     var promptMessage = document.getElementById("promptMessage")
     document.getElementById("promptInput").value = ""
-    promptMessage.innerHTML = "Write song name"
+    promptMessage.innerHTML = systemMessagesText[selectedLanguage][0]
     promptDiv.style.display = "block"
     document.getElementById("promptOK").addEventListener("click",function(){
         var promptInput = document.getElementById("promptInput").value
         if(promptInput == null || promptInput == "" || promptInput == " "){
-            promptMessage.innerHTML = "Please write a non empty name"
+            promptMessage.innerHTML = systemMessagesText[selectedLanguage][1]
         }else{
             if (document.getElementById("Song-" + promptInput) == null) { //if there is already a song with that name, ask to rename it
                 saveSong(promptInput, songArray, 1)
@@ -1419,7 +1438,7 @@ function askSongName(){
                 $('[id^=Key]').css('height', keyHeight)
                 document.getElementById("touch").style.height = touchHeight;
             }else{
-                promptMessage.innerHTML = "There is already a song with the name: "+promptInput+" chose another"
+                promptMessage.innerHTML = systemMessagesText[selectedLanguage][2]+promptInput //already saved
             }
         }
     })
@@ -1667,7 +1686,7 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     songContainer.appendChild(shareButton)
     
     } catch {
-        showMessage("Error importing song!",0,1500)
+        showMessage(systemMessagesText[selectedLanguage][10],0,1500) //error importing song
     }
 }
 
