@@ -243,7 +243,6 @@ function toggleFullScreenSetting(){
         turnOffFullscreen.style.backgroundColor = "teal"
     }
     localStorage.setItem("ignoreFullScreen",ignoreFullScreen)
-    console.log(ignoreFullScreen)
 }
 changeScale(0)
 function confirmScale(){
@@ -567,7 +566,6 @@ function generateShareLink(name){
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
         response = res.target.response;
-        console.log(response)
         const el = document.createElement('textarea');
         el.value = response;
         document.body.appendChild(el);
@@ -612,7 +610,6 @@ function getByLink(songUrl){
                 showMessage(systemMessagesText[selectedLanguage][10],0,1500) //error importing song
             }
      }
-     console.log(songUrl)
      request.send(JSON.stringify(songUrl))
 }
 if(window.location.href.includes("?songUrl=")){
@@ -1366,7 +1363,7 @@ try {
 } catch {}
 
 //--------------------------------------------------------------------------------------------------------//
-console.log(inputMode)
+
 let click = new PointerEvent(inputMode)
 
 function getMIDIMessage(message) {
@@ -1617,7 +1614,6 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
         shareLink.style.width = "40px"
         shareLink.setAttribute("songName", songName)
         shareLink.addEventListener("click", function () {
-            console.log(this.getAttribute("songName"))
             generateShareLink(this.getAttribute("songName"))
         })
     } else {
