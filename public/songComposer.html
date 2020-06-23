@@ -40,6 +40,11 @@
     </div>
 </body>
 <script>
+
+    window.addEventListener("beforeunload", function(event) {
+        event.preventDefault();
+        event.returnValue = '';
+     });
 let click = new PointerEvent("pointerdown")
 const delay = ms => new Promise(res => setTimeout(res, ms))
 let isPlaying = false
@@ -63,6 +68,7 @@ async function play(){
         cells[i].style.opacity = "1"
         selectedCell.style.opacity = "0.6"
         selectedCell = cells[i]
+        selectedCell.scrollIntoView()
         for(var k = 0;k<15;k++){
            document.getElementById("Key"+k).firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
         }
@@ -97,6 +103,15 @@ function save(){
             name:name,
             songNotes: []
         }
+    var savedSongs = JSON.parse(localStorage.getItem("savedSongs"))
+    var alreadySaved = false
+        if(savedSongs == null) savedSongs = []
+    for(var i = 0 ;i<savedSongs.length;i++){
+        if(savedSongs[i].name == song.name){
+            alert("Song with this name already exists, pick another!")
+            return
+        }
+    }
 var cells = Array.prototype.slice.call( document.getElementsByClassName("cell"), 0 );
 
     var bpmToMs = 60000/document.getElementById("bpm").value
@@ -113,7 +128,8 @@ var cells = Array.prototype.slice.call( document.getElementsByClassName("cell"),
         }
         timeStamp += Math.floor(bpmToMs)
     }
-       console.log(song) 
+    savedSongs.push(song)
+    localStorage.setItem("savedSongs",JSON.stringify(savedSongs))
 }
 function before(){
     let previousCell = parseInt(selectedCell.id.replace("cell",""))-1
