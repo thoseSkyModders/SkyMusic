@@ -1739,6 +1739,9 @@ async function playSong(song) {
 //--------------------------------------------------------------------------------------------------------//
 
 function resetButtons() {
+    for(let i = 0; i < numOfKeys; i++){
+       $("#Key"+i).children(":first").finish()
+    }
     for (let i = 0; i < numOfKeys; i++) {
         let btnBg = document.getElementById("Key" + i).firstChild
         btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
