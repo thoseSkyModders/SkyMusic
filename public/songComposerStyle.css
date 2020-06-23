@@ -1,6 +1,7 @@
 *{
     margin:0;
     font-family: Arial;
+    user-select: none;
 }
 body {
     background: rgb(115,181,210);
@@ -19,10 +20,10 @@ body {
     width: 75%;
     height:95%;
     border:solid 2px #dad8b3;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color:rgba(22, 22, 22, 1);
     padding:5px;
-    margin: 0 0.5em 0 0.5em;
+    margin: 4px 0.5em 0 0.5em;
     text-align: left;
     display: flex;
     overflow-x: auto;
@@ -31,6 +32,9 @@ body {
 .toolsContainer{
     width:7%;
     height: 100%;
+    border-radius: 10px;
+    background-color: #dad8b3;
+    padding: 2px;
     border:2px solid #dad8b3;
 }
 .toolPlaceholder{
@@ -40,9 +44,10 @@ body {
 }
 .tool{
     width: 100%;
-    height: 33.3%;
+    height: 25%;
     font-size: 1.2em;
     border: none;
+    border-radius: 5px;
     border-bottom:2px solid #dad8b3;
     background-color: rgba(22, 22, 22, 1);
     color: #dad8b3;
@@ -82,7 +87,6 @@ max-width: 80px;
 padding: 0.5vh;
 background: transparent;
 cursor: pointer;
-outline: none;
 position: relative;
 }
 
@@ -111,16 +115,30 @@ pointer-events: none;
 cursor: pointer;
 display: block;
 }
-.goBack{
+.skyButton{
     border:solid 2px #dad8b3;
     text-decoration: none;
     border-radius: 0.3em;
     padding: 0.2em;
     color: #dad8b3;
     background-color: rgba(22, 22, 22, 0.65);
+}
+#instrumentSelection{
+    border:solid 2px #dad8b3;
+    text-decoration: none;
+    border-radius: 0.3em;
+    padding: 0.2em;
+    color: #dad8b3;
+    background-color: rgba(22, 22, 22, 0.65);
+    margin-bottom:0.4em;
+    width:100%; 
+}
+.floatingBottomLeft{
     position: absolute;
     left: 2%;
     bottom: 2%;
+    display: flex;
+    flex-direction: column;
 }
 .btnText {
 color: transparent;
