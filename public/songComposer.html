@@ -1,0 +1,262 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="songComposerStyle.css" type="text/css">
+</head>
+<body>
+    <a href="/" class="goBack">GO BACK</a> 
+    <div class="notesWrapper">
+        <div class="toolsContainer">
+            <div>
+                <input class="tool" type="button" value=">" onclick="next()">  
+            </div>
+            <div>
+                <input class="tool" type="button" value="<" onclick="before()">  
+            </div>
+            <div>
+                <input class="tool" type="button" value="Save" onclick="save()">  
+            </div>
+        </div>
+        <div id="songContainer">
+        </div>
+        <div class="toolsContainer">
+            <div>
+                <span class="toolPlaceholder">BPM</span>
+                <input id="bpm" class="tool" type="number" value=220 placeholder="Bpm">  
+            </div>
+            <div>
+                <span class="toolPlaceholder">Add page</span>
+                <input class="tool" type="button" value="+" onclick="addPage()">
+            </div>
+            <div>
+                <input id="playBtn" class="tool" type="button" value="Play" onclick="play()">
+            </div>
+        </div>
+    </div>
+    <div id=touch>
+        <div class="Row1" id="row1"></div>
+        <div class="Row2" id="row2"></div>
+        <div class="Row3" id="row3"></div>
+    </div>
+</body>
+<script>
+let click = new PointerEvent("pointerdown")
+const delay = ms => new Promise(res => setTimeout(res, ms))
+let isPlaying = false
+let stopPlaying = true
+let playBtn = document.getElementById("playBtn")
+async function play(){
+    if(playBtn.value == "Play"){
+        playBtn.value = "Stop"
+    }else{
+        stopPlaying = true
+        playBtn.value = "Play"
+        return;
+    }
+    let startIndex = selectedCell.id.replace("cell","")
+    isPlaying = true
+    stopPlaying = false
+    var cells = Array.prototype.slice.call( document.getElementsByClassName("cell"), 0 );
+
+    var bpmToMs = 60000/document.getElementById("bpm").value
+    for(var i = startIndex;i<cells.length;i++){
+        cells[i].style.opacity = "1"
+        selectedCell.style.opacity = "0.6"
+        selectedCell = cells[i]
+        for(var k = 0;k<15;k++){
+           document.getElementById("Key"+k).firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        }
+        for(var j = 0;j<15;j++){
+            if(cells[i].children[14-j].style.backgroundColor == "rgba(235, 0, 27, 0.8)"){
+                document.getElementById("Key"+j).dispatchEvent(click)
+                document.getElementById("Key"+j).firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+            }
+        }
+        if(stopPlaying) break
+        await delay(bpmToMs)
+    }
+    playBtn.value = "Play"
+    stopPlaying = true
+    isPlaying = false
+}
+
+function next(){
+    let nextCell = parseInt(selectedCell.id.replace("cell",""))+1
+    if(nextCell > document.getElementsByClassName("cell").length-1) return
+    selectedCell.style.opacity = "0.6"
+    selectedCell = document.getElementById("cell"+nextCell)
+    selectedCell.style.opacity = "1"
+}
+
+function save(){
+        var name = prompt("Write song name","")
+        if(name == null || name == ""){
+            return
+        }
+        var song = {
+            name:name,
+            songNotes: []
+        }
+var cells = Array.prototype.slice.call( document.getElementsByClassName("cell"), 0 );
+
+    var bpmToMs = 60000/document.getElementById("bpm").value
+    var timeStamp = 0
+    for(var i = 0;i<cells.length;i++){
+        for(var j = 0;j<15;j++){
+            if(cells[i].children[14-j].style.backgroundColor == "rgba(235, 0, 27, 0.8)"){
+                let keyObj = {
+                    time:timeStamp,
+                    key:"Key"+j
+                }
+                song.songNotes.push(keyObj)
+            }
+        }
+        timeStamp += Math.floor(bpmToMs)
+    }
+       console.log(song) 
+}
+function before(){
+    let previousCell = parseInt(selectedCell.id.replace("cell",""))-1
+    if(previousCell < 0) return
+    selectedCell.style.opacity = "0.6"
+    selectedCell = document.getElementById("cell"+previousCell)
+    selectedCell.style.opacity = "1"
+}
+let songContainer = document.getElementById("songContainer")
+var selectedCell = document.getElementById("cell0")
+let numOfCells = 0
+function addCell(){
+    let cell = document.createElement("div")
+    cell.className = "cell"
+    cell.id = "cell"+numOfCells
+    for(var i = 0;i<15;i++){
+        let note = document.createElement("div")
+            note.className = "note"
+            cell.insertBefore(note, cell.firstChild);
+    }
+    cell.addEventListener("pointerdown",function(){
+        if(selectedCell.id == this.id) return
+        this.style.opacity = "1"
+        selectedCell.style.opacity = "0.6"
+        selectedCell = this
+        for(var i = 0;i<15;i++){
+            document.getElementById("Key"+i).firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        }
+        for(var j = 0;j<15;j++){
+            if(this.children[14-j].style.backgroundColor == "rgba(235, 0, 27, 0.8)"){
+                document.getElementById("Key"+j).dispatchEvent(click)
+                document.getElementById("Key"+j).firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+            }
+        }
+    })
+    songContainer.appendChild(cell)
+    numOfCells++
+}
+
+function addPage(){
+    for(var i=0;i<6;i++){
+        addCell()
+    }
+}
+addPage()
+selectedCell = document.getElementById("cell0")
+selectedCell.style.opacity = "1"
+function selectNote(n){
+    selectedCell.children[14-n].style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+}
+function deselectNote(n){
+    selectedCell.children[14-n].style.backgroundColor = "transparent"
+}
+const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
+const db_url = './Sounds/'
+let instrumentsNotes = {
+    piano: ["Piano/0.mp3", "Piano/1.mp3", "Piano/2.mp3", "Piano/3.mp3", "Piano/4.mp3", "Piano/5.mp3", "Piano/6.mp3", "Piano/7.mp3", "Piano/8.mp3", "Piano/9.mp3", "Piano/10.mp3", "Piano/11.mp3", "Piano/12.mp3", "Piano/13.mp3", "Piano/14.mp3"],
+    harp: ["Harp/0.mp3", "Harp/1.mp3", "Harp/2.mp3", "Harp/3.mp3", "Harp/4.mp3", "Harp/5.mp3", "Harp/6.mp3", "Harp/7.mp3", "Harp/8.mp3", "Harp/9.mp3", "Harp/10.mp3", "Harp/11.mp3", "Harp/12.mp3", "Harp/13.mp3", "Harp/14.mp3"],
+    oldHarp: ["OldHarp/0.mp3", "OldHarp/1.mp3", "OldHarp/2.mp3", "OldHarp/3.mp3", "OldHarp/4.mp3", "OldHarp/5.mp3", "OldHarp/6.mp3", "OldHarp/7.mp3", "OldHarp/8.mp3", "OldHarp/9.mp3", "OldHarp/10.mp3", "OldHarp/11.mp3", "OldHarp/12.mp3", "OldHarp/13.mp3", "OldHarp/14.mp3"],
+    bell: ["Bells/0.mp3", "Bells/1.mp3", "Bells/2.mp3", "Bells/3.mp3", "Bells/4.mp3", "Bells/5.mp3", "Bells/6.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3"],
+    guitar: ["Guitar/0.mp3", "Guitar/1.mp3", "Guitar/2.mp3", "Guitar/3.mp3", "Guitar/4.mp3", "Guitar/5.mp3", "Guitar/6.mp3", "Guitar/7.mp3", "Guitar/8.mp3", "Guitar/9.mp3", "Guitar/10.mp3", "Guitar/11.mp3", "Guitar/12.mp3", "Guitar/13.mp3", "Guitar/14.mp3"],
+    flute: ["Flute/0.mp3", "Flute/1.mp3", "Flute/2.mp3", "Flute/3.mp3", "Flute/4.mp3", "Flute/5.mp3", "Flute/6.mp3", "Flute/7.mp3", "Flute/8.mp3", "Flute/9.mp3", "Flute/10.mp3", "Flute/11.mp3", "Flute/12.mp3", "Flute/13.mp3", "Flute/14.mp3"],
+    xylophone: ["Xylophone/0.mp3", "Xylophone/1.mp3", "Xylophone/2.mp3", "Xylophone/3.mp3", "Xylophone/4.mp3", "Xylophone/5.mp3", "Xylophone/6.mp3", "Xylophone/7.mp3", "Xylophone/8.mp3", "Xylophone/9.mp3", "Xylophone/10.mp3", "Xylophone/11.mp3", "Xylophone/12.mp3", "Xylophone/13.mp3", "Xylophone/14.mp3"],
+    drum: ["Drum/0.mp3", "Drum/1.mp3", "Drum/2.mp3", "Drum/3.mp3", "Drum/4.mp3", "Drum/5.mp3", "Drum/6.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3"],
+    horn: ["Horn/0.mp3", "Horn/1.mp3", "Horn/2.mp3", "Horn/3.mp3", "Horn/4.mp3", "Horn/5.mp3", "Horn/6.mp3", "Horn/7.mp3", "Horn/8.mp3", "Horn/9.mp3", "Horn/10.mp3", "Horn/11.mp3", "Horn/12.mp3", "Horn/13.mp3", "Horn/14.mp3"],
+}
+let keyNames = {
+    0: ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C"],
+    1: ["D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭"],
+    2: ["D", "E", "F♯", "G", "A", "B", "C♯", "D", "E", "F♯", "G", "A", "B", "C♯", "D"],
+    3: ["E♭", "F", "G", "A♭", "B♭", "C", "D", "E♭", "F", "G", "A♭", "B♭", "C", "D", "E♭"],
+    4: ["E", "F♯", "G♯", "A", "B", "C♯", "D♯", "E", "F♯", "G♯", "A", "B", "C♯", "D♯", "E"],
+    5: ["F", "G", "A", "B♭", "C", "D", "E", "F", "G", "A", "B♭", "C", "D", "E", "F"],
+    6: ["G♭", "A♭", "B♭", "C♭", "D♭", "E♭", "F", "G♭", "A♭", "B♭", "C♭", "D♭", "E♭", "F", "G♭"],
+    7: ["G", "A", "B", "C", "D", "E", "F♯", "G", "A", "B", "C", "D", "E", "F♯", "G"],
+    8: ["A♭", "B♭", "C", "D♭", "E♭", "F", "G", "A♭", "B♭", "C", "D♭", "E♭", "F", "G", "A♭"],
+    9: ["A", "B", "C♯", "D", "E", "F♯", "G♯", "A", "B", "C♯", "D", "E", "F♯", "G♯", "A"],
+    10: ["B♭", "C", "D", "E♭", "F", "G", "A", "B♭", "C", "D", "E♭", "F", "G", "A", "B♭"],
+    11: ["B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B"]
+}
+let urls = instrumentsNotes["piano"]
+let buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle", "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle", ]
+let numOfKeysLeft = 15
+let numOfKeys = 15
+let newRowBreak = [6, 11]
+preload(urls)
+    .then(audioBuffers => {
+        let j = 1
+        audioBuffers.forEach((buf, i) => {
+            //Creates button and sets the buttons properties .
+            const btn = document.createElement('div')
+            let background = "./KeyImages/" + buttonImages[i] + ".png"
+            btn.innerHTML = "<div class='btnBg'><a class='btnText'>" + keyNames[1 - 1][i] + "</a></div><img class='btnImg' src='" + background + "'/>"
+            btn.id = "Key" + i++
+            if (i == newRowBreak[0]) j = 2
+            if (i == newRowBreak[1]) j = 3
+            document.getElementById("row" + j).appendChild(btn)
+            numOfKeysLeft--
+            if (numOfKeysLeft < 0) { //if there are no more keys to add, it makes the other buttons invisible
+                btn.style.display = "none" // to make the buttons not clickable
+                return
+            }
+
+            btn.addEventListener("pointerdown", function (e) {
+                buttonPressEvent(this)
+                e.preventDefault()
+            })
+
+            function buttonPressEvent(btn) {
+                let btnBg = btn.firstChild
+                let btnImg = btn.childNodes[1]
+                const source = a_ctx.createBufferSource()
+                source.buffer = buf
+                var pitchKey = 1
+                source.playbackRate.value = pitchKey;
+                source.connect(a_ctx.destination)
+                source.start(0)
+                //reply_click(btn.id)
+                //btnImg.classList.toggle("keyTurn")
+                //btn.classList.toggle("keyScale")
+                //resetKeyClass(btn)
+                if(isPlaying) return;
+                if (btnBg.style.backgroundColor == "rgba(235, 0, 27, 0.7)") {
+                    deselectNote(btn.id.replace("Key",""))
+                    btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+                }else{
+                    btnBg.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+                    selectNote(btn.id.replace("Key",""))
+                }
+            }
+        })
+    })
+function preload(urls) {
+    const requests = urls.map(url => fetch(db_url + url)
+        .then(r => r.arrayBuffer()) // this time we request as ArrayBuffer
+        .then(b => {
+            return new Promise((resolve, reject) => {
+                a_ctx.decodeAudioData(b, resolve, reject)
+            })
+        })
+    )
+    return Promise.all(requests)
+}
+
+</script>
+</html>

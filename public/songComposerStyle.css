@@ -1,0 +1,133 @@
+*{
+    margin:0;
+    font-family: Arial;
+}
+body {
+    background: rgb(115,181,210);
+    background: linear-gradient(190deg, rgba(115,181,210,1) 0%, rgba(108,160,114,1) 63%);
+    padding:0;
+    text-align: center;
+}
+.notesWrapper{
+    width:100%;
+    height:40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+#songContainer{
+    width: 75%;
+    height:95%;
+    border:solid 2px #dad8b3;
+    border-radius: 5px;
+    background-color:rgba(22, 22, 22, 1);
+    padding:5px;
+    margin: 0 0.5em 0 0.5em;
+    text-align: left;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.toolsContainer{
+    width:7%;
+    height: 100%;
+    border:2px solid #dad8b3;
+}
+.toolPlaceholder{
+    position: absolute;
+    font-size: 0.7em;
+    color: #dad8b3;
+}
+.tool{
+    width: 100%;
+    height: 33.3%;
+    font-size: 1.2em;
+    border: none;
+    border-bottom:2px solid #dad8b3;
+    background-color: rgba(22, 22, 22, 1);
+    color: #dad8b3;
+    text-align: center;
+}
+.cell{
+    display: inline-block;
+    width: 1.5vw;
+    height: 100%;
+    margin-right: 0.2em;
+    border-right: 2px solid #dad8b3;
+    background-color: #dad8b3;
+    opacity: 0.6;
+}
+.note{
+    margin-top:0.1em;
+    height: calc((100% / 15) - 0.1em);
+    width: 80%;
+    margin-left: 15%;
+    background-color: transparent;
+    text-align: center;
+}
+#touch {
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+[id^=Key] {
+display: inline-block;
+height: calc(45vh/3);
+max-height: 80px;
+width: calc(45vh/3);
+max-width: 80px;
+padding: 0.5vh;
+background: transparent;
+cursor: pointer;
+outline: none;
+position: relative;
+}
+
+.btnBg {
+z-index: 0;
+padding-top: 1.3em;
+border-radius: 0.8em;
+box-sizing: border-box;
+border: 5px solid transparent;
+width: 100%;
+height: 100%;
+background-color: rgba(22, 22, 22, 0.65);
+cursor: pointer;
+display: block;
+}
+.btnImg {
+width: calc(100% - 2vw);
+height: calc(100% - 2vw);
+z-index: 1;
+position: absolute;
+top: 1vw;
+left: 1vw;
+object-fit: contain;
+object-position: center;
+pointer-events: none;
+cursor: pointer;
+display: block;
+}
+.goBack{
+    border:solid 2px #dad8b3;
+    text-decoration: none;
+    border-radius: 0.3em;
+    padding: 0.2em;
+    color: #dad8b3;
+    background-color: rgba(22, 22, 22, 0.65);
+    position: absolute;
+    left: 2%;
+    bottom: 2%;
+}
+.btnText {
+color: transparent;
+font-family: Arial;
+font-size: 1.5em;
+position: absolute;
+z-index: 2;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
