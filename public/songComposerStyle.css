@@ -5,8 +5,8 @@
 }
 
 body {
-    background: rgb(115, 181, 210);
-    background: linear-gradient(190deg, rgba(115, 181, 210, 1) 0%, rgba(108, 160, 114, 1) 63%);
+    background: rgb(83,167,203);
+    background: linear-gradient(190deg, rgba(83,167,203,1) 0%, rgba(87,181,98,1) 100%);
     padding: 0;
     height: 100%;
     min-height: 100vh;
@@ -202,4 +202,66 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+@keyframes click-key {
+	from {
+		transform: scale(1, 1);
+	}
+
+	50% {
+		transform: scale(0.5, 1);
+	}
+
+	50% {
+		transform: scale(0, 1);
+	}
+
+	to {
+		transform: scale(1, 1);
+	}
+}
+
+@keyframes click-scale {
+	from {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(0.9);
+	}
+
+	to {
+		transform: scale(1);
+	}
+}
+
+.keyScale {
+	animation-name: click-scale;
+	animation-timing-function: linear;
+	animation-duration: 0.15s;
+	animation-iteration-count: initial;
+	animation-play-state: 1;
+	/* For Chrome & Safari */
+
+	-webkit-animation-name: click-scale;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-duration: 0.15s;
+	-webkit-animation-iteration-count: initial;
+	-webkit-animation-play-state: 1;
+}
+
+.keyTurn {
+	animation-name: click-key;
+	animation-timing-function: linear;
+	animation-duration: 0.15s;
+	animation-iteration-count: initial;
+	animation-play-state: 1;
+	/* For Chrome & Safari */
+
+	-webkit-animation-name: click-key;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-duration: 0.15s;
+	-webkit-animation-iteration-count: initial;
+	-webkit-animation-play-state: 1;
 }

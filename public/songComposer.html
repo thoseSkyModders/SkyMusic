@@ -57,15 +57,23 @@
             <option>B♭</option>
             <option>B</option>
         </select>
+        <input type="button" style="margin-bottom: 0.4em;" class="skyButton" onclick="deleteAll()" value="DELETE ALL">
         <a href="/" class="skyButton">GO BACK</a>
+    </div>
+    <div class="floatingBottomRight">
+        <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: #dad8b3;" value="1">
+        <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: rgb(255, 114, 190);;" value="1/8">
+        <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: deepskyblue;" value="1/4">
+        <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: limegreen" value="1/2">
     </div>
     <div class="notesWrapper">
         <div class="toolsContainer">
-            <div>
-                <input class="tool" type="button" value=">" onclick="next()">
+            <div> 
+                <input class="tool" style="width: 45%; display: inline-block;"  type="button" value="<" onclick="before()">
+                <input class="tool" style="width: 45%; display: inline-block;" type="button" value=">" onclick="next()">
             </div>
             <div>
-                <input class="tool" type="button" value="<" onclick="before()">
+                <input class="tool" type="button" value="Undo" onclick="undo()">
             </div>
             <div>
                 <span class="toolPlaceholder">BPM</span>
@@ -75,8 +83,7 @@
                 <input class="tool" type="button" value="Save" onclick="save()">
             </div>
         </div>
-        <div id="songContainer">
-        </div>
+        <div id="songContainer"></div>
         <div>
             <input class="addPage" type="button" value="+" onclick="addPage()">
         </div>
@@ -94,12 +101,6 @@
                 <input id="playBtn" class="tool" type="button" value="Play" onclick="play()">
             </div>
         </div>
-        <div class="floatingBottomRight">
-            <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: #dad8b3;" value="1">
-            <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: limegreen;" value="1/8">
-            <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: deepskyblue;" value="1/4">
-            <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: rgb(255, 114, 190);" value="1/2">
-        </div>
     </div>
     <div id=touch>
         <div class="Row1" id="row1"></div>
@@ -114,6 +115,32 @@
         event.returnValue = '';
      });
 */
+var globalHistory = []
+var undoIndex = 0
+function addToHistory(){
+    if(globalHistory.length > 5){
+        globalHistory.shift()
+        globalHistory.push(songContainer.innerHTML)
+    }else{
+        globalHistory.push(songContainer.innerHTML)
+    }
+    console.log(globalHistory)
+    undoIndex = globalHistory.length
+}
+
+function undo(){
+    undoIndex--
+    if(undoIndex < 0 ) return
+    songContainer.innerHTML = globalHistory[undoIndex].replace("opacity: 1;","opacity: 0.6;")
+    for(let i = 0; i < songContainer.childElementCount; i++){
+            songContainer.children[i].addEventListener("pointerdown", function () {
+            if (getCellPosition(selectedCell) == getCellPosition(this)) return
+                selectCell(this)
+                quickSave()
+            })
+    }
+    selectCell(getCell(0))
+}
 //----------------------------------------------------------------------------------------------//
 
     let click = new PointerEvent("pointerdown")
@@ -144,11 +171,11 @@
             selectedCell.scrollIntoView()
             bpmToMs = 60000 / document.getElementById("bpm").value
             switch(selectedCell.style.backgroundColor){
-                case "limegreen": bpmToMs = bpmToMs/8
+                case "rgb(255, 114, 190)": bpmToMs = bpmToMs/8
                     break;
                 case "deepskyblue": bpmToMs = bpmToMs/4
                     break;
-                case "rgb(255, 114, 190)": bpmToMs = bpmToMs/2
+                case "limegreen": bpmToMs = bpmToMs/2
                     break;
                 default:  bpmToMs = 60000 / document.getElementById("bpm").value 
             }
@@ -204,6 +231,14 @@
     }
     //----------------------------------------------------------------------------------------------//
 
+    function deleteAll(){
+        let canDelete = confirm("Do you wish to delete ALL COMPOSITION?")
+        if(canDelete){
+            songContainer.innerHTML = ""
+            addPage()
+        }
+    }
+
     function appendCell() {
         addCell(getCellPosition(selectedCell) + 1)
     }
@@ -212,6 +247,7 @@
     //----------------------------------------------------------------------------------------------//
 
     function removeCell() {
+        addToHistory()
         if(songContainer.childElementCount < 3) return
         var cellToRemove = selectedCell
         if(getCellPosition(selectedCell) == 0) selectCell(getCell(2))
@@ -248,7 +284,7 @@
     //----------------------------------------------------------------------------------------------//
 
     function getCellPosition(cell) {
-        var i = -1;
+        var i = 0;
         while ((cell = cell.previousSibling) != null) {
             i++;
         }
@@ -282,11 +318,11 @@
         for (var i = 0; i < cells.length; i++) {
             bpmToMs = 60000 / document.getElementById("bpm").value
             switch(cells[i].style.backgroundColor){
-                case "limegreen": bpmToMs = bpmToMs/8
+                case "rgb(255, 114, 190);": bpmToMs = bpmToMs/8
                     break;
                 case "deepskyblue": bpmToMs = bpmToMs/4
                     break;
-                case "rgb(255, 114, 190)": bpmToMs = bpmToMs/2
+                case "limegreen": bpmToMs = bpmToMs/2
                     break;
                 default:  bpmToMs = 60000 / document.getElementById("bpm").value 
             }
@@ -322,6 +358,7 @@
         cell.addEventListener("pointerdown", function () {
             if (getCellPosition(selectedCell) == getCellPosition(this)) return
             selectCell(this)
+            quickSave()
         })
         if (appendIndex == "end") {
             songContainer.appendChild(cell)
@@ -352,7 +389,7 @@
                 document.getElementById("Key" + j).dispatchEvent(click)
                 document.getElementById("Key" + j).firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
             }
-        }
+        } 
     }
 
     //----------------------------------------------------------------------------------------------//
@@ -368,6 +405,22 @@
         selectedCell.children[14 - n].style.backgroundColor = "transparent"
     }
 
+    function quickSave(){
+        localStorage.setItem("quickStorage",songContainer.innerHTML)
+    }
+    var quickSavedSong = localStorage.getItem("quickStorage")
+    if(quickSavedSong != null){
+        songContainer.innerHTML = quickSavedSong.replace("opacity: 1;","opacity: 0.6;")
+        for(let i = 0; i < songContainer.childElementCount; i++){
+            songContainer.children[i].addEventListener("pointerdown", function () {
+            if (getCellPosition(selectedCell) == getCellPosition(this)) return
+                selectCell(this)
+                quickSave()
+            })
+        }
+    }else{
+        addPage()
+    }
     //----------------------------------------------------------------------------------------------//
     const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
     const db_url = './Sounds/'
@@ -456,11 +509,11 @@
                     }
 
                     btn.addEventListener("pointerdown", function (e) {
-                        buttonPressEvent(this)
+                        buttonPressEvent(this,e.isTrusted)
                         e.preventDefault()
                     })
 
-                    function buttonPressEvent(btn) {
+                    function buttonPressEvent(btn,isTrusted) {
                         let btnBg = btn.firstChild
                         let btnImg = btn.childNodes[1]
                         const source = a_ctx.createBufferSource()
@@ -468,7 +521,12 @@
                         source.playbackRate.value = pitchKey;
                         source.connect(a_ctx.destination)
                         source.start(0)
+
+                        btnImg.classList.toggle("keyTurn")
+                        btn.classList.toggle("keyScale")
+                        resetKeyClass(btn)
                         if (isPlaying || keyboardBlocked) return;
+                        if (isTrusted) addToHistory() 
                         if (btnBg.style.backgroundColor == "rgba(235, 0, 27, 0.7)") {
                             deselectNote(btn.id.replace("Key", ""))
                             btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
@@ -480,6 +538,14 @@
                 })
             })
     }
+
+function resetKeyClass(element) {
+    setTimeout(() => {
+        element.childNodes[1].classList.remove("keyTurn")
+        element.classList.remove("keyScale")
+    }, 250)
+
+}
 
     //----------------------------------------------------------------------------------------------//
 
@@ -498,7 +564,6 @@
     //----------------------------------------------------------------------------------------------//
 
     changeInstrument("piano")
-    addPage()
     selectedCell = getCell(0)
     selectedCell.style.opacity = "1"
 </script>
