@@ -277,8 +277,17 @@
         var cells = Array.prototype.slice.call(document.getElementsByClassName("cell"), 0);
 
         var bpmToMs = 60000 / document.getElementById("bpm").value
-        var timeStamp = 200
+        var timeStamp = 400
         for (var i = 0; i < cells.length; i++) {
+            switch(cells[i].style.backgroundColor){
+                case "limegreen": bpmToMs = bpmToMs/8
+                    break;
+                case "deepskyblue": bpmToMs = bpmToMs/4
+                    break;
+                case "rgb(255, 114, 190)": bpmToMs = bpmToMs/2
+                    break;
+                default:  bpmToMs = 60000 / document.getElementById("bpm").value 
+            }
             for (var j = 0; j < 15; j++) {
                 if (cells[i].children[14 - j].style.backgroundColor == "rgba(235, 0, 27, 0.8)") {
                     let keyObj = {
@@ -292,6 +301,7 @@
         }
         savedSongs.push(song)
         localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
+        alert("Song saved!")
     }
 
     //----------------------------------------------------------------------------------------------//

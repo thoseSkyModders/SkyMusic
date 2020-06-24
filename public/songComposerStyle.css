@@ -42,10 +42,11 @@ body {
     border: solid 2px #dad8b3;
     border-radius: 5px;
     font-size: 1.2em;
+    z-index: 10;
     background-color: rgba(22, 22, 22, 1);
     color: #dad8b3;
     padding: 5px;
-    margin: 4px 0.5em 0 -8px;
+    margin: 4px 0.5em 0 -4px;
 }
 .toolsContainer {
     width: 7%;
