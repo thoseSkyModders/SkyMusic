@@ -142,6 +142,7 @@
             selectedCell.style.opacity = "0.6"
             selectedCell = cells[i]
             selectedCell.scrollIntoView()
+            bpmToMs = 60000 / document.getElementById("bpm").value
             switch(selectedCell.style.backgroundColor){
                 case "limegreen": bpmToMs = bpmToMs/8
                     break;
@@ -279,6 +280,7 @@
         var bpmToMs = 60000 / document.getElementById("bpm").value
         var timeStamp = 400
         for (var i = 0; i < cells.length; i++) {
+            bpmToMs = 60000 / document.getElementById("bpm").value
             switch(cells[i].style.backgroundColor){
                 case "limegreen": bpmToMs = bpmToMs/8
                     break;
