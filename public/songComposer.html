@@ -7,13 +7,28 @@
 
 <body>
     <div class="floatingBottomLeft">
-        <select id="instrumentSelection" onselect="changeInstrument()">
+        <select id="instrumentSelection" class="select">
             <option selected>piano</option>
             <option>harp</option>
             <option>guitar</option>
             <option>horn</option>
             <option>xylophone</option>
             <option>flute</option>
+        </select>
+        <select id="keySelection" class="select">
+            <option selected disabled>Key</option>
+            <option>C</option>
+            <option>D♭</option>
+            <option>D</option>
+            <option>E♭</option>
+            <option>E</option>
+            <option>F</option>
+            <option>G♭</option>
+            <option>G</option>
+            <option>A♭</option>
+            <option>A</option>
+            <option>B♭</option>
+            <option>B</option>
         </select>
         <a href="/" class="skyButton">GO BACK</a>
     </div>
@@ -35,11 +50,10 @@
         </div>
         <div id="songContainer">
         </div>
+        <div>
+            <input class="addPage" type="button" value="+" onclick="addPage()">
+        </div>
         <div class="toolsContainer">
-            <div>
-                <span class="toolPlaceholder">Add page</span>
-                <input class="tool" type="button" value="+" onclick="addPage()">
-            </div>
             <div>
                 <input class="tool" type="button" value="+C" onclick="appendCell()">
             </div>
@@ -47,8 +61,17 @@
                 <input class="tool" type="button" value="-C" onclick="removeCell()">
             </div>
             <div>
+                <input id="blockKeyboard"class="tool" type="button" style="font-size:0.6em" value="Block keyboard" onclick="blockKeyboard(this)">
+            </div>
+            <div>
                 <input id="playBtn" class="tool" type="button" value="Play" onclick="play()">
             </div>
+        </div>
+        <div class="floatingBottomRight">
+            <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: #dad8b3;" value="1">
+            <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: limegreen;" value="1/8">
+            <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: deepskyblue;" value="1/4">
+            <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: rgb(255, 114, 190);" value="1/2">
         </div>
     </div>
     <div id=touch>
@@ -58,12 +81,12 @@
     </div>
 </body>
 <script>
-
+/*
     window.addEventListener("beforeunload", function(event) {
         event.preventDefault();
         event.returnValue = '';
      });
-
+*/
 //----------------------------------------------------------------------------------------------//
 
     let click = new PointerEvent("pointerdown")
@@ -92,6 +115,15 @@
             selectedCell.style.opacity = "0.6"
             selectedCell = cells[i]
             selectedCell.scrollIntoView()
+            switch(selectedCell.style.backgroundColor){
+                case "limegreen": bpmToMs = bpmToMs/8
+                    break;
+                case "deepskyblue": bpmToMs = bpmToMs/4
+                    break;
+                case "rgb(255, 114, 190)": bpmToMs = bpmToMs/2
+                    break;
+                default:  bpmToMs = 60000 / document.getElementById("bpm").value 
+            }
             for (var k = 0; k < 15; k++) {
                 document.getElementById("Key" + k).firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
             }
@@ -110,22 +142,51 @@
     }
 
     //----------------------------------------------------------------------------------------------//
-
+    let oldBpm = document.getElementById("bpm").value
+    document.getElementById("bpm").addEventListener("focus",function(){
+            oldBpm = document.getElementById("bpm").value
+        this.value = ""
+    })
+    document.getElementById("bpm").addEventListener("focusout",function(){
+        if(bpm.value == "") this.value = oldBpm
+    })
     let selectedInstrument = "piano"
     document.getElementById("instrumentSelection").addEventListener("change", function () {
         changeInstrument(this.options[this.selectedIndex].value)
     })
+    var pitchKey = 1
+    document.getElementById("keySelection").addEventListener("change", function () {
+        if(this.options[this.selectedIndex].value == "Key") return
+        pitchKey = Math.pow(2, (this.selectedIndex - 1) / 12).toFixed(2)
+        let keyBtnTxt = document.getElementsByClassName("btnText")
+        for (let i = 0; i < keyBtnTxt.length; i++) {
+        keyBtnTxt[i].innerHTML = keyNames[this.selectedIndex - 1][i]
+    }
+    })
 
+    var keyboardBlocked = false
+    function blockKeyboard(btn){
+        if(btn.style.backgroundColor == "rgb(235, 0, 27)"){
+            btn.style.backgroundColor = "rgb(22, 22, 22)"
+            keyboardBlocked = false
+        }else{
+            btn.style.backgroundColor = "rgb(235, 0, 27)"
+            keyboardBlocked = true
+        }
+    }
     //----------------------------------------------------------------------------------------------//
 
     function appendCell() {
         addCell(getCellPosition(selectedCell) + 1)
     }
 
+
     //----------------------------------------------------------------------------------------------//
 
     function removeCell() {
+        if(songContainer.childElementCount < 3) return
         var cellToRemove = selectedCell
+        if(getCellPosition(selectedCell) == 0) selectCell(getCell(2))
         before()
         cellToRemove.remove()
     }
@@ -147,6 +208,10 @@
     }
 
     //----------------------------------------------------------------------------------------------//
+
+    function changeTempo(button){
+        selectedCell.style.backgroundColor = button.style.backgroundColor
+    }
 
     function getCell(n) {
         return document.getElementsByClassName("cell")[n]
@@ -329,7 +394,6 @@
         let numOfKeysLeft = 15
         let numOfKeys = 15
         urls = instrumentsNotes[instrument]
-        console.log(urls)
         document.getElementById("touch").innerHTML =
             '<div class="Row1" id="row1"></div><div class="Row2" id="row2"></div><div class="Row3" id="row3"></div>'
         preload(urls)
@@ -362,11 +426,10 @@
                         let btnImg = btn.childNodes[1]
                         const source = a_ctx.createBufferSource()
                         source.buffer = buf
-                        var pitchKey = 1
                         source.playbackRate.value = pitchKey;
                         source.connect(a_ctx.destination)
                         source.start(0)
-                        if (isPlaying) return;
+                        if (isPlaying || keyboardBlocked) return;
                         if (btnBg.style.backgroundColor == "rgba(235, 0, 27, 0.7)") {
                             deselectNote(btn.id.replace("Key", ""))
                             btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
