@@ -15,59 +15,77 @@ body {
 
 .notesWrapper {
     width: 100%;
-    height: 40%;
+    height: 50vh;
     align-items: center;
-    margin-top: 5px;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    display: flex;
+    padding: 0.5em;
+    box-sizing: border-box;
 }
 
 #songContainer {
-    width: 75%;
-    height: 95%;
+    height: 100%;
     border: solid 2px #dad8b3;
     border-radius: 10px;
     background-color: rgba(22, 22, 22, 1);
     padding: 5px;
-    margin: 4px 0 0 0.5em;
     text-align: left;
     display: flex;
     overflow-x: auto;
     overflow-y: hidden;
+    box-sizing: border-box;
+    flex-grow: 1;
+    margin: 0 0 0 10px;
 }
 
 .addPage{
-    height: calc(100% + 5px);
+    height: 30px;
+    width: 30px;
     border: solid 2px #dad8b3;
     border-radius: 5px;
     font-size: 1.2em;
     z-index: 10;
     background-color: rgba(22, 22, 22, 1);
     color: #dad8b3;
-    padding: 5px;
-    margin: 4px 0.5em 0 -4px;
+    cursor: pointer;
+    -webkit-appearance:none;
+    padding: 0;
 }
 .toolsContainer {
-    width: 7%;
+    width: 14%;
+    min-width: 150px;
     height: 100%;
     border-radius: 10px;
     background-color: #dad8b3;
     padding: 2px;
+    box-sizing: border-box;
     border: 2px solid #dad8b3;
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+.toolsContainer div {
+    width: 50%;
+    height: 25%;
+    position: relative;
+    padding: 2px;
+    box-sizing: border-box;
 }
 
 .toolPlaceholder {
     position: absolute;
-    margin-left: 2px;
+    top: 10px;
+    width: calc(100% - 4px);
     font-size: 0.7em;
     color: #dad8b3;
+    display: block;
 }
 
 .tool {
-    white-space: initial;
     width: 100%;
-    height: 25%;
+    height: 100%;
     font-size: 1.2em;
     border: none;
     border-radius: 5px;
@@ -75,17 +93,22 @@ body {
     background-color: rgba(22, 22, 22, 1);
     color: #dad8b3;
     text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    -webkit-appearance:none;
+    padding: 0;
 }
 
 .cell {
     display: inline-block;
+    min-width: 20px;
     width: 1.5vw;
-    min-width: 1.5vw;
     height: 100%;
     margin-right: 0.2em;
     background-color: #dad8b3;
     opacity: 0.6;
     padding-bottom: 0.1em;
+    cursor: pointer;
 }
 
 .note {
@@ -97,29 +120,44 @@ body {
     text-align: center;
 }
 
+#bottom {
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
+}
+
 #touch {
-    margin-top: 3%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
+    flex-grow: 1;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+[id^=row] {
+    display: flex;
+    height: calc((100% + 1vh)/3);
+    max-height: calc(80px + 1vh);
+    align-content: start;
+    justify-content: center;
 }
 
 [id^=Key] {
     display: inline-block;
-    height: calc(45vh/3);
-    max-height: 80px;
-    width: calc(45vh/3);
+    height: calc(100% - 1vh);
+    width: calc((100% - 5vh)/5);
     max-width: 80px;
     padding: 0.5vh;
     background: transparent;
     cursor: pointer;
     position: relative;
+    object-fit: contain;
 }
 
 .btnBg {
     z-index: 0;
-    padding-top: 1.3em;
     border-radius: 0.8em;
     box-sizing: border-box;
     border: 5px solid transparent;
@@ -131,12 +169,12 @@ body {
 }
 
 .btnImg {
-    width: calc(100% - 0.75vw);
-    height: calc(100% - 0.75vw);
+    width: calc(100% - 1vh);
+    height: calc(100% - 1vh);
     z-index: 1;
     position: absolute;
-    top: 0.375vw;
-    left: 0.375vw;
+    top: 0.5vh;
+    left: 0.5vh;
     object-fit: contain;
     object-position: center;
     pointer-events: none;
@@ -145,52 +183,47 @@ body {
 }
 
 .skyButton {
+    text-decoration: none;
+}
+
+.skyButton button, .tempoButton, .select {
+    cursor: pointer;
+    height: 30px;
+    margin: 2px;
+    width: 12.5%;
+    min-width: 80px;
+    -webkit-appearance:none;
+}
+
+.skyButton button {
     border: solid 2px #dad8b3;
     text-decoration: none;
     border-radius: 0.3em;
-    padding: 0.2em;
     color: #dad8b3;
-    min-width: 5vw;
+    box-sizing: border-box;
     background-color: rgba(22, 22, 22, 0.65);
 }
 
 .tempoButton {
     font-weight: bold;
-    margin: 0.2em;
     border: solid 2px #dad8b3;
     text-decoration: none;
     border-radius: 0.3em;
-    padding: 0.2em;
     color: rgba(22, 22, 22, 0.65);
-    min-width: 5vw;
 }
 
 .select {
     border: solid 2px #dad8b3;
     text-decoration: none;
     border-radius: 0.3em;
-    padding: 0.2em;
     color: #dad8b3;
     background-color: rgba(22, 22, 22, 0.65);
-    margin-bottom: 0.4em;
+    text-align-last: center;
+    padding: 0 10px 0 10px;
+}
+
+.floatingBottomLeft, .floatingBottomRight {
     width: 100%;
-}
-
-.floatingBottomLeft {
-    position: absolute;
-    left: 2%;
-    top:60vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.floatingBottomRight {
-    position: absolute;
-    right: 2%;
-    top:60vh;
-    bottom: 2%;
-    display: flex;
-    flex-direction: column;
 }
 
 .btnText {
@@ -202,4 +235,15 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

@@ -18,7 +18,7 @@ const shareIv = process.env.shareIv
 
 
 //If you want to edit something, just put inLocalhost = true and it will let you use the website without the account system
-/* ------------------------------------------------------->*/       var inLocalhost = false
+/* ------------------------------------------------------->*/       var inLocalhost = true
 
 
 app.enable('trust proxy');
@@ -31,9 +31,11 @@ if (!inLocalhost) {
         }
     })
 } else {
+    /*
     mongoKey = ""
     discordToken = ""
     emailPassword = ""
+    */
 }
 
 var transporter = nodemailer.createTransport({

@@ -33,46 +33,32 @@
 </head>
 
 <body>
-    <div class="floatingBottomLeft">
-        <select id="instrumentSelection" class="select">
-            <option selected>piano</option>
-            <option>harp</option>
-            <option>guitar</option>
-            <option>horn</option>
-            <option>xylophone</option>
-            <option>flute</option>
-        </select>
-        <select id="keySelection" class="select">
-            <option selected disabled>Key</option>
-            <option>C</option>
-            <option>D♭</option>
-            <option>D</option>
-            <option>E♭</option>
-            <option>E</option>
-            <option>F</option>
-            <option>G♭</option>
-            <option>G</option>
-            <option>A♭</option>
-            <option>A</option>
-            <option>B♭</option>
-            <option>B</option>
-        </select>
-        <a href="/" class="skyButton">GO BACK</a>
-    </div>
     <div class="notesWrapper">
         <div class="toolsContainer">
             <div>
-                <input class="tool" type="button" value=">" onclick="next()">
+                <input class="tool" type="button" value="-C" onclick="removeCell()">
+            </div>
+            <div>
+                <input class="tool" type="button" value="+C" onclick="appendCell()">
             </div>
             <div>
                 <input class="tool" type="button" value="<" onclick="before()">
             </div>
             <div>
-                <span class="toolPlaceholder">BPM</span>
-                <input id="bpm" class="tool" type="number" value=220 placeholder="Bpm">
+                <input class="tool" type="button" value=">" onclick="next()">
+            </div>
+            <div>
+                <input id="blockKeyboard"class="tool" type="button" style="font-size:0.8em" value="No Keys" onclick="blockKeyboard(this)">
+            </div>
+            <div>
+                <!--<span class="toolPlaceholder">BPM</span>-->
+                <input id="bpm" class="tool" type="number" value=220 placeholder="BPM">
             </div>
             <div>
                 <input class="tool" type="button" value="Save" onclick="save()">
+            </div>
+            <div>
+                <input id="playBtn" class="tool" type="button" value="Play" onclick="play()">
             </div>
         </div>
         <div id="songContainer">
@@ -80,31 +66,43 @@
         <div>
             <input class="addPage" type="button" value="+" onclick="addPage()">
         </div>
-        <div class="toolsContainer">
-            <div>
-                <input class="tool" type="button" value="+C" onclick="appendCell()">
-            </div>
-            <div>
-                <input class="tool" type="button" value="-C" onclick="removeCell()">
-            </div>
-            <div>
-                <input id="blockKeyboard"class="tool" type="button" style="font-size:0.6em" value="Block keyboard" onclick="blockKeyboard(this)">
-            </div>
-            <div>
-                <input id="playBtn" class="tool" type="button" value="Play" onclick="play()">
-            </div>
-        </div>
-        <div class="floatingBottomRight">
+    </div>
+    <div id="bottom">
+        <div class="floatingBottomLeft">
+            <a href="/" class="skyButton"><button>GO BACK</button></a>
+            <select id="instrumentSelection" class="select">
+                <option selected>Piano</option>
+                <option>Harp</option>
+                <option>Guitar</option>
+                <option>Horn</option>
+                <option>Xylophone</option>
+                <option>Flute</option>
+            </select>
+            <select id="keySelection" class="select">
+                <option selected disabled>Key</option>
+                <option>C</option>
+                <option>D♭</option>
+                <option>D</option>
+                <option>E♭</option>
+                <option>E</option>
+                <option>F</option>
+                <option>G♭</option>
+                <option>G</option>
+                <option>A♭</option>
+                <option>A</option>
+                <option>B♭</option>
+                <option>B</option>
+            </select>
             <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: #dad8b3;" value="1">
             <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: limegreen;" value="1/8">
             <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: deepskyblue;" value="1/4">
             <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: rgb(255, 114, 190);" value="1/2">
         </div>
-    </div>
-    <div id=touch>
-        <div class="Row1" id="row1"></div>
-        <div class="Row2" id="row2"></div>
-        <div class="Row3" id="row3"></div>
+        <div id=touch>
+            <div class="Row1" id="row1"></div>
+            <div class="Row2" id="row2"></div>
+            <div class="Row3" id="row3"></div>
+        </div>
     </div>
 </body>
 <script>
