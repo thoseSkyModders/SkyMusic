@@ -5,8 +5,8 @@
 }
 
 body {
-    background: rgb(115, 181, 210);
-    background: linear-gradient(190deg, rgba(115, 181, 210, 1) 0%, rgba(108, 160, 114, 1) 63%);
+    background: rgb(83,167,203);
+    background: linear-gradient(190deg, rgba(83,167,203,1) 0%, rgba(87,181,98,1) 100%);
     padding: 0;
     height: 100%;
     min-height: 100vh;
@@ -19,8 +19,6 @@ body {
     align-items: center;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    display: flex;
     padding: 0.5em;
     box-sizing: border-box;
 }
@@ -37,12 +35,12 @@ body {
     overflow-y: hidden;
     box-sizing: border-box;
     flex-grow: 1;
-    margin: 0 0 0 10px;
+    margin: 0 0 0 5px;
 }
 
 .addPage{
-    height: 30px;
-    width: 30px;
+    height: 100%;
+    min-width: 30px;
     border: solid 2px #dad8b3;
     border-radius: 5px;
     font-size: 1.2em;
@@ -99,6 +97,14 @@ body {
     padding: 0;
 }
 
+.tool.half {
+    width: 45%;
+}
+
+div.full {
+    width: 100%;
+}
+
 .cell {
     display: inline-block;
     min-width: 20px;
@@ -124,6 +130,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 50vh;
+    align-content: center;
 }
 
 #touch {
@@ -182,26 +189,22 @@ body {
     display: block;
 }
 
-.skyButton {
-    text-decoration: none;
-}
-
-.skyButton button, .tempoButton, .select {
+.skyButton, .tempoButton, .select {
     cursor: pointer;
     height: 30px;
-    margin: 2px;
-    width: 12.5%;
-    min-width: 80px;
+    margin: 0 2px 0 2px;
+    width: 11%;
     -webkit-appearance:none;
+    min-width: 100px;
 }
 
-.skyButton button {
+.skyButton {
     border: solid 2px #dad8b3;
     text-decoration: none;
     border-radius: 0.3em;
-    color: #dad8b3;
     box-sizing: border-box;
     background-color: rgba(22, 22, 22, 0.65);
+    color: #dad8b3;
 }
 
 .tempoButton {
@@ -222,8 +225,13 @@ body {
     padding: 0 10px 0 10px;
 }
 
-.floatingBottomLeft, .floatingBottomRight {
+.floatingBottomLeft {
     width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .btnText {
@@ -246,4 +254,64 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+
+@keyframes click-key {
+	from {
+		transform: scale(1, 1);
+	}
+
+	50% {
+		transform: scale(0.5, 1);
+	}
+
+	50% {
+		transform: scale(0, 1);
+	}
+
+	to {
+		transform: scale(1, 1);
+	}
 }
+
+@keyframes click-scale {
+	from {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(0.9);
+	}
+
+	to {
+		transform: scale(1);
+	}
+}
+
+.keyScale {
+	animation-name: click-scale;
+	animation-timing-function: linear;
+	animation-duration: 0.15s;
+	animation-iteration-count: initial;
+	animation-play-state: 1;
+	/* For Chrome & Safari */
+
+	-webkit-animation-name: click-scale;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-duration: 0.15s;
+	-webkit-animation-iteration-count: initial;
+	-webkit-animation-play-state: 1;
+}
+
+.keyTurn {
+	animation-name: click-key;
+	animation-timing-function: linear;
+	animation-duration: 0.15s;
+	animation-iteration-count: initial;
+	animation-play-state: 1;
+	/* For Chrome & Safari */
+
+	-webkit-animation-name: click-key;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-duration: 0.15s;
+	-webkit-animation-iteration-count: initial;
+	-webkit-animation-play-state: 1;
