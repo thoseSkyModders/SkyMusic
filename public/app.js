@@ -688,7 +688,7 @@ function register() { //function to register the account to the website
         if (response == "true") { //if the server response is true, it proceedes to the next step of the account verification
             resetPages()
             document.getElementById("secondPage").style.display = "block"
-            document.getElementById("confirmationLabel").innerHTML = "CODE FOR: " + credentials.email
+            document.getElementById("code-text-confirm").innerHTML = "Check email, CODE FOR: " + credentials.email
             document.getElementById("confirmRegistration").style.display = "block"
             document.getElementById("register").style.display = "none"
             return;
@@ -1191,8 +1191,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "3.2"
-let changelogMessage = "Update version " + currentVersion + '<br>Added language translation!'
+let currentVersion = "3.3"
+let changelogMessage = "Update version " + currentVersion + '<br>Fixed log-in issue!'
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 10000)
