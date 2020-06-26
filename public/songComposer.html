@@ -644,7 +644,7 @@
     function changeInstrument(instrument) {
         let numOfKeysLeft = 15
         let numOfKeys = 15
-        urls = instrumentsNotes[instrument]
+        urls = instrumentsNotes[instrument.toLowerCase()]
         document.getElementById("touch").innerHTML =
             '<div class="Row1" id="row1"></div><div class="Row2" id="row2"></div><div class="Row3" id="row3"></div>'
         preload(urls)
