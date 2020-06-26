@@ -62,6 +62,16 @@
         </div>
         <div id="songContainer"></div>
         <input class="addPage" type="button" value="+" onclick="addPage()">
+        <div class="toolsContainer" style="width: 7%; min-width: 75px; margin-left: 5px;">
+            <div class="full">
+                <input class="tool " type="button" value="Copy" onclick="startCopy()">
+            </div>
+            <div class="full">
+                <input class="tool " type="button" value="Paste" onclick="paste()">
+            </div>
+            <div class="full"></div>
+            <div class="full"></div>
+        </div>
     </div>
     <div id="bottom" onclick='settingsDiv.style.display = "none"'>
         <div id=touch>
@@ -77,8 +87,23 @@
         <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: deepskyblue;" value="1/4">
         <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: rgb(255, 114, 190);" value="1/8">
     </div>
+    <div id="copyDiv">
+        <div class="settingOption full"> 
+            <span>Select start</span>
+            <input id="startCopyBtn" style="float: right;" class="skyButton" type="button" value="Start" onclick="selectStartCopy()">
+        </div>
+        <div class="settingOption full">
+            <span>Select end</span>
+            <input id="endCopyBtn" style="float: right;" class="skyButton" type="button" value="End" onclick="selectEndCopy()">
+        </div>
+        <div class="settingOption full"  style=" text-align: center;">
+            <input class="skyButton" type="button" value="Cancel" onclick="cancelCopy()">
+            <input class="skyButton" type="button" value="Copy" onclick="finishCopy()">
+        </div>
+    </div>
+
     <div id="settingsDiv">
-        <div class="settingOption" style="width:100%;">
+        <div class="settingOption full">
             <input type="button" class="skyButton" style="float: right;" value="Close" onclick="toggleSettings()">
         </div>
         <div class="settingOption">
@@ -149,6 +174,7 @@
                 quickSave()
             })
         }
+        quickSave()
         selectCell(getCell(0))
     }
 
@@ -162,41 +188,101 @@
         }
     }
     function startCopy() {
-        // alert("Select first the start then the end to copy")
-        var isCopying = true
         let cells = document.getElementsByClassName("cell")
+        resetCellBorders()
+        document.getElementById("copyDiv").style.display = "block"
+        document.getElementById("startCopyBtn").style.borderColor = "#dad8b3"
+        document.getElementById("startCopyBtn").style.color = "#dad8b3"
+        document.getElementById("endCopyBtn").style.borderColor = "#dad8b3"
+        document.getElementById("endCopyBtn").style.color = "#dad8b3"
         for (var i = 0; i < cells.length; i++) {
             cells[i].addEventListener("pointerdown", function () {
-                console.log(this.style.borderColor)
-                if (this.style.borderColor == "rgb(235, 0, 27)") {
-                    this.style.border = "transparent"
-                } else {
-                    this.style.border = "2px solid rgb(235, 0, 27)"
-                }
             })
         }
 
     }
 
+    let copiedCells = []
+    function finishCopy(){
+        let cells = document.getElementsByClassName("cell")
+        let hasStart = false
+        let hasEnd = false
+        let canAddCells = false
+            copiedCells = []
+        for (var i = 0; i < cells.length; i++) {
+            if(cells[i].style.borderColor == "rgb(235, 0, 27)") canAddCells = true, hasStart = true
+            if(cells[i].style.borderColor == "rgb(0, 235, 207)")copiedCells.push(cells[i]), canAddCells = false, hasEnd = true
+            if(canAddCells)copiedCells.push(cells[i])
+        }
+        if(hasStart && hasEnd){
+            document.getElementById("copyDiv").style.display = "none"
+            resetCellBorders()
+        }else{
+            alert("Missing start or end!")
+        }
+    }
+
+    function paste(){
+        addToHistory()
+        if(copiedCells.length < 2) return
+        for(let i = 0; i<copiedCells.length; i++){
+            let cell = copiedCells[copiedCells.length-i-1].cloneNode(true)
+            cell.style.opacity = "0.6"
+            cell.addEventListener("pointerdown", function () {
+                if (getCellPosition(selectedCell) == getCellPosition(this)) return
+                selectCell(this)
+                quickSave()
+            })
+            selectedCell.parentNode.insertBefore(cell, selectedCell.nextSibling)
+        }
+        quickSave()
+    }
+    let copySelectionColor = "rgb(235, 0, 27)"
     function selectStartCopy() {
+        copySelectionColor = "rgb(235, 0, 27)"
+        document.getElementById("startCopyBtn").style.borderColor = copySelectionColor
+        document.getElementById("startCopyBtn").style.color = copySelectionColor
         let cells = document.getElementsByClassName("cell")
         for (let i = 0; i < cells.length; i++) {
-            cells[i].style.border = ""
-            cells[i].addEventListener("click", startCopyFunction)
+            if(cells[i].style.borderColor == "rgb(235, 0, 27)") cells[i].style.border = ""
+            cells[i].addEventListener("click", selectCopy)
         }
     }
 
 
-    let startCopyFunction = function (event) {
-        event.path[1].style.border = "2px solid rgb(235, 0, 27)"
+    let selectCopy = function (event) {
+        event.path[1].style.border = "solid 2px "+copySelectionColor
         let cells1 = document.getElementsByClassName("cell")
         for (let j = 0; j < cells1.length; j++) {
-            cells1[j].removeEventListener("click", startCopyFunction)
+            cells1[j].removeEventListener("click", selectCopy)
         }
     }
 
     function selectEndCopy() {
+        copySelectionColor = "rgb(0, 235, 207)"
+        document.getElementById("endCopyBtn").style.borderColor = copySelectionColor
+        document.getElementById("endCopyBtn").style.color = copySelectionColor
+        let cells = document.getElementsByClassName("cell")
+        for (let i = 0; i < cells.length; i++) {
+            console.log(cells[i].style.borderColor)
+            if(cells[i].style.borderColor == "rgb(0, 235, 207)") cells[i].style.border = ""
+            cells[i].addEventListener("click", selectCopy)
+        }
+    }
 
+    function cancelCopy(){
+        document.getElementById("copyDiv").style.display = "none"
+        resetCellBorders()
+        let cells = document.getElementsByClassName("cell")
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].removeEventListener("click", selectCopy)
+        }
+    }
+    function resetCellBorders(){
+        let cells = document.getElementsByClassName("cell")
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].style.border = ""
+        }
     }
     //----------------------------------------------------------------------------------------------//
 

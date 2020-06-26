@@ -344,7 +344,6 @@ input[type=number] {
 
 #settingsDiv{
     position: absolute;
-    margin:auto;
     border: 2px solid #dad8b3;
     border-radius: 10px;
     background-color: rgba(22, 22, 22, 1);
@@ -357,4 +356,20 @@ input[type=number] {
     text-align: left;
     padding:1vw;
     overflow-y: auto;
+}
+#copyDiv{
+    color: #dad8b3;
+    position: absolute;
+    border: 2px solid #dad8b3;
+    border-radius: 10px;
+    background-color: rgba(22, 22, 22, 1);
+    display: none;
+    width: 30%;
+    height: 30%;
+    right: 0.5em;
+    bottom: 0.5em;
+    z-index: 100;
+    text-align: left;
+    padding:1vw;
+    overflow-y: auto; 
 }
