@@ -47,14 +47,14 @@
                 <input id="blockKeyboard"class="tool" type="button" style="font-size:0.8em" value="No Keys" onclick="blockKeyboard(this)">
             </div>
             <div>
-                <!--<span class="toolPlaceholder">BPM</span>-->
-                <input id="bpm" class="tool" type="number" value=220 placeholder="BPM">
-            </div>
-            <div>
                 <input class="tool" type="button" value="Undo" onclick="undo()">
             </div>
             <div>
                 <input class="tool" type="button" value="Save" onclick="save()">
+            </div>
+            <div >
+                <input class="tool" type="button" value="⚙️" onclick="toggleSettings()">
+                    <!--<img src="menu.png" style="height: 80%;" onclick="toggleSettings()">-->
             </div>
             <div class="full">
                 <input id="playBtn" class="tool" type="button" value="Play" onclick="play()">
@@ -63,15 +63,30 @@
         <div id="songContainer"></div>
         <input class="addPage" type="button" value="+" onclick="addPage()">
     </div>
-    <div id="bottom">
+    <div id="bottom" onclick='settingsDiv.style.display = "none"'>
         <div id=touch>
             <div class="Row1" id="row1"></div>
             <div class="Row2" id="row2"></div>
             <div class="Row3" id="row3"></div>
         </div>
-        <div class="floatingBottomLeft">
-            <a href="/"><button class="skyButton">GO BACK</button></a>
-            <input type="button" style="margin-bottom: 0.4em;" class="skyButton" onclick="deleteAll()" value="DELETE ALL">
+    </div>
+    <a href="/" style="position: absolute; left: 0.5em; bottom: 0.5em;"><button class="skyButton">GO BACK</button></a>
+    <div class="tempoContainer">
+        <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: #dad8b3;" value="1">
+        <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: limegreen" value="1/2">
+        <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: deepskyblue;" value="1/4">
+        <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: rgb(255, 114, 190);" value="1/8">
+    </div>
+    <div id="settingsDiv">
+        <div class="settingOption" style="width:100%;">
+            <input type="button" class="skyButton" style="float: right;" value="Close" onclick="toggleSettings()">
+        </div>
+        <div class="settingOption">
+            <span>BPM</span>
+            <input id="bpm" class="skyButton" type="number" value=220 placeholder="BPM">
+        </div>
+        <div class="settingOption">
+            <span>Instrument</span>
             <select id="instrumentSelection" class="select">
                 <option selected>Piano</option>
                 <option>Harp</option>
@@ -80,6 +95,9 @@
                 <option>Xylophone</option>
                 <option>Flute</option>
             </select>
+        </div>
+        <div class="settingOption">
+            <span>Key</span>
             <select id="keySelection" class="select">
                 <option selected disabled>Key</option>
                 <option>C</option>
@@ -95,47 +113,92 @@
                 <option>B♭</option>
                 <option>B</option>
             </select>
-            <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: #dad8b3;" value="1">
-            <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: limegreen;" value="1/8">
-            <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: deepskyblue;" value="1/4">
-            <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: rgb(255, 114, 190);" value="1/2">
-        </div>
+        </div><br>
+        <input type="button" style="border-color: rgba(235, 0, 27, 1); color: rgba(235, 0, 27, 1);" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
 </body>
 <script>
-/*
-    window.addEventListener("beforeunload", function(event) {
-        event.preventDefault();
-        event.returnValue = '';
-     });
-*/
-var globalHistory = []
-var undoIndex = 0
-function addToHistory(){
-    if(globalHistory.length > 5){
-        globalHistory.shift()
-        globalHistory.push(songContainer.innerHTML)
-    }else{
-        globalHistory.push(songContainer.innerHTML)
-    }
-    console.log(globalHistory)
-    undoIndex = globalHistory.length
-}
+    /*
+        window.addEventListener("beforeunload", function(event) {
+            event.preventDefault();
+            event.returnValue = '';
+         });
+    */
 
-function undo(){
-    undoIndex--
-    if(undoIndex < 0 ) return
-    songContainer.innerHTML = globalHistory[undoIndex].replace("opacity: 1;","opacity: 0.6;")
-    for(let i = 0; i < songContainer.childElementCount; i++){
+    var globalHistory = []
+    var undoIndex = 0
+
+    function addToHistory() {
+        if (globalHistory.length > 5) {
+            globalHistory.shift()
+            globalHistory.push(songContainer.innerHTML)
+        } else {
+            globalHistory.push(songContainer.innerHTML)
+        }
+        undoIndex = globalHistory.length
+    }
+
+    function undo() {
+        undoIndex--
+        if (undoIndex < 0) return
+        songContainer.innerHTML = globalHistory[undoIndex].replace("opacity: 1;", "opacity: 0.6;")
+        for (let i = 0; i < songContainer.childElementCount; i++) {
             songContainer.children[i].addEventListener("pointerdown", function () {
-            if (getCellPosition(selectedCell) == getCellPosition(this)) return
+                if (getCellPosition(selectedCell) == getCellPosition(this)) return
                 selectCell(this)
                 quickSave()
             })
+        }
+        selectCell(getCell(0))
     }
-    selectCell(getCell(0))
-}
-//----------------------------------------------------------------------------------------------//
+
+    function toggleSettings(){
+        let settingsDiv = document.getElementById("settingsDiv")
+        console.log(settingsDiv)
+        if (settingsDiv.style.display != "block") {
+            settingsDiv.style.display = "block"
+        } else {
+            settingsDiv.style.display = "none"
+        }
+    }
+    function startCopy() {
+        // alert("Select first the start then the end to copy")
+        var isCopying = true
+        let cells = document.getElementsByClassName("cell")
+        for (var i = 0; i < cells.length; i++) {
+            cells[i].addEventListener("pointerdown", function () {
+                console.log(this.style.borderColor)
+                if (this.style.borderColor == "rgb(235, 0, 27)") {
+                    this.style.border = "transparent"
+                } else {
+                    this.style.border = "2px solid rgb(235, 0, 27)"
+                }
+            })
+        }
+
+    }
+
+    function selectStartCopy() {
+        let cells = document.getElementsByClassName("cell")
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].style.border = ""
+            cells[i].addEventListener("click", startCopyFunction)
+        }
+    }
+
+
+    let startCopyFunction = function (event) {
+        event.path[1].style.border = "2px solid rgb(235, 0, 27)"
+        let cells1 = document.getElementsByClassName("cell")
+        for (let j = 0; j < cells1.length; j++) {
+            cells1[j].removeEventListener("click", startCopyFunction)
+        }
+    }
+
+    function selectEndCopy() {
+
+    }
+    //----------------------------------------------------------------------------------------------//
 
     let click = new PointerEvent("pointerdown")
     const delay = ms => new Promise(res => setTimeout(res, ms))
@@ -143,7 +206,7 @@ function undo(){
     let stopPlaying = true
     let playBtn = document.getElementById("playBtn")
 
-//----------------------------------------------------------------------------------------------//
+    //----------------------------------------------------------------------------------------------//
     async function play() {
         if (playBtn.value == "Play") {
             playBtn.value = "Stop"
@@ -164,14 +227,18 @@ function undo(){
             selectedCell = cells[i]
             selectedCell.scrollIntoView()
             bpmToMs = 60000 / document.getElementById("bpm").value
-            switch(selectedCell.style.backgroundColor){
-                case "rgb(255, 114, 190)": bpmToMs = bpmToMs/8
+            switch (selectedCell.style.backgroundColor) {
+                case "rgb(255, 114, 190)":
+                    bpmToMs = bpmToMs / 8
                     break;
-                case "deepskyblue": bpmToMs = bpmToMs/4
+                case "deepskyblue":
+                    bpmToMs = bpmToMs / 4
                     break;
-                case "limegreen": bpmToMs = bpmToMs/2
+                case "limegreen":
+                    bpmToMs = bpmToMs / 2
                     break;
-                default:  bpmToMs = 60000 / document.getElementById("bpm").value 
+                default:
+                    bpmToMs = 60000 / document.getElementById("bpm").value
             }
             for (var k = 0; k < 15; k++) {
                 document.getElementById("Key" + k).firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
@@ -192,12 +259,12 @@ function undo(){
 
     //----------------------------------------------------------------------------------------------//
     let oldBpm = document.getElementById("bpm").value
-    document.getElementById("bpm").addEventListener("focus",function(){
-            oldBpm = document.getElementById("bpm").value
+    document.getElementById("bpm").addEventListener("focus", function () {
+        oldBpm = document.getElementById("bpm").value
         this.value = ""
     })
-    document.getElementById("bpm").addEventListener("focusout",function(){
-        if(bpm.value == "") this.value = oldBpm
+    document.getElementById("bpm").addEventListener("focusout", function () {
+        if (bpm.value == "") this.value = oldBpm
     })
     let selectedInstrument = "piano"
     document.getElementById("instrumentSelection").addEventListener("change", function () {
@@ -205,31 +272,39 @@ function undo(){
     })
     var pitchKey = 1
     document.getElementById("keySelection").addEventListener("change", function () {
-        if(this.options[this.selectedIndex].value == "Key") return
+        if (this.options[this.selectedIndex].value == "Key") return
         pitchKey = Math.pow(2, (this.selectedIndex - 1) / 12).toFixed(2)
         let keyBtnTxt = document.getElementsByClassName("btnText")
         for (let i = 0; i < keyBtnTxt.length; i++) {
-        keyBtnTxt[i].innerHTML = keyNames[this.selectedIndex - 1][i]
-    }
+            keyBtnTxt[i].innerHTML = keyNames[this.selectedIndex - 1][i]
+        }
     })
 
     var keyboardBlocked = false
-    function blockKeyboard(btn){
-        if(btn.style.backgroundColor == "rgb(235, 0, 27)"){
+
+    function blockKeyboard(btn) {
+        if (btn.style.backgroundColor == "rgb(235, 0, 27)") {
             btn.style.backgroundColor = "rgb(22, 22, 22)"
             keyboardBlocked = false
-        }else{
+        } else {
             btn.style.backgroundColor = "rgb(235, 0, 27)"
             keyboardBlocked = true
         }
     }
     //----------------------------------------------------------------------------------------------//
 
-    function deleteAll(){
+    function deleteAll() {
         let canDelete = confirm("Do you wish to delete ALL COMPOSITION?")
-        if(canDelete){
+        if (canDelete) {
+            addToHistory()
+            for (var k = 0; k < 15; k++) {
+                document.getElementById("Key" + k).firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+            }
             songContainer.innerHTML = ""
             addPage()
+            quickSave()
+            selectCell(getCell(0))
+            toggleSettings()
         }
     }
 
@@ -242,9 +317,9 @@ function undo(){
 
     function removeCell() {
         addToHistory()
-        if(songContainer.childElementCount < 3) return
+        if (songContainer.childElementCount < 3) return
         var cellToRemove = selectedCell
-        if(getCellPosition(selectedCell) == 0) selectCell(getCell(2))
+        if (getCellPosition(selectedCell) == 0) selectCell(getCell(2))
         before()
         cellToRemove.remove()
     }
@@ -267,7 +342,7 @@ function undo(){
 
     //----------------------------------------------------------------------------------------------//
 
-    function changeTempo(button){
+    function changeTempo(button) {
         selectedCell.style.backgroundColor = button.style.backgroundColor
     }
 
@@ -311,14 +386,18 @@ function undo(){
         var timeStamp = 400
         for (var i = 0; i < cells.length; i++) {
             bpmToMs = 60000 / document.getElementById("bpm").value
-            switch(cells[i].style.backgroundColor){
-                case "rgb(255, 114, 190);": bpmToMs = bpmToMs/8
+            switch (cells[i].style.backgroundColor) {
+                case "rgb(255, 114, 190)":
+                    bpmToMs = bpmToMs / 8
                     break;
-                case "deepskyblue": bpmToMs = bpmToMs/4
+                case "deepskyblue":
+                    bpmToMs = bpmToMs / 4
                     break;
-                case "limegreen": bpmToMs = bpmToMs/2
+                case "limegreen":
+                    bpmToMs = bpmToMs / 2
                     break;
-                default:  bpmToMs = 60000 / document.getElementById("bpm").value 
+                default:
+                    bpmToMs = 60000 / document.getElementById("bpm").value
             }
             for (var j = 0; j < 15; j++) {
                 if (cells[i].children[14 - j].style.backgroundColor == "rgba(235, 0, 27, 0.8)") {
@@ -383,7 +462,7 @@ function undo(){
                 document.getElementById("Key" + j).dispatchEvent(click)
                 document.getElementById("Key" + j).firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
             }
-        } 
+        }
     }
 
     //----------------------------------------------------------------------------------------------//
@@ -399,20 +478,20 @@ function undo(){
         selectedCell.children[14 - n].style.backgroundColor = "transparent"
     }
 
-    function quickSave(){
-        localStorage.setItem("quickStorage",songContainer.innerHTML)
+    function quickSave() {
+        localStorage.setItem("quickStorage", songContainer.innerHTML)
     }
     var quickSavedSong = localStorage.getItem("quickStorage")
-    if(quickSavedSong != null){
-        songContainer.innerHTML = quickSavedSong.replace("opacity: 1;","opacity: 0.6;")
-        for(let i = 0; i < songContainer.childElementCount; i++){
+    if (quickSavedSong != null) {
+        songContainer.innerHTML = quickSavedSong.replace("opacity: 1;", "opacity: 0.6;")
+        for (let i = 0; i < songContainer.childElementCount; i++) {
             songContainer.children[i].addEventListener("pointerdown", function () {
-            if (getCellPosition(selectedCell) == getCellPosition(this)) return
+                if (getCellPosition(selectedCell) == getCellPosition(this)) return
                 selectCell(this)
                 quickSave()
             })
         }
-    }else{
+    } else {
         addPage()
     }
     //----------------------------------------------------------------------------------------------//
@@ -503,11 +582,11 @@ function undo(){
                     }
 
                     btn.addEventListener("pointerdown", function (e) {
-                        buttonPressEvent(this,e.isTrusted)
+                        buttonPressEvent(this, e.isTrusted)
                         e.preventDefault()
                     })
 
-                    function buttonPressEvent(btn,isTrusted) {
+                    function buttonPressEvent(btn, isTrusted) {
                         let btnBg = btn.firstChild
                         let btnImg = btn.childNodes[1]
                         const source = a_ctx.createBufferSource()
@@ -520,7 +599,7 @@ function undo(){
                         btn.classList.toggle("keyScale")
                         resetKeyClass(btn)
                         if (isPlaying || keyboardBlocked) return;
-                        if (isTrusted) addToHistory() 
+                        if (isTrusted) addToHistory()
                         if (btnBg.style.backgroundColor == "rgba(235, 0, 27, 0.7)") {
                             deselectNote(btn.id.replace("Key", ""))
                             btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
@@ -533,13 +612,13 @@ function undo(){
             })
     }
 
-function resetKeyClass(element) {
-    setTimeout(() => {
-        element.childNodes[1].classList.remove("keyTurn")
-        element.classList.remove("keyScale")
-    }, 250)
+    function resetKeyClass(element) {
+        setTimeout(() => {
+            element.childNodes[1].classList.remove("keyTurn")
+            element.classList.remove("keyScale")
+        }, 250)
 
-}
+    }
 
     //----------------------------------------------------------------------------------------------//
 

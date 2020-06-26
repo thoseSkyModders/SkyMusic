@@ -689,7 +689,7 @@ function register() { //function to register the account to the website
         if (response == "true") { //if the server response is true, it proceedes to the next step of the account verification
             resetPages()
             document.getElementById("secondPage").style.display = "block"
-            document.getElementById("confirmationLabel").innerHTML = "CODE FOR: " + credentials.email
+            document.getElementById("code-text-confirm").innerHTML = "Check your email, CODE FOR: " + credentials.email
             document.getElementById("confirmRegistration").style.display = "block"
             document.getElementById("register").style.display = "none"
             return;

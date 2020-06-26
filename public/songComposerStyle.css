@@ -15,7 +15,7 @@ body {
 
 .notesWrapper {
     width: 100%;
-    height: 50vh;
+    height: 45vh;
     align-items: center;
     display: flex;
     flex-direction: row;
@@ -107,8 +107,8 @@ div.full {
 
 .cell {
     display: inline-block;
-    min-width: 20px;
-    width: 1.5vw;
+    min-width: 1.6vw;
+    width: 1.6vw;
     height: 100%;
     margin-right: 0.2em;
     background-color: #dad8b3;
@@ -129,7 +129,7 @@ div.full {
 #bottom {
     display: flex;
     flex-direction: column;
-    height: 50vh;
+    height: 55vh;
     align-content: center;
 }
 
@@ -192,9 +192,7 @@ div.full {
 .skyButton, .tempoButton, .select {
     cursor: pointer;
     height: 30px;
-    margin: 0 2px 0 2px;
-    width: 11%;
-    -webkit-appearance:none;
+    margin: 4px 2px 0 2px;
     min-width: 100px;
 }
 
@@ -209,22 +207,42 @@ div.full {
 
 .tempoButton {
     font-weight: bold;
+    width: 8vw;
+    min-width: 0;
     border: solid 2px #dad8b3;
     text-decoration: none;
     border-radius: 0.3em;
     color: rgba(22, 22, 22, 0.65);
 }
 
+.tempoContainer{
+    position: absolute;
+    bottom: 0.5em;
+    right: 0.5em;
+    display: flex;
+    flex-direction: column;
+}
 .select {
     border: solid 2px #dad8b3;
     text-decoration: none;
     border-radius: 0.3em;
     color: #dad8b3;
+    width: 10vw;
     background-color: rgba(22, 22, 22, 0.65);
     text-align-last: center;
     padding: 0 10px 0 10px;
+    display: block;
+    float: right;
+    margin-left: 1vw;
 }
 
+.settingOption{
+    width: 60%; 
+    color:#dad8b3; 
+    display:inline-block;
+    vertical-align: middle;
+    line-height: 40px;
+}
 .floatingBottomLeft {
     width: 100%;
     padding: 10px;
@@ -236,6 +254,11 @@ div.full {
     justify-content: space-between;
 }
 
+#bpm{
+    float:right;
+    text-align: center;
+    width: 10vw;
+}
 .btnText {
     font-family: Arial;
     color: #dad8b3;
@@ -256,7 +279,7 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
-
+}
 @keyframes click-key {
 	from {
 		transform: scale(1, 1);
@@ -316,4 +339,22 @@ input[type=number] {
 	-webkit-animation-timing-function: linear;
 	-webkit-animation-duration: 0.15s;
 	-webkit-animation-iteration-count: initial;
-	-webkit-animation-play-state: 1;
+    -webkit-animation-play-state: 1;
+}
+
+#settingsDiv{
+    position: absolute;
+    margin:auto;
+    border: 2px solid #dad8b3;
+    border-radius: 10px;
+    background-color: rgba(22, 22, 22, 1);
+    display: none;
+    width: 49%;
+    height: 49%;
+    left: 25%;
+    top:25%;
+    z-index: 100;
+    text-align: left;
+    padding:1vw;
+    overflow-y: auto;
+}
