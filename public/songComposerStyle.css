@@ -232,6 +232,8 @@ div.full {
     white-space: nowrap;
     overflow-x: auto;
     overflow-y: hidden;
+    display: flex;
+    justify-content: space-between;
 }
 
 .btnText {
