@@ -154,7 +154,7 @@
     var undoIndex = 0
 
     function addToHistory() {
-        if (globalHistory.length > 5) {
+        if (globalHistory.length > 8) {
             globalHistory.shift()
             globalHistory.push(songContainer.innerHTML)
         } else {
@@ -430,6 +430,8 @@
 
     function changeTempo(button) {
         selectedCell.style.backgroundColor = button.style.backgroundColor
+        addToHistory()
+        quickSave()
     }
 
     function getCell(n) {

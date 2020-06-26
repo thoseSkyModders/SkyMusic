@@ -365,7 +365,7 @@ input[type=number] {
     background-color: rgba(22, 22, 22, 1);
     display: none;
     width: 30%;
-    height: 30%;
+    height: 35%;
     right: 0.5em;
     bottom: 0.5em;
     z-index: 100;
