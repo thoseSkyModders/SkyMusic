@@ -199,10 +199,11 @@ div.full {
 .skyButton {
     border: solid 2px #dad8b3;
     text-decoration: none;
-    border-radius: 0.3em;
+    border-radius: 0.4em;
     box-sizing: border-box;
     background-color: rgba(22, 22, 22, 0.65);
     color: #dad8b3;
+    font-weight: bold;
 }
 
 .tempoButton {

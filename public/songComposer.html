@@ -36,12 +36,10 @@
     <div class="notesWrapper">
         <div class="toolsContainer">
             <div> 
-                <input class="tool half" type="button" value="<" onclick="before()">
-                <input class="tool half" type="button" value=">" onclick="next()">
+                <input class="tool" type="button" value="<" onclick="before()">
             </div>
             <div>
-                <input class="tool half" type="button" value="-C" onclick="removeCell()">
-                <input class="tool half" type="button" value="+C" onclick="appendCell()">
+                <input class="tool" type="button" value=">" onclick="next()">
             </div>
             <div>
                 <input id="blockKeyboard"class="tool" type="button" style="font-size:0.8em" value="No Keys" onclick="blockKeyboard(this)">
@@ -64,13 +62,17 @@
         <input class="addPage" type="button" value="+" onclick="addPage()">
         <div class="toolsContainer" style="width: 7%; min-width: 75px; margin-left: 5px;">
             <div class="full">
+                <input class="tool" type="button" value="+C" onclick="appendCell()">
+            </div>
+            <div class="full">
+                <input class="tool" type="button" value="-C" onclick="removeCell()">
+            </div>
+            <div class="full">
                 <input class="tool " type="button" value="Copy" onclick="startCopy()">
             </div>
             <div class="full">
                 <input class="tool " type="button" value="Paste" onclick="paste()">
             </div>
-            <div class="full"></div>
-            <div class="full"></div>
         </div>
     </div>
     <div id="bottom" onclick='settingsDiv.style.display = "none"'>
@@ -122,9 +124,8 @@
             </select>
         </div>
         <div class="settingOption">
-            <span>Key</span>
+            <span>Pitch</span>
             <select id="keySelection" class="select">
-                <option selected disabled>Key</option>
                 <option>C</option>
                 <option>D♭</option>
                 <option>D</option>
@@ -349,21 +350,38 @@
         oldBpm = document.getElementById("bpm").value
         this.value = ""
     })
+    if(localStorage.getItem("savedBpm") != null) bpm.value = localStorage.getItem("savedBpm")
     document.getElementById("bpm").addEventListener("focusout", function () {
-        if (bpm.value == "") this.value = oldBpm
+        if (this.value == "" || this.value < 0){
+            this.value = oldBpm
+        }
+        else{
+            localStorage.setItem("savedBpm",this.value)
+        }
     })
-    let selectedInstrument = "piano"
     document.getElementById("instrumentSelection").addEventListener("change", function () {
         changeInstrument(this.options[this.selectedIndex].value)
+        localStorage.setItem("savedInstrumentComposer",this.options[this.selectedIndex].value.toLowerCase())
+        localStorage.setItem("savedInstrumentIndex",this.selectedIndex)
     })
     var pitchKey = 1
+
+    let storedPitchKey = localStorage.getItem("pitchKeyComposer")
+    if(storedPitchKey != null){
+        document.getElementById("keySelection").selectedIndex = storedPitchKey
+        pitchKey = Math.pow(2, (storedPitchKey) / 12).toFixed(2)
+    }else{
+        storedPitchKey = 0
+    }
     document.getElementById("keySelection").addEventListener("change", function () {
-        if (this.options[this.selectedIndex].value == "Key") return
-        pitchKey = Math.pow(2, (this.selectedIndex - 1) / 12).toFixed(2)
+        console.log(this.selectedIndex)
+        pitchKey = Math.pow(2, (this.selectedIndex) / 12).toFixed(2)
         let keyBtnTxt = document.getElementsByClassName("btnText")
         for (let i = 0; i < keyBtnTxt.length; i++) {
-            keyBtnTxt[i].innerHTML = keyNames[this.selectedIndex - 1][i]
+            keyBtnTxt[i].innerHTML = keyNames[this.selectedIndex][i]
         }
+        localStorage.setItem("pitchKeyComposer",this.selectedIndex)
+        storedPitchKey = this.selectedIndex
     })
 
     var keyboardBlocked = false
@@ -414,7 +432,9 @@
 
     function next() {
         let nextCell = parseInt(getCellPosition(selectedCell)) + 1
-        if (nextCell > document.getElementsByClassName("cell").length - 1) return
+        if (nextCell > document.getElementsByClassName("cell").length - 1){
+            addCell(nextCell)
+        }
         selectCell(getCell(nextCell))
     }
 
@@ -637,7 +657,6 @@
         10: ["B♭", "C", "D", "E♭", "F", "G", "A", "B♭", "C", "D", "E♭", "F", "G", "A", "B♭"],
         11: ["B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B"]
     }
-    let urls = instrumentsNotes[selectedInstrument]
     let buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle",
         "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle",
     ]
@@ -655,8 +674,9 @@
                 audioBuffers.forEach((buf, i) => {
                     //Creates button and sets the buttons properties .
                     const btn = document.createElement('div')
-                    let background = "./KeyImages/" + buttonImages[i] + ".png"
-                    btn.innerHTML = "<div class='btnBg'><a class='btnText'>" + keyNames[1 - 1][i] +
+                    let background = "./KeyImages/" + buttonImages[i] + ".svg"
+                    console.log(storedPitchKey)
+                    btn.innerHTML = "<div class='btnBg'><a class='btnText'>" + keyNames[storedPitchKey][i] +
                         "</a></div><img class='btnImg' src='" + background + "'/>"
                     btn.id = "Key" + i++
                     if (i == newRowBreak[0]) j = 2
@@ -723,8 +743,13 @@
     }
 
     //----------------------------------------------------------------------------------------------//
-
-    changeInstrument("piano")
+    let savedInstrumentComposer = localStorage.getItem("savedInstrumentComposer")
+    if(savedInstrumentComposer != null){
+        changeInstrument(savedInstrumentComposer)
+        document.getElementById("instrumentSelection").selectedIndex = localStorage.getItem("savedInstrumentIndex")
+    }else{
+        changeInstrument("piano")
+    } 
     selectedCell = getCell(0)
     selectedCell.style.opacity = "1"
 </script>

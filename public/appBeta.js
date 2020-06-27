@@ -478,7 +478,6 @@ if (localStorage.getItem("disableNextKey") != null) {
         document.getElementById("Disable-next-key-practice").style.backgroundColor = "teal"
     }
 }
-
 function changeSettings(button) { //function that once gotten the button, reads its id and choses which setting it is applied to and writes localstorage with said value
     if (button.style.backgroundColor == "rgba(235, 0, 27, 0.8)") {
         button.style.backgroundColor = "teal"
@@ -486,6 +485,7 @@ function changeSettings(button) { //function that once gotten the button, reads 
         if (button.id == "Disable-next-key-practice") disableNextKey = false, localStorage.setItem("disableNextKey", disableNextKey)
         if (button.id == "Display-Note-Names") {
             let keyTexts = document.getElementsByClassName("btnText")
+            localStorage.setItem("showNoteNames",false)
             for (let i = 0; i < keyTexts.length; i++) { //makes the text inside the key buttons invisible
                 keyTexts[i].style.color = "transparent"
             }
@@ -495,8 +495,9 @@ function changeSettings(button) { //function that once gotten the button, reads 
         if (button.id == "Disable-next-key-practice") disableNextKey = true, localStorage.setItem("disableNextKey", disableNextKey)
         if (button.id == "Display-Note-Names") {
             let keyTexts = document.getElementsByClassName("btnText")
-            for (let i = 0; i < keyTexts.length; i++) { //makes the text inside the key buttons white
-                keyTexts[i].style.color = "white"
+            localStorage.setItem("showNoteNames",true)
+            for (let i = 0; i < keyTexts.length; i++) { //makes the text inside the key buttons yellow
+                keyTexts[i].style.color = "#dad8b3"
             }
         }
         button.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
@@ -1140,7 +1141,7 @@ function initializeKeyboard(){
         audioBuffers.forEach((buf, i) => {
             //Creates button and sets the buttons properties .
             const btn = document.createElement('div')
-            let background = "./KeyImages/" + buttonImages[i] + ".png"
+            let background = "./KeyImages/" + buttonImages[i] + ".svg"
             btn.innerHTML = "<div class='btnBg'><a class='btnText'>" + keyNames[keyButtonName - 1][i] + "</a></div><img class='btnImg' src='" + background + "'/>"
             btn.id = "Key" + i++
             if (i == newRowBreak[0]) j = 2
@@ -1183,8 +1184,15 @@ function initializeKeyboard(){
                 resetKeyClass(btn)
             }
         })
+    }).then(() => {
+        if(localStorage.getItem("showNoteNames") == "true"){
+            document.getElementById("Display-Note-Names").style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+            let keyTexts = document.getElementsByClassName("btnText")
+            for (let i = 0; i < keyTexts.length; i++) { //makes the text inside the key buttons yellow
+                keyTexts[i].style.color = "#dad8b3"
+            }
+        }
     })
-
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1193,7 +1201,7 @@ function resetKeyClass(element) {
     setTimeout(() => {
         element.childNodes[1].classList.remove("keyTurn")
         element.classList.remove("keyScale")
-    }, 250)
+    }, 200)
 
 }
 
@@ -1860,3 +1868,4 @@ function retry() {
 //delay function
 const delay = ms => new Promise(res => setTimeout(res, ms))
 initializeKeyboard()
+
