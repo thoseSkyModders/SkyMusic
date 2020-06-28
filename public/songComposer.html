@@ -23,8 +23,6 @@
           <meta property="og:description" content="Compose songs for Sky Music">
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="shortcut icon" href="/favicon.png?v=2" type="image/x-icon" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
     <title>Sky Music</title>
@@ -36,10 +34,10 @@
     <div class="notesWrapper">
         <div class="toolsContainer">
             <div> 
-                <input class="tool" type="button" value="<" onclick="before()">
+                <input id="before" class="tool" type="button" value="<" onclick="before()">
             </div>
             <div>
-                <input class="tool" type="button" value=">" onclick="next()">
+                <input id="next" class="tool" type="button" value=">" onclick="next()">
             </div>
             <div>
                 <input id="blockKeyboard"class="tool" type="button" style="font-size:0.8em" value="No Keys" onclick="blockKeyboard(this)">
@@ -62,10 +60,10 @@
         <input class="addPage" type="button" value="+" onclick="addPage()">
         <div class="toolsContainer" style="width: 7%; min-width: 75px; margin-left: 5px;">
             <div class="full">
-                <input class="tool" type="button" value="+C" onclick="appendCell()">
+                <input id="+C" class="tool" type="button" value="+C" onclick="appendCell()">
             </div>
             <div class="full">
-                <input class="tool" type="button" value="-C" onclick="removeCell()">
+                <input id="-C" class="tool" type="button" value="-C" onclick="removeCell()">
             </div>
             <div class="full">
                 <input class="tool " type="button" value="Copy" onclick="startCopy()">
@@ -140,7 +138,15 @@
                 <option>B</option>
             </select>
         </div><br>
-        <input type="button" style="border-color: rgba(235, 0, 27, 1); color: rgba(235, 0, 27, 1);" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
+        <div class="settingOption">
+            <span>Load song</span>
+            <select id="loadSongSelect" class="select">
+                <option selected disabled>Song</option>
+            </select><br>
+            <span style="line-height: 5px;">(Not accurate)</span>
+        </div>
+
+        <input type="button" style="border-color: rgba(235, 0, 27, 1); color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
 </body>
 <script>
@@ -181,7 +187,6 @@
 
     function toggleSettings(){
         let settingsDiv = document.getElementById("settingsDiv")
-        console.log(settingsDiv)
         if (settingsDiv.style.display != "block") {
             settingsDiv.style.display = "block"
         } else {
@@ -222,6 +227,28 @@
             alert("Missing start or end!")
         }
     }
+
+    document.addEventListener('keydown', function(event) {
+        console.log(event.keyCode)
+        if(event.keyCode == 65) {
+            before()
+        }
+        if(event.keyCode == 68) {
+            next()
+        }
+        if(event.keyCode == 32) {
+            play()
+        }
+        if(event.keyCode == 81) {
+            removeCell()
+        }
+        if(event.keyCode == 69) {
+            appendCell()
+        }
+        if(event.keyCode == 90) {
+            undo()
+        }
+    });
 
     function paste(){
         addToHistory()
@@ -265,7 +292,6 @@
         document.getElementById("endCopyBtn").style.color = copySelectionColor
         let cells = document.getElementsByClassName("cell")
         for (let i = 0; i < cells.length; i++) {
-            console.log(cells[i].style.borderColor)
             if(cells[i].style.borderColor == "rgb(0, 235, 207)") cells[i].style.border = ""
             cells[i].addEventListener("click", selectCopy)
         }
@@ -374,7 +400,6 @@
         storedPitchKey = 0
     }
     document.getElementById("keySelection").addEventListener("change", function () {
-        console.log(this.selectedIndex)
         pitchKey = Math.pow(2, (this.selectedIndex) / 12).toFixed(2)
         let keyBtnTxt = document.getElementsByClassName("btnText")
         for (let i = 0; i < keyBtnTxt.length; i++) {
@@ -405,6 +430,7 @@
                 document.getElementById("Key" + k).firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
             }
             songContainer.innerHTML = ""
+            
             addPage()
             quickSave()
             selectCell(getCell(0))
@@ -602,6 +628,86 @@
     } else {
         addPage()
     }
+
+    let localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
+    let loadSongSelect = document.getElementById("loadSongSelect")
+    if(localStorageSongs != null){
+        for(let i = 0; i<localStorageSongs.length;i++){
+            var option = document.createElement("option")
+            option.innerHTML = localStorageSongs[i].name
+            loadSongSelect.appendChild(option)
+        }
+    }
+    loadSongSelect.addEventListener("change",function(){
+        localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
+        let selectedIndex = this.selectedIndex
+        if(selectedIndex == 0) return
+        importSong(localStorageSongs[selectedIndex - 1].songNotes)
+    })
+
+
+    function importSong(song){
+        let importBpm = 220
+        let pauseThreshold = 60000 / importBpm
+        let threshold = 80
+        let parsedSong = []
+        songContainer.innerHTML = ""
+        while(true){
+            let keysToPress = []
+            let hasPause = false
+            for (let j = 0; j < song.length; j++) {
+                if ((song[j].time - song[0].time) < threshold) { //if the time between the next keys is lower than the threshold then it appends to the keys to be played
+                    keysToPress.push(song[j])
+                }
+            }
+            song.splice(0, keysToPress.length)
+            parsedSong.push(keysToPress)
+            if(song.length == 0 )break
+            let lastNoteTime = keysToPress[keysToPress.length-1].time
+            if(song[0].time - lastNoteTime > pauseThreshold){
+                let pauseTime = song[0].time - lastNoteTime
+                while(true){
+                    if(pauseTime <= pauseThreshold){
+                        if(pauseTime <= pauseThreshold/2){
+                            if(pauseTime <= pauseThreshold/4){
+                                if(pauseTime <= pauseThreshold/8){
+                                    break
+                                }else{
+                                    parsedSong.push([4])
+                                }
+                            }else{
+                                parsedSong.push([3])
+                            }
+                        }else{
+                            parsedSong.push([2])
+                        }
+                    }else{
+                        parsedSong.push([1])
+                    }
+                    pauseTime -= 60000 / importBpm
+                }
+
+            }
+        }
+        for(var i = 0;i<parsedSong.length;i++){
+            addCell()
+            for(let j = 0; j<parsedSong[i].length;j++){
+                switch(parsedSong[i][0]){
+                    case 1: break
+                    case 2: getCell(i).style.backgroundColor = "limegreen"; break
+                    case 3: getCell(i).style.backgroundColor = "deepskyblue"; break
+                    case 4: getCell(i).style.backgroundColor = "rgb(255, 114, 190)"; break
+                    default: {
+                        let key = parsedSong[i][j].key.replace("Key","")
+                        selectedCell = getCell(i)
+                        selectNote(key)
+                    }
+                }
+            }
+        }
+        selectCell(getCell(0))
+        toggleSettings()
+    }
     //----------------------------------------------------------------------------------------------//
     const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
     const db_url = './Sounds/'
@@ -675,7 +781,6 @@
                     //Creates button and sets the buttons properties .
                     const btn = document.createElement('div')
                     let background = "./KeyImages/" + buttonImages[i] + ".svg"
-                    console.log(storedPitchKey)
                     btn.innerHTML = "<div class='btnBg'><a class='btnText'>" + keyNames[storedPitchKey][i] +
                         "</a></div><img class='btnImg' src='" + background + "'/>"
                     btn.id = "Key" + i++

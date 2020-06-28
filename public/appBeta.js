@@ -1141,7 +1141,7 @@ function initializeKeyboard(){
         audioBuffers.forEach((buf, i) => {
             //Creates button and sets the buttons properties .
             const btn = document.createElement('div')
-            let background = "./KeyImages/" + buttonImages[i] + ".svg"
+            let background = "./KeyImages/" + buttonImages[i] + ".png"
             btn.innerHTML = "<div class='btnBg'><a class='btnText'>" + keyNames[keyButtonName - 1][i] + "</a></div><img class='btnImg' src='" + background + "'/>"
             btn.id = "Key" + i++
             if (i == newRowBreak[0]) j = 2
