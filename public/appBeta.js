@@ -433,7 +433,6 @@ function togglePitchList() { //Shows the side menu (on the right) to chose the p
 }
 
 function toggleSongRange() { //Shows the sideways input range to pick from what note to retry
-    let songRange = document.getElementById("songRange")
     $(instrumentsWrapper).fadeOut(50)
     $(pitchTab).fadeOut(50)
 
@@ -996,8 +995,9 @@ function changeInstrument(button) { //function to change the instrument
 
 //--------------------------------------------------------------------------------------------------------//
 function changePitch(value) {
-    document.getElementById("togglePitchList").innerHTML = "Key " + value.innerHTML
-    keyButtonName = value.innerHTML
+    let  keyNumber = value.getAttribute("key")
+    document.getElementById("togglePitchList").innerHTML = "Key " + keyNumber
+    keyButtonName = keyNumber
     let buttons = document.getElementsByClassName("pitchSelection")
     let keyBtnTxt = document.getElementsByClassName("btnText")
     for (let i = 0; i < keyBtnTxt.length; i++) {
@@ -1008,7 +1008,7 @@ function changePitch(value) {
     }
     value.style.color = "rgba(235, 0, 27, 0.7)"
     pitchTab.style.display = "none"
-    let pValue = parseInt(value.innerHTML)
+    let pValue = parseInt(keyNumber)
     let pitchValue = Math.pow(2, (pValue - 1) / 12)
     if (!isNaN(pitchValue)) {
         pitchKey = pitchValue.toFixed(2)
@@ -1734,14 +1734,20 @@ function stopSong() {
     $(songRange).fadeOut(200)
 }
 
+let date = new Date
+let globalPlayTimestamp = date.getTime()
 async function playSong(song) {
     document.getElementById("stopSong").style.visibility = "visible"
     $(songRange).fadeOut(200)
     let delayTime = 0
     let previousTime = 0
+    date = new Date
+    let startSongTimestamp = date.getTime()
+    globalPlayTimestamp = startSongTimestamp
     isSongStopped = false
     for (let i = 0; i < song.length; i++) {
         if (isSongStopped) break;
+        if (globalPlayTimestamp != startSongTimestamp) break
         delayTime = song[i].time - previousTime //how much time has to pass from one note to the other
         previousTime = song[i].time //the time from the start of the previous note, to be later calculated to get the delayTime
         await delay(delayTime)

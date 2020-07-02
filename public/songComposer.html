@@ -34,10 +34,10 @@
     <div class="notesWrapper">
         <div class="toolsContainer">
             <div> 
-                <input id="before" class="tool" type="button" value="<" onclick="before()">
+                <input id="before" class="tool" type="button" style="background-image: url('./icons/next_back_arrows.svg');" onclick="before()">
             </div>
             <div>
-                <input id="next" class="tool" type="button" value=">" onclick="next()">
+                <input id="next" class="tool mirrorX" type="button" style="background-image: url('./icons/next_back_arrows.svg');" onclick="next()">
             </div>
             <div>
                 <input id="blockKeyboard"class="tool" type="button" style="font-size:0.8em" value="No Keys" onclick="blockKeyboard(this)">
@@ -49,8 +49,7 @@
                 <input class="tool" type="button" value="Save" onclick="save()">
             </div>
             <div >
-                <input class="tool" type="button" value="⚙️" onclick="toggleSettings()">
-                    <!--<img src="menu.png" style="height: 80%;" onclick="toggleSettings()">-->
+                <input class="tool" type="button"  style="background-size:45%; background-image: url('./icons/settingsIcon.svg');" onclick="toggleSettings()">
             </div>
             <div class="full">
                 <input id="playBtn" class="tool" type="button" value="Play" onclick="play()">
@@ -229,7 +228,6 @@
     }
 
     document.addEventListener('keydown', function(event) {
-        console.log(event.keyCode)
         if(event.keyCode == 65) {
             before()
         }

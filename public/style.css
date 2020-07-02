@@ -17,6 +17,13 @@
 	font-family: arial;
 }
 
+#failedToLoad{
+	display: none;
+	height: 0;
+	width: 0;
+	position: absolute;
+	
+}
 .btnText {
 	color: transparent;
 	font-family: Arial;

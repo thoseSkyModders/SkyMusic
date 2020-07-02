@@ -35,6 +35,10 @@
 </head>
 
 <body style="touch-action: pan-x pan-y;">
+
+    <h1 id="failedToLoad" style="font-size: 3em;">If you see this, the website failed to load, please refresh one or two times!<br>
+      In case it doesn't work, email us at thoseskymodders@gmail.com
+    </h1>
     <div id="setScale" align=center>
         <h2 id="welcome-text">Welcome to Sky Music!</h2>
         <div id="scale-text">
@@ -249,18 +253,18 @@
         
     </div>
     <div id="pitchTab" class="instrumentsWrapper">
-        <button class="pitchSelection" onclick="changePitch(this)">1</button>
-        <button class="pitchSelection" onclick="changePitch(this)">2</button>
-        <button class="pitchSelection" onclick="changePitch(this)">3</button>
-        <button class="pitchSelection" onclick="changePitch(this)">4</button>
-        <button class="pitchSelection" onclick="changePitch(this)">5</button>
-        <button class="pitchSelection" onclick="changePitch(this)">6</button>
-        <button class="pitchSelection" onclick="changePitch(this)">7</button>
-        <button class="pitchSelection" onclick="changePitch(this)">8</button>
-        <button class="pitchSelection" onclick="changePitch(this)">9</button>
-        <button class="pitchSelection" onclick="changePitch(this)">10</button>
-        <button class="pitchSelection" onclick="changePitch(this)">11</button>
-        <button class="pitchSelection" onclick="changePitch(this)" style="border:none;">12</button>
+        <button class="pitchSelection" key=1 onclick="changePitch(this)">C</button>
+        <button class="pitchSelection" key=2 onclick="changePitch(this)">D♭</button>
+        <button class="pitchSelection" key=3 onclick="changePitch(this)">D</button>
+        <button class="pitchSelection" key=4 onclick="changePitch(this)">E♭</button>
+        <button class="pitchSelection" key=5 onclick="changePitch(this)">E</button>
+        <button class="pitchSelection" key=6 onclick="changePitch(this)">F</button>
+        <button class="pitchSelection" key=7 onclick="changePitch(this)">G♭</button>
+        <button class="pitchSelection" key=8 onclick="changePitch(this)">G</button>
+        <button class="pitchSelection" key=9 onclick="changePitch(this)">A♭</button>
+        <button class="pitchSelection" key=10 onclick="changePitch(this)">A</button>
+        <button class="pitchSelection" key=11 onclick="changePitch(this)">B♭</button>
+        <button class="pitchSelection" key=12 onclick="changePitch(this)" style="border:none;">B</button>
     </div>
     <div id="songRange" class="songRange">
         <input type="number" id="startingNoteRange" value="0"><br>
