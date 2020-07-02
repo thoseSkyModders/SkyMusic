@@ -996,7 +996,7 @@ function changeInstrument(button) { //function to change the instrument
 //--------------------------------------------------------------------------------------------------------//
 function changePitch(value) {
     let  keyNumber = value.getAttribute("key")
-    document.getElementById("togglePitchList").innerHTML = "Key " + keyNumber
+    document.getElementById("togglePitchList").innerHTML = "Key " + value.innerHTML
     keyButtonName = keyNumber
     let buttons = document.getElementsByClassName("pitchSelection")
     let keyBtnTxt = document.getElementsByClassName("btnText")
@@ -1053,7 +1053,7 @@ if (pitchKey == null || pitchKey == "" || isNaN(pitchKey)) {
 let keyButtonName = parseInt((Math.log2(pitchKey) * 12 + 1).toFixed(0))
 let keyButtons = document.getElementsByClassName("pitchSelection")
 keyButtons[keyButtonName - 1].style.color = "rgba(235, 0, 27, 0.7)"
-document.getElementById("togglePitchList").innerHTML = "Key " + keyButtonName
+document.getElementById("togglePitchList").innerHTML = "Key " + document.getElementById("pitchTab").children[keyButtonName-1].innerHTML
 //Changes url of the instrument using the stored value in localStorage
 let urls = instrumentsNotes[storedInstrument]
 
@@ -1743,18 +1743,19 @@ async function playSong(song) {
     let previousTime = 0
     date = new Date
     let startSongTimestamp = date.getTime()
+    let ignoreStop = false
     globalPlayTimestamp = startSongTimestamp
     isSongStopped = false
     for (let i = 0; i < song.length; i++) {
         if (isSongStopped) break;
-        if (globalPlayTimestamp != startSongTimestamp) break
+        if (globalPlayTimestamp != startSongTimestamp){ ignoreStop = true; break}
         delayTime = song[i].time - previousTime //how much time has to pass from one note to the other
         previousTime = song[i].time //the time from the start of the previous note, to be later calculated to get the delayTime
         await delay(delayTime)
         document.getElementById(song[i].key).dispatchEvent(click);
     }
     isSongStopped = false
-    document.getElementById("stopSong").style.visibility = "hidden"
+    if(!ignoreStop) document.getElementById("stopSong").style.visibility = "hidden"
 }
 
 
