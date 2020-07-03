@@ -1,4 +1,4 @@
-<html>
+<html manifest="webCache.appcache">
 
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166077524-1"></script>
@@ -28,6 +28,7 @@
     <title>Sky Music</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" href="songComposerStyle.css" type="text/css">
+    <script src="/scripts/Midi.js"></script>
 </head>
 
 <body>
@@ -137,6 +138,11 @@
                 <option>B</option>
             </select>
         </div><br>
+        <div class="settingOption" style="color: limegreen;">
+            <span>Import MIDI</span>
+            <button class="skyButton" style="float: right;" onclick="openMIDI()">Select file</button>
+            <input type="file" style="display: none;" id="filePicker"/>
+        </div>
         <div class="settingOption">
             <span>Load song</span>
             <select id="loadSongSelect" class="select">
@@ -144,8 +150,25 @@
             </select><br>
             <span style="line-height: 5px;">(Not accurate)</span>
         </div>
-
         <input type="button" style="border-color: rgba(235, 0, 27, 1); color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
+    </div>
+    <div id="importMIDIDiv" style="display: none; height: 50%; width: 40%; opacity: 0.9;">
+        Find the best offset by increasing or decreasing the value
+        <div class="settingOption full"> 
+            <div style="display: flex; flex-direction: row;  margin-top: 5%;">
+                <span>Offset:</span>
+                <input id="offset" type="number" value=12 class="skyButton" style="min-width: 15%; width: 15%; text-align: center; margin-right: 15%;" placeholder="Offset">
+                    <input type="button" value="-"  class="skyButton" style="min-width: 15%; width: 25%;" onclick="changeOffset(-1)">
+                    <input type="button" value="+"  class="skyButton" style="min-width: 15%; width: 25%;" onclick="changeOffset(1)">
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: row; justify-content: center; margin-top: 5%; margin-bottom: 5%;">
+            BPM 
+            <input id="midiBPM" type="range" min="50" max="500" value="220" step="5" style="width: 60%; margin:0 5px 0 5px">
+            <span id="midiBPMText">220</span>
+        </div>
+        <span style="display: flex; flex-direction: row; justify-content: center;">Success percentage: <span id="successPercentage">0%</span></span>
+        <input type="button" value="Done"  class="skyButton" onclick="this.parentNode.style.display = 'none',quickSave(),addToHistory()">
     </div>
 </body>
 <script>
@@ -155,7 +178,92 @@
             event.returnValue = '';
          });
     */
+let offset = document.getElementById("offset")
+    offset.addEventListener("change",function(){
+        changeOffset(0)
+    })
+function changeOffset(change){
+    offset.value = parseInt(offset.value) + change 
+    loadMIDI()
+    stopPlaying = true
+}
 
+let midiBPM = document.getElementById("midiBPM")
+midiBPM.addEventListener("input",function(){
+    document.getElementById("midiBPMText").innerHTML = this.value
+    document.getElementById("bpm").value = this.value
+})
+
+let globalMidi
+function openMIDI(){
+    importMIDIDiv.style.display = "none"
+    filePicker.addEventListener("change", function() {
+        const reader = new FileReader()
+        reader.onload = function(e) {
+            const midi = new Midi(e.target.result)
+            console.log(midi)
+            globalMidi = midi
+            toggleSettings()
+            importMIDIDiv.style.display = "block"
+            document.getElementById("settingsDiv").style.display = "none"
+            loadMIDI()
+        }
+        reader.readAsArrayBuffer(this.files[0])
+    })
+    filePicker.click()
+}
+
+function loadMIDI(){
+    let midi = globalMidi
+    let songNotes = midi.tracks[0].notes
+    let bpm = document.getElementById("bpm").value
+    let offsetValue = offset.value
+    let parsedSong = []
+    let numOfAccidentals = 0
+    for(let i = 0; i<songNotes.length;i++){
+        var noteToAdd = songNotes[i].midi - offsetValue
+            switch (noteToAdd) {
+                case 36:noteToAdd = 0 ;break;
+                case 37:noteToAdd = 0 ; numOfAccidentals++;break;
+                case 38:noteToAdd = 1 ;break;
+                case 39:noteToAdd = 1 ; numOfAccidentals++;break;
+                case 40:noteToAdd = 2 ;break;
+                case 41:noteToAdd = 3 ;break;
+                case 42:noteToAdd = 3 ; numOfAccidentals++;break;
+                case 43:noteToAdd = 4 ;break;
+                case 44:noteToAdd = 4 ; numOfAccidentals++;break;
+                case 45:noteToAdd = 5 ;break;
+                case 46:noteToAdd = 5 ; numOfAccidentals++;break;
+                case 47:noteToAdd = 6 ;break;
+                case 48:noteToAdd = 7 ;break;
+                case 49:noteToAdd = 7 ; numOfAccidentals++;break;
+                case 50:noteToAdd = 8 ;break;
+                case 51:noteToAdd = 8 ; numOfAccidentals++;break;
+                case 52:noteToAdd = 9 ;break;
+                case 53:noteToAdd = 10 ;break;
+                case 54:noteToAdd = 10 ; numOfAccidentals++;break;
+                case 55:noteToAdd = 11 ;break;
+                case 56:noteToAdd = 11 ; numOfAccidentals++;break;
+                case 57:noteToAdd = 12 ;break;
+                case 58:noteToAdd = 12 ; numOfAccidentals++;break;
+                case 59:noteToAdd = 13 ;break;
+                case 60:noteToAdd = 14 ;break;
+                default:noteToAdd = null
+            }
+            if(noteToAdd != null){
+                let objKey = {
+                    key:"Key"+noteToAdd,
+                    time:Math.floor(songNotes[i].time * 500)
+                }
+                parsedSong.push(objKey)
+            }
+    }
+    console.log(numOfAccidentals)
+    if(parsedSong.length == 0 ) return
+    document.getElementById("successPercentage").innerHTML = Math.floor((parsedSong.length - numOfAccidentals) / songNotes.length * 100) +"%"
+    selectCell(getCell(0))
+    importSong(parsedSong,true)
+}
     var globalHistory = []
     var undoIndex = 0
 
@@ -227,7 +335,7 @@
         }
     }
 
-    document.addEventListener('keydown', function(event) {
+    document.addEventListener('keyup', function(event) {
         if(event.keyCode == 65) {
             before()
         }
@@ -644,7 +752,8 @@
     })
 
 
-    function importSong(song){
+    function importSong(song,ignoreSettings){
+        if(ignoreSettings == undefined) ignoreSettings = false
         let importBpm = 220
         let pauseThreshold = 60000 / importBpm
         let threshold = 80
@@ -704,7 +813,7 @@
             }
         }
         selectCell(getCell(0))
-        toggleSettings()
+        if(!ignoreSettings)toggleSettings()
     }
     //----------------------------------------------------------------------------------------------//
     const a_ctx = new(window.AudioContext || window.webkitAudioContext)()

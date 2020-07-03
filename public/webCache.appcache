@@ -1,9 +1,11 @@
 CACHE MANIFEST
-#V5 24/06/2020 added song composer
+#V5.1 24/06/2020 added song composer to appcache
 #REMEMBER TO CHANGE THIS FOR EVERY UPDATE
 /AnimatedBG/skygame-banner2.mp4
 #bells
 app.js
+songComposerStyle.css
+songComposer.html
 style.css
 reverb4.wav
 favicon.png
@@ -121,6 +123,8 @@ menu.png
 /Sounds/OldHarp/13.mp3
 /Sounds/OldHarp/14.mp3
 #icons
+/icons/next_back_arrows.svg
+/icons/settingsIcon.svg
 /icons/download.png
 /icons/exitFullScreen.png
 /icons/reverb.png
@@ -139,5 +143,9 @@ menu.png
 /KeyImages/Circle.png
 /KeyImages/Diamond.png
 /KeyImages/diamondCircle.png
+/KeyImages/Circle.svg
+/KeyImages/Diamond.svg
+/KeyImages/diamondCircle.svg
+/scripts/Midi.js
 NETWORK:
 *
