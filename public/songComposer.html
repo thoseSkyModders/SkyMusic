@@ -140,7 +140,7 @@
         </div><br>
         <div class="settingOption" style="color: limegreen;">
             <span>Import MIDI</span>
-            <button class="skyButton" style="float: right;" onclick="openMIDI()">Select file</button>
+            <button class="skyButton" style="float: right; width: 10vw;" onclick="openMIDI()">Select file</button>
             <input type="file" style="display: none;" id="filePicker"/>
         </div>
         <div class="settingOption">
@@ -152,22 +152,34 @@
         </div>
         <input type="button" style="border-color: rgba(235, 0, 27, 1); color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
-    <div id="importMIDIDiv" style="display: none; height: 50%; width: 40%; opacity: 0.9;">
-        Find the best offset by increasing or decreasing the value
+    <div id="importMIDIDiv" style="display: none; height: 50%; width: 40%; opacity: 0.9; font-size: 0.9em;">
+        Find the best offset and layer by increasing or decreasing the value
         <div class="settingOption full"> 
-            <div style="display: flex; flex-direction: row;  margin-top: 5%;">
+            <div style="display: flex; flex-direction: row;  margin-top: 2%;">
                 <span>Offset:</span>
-                <input id="offset" type="number" value=12 class="skyButton" style="min-width: 15%; width: 15%; text-align: center; margin-right: 15%;" placeholder="Offset">
-                    <input type="button" value="-"  class="skyButton" style="min-width: 15%; width: 25%;" onclick="changeOffset(-1)">
-                    <input type="button" value="+"  class="skyButton" style="min-width: 15%; width: 25%;" onclick="changeOffset(1)">
+                <div style="display: flex; justify-content: flex-end; width: 100%;">
+                    <input id="offset" type="number" value=12 class="skyButton" style="min-width: 15%; width: 6vw; text-align: center; margin-right: 10vw;" placeholder="Offset">
+                    <input type="button" value="-"  class="skyButton" style="min-width: 15%; width: 6vw;" onclick="changeOffset(-1)">
+                    <input type="button" value="+"  class="skyButton" style="min-width: 15%; width: 6vw;" onclick="changeOffset(1)">
+                </div>
             </div>
         </div>
+        <div class="settingOption full"> 
+            <div style="display: flex; flex-direction: row;  margin-top: 1%;">
+                <span id="numOfLayers" style="white-space: nowrap">Layer:</span>    
+                <div style=" display: flex; justify-content: flex-end; width: 100%;">
+                    <input id="layerNumberText" type="number" value=1 class="skyButton" style="min-width: 15%; width: 6vw; text-align: center; margin-right: 10vw;" placeholder="Layer" disabled>
+                    <input type="button" value="-"  class="skyButton" style="min-width: 15%; width: 6vw;" onclick="changeLayer(-1)">
+                    <input type="button" value="+"  class="skyButton" style="min-width: 15%; width: 6vw;" onclick="changeLayer(1)">
+                </div>
+            </div>
+        </div>
+        <span id="successColor" style="display: flex; flex-direction: row; justify-content: center;">Success percentage: <span id="successPercentage">0%</span></span>
         <div style="display: flex; flex-direction: row; justify-content: center; margin-top: 5%; margin-bottom: 5%;">
             BPM 
             <input id="midiBPM" type="range" min="50" max="500" value="220" step="5" style="width: 60%; margin:0 5px 0 5px">
             <span id="midiBPMText">220</span>
         </div>
-        <span style="display: flex; flex-direction: row; justify-content: center;">Success percentage: <span id="successPercentage">0%</span></span>
         <input type="button" value="Done"  class="skyButton" onclick="this.parentNode.style.display = 'none',quickSave(),addToHistory()">
     </div>
 </body>
@@ -203,6 +215,8 @@ function openMIDI(){
             const midi = new Midi(e.target.result)
             console.log(midi)
             globalMidi = midi
+            layerNumber = 0
+            document.getElementById("layerNumberText").value = layerNumber + 1
             toggleSettings()
             importMIDIDiv.style.display = "block"
             document.getElementById("settingsDiv").style.display = "none"
@@ -213,9 +227,18 @@ function openMIDI(){
     filePicker.click()
 }
 
+let layerNumber = 0
+function changeLayer(value){
+    let newLayerNumber = layerNumber + value
+    if(newLayerNumber < 0 || newLayerNumber > globalMidi.tracks.length - 1) return
+        layerNumber = newLayerNumber
+        document.getElementById("layerNumberText").value = layerNumber + 1
+        loadMIDI()
+}
 function loadMIDI(){
     let midi = globalMidi
-    let songNotes = midi.tracks[0].notes
+    document.getElementById("numOfLayers").innerHTML = "Layer:("+midi.tracks.length+")"
+    let songNotes = midi.tracks[layerNumber].notes
     let bpm = document.getElementById("bpm").value
     let offsetValue = offset.value
     let parsedSong = []
@@ -258,9 +281,12 @@ function loadMIDI(){
                 parsedSong.push(objKey)
             }
     }
-    console.log(numOfAccidentals)
     if(parsedSong.length == 0 ) return
-    document.getElementById("successPercentage").innerHTML = Math.floor((parsedSong.length - numOfAccidentals) / songNotes.length * 100) +"%"
+    let successPercentageValue = Math.floor((parsedSong.length - numOfAccidentals) / songNotes.length * 100)
+    document.getElementById("successPercentage").innerHTML = successPercentageValue +"%"
+    if(successPercentageValue < 50) document.getElementById("successColor").style.color = "#FE4C4C"
+    if(successPercentageValue > 50 && successPercentageValue < 70) document.getElementById("successColor").style.color = "orange"
+    if(successPercentageValue > 70) document.getElementById("successColor").style.color = "lightgreen"
     selectCell(getCell(0))
     importSong(parsedSong,true)
 }
@@ -334,24 +360,35 @@ function loadMIDI(){
             alert("Missing start or end!")
         }
     }
-
+    let releasedKey = true
     document.addEventListener('keyup', function(event) {
+        releasedKey = true
+    })
+    document.addEventListener('keydown', function(event) {
         if(event.keyCode == 65) {
+            document.activeElement.blur();
             before()
         }
         if(event.keyCode == 68) {
+            document.activeElement.blur();
             next()
         }
         if(event.keyCode == 32) {
+            document.activeElement.blur();
+            if(!releasedKey) return
+            releasedKey = false
             play()
         }
         if(event.keyCode == 81) {
+            document.activeElement.blur();
             removeCell()
         }
         if(event.keyCode == 69) {
+            document.activeElement.blur();
             appendCell()
         }
         if(event.keyCode == 90) {
+            document.activeElement.blur();
             undo()
         }
     });
@@ -417,6 +454,14 @@ function loadMIDI(){
             cells[i].style.border = ""
         }
     }
+
+    function scrollPage(cell){
+        for(let i = 0; i < 5; i++){
+            if(cell.nextSibling == null) break
+            cell = cell.nextSibling
+        }
+        cell.scrollIntoView()
+    }
     //----------------------------------------------------------------------------------------------//
 
     let click = new PointerEvent("pointerdown")
@@ -425,26 +470,34 @@ function loadMIDI(){
     let stopPlaying = true
     let playBtn = document.getElementById("playBtn")
 
+
+    function disableCells(isDisabled){
+        let cells = Array.prototype.slice.call(document.getElementsByClassName("cell"), 0);
+        for(let i = 0; i<cells.length;i++){
+            cells[i].style.pointerEvents = isDisabled
+        }
+    }
     //----------------------------------------------------------------------------------------------//
     async function play() {
         if (playBtn.value == "Play") {
             playBtn.value = "Stop"
+            disableCells("none")
         } else {
             stopPlaying = true
             playBtn.value = "Play"
+            disableCells("auto")
             return;
         }
         let startIndex = getCellPosition(selectedCell)
         isPlaying = true
         stopPlaying = false
         let cells = Array.prototype.slice.call(document.getElementsByClassName("cell"), 0);
-
         let bpmToMs = 60000 / document.getElementById("bpm").value
         for (var i = startIndex; i < cells.length; i++) {
             cells[i].style.opacity = "1"
             selectedCell.style.opacity = "0.6"
             selectedCell = cells[i]
-            selectedCell.scrollIntoView()
+            scrollPage(selectedCell)
             bpmToMs = 60000 / document.getElementById("bpm").value
             switch (selectedCell.style.backgroundColor) {
                 case "rgb(255, 114, 190)":
@@ -472,6 +525,7 @@ function loadMIDI(){
             await delay(bpmToMs)
         }
         playBtn.value = "Play"
+        disableCells("auto")
         stopPlaying = true
         isPlaying = false
     }
@@ -567,6 +621,7 @@ function loadMIDI(){
         if (nextCell > document.getElementsByClassName("cell").length - 1){
             addCell(nextCell)
         }
+        scrollPage(getCell(nextCell))
         selectCell(getCell(nextCell))
     }
 
@@ -575,6 +630,7 @@ function loadMIDI(){
     function before() {
         let previousCell = parseInt(getCellPosition(selectedCell)) - 1
         if (previousCell < 0) return
+        getCell(previousCell).scrollIntoView()
         selectCell(getCell(previousCell))
     }
 
@@ -683,7 +739,7 @@ function loadMIDI(){
     //----------------------------------------------------------------------------------------------//
 
     function addPage() {
-        for (var i = 0; i < 12; i++) {
+        for (var i = 0; i < 16; i++) {
             addCell("end")
         }
     }
