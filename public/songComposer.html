@@ -1,4 +1,4 @@
-<html manifest="webCache.appcache">
+<html>
 
 <head>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166077524-1"></script>
@@ -147,8 +147,7 @@
             <span>Load song</span>
             <select id="loadSongSelect" class="select">
                 <option selected disabled>Song</option>
-            </select><br>
-            <span style="line-height: 5px;">(Not accurate)</span>
+            </select>
         </div>
         <input type="button" style="border-color: rgba(235, 0, 27, 1); color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
@@ -281,14 +280,21 @@ function loadMIDI(){
                 parsedSong.push(objKey)
             }
     }
-    if(parsedSong.length == 0 ) return
     let successPercentageValue = Math.floor((parsedSong.length - numOfAccidentals) / songNotes.length * 100)
+    if(isNaN(successPercentageValue)) successPercentageValue = 0
     document.getElementById("successPercentage").innerHTML = successPercentageValue +"%"
     if(successPercentageValue < 50) document.getElementById("successColor").style.color = "#FE4C4C"
     if(successPercentageValue > 50 && successPercentageValue < 70) document.getElementById("successColor").style.color = "orange"
     if(successPercentageValue > 70) document.getElementById("successColor").style.color = "lightgreen"
+    if(parsedSong.length == 0 ) return
     selectCell(getCell(0))
-    importSong(parsedSong,true)
+    var song = {
+            name: "",
+            bpm: document.getElementById("bpm").value,
+            isComposed: true,
+            songNotes: parsedSong
+        }
+    importSong(song,true,"old")
 }
     var globalHistory = []
     var undoIndex = 0
@@ -665,6 +671,8 @@ function loadMIDI(){
         }
         var song = {
             name: name,
+            bpm: document.getElementById("bpm").value,
+            isComposed: true,
             songNotes: []
         }
         var savedSongs = JSON.parse(localStorage.getItem("savedSongs"))
@@ -804,17 +812,26 @@ function loadMIDI(){
         localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
         let selectedIndex = this.selectedIndex
         if(selectedIndex == 0) return
-        importSong(localStorageSongs[selectedIndex - 1].songNotes)
+        if(localStorageSongs[selectedIndex - 1].isComposed){
+            importSong(localStorageSongs[selectedIndex - 1],false,"new")
+        }else{
+            importSong(localStorageSongs[selectedIndex - 1],false,"old")
+        }
     })
 
 
-    function importSong(song,ignoreSettings){
-        if(ignoreSettings == undefined) ignoreSettings = false
+    function importSong(song,ignoreSettings,algorithmType){
+        quickSave()
         let importBpm = 220
-        let pauseThreshold = 60000 / importBpm
+        if(song.isComposed == undefined) song.isComposed = false
+        if(song.bpm != undefined) importBpm = song.bpm
+        document.getElementById("bpm").value = importBpm
+        let pauseThreshold = Math.floor(60000 / importBpm)
         let threshold = 80
+        if(song.isComposed) threshold = 10
         let parsedSong = []
         songContainer.innerHTML = ""
+        song = song.songNotes
         while(true){
             let keysToPress = []
             let hasPause = false
@@ -825,49 +842,97 @@ function loadMIDI(){
             }
             song.splice(0, keysToPress.length)
             parsedSong.push(keysToPress)
+
             if(song.length == 0 )break
             let lastNoteTime = keysToPress[keysToPress.length-1].time
-            if(song[0].time - lastNoteTime > pauseThreshold){
-                let pauseTime = song[0].time - lastNoteTime
+            let pauseTime = song[0].time - lastNoteTime
+            if(algorithmType == "new"){
                 while(true){
-                    if(pauseTime <= pauseThreshold){
-                        if(pauseTime <= pauseThreshold/2){
-                            if(pauseTime <= pauseThreshold/4){
-                                if(pauseTime <= pauseThreshold/8){
+                    if(pauseTime > pauseThreshold){
+                        parsedSong.push([2])
+                    }else{
+                        if(pauseTime == pauseThreshold) break
+                        if(pauseTime < pauseThreshold/2-5){
+                            if(pauseTime < pauseThreshold/4-5){
+                                if(pauseTime < pauseThreshold/8-5){
                                     break
                                 }else{
-                                    parsedSong.push([4])
+                                    parsedSong.push([1,"rgb(255, 114, 190)"])  
                                 }
                             }else{
-                                parsedSong.push([3])
+                                parsedSong.push([1,"deepskyblue"])  
                             }
                         }else{
-                            parsedSong.push([2])
+                            parsedSong.push([1,"limegreen"])  
                         }
-                    }else{
-                        parsedSong.push([1])
                     }
-                    pauseTime -= 60000 / importBpm
+                    pauseTime-= pauseThreshold
                 }
+            }else{
+                if(song[0].time - lastNoteTime > pauseThreshold){
+                    pauseTime = song[0].time - lastNoteTime
+                    while(true){
+                        if(pauseTime <= pauseThreshold){
+                            if(pauseTime <= pauseThreshold/2){
+                                if(pauseTime <= pauseThreshold/4){
+                                    if(pauseTime <= pauseThreshold/8){
+                                        break
+                                    }else{
+                                        parsedSong.push([4])
+                                    }
+                                }else{
+                                    parsedSong.push([3])
+                                }
+                            }else{
+                                parsedSong.push([2])
+                            }
+                        }else{
+                            parsedSong.push([1])
+                        }
+                        pauseTime -= pauseThreshold
+                    }
 
+                }
             }
+
         }
-        for(var i = 0;i<parsedSong.length;i++){
+        if(algorithmType == "new"){
+            for(var i = 0;i<parsedSong.length;i++){
             addCell()
             for(let j = 0; j<parsedSong[i].length;j++){
                 switch(parsedSong[i][0]){
-                    case 1: break
-                    case 2: getCell(i).style.backgroundColor = "limegreen"; break
-                    case 3: getCell(i).style.backgroundColor = "deepskyblue"; break
-                    case 4: getCell(i).style.backgroundColor = "rgb(255, 114, 190)"; break
+                    case 1: {
+                        if(j == 0) songContainer.lastChild.remove()
+                        songContainer.lastChild.style.backgroundColor = parsedSong[i][1]
+                    } break
+                    case 2: break
                     default: {
                         let key = parsedSong[i][j].key.replace("Key","")
-                        selectedCell = getCell(i)
+                        selectedCell = songContainer.lastChild
                         selectNote(key)
+                    } 
+                }
+            }
+        }
+        }else{
+            for(var i = 0;i<parsedSong.length;i++){
+                addCell()
+                for(let j = 0; j<parsedSong[i].length;j++){
+                    switch(parsedSong[i][0]){
+                        case 1: break
+                        case 2: getCell(i).style.backgroundColor = "limegreen"; break
+                        case 3: getCell(i).style.backgroundColor = "deepskyblue"; break
+                        case 4: getCell(i).style.backgroundColor = "rgb(255, 114, 190)"; break
+                        default: {
+                            let key = parsedSong[i][j].key.replace("Key","")
+                            selectedCell = getCell(i)
+                            selectNote(key)
+                        }
                     }
                 }
             }
         }
+        addToHistory()
         selectCell(getCell(0))
         if(!ignoreSettings)toggleSettings()
     }
