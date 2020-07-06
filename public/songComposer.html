@@ -179,7 +179,8 @@
             <input id="midiBPM" type="range" min="50" max="500" value="220" step="5" style="width: 60%; margin:0 5px 0 5px">
             <span id="midiBPMText">220</span>
         </div>
-        <input type="button" value="Done"  class="skyButton" onclick="this.parentNode.style.display = 'none',quickSave(),addToHistory()">
+        <input type="button" value="Accurate mode" id="algorithmBtn" class="skyButton" onclick="changeAlgorithmType(this)">
+        <input type="button" value="Done" style="float: right;" class="skyButton" onclick="this.parentNode.style.display = 'none',quickSave(),addToHistory()">
     </div>
 </body>
 <script>
@@ -205,14 +206,28 @@ midiBPM.addEventListener("input",function(){
     document.getElementById("bpm").value = this.value
 })
 
+let globalAlgorithmType = "old"
+function changeAlgorithmType(button){
+    if(button.style.backgroundColor == "rgb(235, 0, 27)"){
+        globalAlgorithmType = "old"
+        button.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+    }else{
+        globalAlgorithmType = "new"
+        button.style.backgroundColor = "rgb(235, 0, 27)"
+    }
+    loadMIDI()
+}
+
 let globalMidi
 function openMIDI(){
     importMIDIDiv.style.display = "none"
     filePicker.addEventListener("change", function() {
+        if(filePicker.value == "") return
         const reader = new FileReader()
         reader.onload = function(e) {
+            globalAlgorithmType = "old"
+            document.getElementById("algorithmBtn").style.backgroundColor = "rgba(22, 22, 22, 0.65)"
             const midi = new Midi(e.target.result)
-            console.log(midi)
             globalMidi = midi
             layerNumber = 0
             document.getElementById("layerNumberText").value = layerNumber + 1
@@ -220,6 +235,7 @@ function openMIDI(){
             importMIDIDiv.style.display = "block"
             document.getElementById("settingsDiv").style.display = "none"
             loadMIDI()
+            filePicker.value = ""
         }
         reader.readAsArrayBuffer(this.files[0])
     })
@@ -294,7 +310,8 @@ function loadMIDI(){
             isComposed: true,
             songNotes: parsedSong
         }
-    importSong(song,true,"old")
+
+    importSong(song,true,globalAlgorithmType)
 }
     var globalHistory = []
     var undoIndex = 0
