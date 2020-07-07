@@ -307,10 +307,10 @@ function loadMIDI(){
     var song = {
             name: "",
             bpm: document.getElementById("bpm").value,
+            pitchLevel: storedPitchKey,
             isComposed: true,
             songNotes: parsedSong
         }
-
     importSong(song,true,globalAlgorithmType)
 }
     var globalHistory = []
@@ -577,7 +577,7 @@ function loadMIDI(){
         localStorage.setItem("savedInstrumentComposer",this.options[this.selectedIndex].value.toLowerCase())
         localStorage.setItem("savedInstrumentIndex",this.selectedIndex)
     })
-    var pitchKey = 1
+    let pitchKey = 1
 
     let storedPitchKey = localStorage.getItem("pitchKeyComposer")
     if(storedPitchKey != null){
@@ -693,6 +693,7 @@ function loadMIDI(){
         var song = {
             name: name,
             bpm: document.getElementById("bpm").value,
+            pitchLevel: storedPitchKey,
             isComposed: true,
             songNotes: []
         }

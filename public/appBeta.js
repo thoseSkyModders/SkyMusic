@@ -636,8 +636,13 @@ function getByLink(songUrl){
             let inputSongs = response
             for (let i = 0; i < inputSongs.length; i++) {
                 let element = document.getElementById("Song-" + inputSongs[i].name)
+                if(inputSongs[i].bpm == undefined){
+                    inputSongs[i].bpm = 200
+                    inputSongs[i].pitchLevel = 0
+                    inputSongs[i].isComposed = false 
+                }
                 if (element == null) { //if there is an element with this id, it means that the song with that name already exists
-                    saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1)
+                    saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed)
                     showMessage(systemMessagesText[selectedLanguage][8]+inputSongs[i].name,1,1500) //Added song by link
                 } else {
                     showMessage(systemMessagesText[selectedLanguage][9]+inputSongs[i].name,2,1500) // song already exists
@@ -807,14 +812,19 @@ function storeSongsLocally() { //this function loads the songs from the database
     } else {
         let message = "" //this is the message shown if some songs are already saved
         for (let i = 0; i < dbSongs.length; i++) {
+            if(dbSongs[i].bpm == undefined){
+                dbSongs[i].bpm = 200
+                dbSongs[i].pitchLevel = 0
+                dbSongs[i].isComposed = false 
+            }
             if (document.getElementById("Song-" + dbSongs[i].name) != null) { //checks if there is already a song saved locally with that name
                 if (document.getElementById("Song-" + dbSongs[i].name).getAttribute("fromDb") == "true") { //saves it only if the already saved one is from the database tab
-                    saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1) //saves the song locally
+                    saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1,dbSongs[i].pitchLevel,dbSongs[i].bpm,dbSongs[i].isComposed) //saves the song locally
                 } else {
                     message += 'Song: "' + dbSongs[i].name + '" '+systemMessagesText[selectedLanguage][23] //already saved
                 }
             } else {
-                saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1) //saves the song locally
+                saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1,dbSongs[i].pitchLevel,dbSongs[i].bpm,dbSongs[i].isComposed) //saves the song locally
             }
         }
         if (message == "") message = systemMessagesText[selectedLanguage][24]
@@ -848,7 +858,12 @@ function syncDB() { //Function that syncs the songs from the database in the cli
         dbSongs = songsFromDB
         if (songsFromDB.length == 0) showMessage(systemMessagesText[selectedLanguage][22]) //no songs saved in the database
         for (let i = 0; i < songsFromDB.length; i++) { //saves each individual song
-            saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, 2)
+            if(songsFromDB[i].bpm == undefined){
+                songsFromDB[i].bpm = 200
+                songsFromDB[i].pitchLevel = 0
+                songsFromDB[i].isComposed = false 
+            }
+            saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, 2,songsFromDB[i].pitchLevel,songsFromDB[i].bpm,songsFromDB[i].isComposed)
         }
     };
     request.onerror = function (e) {
@@ -1031,6 +1046,7 @@ function changeInstrument(button) { //function to change the instrument
 }
 
 //--------------------------------------------------------------------------------------------------------//
+let globalSelectedPitch = 0
 function changePitch(value) {
     let  keyNumber = value.getAttribute("key")
     document.getElementById("togglePitchList").innerHTML = "Key " + value.innerHTML
@@ -1046,6 +1062,7 @@ function changePitch(value) {
     value.style.color = "rgba(235, 0, 27, 0.7)"
     pitchTab.style.display = "none"
     let pValue = parseInt(keyNumber)
+    globalSelectedPitch = pValue
     let pitchValue = Math.pow(2, (pValue - 1) / 12)
     if (!isNaN(pitchValue)) {
         pitchKey = pitchValue.toFixed(2)
@@ -1302,7 +1319,12 @@ function importSongs() {
                 for (let i = 0; i < inputSongs.length && !isreading; i++) {
                     let element = document.getElementById("Song-" + inputSongs[i].name)
                     if (element == null) { //if there is an element with this id, it means that the song with that name already exists
-                        saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1)
+                        if(inputSongs[i].bpm == undefined){
+                            inputSongs[i].bpm = 200
+                            inputSongs[i].pitchLevel = 0
+                            inputSongs[i].isComposed = false 
+                        }
+                        saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed)
                     } else {
                         console.log(systemMessagesText[selectedLanguage][9] + inputSongs[i].name + " n" + i) //song already exists
                         //showMessage("The song already exists: "+inputSongs[i].name,2) gets annoying after a while, idk if adding it back
@@ -1335,11 +1357,17 @@ function downloadSongs() {
 function convertToNewFormat(songs) {
     let convertedSongs = []
     for (let i = 0; i < songs.length; i++) {
+        if(songs[i].bpm == undefined){
+            songs[i].bpm = 240
+            songs[i].pitchLevel = 0
+            songs[i].isComposed = false 
+        }
         let newFormat = {
             name: songs[i].name,
-            bpm: 240,
+            bpm: parseInt(songs[i].bpm),
             bitsPerPage: 16,
-            pitchLevel: 0,
+            pitchLevel: parseInt(songs[i].pitchLevel),
+            isComposed: songs[i].isComposed,
             songNotes: []
         }
         for (let j = 0; j < songs[i].songNotes.length; j++) {
@@ -1358,9 +1386,17 @@ function convertToOldFormat(songs) {
     if (!isNaN(songs[0].songNotes[0].key[0])) {
         let convertedSongs = []
         for (let i = 0; i < songs.length; i++) {
+            if(songs[i].bpm == undefined){
+                songs[i].bpm = 200
+                songs[i].pitchLevel = 0
+                songs[i].isComposed = false 
+            }
             let oldFormat = {
                 name: songs[i].name,
-                songNotes: []
+                bpm: songs[i].bpm,
+                pitchLevel: songs[i].pitchLevel,
+                isComposed: songs[i].isComposed,
+                songNotes: [],
             }
             for (let j = 0; j < songs[i].songNotes.length; j++) {
                 let keyObj = {
@@ -1504,7 +1540,7 @@ function askSongName(){
             promptMessage.innerHTML = systemMessagesText[selectedLanguage][1]
         }else{
             if (document.getElementById("Song-" + promptInput) == null) { //if there is already a song with that name, ask to rename it
-                saveSong(promptInput, songArray, 1)
+                saveSong(promptInput, songArray, 1,globalSelectedPitch,200,false)
                 promptDiv.style.display = "none"
                 songArray = []
                 $('[id^=Key]').css('height', keyHeight)
@@ -1595,18 +1631,26 @@ function openSonglist(evt, listType) {
 let preLoadSongs = localStorage.getItem("savedSongs")
 if (preLoadSongs != null) {
     preLoadSongs = JSON.parse(preLoadSongs)
-    for (let i = 0; i < preLoadSongs.length; i++) {
-        saveSong(preLoadSongs[i].name, preLoadSongs[i].songNotes, 0)
+    for (let i = 0; i < preLoadSongs.length; i++) {globalSelectedPitch
+        if(preLoadSongs[i].bpm == undefined){
+            preLoadSongs[i].bpm = 200
+            preLoadSongs[i].pitchLevel = 0
+            preLoadSongs[i].isComposed = false 
+        }
+        saveSong(preLoadSongs[i].name, preLoadSongs[i].songNotes, 0,preLoadSongs[i].pitchLevel,preLoadSongs[i].bpm,preLoadSongs[i].isComposed)
     }
 }
 
 //--------------------------------------------------------------------------------------------------------//
 
-function saveSong(songName, song, savingType) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
+function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = false) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
     try {
         let songObj = {
             name: songName,
-            songNotes: song
+            songNotes: song,
+            pitchLevel:parseInt(pitch),
+            bpm: parseInt(bpm),
+            isComposed: isComposed
         }
     if (savingType == "1") { //doesnt save if it is preloading   
         let songStorage = localStorage.getItem("savedSongs")
@@ -1626,9 +1670,9 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     songButton.addEventListener("click", function () {
         savedSongsDivWrapper.style.display = "none"
         let storedSongName = this.getAttribute("songName")
-        songText = document.getElementById("Song-" + storedSongName)
+        let songText = document.getElementById("Song-" + storedSongName)
         resetButtons()
-        playSong(JSON.parse(songText.innerHTML))
+        playSong(JSON.parse(songText.innerHTML),songText.getAttribute("pitchLevel"))
     })
     songButton.innerHTML = songName
     songButton.className = "skyButton"
@@ -1636,6 +1680,9 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     //--------------------------------// This holds the text of the array of the song 
     let songText = document.createElement("div")
     songText.setAttribute("fromDb", false)
+    songText.setAttribute("pitchLevel",songObj.pitchLevel)
+    songText.setAttribute("bpm",songObj.bpm)
+    songText.setAttribute("isComposed",songObj.isComposed)
     songText.style.display = "none"
     songText.id = "Song-" + songName
     songText.innerHTML = JSON.stringify(song)
@@ -1698,11 +1745,14 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
         saveToDb.setAttribute("songName", songName)
         saveToDb.addEventListener("click", function () {
             let storedSongName = this.getAttribute("songName")
-            songText = document.getElementById("Song-" + storedSongName)
+            let songText = document.getElementById("Song-" + storedSongName)
             let songArrayToDB = []
             let songObj = {
                 name: storedSongName,
-                songNotes: JSON.parse(songText.innerHTML)
+                songNotes: JSON.parse(songText.innerHTML),
+                pitchLevel: parseInt(songText.getAttribute("pitchLevel")),
+                bpm: parseInt(songText.getAttribute("bpm")),
+                isComposed: songText.getAttribute("isComposed")
             }
             songArrayToDB.push(songObj)
             saveSongsToDB(globalCredentials, songArrayToDB)
@@ -1718,7 +1768,7 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     trainSong.addEventListener("click", function () {
         savedSongsDivWrapper.style.display = "none"
         let storedSongName = this.getAttribute("songName")
-        songText = document.getElementById("Song-" + storedSongName)
+        let songText = document.getElementById("Song-" + storedSongName)
         practice(JSON.parse(songText.innerHTML))
         startingNoteRange.value = 0
         rangePicker.value = 0
@@ -1738,10 +1788,13 @@ function saveSong(songName, song, savingType) { //the name of the song, the arra
     shareButton.setAttribute("songName", songName)
     shareButton.addEventListener("click", function () {
         let storedSongName = this.getAttribute("songName")
-        songText = document.getElementById("Song-" + storedSongName)
+        let songText = document.getElementById("Song-" + storedSongName)
         let songObj = {
             name: storedSongName,
-            songNotes: JSON.parse(songText.innerHTML)
+            songNotes: JSON.parse(songText.innerHTML),
+            pitchLevel: parseInt(songText.getAttribute("pitchLevel")),
+            bpm: parseInt(songText.getAttribute("bpm")),
+            isComposed: songText.getAttribute("isComposed")
         }
         let array = []
         array.push(songObj)
@@ -1773,7 +1826,12 @@ function stopSong() {
 
 let date = new Date
 let globalPlayTimestamp = date.getTime()
-async function playSong(song) {
+async function playSong(song,pitch) {
+    /*
+    if(pitch != undefined || pitch != null ){
+        changePitch(document.getElementById("pitch"+(parseInt(pitch)+1)))
+    }
+    */
     document.getElementById("stopSong").style.visibility = "visible"
     $(songRange).fadeOut(200)
     let delayTime = 0
