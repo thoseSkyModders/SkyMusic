@@ -486,8 +486,12 @@ function loadMIDI(){
         cell.scrollIntoView()
     }
     //----------------------------------------------------------------------------------------------//
-
-    let click = new PointerEvent("pointerdown")
+    var inputMode = localStorage.getItem("inputMode")
+    if(inputMode == null || !(inputMode=="touchstart" || inputMode == "pointerdown")){
+        localStorage.setItem("inputMode","pointerdown")
+        inputMode = "pointerdown"
+    }
+    let click = new Event(inputMode)
     const delay = ms => new Promise(res => setTimeout(res, ms))
     let isPlaying = false
     let stopPlaying = true
@@ -749,7 +753,7 @@ function loadMIDI(){
             note.className = "note"
             cell.insertBefore(note, cell.firstChild);
         }
-        cell.addEventListener("pointerdown", function () {
+        cell.addEventListener(inputMode, function () {
             if (getCellPosition(selectedCell) == getCellPosition(this)) return
             selectCell(this)
             quickSave()
@@ -806,7 +810,7 @@ function loadMIDI(){
     if (quickSavedSong != null) {
         songContainer.innerHTML = quickSavedSong.replace("opacity: 1;", "opacity: 0.6;")
         for (let i = 0; i < songContainer.childElementCount; i++) {
-            songContainer.children[i].addEventListener("pointerdown", function () {
+            songContainer.children[i].addEventListener(inputMode, function () {
                 if (getCellPosition(selectedCell) == getCellPosition(this)) return
                 selectCell(this)
                 quickSave()
@@ -1039,7 +1043,7 @@ function loadMIDI(){
                         return
                     }
 
-                    btn.addEventListener("pointerdown", function (e) {
+                    btn.addEventListener(inputMode, function (e) {
                         buttonPressEvent(this, e.isTrusted)
                         e.preventDefault()
                     })

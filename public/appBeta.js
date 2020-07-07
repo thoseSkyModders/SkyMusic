@@ -730,7 +730,7 @@ function login(ignoreMessage) { //this does the actual login, it's only used to 
     }
     let credentials = {
         password: psw,
-        email: mail
+        email: mail.toLowerCase()
     }
     let request = new XMLHttpRequest();
     request.open("POST", "/login");
@@ -960,22 +960,23 @@ for (let i = 0; i < inputs.length; i++) { //this sets for every input an event l
 //--------------------------------------------------------------------------------------------------------//
 
 let objKeys = { //those are the keyboards keys used to play the piano from the pc, it's not handy but it's still another function to have
-    "e": "Key0",
-    "r": "Key1",
-    "t": "Key2",
-    "y": "Key3",
-    "u": "Key4",
-    "d": "Key5",
-    "f": "Key6",
-    "g": "Key7",
-    "h": "Key8",
-    "j": "Key9",
-    "c": "Key10",
-    "v": "Key11",
-    "b": "Key12",
-    "n": "Key13",
-    "m": "Key14"
+    "q": "Key0",
+    "w": "Key1",
+    "e": "Key2",
+    "r": "Key3",
+    "t": "Key4",
+    "a": "Key5",
+    "s": "Key6",
+    "d": "Key7",
+    "f": "Key8",
+    "g": "Key9",
+    "z": "Key10",
+    "x": "Key11",
+    "c": "Key12",
+    "v": "Key13",
+    "b": "Key14"
 }
+
 document.onkeypress = function (evt) {
     evt = evt || window.event
     let charCode = evt.keyCode || evt.which
@@ -1380,7 +1381,7 @@ try {
 
 //--------------------------------------------------------------------------------------------------------//
 
-let click = new PointerEvent(inputMode)
+let click = new Event(inputMode)
 
 function getMIDIMessage(message) {
     let command = message.data[0];

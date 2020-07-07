@@ -175,6 +175,13 @@ div.full {
     object-fit: contain;
 }
 
+[id^=Key],button {
+	-webkit-user-select: none;
+	-moz-user-select: -moz-none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
 .btnBg {
     z-index: 0;
     border-radius: 0.8em;
