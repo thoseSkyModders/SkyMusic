@@ -311,8 +311,7 @@ $(window).blur(function(){
 });
 
 $(window).focus(function(){
-    if(exitedPage && autoReloadKeyboard) changeInstrumentSound(storedInstrument)
-    exitedPage = false
+    if(exitedPage && autoReloadKeyboard) location.reload()
 });
 
 
