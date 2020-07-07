@@ -300,13 +300,41 @@ function toggleFullScreen(){
         isFullScreen = true
 }
 //--------------------------------------------------------------------------------------------------------//
+let exitedPage = false 
 $(window).blur(function(){
+    exitedPage = true
     if(!isFullScreen){
         return
     }
     exitFullScreen()
     exitFullScreenBtn.style.display = "none"
-  });
+});
+
+$(window).focus(function(){
+    if(exitedPage && autoReloadKeyboard) changeInstrumentSound(storedInstrument)
+    exitedPage = false
+});
+
+
+let autoReloadKeyboard = localStorage.getItem("autoReloadKeyboard")
+if(autoReloadKeyboard != "true"){
+    autoReloadKeyboard = false
+}
+if(autoReloadKeyboard){
+    document.getElementById("reload-keyboard-setting").style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+}else{
+    document.getElementById("reload-keyboard-setting").style.backgroundColor = "teal"
+}
+
+function reloadKeyboardSetting(){
+    autoReloadKeyboard = !autoReloadKeyboard
+    localStorage.setItem("autoReloadKeyboard",autoReloadKeyboard)
+    if(autoReloadKeyboard){
+        document.getElementById("reload-keyboard-setting").style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+    }else{
+        document.getElementById("reload-keyboard-setting").style.backgroundColor = "teal"
+    }
+}
 function ignoreRotation(){
     console.log("ignored")
     localStorage.setItem("ignoreRotateWarning",true)
