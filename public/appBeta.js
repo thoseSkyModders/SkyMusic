@@ -265,6 +265,7 @@ function exitFullScreen(){
       } else if (document.msExitFullscreen) { /* IE/Edge */
         document.msExitFullscreen();
       }
+      isFullScreen = false
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -278,6 +279,7 @@ function checkIfMobile() {
 //--------------------------------------------------------------------------------------------------------//
 
 let isDesktop = !checkIfMobile()
+let isFullScreen = false
 function toggleFullScreen(){
         //Makes the website full screen
         document.getElementById("video1").play()
@@ -295,9 +297,16 @@ function toggleFullScreen(){
           let wscript = new ActiveXObject('WScript.Shell');    // Older IE.
           if (wscript !== null) wscript.SendKeys('{F11}');
         }
+        isFullScreen = true
 }
 //--------------------------------------------------------------------------------------------------------//
-
+$(window).blur(function(){
+    if(!isFullScreen){
+        return
+    }
+    exitFullScreen()
+    exitFullScreenBtn.style.display = "none"
+  });
 function ignoreRotation(){
     console.log("ignored")
     localStorage.setItem("ignoreRotateWarning",true)
