@@ -1,13 +1,13 @@
-const CACHE = "V1.2";
+const CACHE = "V1.3";
 
 const FILES_TO_CACHE = [
     'manifest.json',
     '/scripts/jquery.js',
     '/scripts/jqueryUI.js',
     '/',
-    '/index.html',
+    //'/index.html',
     '/AnimatedBG/skygame-banner2.mp4',
-    '/app.js',
+    //'/app.js',
   //'/appBeta.js',
   //'/beta.html',
     '/songComposerStyle.css',

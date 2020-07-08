@@ -167,6 +167,8 @@ div.full {
     display: inline-block;
     height: calc(100% - 1vh);
     width: calc((100% - 5vh)/5);
+    min-width: 40px;
+    min-height: 40px;
     max-width: 80px;
     padding: 0.5vh;
     background: transparent;
@@ -301,21 +303,25 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 @keyframes click-key {
-	0% {
+	from {
 		transform: scale(1, 1);
 	}
 
-    50% {
-		transform: scale(0, 1);
-    }
+	50% {
+		transform: scale(0.5, 1);
+	}
 
-	100% {
+	50% {
+		transform: scale(0, 1);
+	}
+
+	to {
 		transform: scale(1, 1);
     }
 }
 
 @keyframes click-scale {
-	0% {
+	from {
 		transform: scale(1);
 	}
 
@@ -323,37 +329,11 @@ input[type=number] {
 		transform: scale(0.9);
 	}
 
-	100% {
+	to {
 		transform: scale(1);
 	}
 }
-@-webkit-keyframes click-key {
-	0% {
-		transform: scale(1, 1);
-	}
 
-    50% {
-		transform: scale(0, 1);
-    }
-
-	100% {
-		transform: scale(1, 1);
-    }
-}
-
-@-webkit-keyframes click-scale {
-	0% {
-		transform: scale(1);
-	}
-
-	50% {
-		transform: scale(0.9);
-	}
-
-	100% {
-		transform: scale(1);
-	}
-}
 .keyScale {
 	animation-name: click-scale;
 	animation-timing-function: linear;
