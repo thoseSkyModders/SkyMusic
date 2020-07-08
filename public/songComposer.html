@@ -1,6 +1,8 @@
-<html manifest="webCache.appcache">
+<!DOCTYPE html>
+<html>
 
 <head>
+    <link rel="manifest" href="/manifest.json">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166077524-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -192,6 +194,15 @@
             event.returnValue = '';
          });
     */
+document.getElementsByTagName("body")[0].addEventListener('touchstart', (e) => {
+
+// is not near edge of view, exit
+if (e.pageX > 10 && e.pageX < window.innerWidth - 10) return;
+
+// prevent swipe to navigate gesture
+e.preventDefault();
+});
+
 let offset = document.getElementById("offset")
     offset.addEventListener("change",function(){
         changeOffset(0)
@@ -1136,6 +1147,15 @@ function loadMIDI(){
     } 
     selectedCell = getCell(0)
     selectedCell.style.opacity = "1"
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+        .then((reg) => {
+          console.log('Service worker registered.', reg);
+        });
+  });
+}
 </script>
 
 </html>
