@@ -315,7 +315,7 @@ input[type=number] {
 
 	to {
 		transform: scale(1, 1);
-	}
+    }
 }
 
 @keyframes click-scale {

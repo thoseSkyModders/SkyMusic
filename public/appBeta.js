@@ -215,6 +215,8 @@ function changeScale(number){
     scaleNumber.innerHTML = Math.floor(pageZoom*100)
 }
 
+//--------------------------------------------------------------------------------------------------------//
+
 document.getElementsByTagName("body")[0].addEventListener('touchstart', (e) => {
 
     // is not near edge of view, exit
@@ -299,7 +301,9 @@ function toggleFullScreen(){
         }
         isFullScreen = true
 }
+
 //--------------------------------------------------------------------------------------------------------//
+
 let exitedPage = false 
 $(window).blur(function(){
     exitedPage = true
@@ -310,10 +314,13 @@ $(window).blur(function(){
     exitFullScreenBtn.style.display = "none"
 });
 
+//--------------------------------------------------------------------------------------------------------//
+
 $(window).focus(function(){
     if(exitedPage && autoReloadKeyboard) location.reload()
 });
 
+//--------------------------------------------------------------------------------------------------------//
 
 let autoReloadKeyboard = localStorage.getItem("autoReloadKeyboard")
 if(autoReloadKeyboard != "true"){
@@ -334,6 +341,9 @@ function reloadKeyboardSetting(){
         document.getElementById("reload-keyboard-setting").style.backgroundColor = "teal"
     }
 }
+
+//--------------------------------------------------------------------------------------------------------//
+
 function ignoreRotation(){
     console.log("ignored")
     localStorage.setItem("ignoreRotateWarning",true)
@@ -348,11 +358,9 @@ if(userDeniedRotate == "true"){
     document.getElementById("rotateDevice").style.display = "none"
 }
 
-
 //--------------------------------------------------------------------------------------------------------//
 
 let floatingMessage
-
 function showMessage(msg, msgType, duration) {
     if (duration == undefined) duration = 1500
     floatingMessage = document.getElementById("floatingMessage")
@@ -457,8 +465,9 @@ function toggleInstrumentList() { //Shows the side menu (on the right) to chose 
     }
 }
 
-let pitchTab = document.getElementById("pitchTab")
+//--------------------------------------------------------------------------------------------------------//
 
+let pitchTab = document.getElementById("pitchTab")
 function togglePitchList() { //Shows the side menu (on the right) to chose the pitch level
     $(instrumentsWrapper).fadeOut(50)
     if (pitchTab.style.display != "block") {
@@ -473,6 +482,7 @@ function toggleSongRange() { //Shows the sideways input range to pick from what 
     $(pitchTab).fadeOut(50)
 
 }
+
 //--------------------------------------------------------------------------------------------------------//
 
 function toggleSettings() { //Shows the settings page
@@ -596,7 +606,6 @@ function resetPassword() { //Function to reset the email
 
 //--------------------------------------------------------------------------------------------------------//
 
-
 function generateShareLink(name){
     let request = new XMLHttpRequest();
     request.open("POST", "/generateShareLink");
@@ -618,6 +627,8 @@ function generateShareLink(name){
     request.send(JSON.stringify(data))
 }
 
+//--------------------------------------------------------------------------------------------------------//
+
 function getByLink(songUrl){
      songUrl = {
          url:songUrl.split("?songUrl=")[1]
@@ -636,11 +647,9 @@ function getByLink(songUrl){
             let inputSongs = response
             for (let i = 0; i < inputSongs.length; i++) {
                 let element = document.getElementById("Song-" + inputSongs[i].name)
-                if(inputSongs[i].bpm == undefined){
-                    inputSongs[i].bpm = 200
-                    inputSongs[i].pitchLevel = 0
-                    inputSongs[i].isComposed = false 
-                }
+                if(inputSongs[i].bpm == undefined) inputSongs[i].bpm = 220
+                if(inputSongs[i].pitchLevel == undefined) inputSongs[i].pitchLevel = 0
+                if(inputSongs[i].isComposed == undefined) inputSongs[i].isComposed = false
                 if (element == null) { //if there is an element with this id, it means that the song with that name already exists
                     saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed)
                     showMessage(systemMessagesText[selectedLanguage][8]+inputSongs[i].name,1,1500) //Added song by link
@@ -657,6 +666,9 @@ function getByLink(songUrl){
 if(window.location.href.includes("?songUrl=")){
     getByLink(window.location.href)
 }
+
+//--------------------------------------------------------------------------------------------------------//
+
 function checkResetCode() { //Function to confirm the password reset
     let code = document.getElementById("resetcodeConfirmation").value
     let newpassword = document.getElementById("newpassword").value
@@ -693,7 +705,6 @@ function checkResetCode() { //Function to confirm the password reset
 //--------------------------------------------------------------------------------------------------------//
 
 let registrationCredentials;
-
 function register() { //function to register the account to the website
     let mail = document.getElementById("emailRegister").value.toLowerCase()
     let psw = document.getElementById("passwordRegister").value
@@ -796,6 +807,7 @@ function login(ignoreMessage) { //this does the actual login, it's only used to 
 }
 
 //--------------------------------------------------------------------------------------------------------//
+
 let globalCredentials = {
     password: "",
     email: ""
@@ -812,11 +824,9 @@ function storeSongsLocally() { //this function loads the songs from the database
     } else {
         let message = "" //this is the message shown if some songs are already saved
         for (let i = 0; i < dbSongs.length; i++) {
-            if(dbSongs[i].bpm == undefined){
-                dbSongs[i].bpm = 200
-                dbSongs[i].pitchLevel = 0
-                dbSongs[i].isComposed = false 
-            }
+            if(dbSongs[i].bpm == undefined) dbSongs[i].bpm = 220
+            if(dbSongs[i].pitchLevel == undefined) dbSongs[i].pitchLevel = 0
+            if(dbSongs[i].isComposed == undefined) dbSongs[i].isComposed = false
             if (document.getElementById("Song-" + dbSongs[i].name) != null) { //checks if there is already a song saved locally with that name
                 if (document.getElementById("Song-" + dbSongs[i].name).getAttribute("fromDb") == "true") { //saves it only if the already saved one is from the database tab
                     saveSong(dbSongs[i].name, dbSongs[i].songNotes, 1,dbSongs[i].pitchLevel,dbSongs[i].bpm,dbSongs[i].isComposed) //saves the song locally
@@ -858,11 +868,9 @@ function syncDB() { //Function that syncs the songs from the database in the cli
         dbSongs = songsFromDB
         if (songsFromDB.length == 0) showMessage(systemMessagesText[selectedLanguage][22]) //no songs saved in the database
         for (let i = 0; i < songsFromDB.length; i++) { //saves each individual song
-            if(songsFromDB[i].bpm == undefined){
-                songsFromDB[i].bpm = 200
-                songsFromDB[i].pitchLevel = 0
-                songsFromDB[i].isComposed = false 
-            }
+            if(songsFromDB[i].bpm == undefined) songsFromDB[i].bpm = 220
+            if(songsFromDB[i].pitchLevel == undefined) songsFromDB[i].pitchLevel = 0
+            if(songsFromDB[i].isComposed == undefined) songsFromDB[i].isComposed = false
             saveSong(songsFromDB[i].name, songsFromDB[i].songNotes, 2,songsFromDB[i].pitchLevel,songsFromDB[i].bpm,songsFromDB[i].isComposed)
         }
     };
@@ -1028,10 +1036,12 @@ let objKeys = { //those are the keyboards keys used to play the piano from the p
     "b": "Key14"
 }
 
+//--------------------------------------------------------------------------------------------------------//
+
 document.onkeypress = function (evt) {
     evt = evt || window.event
     let charCode = evt.keyCode || evt.which
-    let charStr = String.fromCharCode(charCode)
+    let charStr = String.fromCharCode(charCode).toLowerCase()
     //gets which key has been pressed and gets the corrisponding key associated to it and clicks it
     if (objKeys[charStr] != null && !isTyping) document.getElementById(objKeys[charStr]).dispatchEvent(click);
 };
@@ -1165,31 +1175,37 @@ const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
 let a_reverb_destination = a_ctx.destination // replaced by reverb path when loaded
 set_up_reverb()
 
-let buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle", "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle", ]
 let numOfKeys = 15
+let normalKeyboardKeyboardKeys = objKeys
 function initializeKeyboard(){
+    let buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle",
+        "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle"
+    ]
     document.getElementById("touch").innerHTML =
     '<div class="Row1" id="row1"></div><div class="Row2" id="row2"></div><div class="Row3" id="row3"></div>'
     urls = instrumentsNotes[storedInstrument]
     preload(urls)
     .then(audioBuffers => {
         let newRowBreak = [6, 11]
+            objKeys = normalKeyboardKeyboardKeys
         let numOfKeysLeft = 15
             numOfKeys = 15
         if (storedInstrument == "bell" || storedInstrument == "drum") {
             newRowBreak = [5, 9]
             numOfKeysLeft = 8
             numOfKeys = 8
-            buttonImages = ["Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle"]
+            buttonImages = ["Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", 
+                "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle"
+            ]
             objKeys = {
-                "e": "Key0",
-                "r": "Key1",
-                "t": "Key2",
-                "y": "Key3",
-                "d": "Key4",
-                "f": "Key5",
-                "g": "Key6",
-                "h": "Key7"
+                "q": "Key0",
+                "w": "Key1",
+                "e": "Key2",
+                "r": "Key3",
+                "a": "Key4",
+                "s": "Key5",
+                "d": "Key6",
+                "f": "Key7"
             }
         }
         let j = 1
@@ -1267,6 +1283,7 @@ if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 10000)
 }
+
 //--------------------------------------------------------------------------------------------------------//
 
 //Changes the brightness when button clicked.
@@ -1293,7 +1310,6 @@ function timer(elem) {
 
 //--------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------//
-
 /*
 
   ______ _ _        _                            _                     _                              _   
@@ -1319,11 +1335,9 @@ function importSongs() {
                 for (let i = 0; i < inputSongs.length && !isreading; i++) {
                     let element = document.getElementById("Song-" + inputSongs[i].name)
                     if (element == null) { //if there is an element with this id, it means that the song with that name already exists
-                        if(inputSongs[i].bpm == undefined){
-                            inputSongs[i].bpm = 200
-                            inputSongs[i].pitchLevel = 0
-                            inputSongs[i].isComposed = false 
-                        }
+                        if(inputSongs[i].bpm == undefined) inputSongs[i].bpm = 220
+                        if(inputSongs[i].pitchLevel == undefined) inputSongs[i].pitchLevel = 0
+                        if(inputSongs[i].isComposed == undefined) inputSongs[i].isComposed = false
                         saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed)
                     } else {
                         console.log(systemMessagesText[selectedLanguage][9] + inputSongs[i].name + " n" + i) //song already exists
@@ -1357,11 +1371,9 @@ function downloadSongs() {
 function convertToNewFormat(songs) {
     let convertedSongs = []
     for (let i = 0; i < songs.length; i++) {
-        if(songs[i].bpm == undefined){
-            songs[i].bpm = 240
-            songs[i].pitchLevel = 0
-            songs[i].isComposed = false 
-        }
+        if(preLoadSongs[i].bpm == undefined) preLoadSongs[i].bpm = 220
+        if(preLoadSongs[i].pitchLevel == undefined) preLoadSongs[i].pitchLevel = 0
+        if(preLoadSongs[i].isComposed == undefined) preLoadSongs[i].isComposed = false
         let newFormat = {
             name: songs[i].name,
             bpm: parseInt(songs[i].bpm),
@@ -1382,15 +1394,15 @@ function convertToNewFormat(songs) {
     return convertedSongs
 }
 
+//--------------------------------------------------------------------------------------------------------//
+
 function convertToOldFormat(songs) {
     if (!isNaN(songs[0].songNotes[0].key[0])) {
         let convertedSongs = []
         for (let i = 0; i < songs.length; i++) {
-            if(songs[i].bpm == undefined){
-                songs[i].bpm = 200
-                songs[i].pitchLevel = 0
-                songs[i].isComposed = false 
-            }
+            if(songs[i].bpm == undefined) songs[i].bpm = 220
+            if(songs[i].pitchLevel == undefined) songs[i].pitchLevel = 0
+            if(songs[i].isComposed == undefined) songs[i].isComposed = false
             let oldFormat = {
                 name: songs[i].name,
                 bpm: songs[i].bpm,
@@ -1412,6 +1424,8 @@ function convertToOldFormat(songs) {
         return songs
     }
 }
+
+//--------------------------------------------------------------------------------------------------------//
 
 function downloadJSON(inArray, fileName) {
     inArray = convertToNewFormat(inArray)
@@ -1557,6 +1571,9 @@ function askSongName(){
         document.getElementById("touch").style.height = touchHeight;
     })
 }
+
+//--------------------------------------------------------------------------------------------------------//
+
 function toggleRecord() {
     if (isRecordToggled) { //if the recording is toggled already then it means it was listening, now stops listening and saves the song
         if (songArray.length != 0) {
@@ -1632,11 +1649,9 @@ let preLoadSongs = localStorage.getItem("savedSongs")
 if (preLoadSongs != null) {
     preLoadSongs = JSON.parse(preLoadSongs)
     for (let i = 0; i < preLoadSongs.length; i++) {globalSelectedPitch
-        if(preLoadSongs[i].bpm == undefined){
-            preLoadSongs[i].bpm = 200
-            preLoadSongs[i].pitchLevel = 0
-            preLoadSongs[i].isComposed = false 
-        }
+        if(preLoadSongs[i].bpm == undefined) preLoadSongs[i].bpm = 220
+        if(preLoadSongs[i].pitchLevel == undefined) preLoadSongs[i].pitchLevel = 0
+        if(preLoadSongs[i].isComposed == undefined) preLoadSongs[i].isComposed = false
         saveSong(preLoadSongs[i].name, preLoadSongs[i].songNotes, 0,preLoadSongs[i].pitchLevel,preLoadSongs[i].bpm,preLoadSongs[i].isComposed)
     }
 }
@@ -1769,6 +1784,13 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         savedSongsDivWrapper.style.display = "none"
         let storedSongName = this.getAttribute("songName")
         let songText = document.getElementById("Song-" + storedSongName)
+        console.log(songText.getAttribute("isComposed"))
+        if(songText.getAttribute("isComposed") == "true"){
+            threshold = 50
+        }
+        else{
+            threshold = 80
+        }
         practice(JSON.parse(songText.innerHTML))
         startingNoteRange.value = 0
         rangePicker.value = 0
@@ -1791,10 +1813,10 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         let songText = document.getElementById("Song-" + storedSongName)
         let songObj = {
             name: storedSongName,
-            songNotes: JSON.parse(songText.innerHTML),
             pitchLevel: parseInt(songText.getAttribute("pitchLevel")),
             bpm: parseInt(songText.getAttribute("bpm")),
-            isComposed: songText.getAttribute("isComposed")
+            isComposed: songText.getAttribute("isComposed"),
+            songNotes: JSON.parse(songText.innerHTML)
         }
         let array = []
         array.push(songObj)
@@ -1815,6 +1837,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
 }
 
 //--------------------------------------------------------------------------------------------------------//
+
 let isSongStopped = false
 
 function stopSong() {
@@ -1852,7 +1875,6 @@ async function playSong(song,pitch) {
     isSongStopped = false
     if(!ignoreStop) document.getElementById("stopSong").style.visibility = "hidden"
 }
-
 
 //--------------------------------------------------------------------------------------------------------//
 
@@ -1950,6 +1972,7 @@ function practice(inSong) {
         keysToWait = keysToPress.length //those are the keys presses to do before searching for the next key combination
     }
 }
+
 //--------------------------------------------------------------------------------------------------------//
 
 let rangePicker = document.getElementById("rangePicker")
@@ -1962,6 +1985,8 @@ let currentSong
 let retrySong
 let pressedRetry = false
 
+//--------------------------------------------------------------------------------------------------------//
+
 function retry() {
     let startPoint = parseInt(startingNoteRange.value)
     retrySong = currentSong.slice(startPoint, currentSong.length)
@@ -1971,4 +1996,3 @@ function retry() {
 //delay function
 const delay = ms => new Promise(res => setTimeout(res, ms))
 initializeKeyboard()
-

@@ -1,0 +1,20 @@
+<html>
+    <body>
+        <textarea id="inp" style="width: 40%; height: 40%;"> </textarea>
+        <textarea id="out" style="width: 40%; height: 40%;"> </textarea>
+        <button onclick="generate()" >Generate</button>
+    </body>
+    <script>
+        function generate(){
+            let text = document.getElementById("inp").value
+            let songs = text.split(".txt")
+            let output = ""
+            for(let i = 0;i<songs.length;i++){
+                let names = songs[i].split("_").join(" ")   
+                if(names == "") return
+                 output += '<li><skyButton onclick="playSong(this.innerHTML)">'+names.trim()+'</skyButton> <img class="downloadSong" onclick="downloadJSON('+"'"+songs[i].trim()+"'"+')"><br><br></li>\n'
+            }
+            document.getElementById("out").value = output
+        }
+    </script>
+</html>

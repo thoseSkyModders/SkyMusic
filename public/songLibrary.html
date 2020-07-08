@@ -91,11 +91,11 @@
         </div>
         <ul>
             <h1>Song Pack</h1>
-
+            
             <li><a>Song pack 1</a> <img class="downloadSong" onclick='downloadJSON("Song_pack_1")'><br><br></li>
+            <li><a>Song pack 2</a> <img class="downloadSong" onclick='downloadJSON("Song_pack_2")'><br><br></li>
 
             <h1>Easy</h1>
-
             <li><skyButton onclick="playSong(this.innerHTML)">You are my Sunshine</skyButton> <img class="downloadSong" onclick='downloadJSON("You_are_my_Sunshine")'><br><br></li>
             <li><skyButton onclick="playSong(this.innerHTML)">Ode to joy</skyButton> <img class="downloadSong" onclick='downloadJSON("Ode_to_joy")'><br><br></li>
             <li><skyButton onclick="playSong(this.innerHTML)">The lion sleeps tonight</skyButton> <img class="downloadSong" onclick='downloadJSON("The_lion_sleeps_tonight")'><br><br></li>
@@ -110,7 +110,11 @@
             <li><skyButton onclick="playSong(this.innerHTML)">la Cucaracha</skyButton> <img class="downloadSong" onclick='downloadJSON("la_Cucaracha")'><br><br></li>
             <li><skyButton onclick="playSong(this.innerHTML)">Lily - Alan Walker</skyButton> <img class="downloadSong" onclick='downloadJSON("Lily_-_Alan_Walker")'><br><br></li>
             <li><skyButton onclick="playSong(this.innerHTML)">Shatter me</skyButton> <img class="downloadSong" onclick='downloadJSON("Shatter_me")'><br><br></li>
-
+            <li><skyButton onclick="playSong(this.innerHTML)">Ed sheeran perfecty</skyButton> <img class="downloadSong" onclick="downloadJSON('Ed_sheeran_perfecty')"><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">lavender Town</skyButton> <img class="downloadSong" onclick="downloadJSON('lavender_Town')"><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">San Francisco</skyButton> <img class="downloadSong" onclick="downloadJSON('San_Francisco')"><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Scarborough Fair</skyButton> <img class="downloadSong" onclick="downloadJSON('Scarborough_Fair')"><br><br></li>
+            
             <h1>Medium</h1>
 
             <li><skyButton onclick="playSong(this.innerHTML)">Davy Joness Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Davy_Joness_Theme")'><br><br></li>
@@ -118,15 +122,26 @@
             <li><skyButton onclick="playSong(this.innerHTML)">Flohwalzer</skyButton> <img class="downloadSong" onclick='downloadJSON("Flohwalzer")'><br><br></li>
             <li><skyButton onclick="playSong(this.innerHTML)">Oh Susanna</skyButton> <img class="downloadSong" onclick='downloadJSON("Oh_Susanna")'><br><br></li>
             <li><skyButton onclick="playSong(this.innerHTML)">Take Me to church</skyButton> <img class="downloadSong" onclick='downloadJSON("Take_Me_to_church")'><br><br></li>
-
+            <li><skyButton onclick="playSong(this.innerHTML)">Carrying You Laputa</skyButton> <img class="downloadSong" onclick="downloadJSON('Carrying_You_Laputa')"><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Gravity Falls Theme</skyButton> <img class="downloadSong" onclick="downloadJSON('Gravity_Falls_Theme')"><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">If You Are Happy</skyButton> <img class="downloadSong" onclick="downloadJSON('If_You_Are_Happy')"><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Lord Of The Rings CM</skyButton> <img class="downloadSong" onclick="downloadJSON('Lord_Of_The_Rings_CM')"><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Ode to Joy - Hard</skyButton> <img class="downloadSong" onclick="downloadJSON('Ode_to_Joy_-_Hard')"><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Owl City Fireflies</skyButton> <img class="downloadSong" onclick="downloadJSON('Owl_City_Fireflies')"><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Route 01 Pokemon</skyButton> <img class="downloadSong" onclick="downloadJSON('Route_01_Pokemon')"><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Skyrim theme</skyButton> <img class="downloadSong" onclick="downloadJSON('Skyrim_theme')"><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Hallelujah</skyButton> <img class="downloadSong" onclick="downloadJSON('Hallelujah')"><br><br></li>
+    
             <h1>Hard</h1>
 
             <li><skyButton onclick="playSong(this.innerHTML)">Music sheet 8 Extended</skyButton> <img class="downloadSong" onclick='downloadJSON("Music_sheet_8_Extended")'><br><br></li>
             <li><skyButton onclick="playSong(this.innerHTML)">Speak Softly Love - Godfather Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Speak_Softly_Love_-_Godfather_Theme")'><br><br></li>
             <li><skyButton onclick="playSong(this.innerHTML)">Rather be</skyButton> <img class="downloadSong" onclick='downloadJSON("Rather_be")'><br><br></li>
+            <li><skyButton onclick="playSong(this.innerHTML)">Chuanyue shikong de sinian</skyButton> <img class="downloadSong" onclick="downloadJSON('Chuanyue_shikong_de_sinian')"><br><br></li>
             
             </ul>
-    </body>
+
+        </body>
     <script>
         var downloadButtons = document.getElementsByClassName("downloadSong")
         for(var i = 0;i<downloadButtons.length;i++){
@@ -138,7 +153,6 @@
             request.responseType = 'text';
             request.onload = function () {
                 var inArray = convertToOldFormat(JSON.parse(request.response))
-                    console.log(inArray)
                 var savedSongs = localStorage.getItem("savedSongs")
                 if(savedSongs != null){
                     try{
@@ -199,7 +213,6 @@
         let stopSong = false
         async function playSong(songName) {
             songName = songName.split(" ").join("_")
-            console.log(songName)
             stopSong = true
             await delay(1500)
             let request = new XMLHttpRequest();
@@ -207,7 +220,6 @@
             request.responseType = 'text';
             request.onload = async function () {
                 song = JSON.parse(request.response)[0].songNotes
-                console.log(song)
                 let delayTime = 0
                 let previousTime = 0
                 stopSong = false
@@ -231,10 +243,17 @@
     if (!isNaN(songs[0].songNotes[0].key[0])) {
         let convertedSongs = []
         for (let i = 0; i < songs.length; i++) {
+            if(songs[i].bpm == undefined) songs[i].bpm = 220
+            if(songs[i].pitchLevel == undefined) songs[i].pitchLevel = 0
+            if(songs[i].isComposed == undefined) songs[i].isComposed = false
             let oldFormat = {
                 name: songs[i].name,
+                bpm: songs[i].bpm,
+                pitchLevel: songs[i].pitchLevel,
+                isComposed: songs[i].isComposed,
                 songNotes: []
             }
+
             for (let j = 0; j < songs[i].songNotes.length; j++) {
                 let keyObj = {
                     time: songs[i].songNotes[j].time,

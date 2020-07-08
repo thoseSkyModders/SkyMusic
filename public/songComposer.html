@@ -119,6 +119,8 @@
                 <option>Horn</option>
                 <option>Xylophone</option>
                 <option>Flute</option>
+                <option>Drum</option>
+                <option>Bell</option>
             </select>
         </div>
         <div class="settingOption">
@@ -388,6 +390,23 @@ function loadMIDI(){
         releasedKey = true
     })
     document.addEventListener('keydown', function(event) {
+        let tempoButtons = document.getElementsByClassName("tempoButton")
+        if(event.keyCode == 49) {
+            document.activeElement.blur();
+            changeTempo(tempoButtons[0])
+        }
+        if(event.keyCode == 50) {
+            document.activeElement.blur();
+            changeTempo(tempoButtons[1])
+        }
+        if(event.keyCode == 51) {
+            document.activeElement.blur();
+            changeTempo(tempoButtons[2])
+        }
+        if(event.keyCode == 52) {
+            document.activeElement.blur();
+            changeTempo(tempoButtons[3])
+        }
         if(event.keyCode == 65) {
             document.activeElement.blur();
             before()
@@ -1013,15 +1032,25 @@ function loadMIDI(){
         10: ["B♭", "C", "D", "E♭", "F", "G", "A", "B♭", "C", "D", "E♭", "F", "G", "A", "B♭"],
         11: ["B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B"]
     }
-    let buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle",
-        "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle",
-    ]
     let newRowBreak = [6, 11]
 
     function changeInstrument(instrument) {
+        instrument = instrument.toLowerCase()
         let numOfKeysLeft = 15
         let numOfKeys = 15
-        urls = instrumentsNotes[instrument.toLowerCase()]
+        let buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle",
+            "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle",
+        ]
+        let newRowBreak = [6, 11]
+        if (instrument == "bell" || instrument == "drum") {
+            newRowBreak = [5, 9]
+            numOfKeysLeft = 8
+            numOfKeys = 8
+            buttonImages = ["Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle",
+                "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle"
+            ]
+        }
+        urls = instrumentsNotes[instrument]
         document.getElementById("touch").innerHTML =
             '<div class="Row1" id="row1"></div><div class="Row2" id="row2"></div><div class="Row3" id="row3"></div>'
         preload(urls)
