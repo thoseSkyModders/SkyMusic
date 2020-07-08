@@ -37,6 +37,7 @@
             "type": "image/png"
           }],
     "start_url": "/index.html",
+    "scope": "https://sky-music.herokuapp.com/",
     "display": "fullscreen",
     "orientation": "landscape",
     "background_color": "#dad8b3",
