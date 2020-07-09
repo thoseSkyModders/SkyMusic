@@ -402,6 +402,7 @@ function loadMIDI(){
     })
     document.addEventListener('keydown', function(event) {
         let tempoButtons = document.getElementsByClassName("tempoButton")
+        if(document.activeElement.nodeName == "INPUT") return
         if(event.keyCode == 49) {
             document.activeElement.blur();
             changeTempo(tempoButtons[0])
