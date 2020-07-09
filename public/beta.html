@@ -207,9 +207,9 @@
     <div id="icon-bar" style="height: 200vh;">
         <button class="skyButton_2" onclick='resetPages(),showMenu(),document.getElementById("login").style.display = "none"'><p id="main-page-text-menu" class="texts">Main page</p></button>
         <button class="skyButton_2" onclick="toggleSettings()"><p id="settings-text-menu" class="texts">Settings</p></button>
-        <button class="skyButton_2" style="background-color: rgba(218, 206, 179,0.8);" onclick='window.open("songComposer.html")'><p id="song-composer-text-menu"  class="texts">Song composer</p></button>
-        <button class="skyButton_2" onclick='window.open("songLibrary.html")'><p id="library-text-menu" class="texts">Song Library</p></button>
-        <button class="skyButton_2" onclick='window.open("sheetDisplayer.html")'><p id="sheet-displayer-text-menu"  class="texts">Sheet displayer</p></button>
+        <button class="skyButton_2" style="background-color: rgba(218, 206, 179,0.8);" onclick='redirectPage("/songComposer.html")'><p id="song-composer-text-menu"  class="texts">Song composer</p></button>
+        <button class="skyButton_2" onclick='redirectPage("/songLibrary.html")'><p id="library-text-menu" class="texts">Song Library</p></button>
+        <button class="skyButton_2" onclick='redirectPage("/sheetDisplayer.html")'><p id="sheet-displayer-text-menu"  class="texts">Sheet displayer</p></button>
         <button class="skyButton_2" onclick="toggleLogin()"><p id="account-text-menu" class="texts">Account</p></button>
         <button class="skyButton_2" onclick='window.open("help.html")'><p id="help-text-menu"  class="texts">Need help?</p></button>
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
@@ -251,7 +251,11 @@
         <div id="old-text" style="color: rgba(235, 0, 27, 1); font-weight: bold; margin-top: 15px; margin-bottom: 5px;">
             OLD
         </div>
-        <button type="button" id="oldHarpBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/harp.png);"/>
+        <button type="button" id="oldHarpBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/harp.png);"></button>
+        <div style="color: rgba(235, 0, 27, 1); font-weight: bold; margin-top: 15px; margin-bottom: 5px;">
+          OTHER
+      </div>
+        <button type="button" id="toyUkuleleBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/ToyUkulele.png);"></button>
         
     </div>
     <div id="pitchTab" class="instrumentsWrapper">

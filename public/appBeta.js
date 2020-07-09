@@ -101,6 +101,11 @@ var translateText = {
 
 //--------------------------------------------------------------------------------------------------------//
 
+function redirectPage(redirect) {
+    location.href = window.location.origin + redirect
+}
+
+
 var selectedLanguage = "English"
 function changeLanguage(language){
     localStorage.setItem("language",language)
@@ -606,6 +611,27 @@ function resetPassword() { //Function to reset the email
 
 //--------------------------------------------------------------------------------------------------------//
 
+function getTempSong(url) {
+        url = url.split("?tempSong=")[1]
+    let request = new XMLHttpRequest();
+    request.open("POST", "/getTempSong");
+    request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+    request.onload = (res) => {
+        response = res.target.response;
+        console.log(response)
+    };
+    console.log(url)
+    let data = {
+        id: url
+    }
+    request.send(JSON.stringify(data))    
+}
+if(window.location.href.includes("?tempSong=")){
+    //getTempSong(window.location.href)
+}
+
+//--------------------------------------------------------------------------------------------------------//
+
 function generateShareLink(name){
     let request = new XMLHttpRequest();
     request.open("POST", "/generateShareLink");
@@ -1091,6 +1117,8 @@ let instrumentsNotes = {
     xylophone: ["Xylophone/0.mp3", "Xylophone/1.mp3", "Xylophone/2.mp3", "Xylophone/3.mp3", "Xylophone/4.mp3", "Xylophone/5.mp3", "Xylophone/6.mp3", "Xylophone/7.mp3", "Xylophone/8.mp3", "Xylophone/9.mp3", "Xylophone/10.mp3", "Xylophone/11.mp3", "Xylophone/12.mp3", "Xylophone/13.mp3", "Xylophone/14.mp3"],
     drum: ["Drum/0.mp3", "Drum/1.mp3", "Drum/2.mp3", "Drum/3.mp3", "Drum/4.mp3", "Drum/5.mp3", "Drum/6.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3"],
     horn: ["Horn/0.mp3", "Horn/1.mp3", "Horn/2.mp3", "Horn/3.mp3", "Horn/4.mp3", "Horn/5.mp3", "Horn/6.mp3", "Horn/7.mp3", "Horn/8.mp3", "Horn/9.mp3", "Horn/10.mp3", "Horn/11.mp3", "Horn/12.mp3", "Horn/13.mp3", "Horn/14.mp3"],
+    toyUkulele: ["ToyUkulele/0.mp3", "ToyUkulele/1.mp3", "ToyUkulele/2.mp3", "ToyUkulele/3.mp3", "ToyUkulele/4.mp3", "ToyUkulele/5.mp3", "ToyUkulele/6.mp3", "ToyUkulele/7.mp3", "ToyUkulele/8.mp3", "ToyUkulele/9.mp3", "ToyUkulele/10.mp3", "ToyUkulele/11.mp3", "ToyUkulele/12.mp3", "ToyUkulele/13.mp3", "ToyUkulele/14.mp3"],
+
 }
 //Changes sounds when instrument is selected
 function changeInstrumentSound(instrument) {

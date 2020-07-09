@@ -15,7 +15,7 @@ var awaitingVerification = []
 var resetverification = []
 const shareKey = process.env.shareKey
 const shareIv = process.env.shareIv
-
+let tempSongs = []
 
 //If you want to edit something, just put inLocalhost = true and it will let you use the website without the account system
 /* ------------------------------------------------------->*/       var inLocalhost = false
@@ -50,7 +50,6 @@ var port = process.env.PORT || 8080
 setInterval(() => {
     removeUnusedVerification()
 }, 60000);
-
 //----------------------------------------------------------------------------------------------//
 
 function removeUnusedVerification() {
@@ -72,6 +71,16 @@ function removeUnusedVerification() {
     }
 }
 
+function removeTempSongs() {
+    let date = new Date().getTime()
+    for (let i = 0; i < tempSongs.length; i++) {
+        console.log(tempSongs[i])
+        if(tempSongs[i].expiration < date){
+            tempSongs.splice(i, 1);
+            i--
+        }
+    }
+}
 //----------------------------------------------------------------------------------------------//
 
 app.get("/", function (req, res) {
@@ -81,6 +90,50 @@ var server = app.listen(port, () => {
     console.log("server is running on port", server.address().port);
 });
 //----------------------------------------------------------------------------------------------//
+
+/*
+setInterval(() => {
+    removeTempSongs()
+}, 10000);
+const API_KEY = "test"
+app.post('/generateTempSong', function (req, res) {
+    try{
+        var value = req.body;
+        if(API_KEY === value.API_KEY){
+            let song = {
+                song: value.song,
+                expiration: new Date().getTime() + 3600000,
+                id: makeseed(8)
+            }
+            tempSongs.push(song)
+            let url = "https://sky-music.herokuapp.com/?tempSong="+song.id  
+            res.send(url)
+        }else{
+            res.send("Invalid API key")
+        }
+    }catch{
+        res.send("Error")
+    }
+});
+
+//----------------------------------------------------------------------------------------------//
+
+app.post('/getTempSong', function (req, res) {
+    try{
+        var value = req.body;
+        for(let i = 0;i < tempSongs.length;i++){
+            if(tempSongs[i].id == value.id){
+                res.send(tempSongs[i].song)
+                return
+            }
+        }
+        res.send("Song doesn't exist!")
+    }catch{
+        res.send("Error")
+    }
+});
+*/
+
 var botIsOnline = false
 if (!inLocalhost) {
     MongoClient.connect(mongoKey, function (err, db1) {
