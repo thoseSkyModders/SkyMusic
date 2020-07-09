@@ -1,286 +1,400 @@
 <html>
-    <style>
-        body{
-            padding: 1em;
-            background-color: rgba(22, 22, 22, 0.95);
-            color: #dad8b3;
-            font-family: Arial;
-        }
-        .floatingMessage {
-            position: fixed;
-            width: 60%;
-            left: calc(20% - 16px);
-            height: 15vh;
-            top: 50%;
-            font-size: 40px;
-            text-align: center;
-            padding: 1em;
-            font-family: Arial;
-            font-weight: bold;
-            color: #dad8b3;
-            background-color: rgba(22, 22, 22, 0.95);
-            display: none;
-            z-index: 110;
-            border: solid 2px #dad8b3;
-            border-radius: 1em;
-        }
-        h1{
-            color: rgba(235, 0, 27, 0.8);
-        }
-        a{
-            font-size: 1.5em;
-            font-family: Arial;
-        }
-        .skyButton {
-	        color: #dad8b3;
-            font-size: 1.5em;
-            background-color: rgba(22, 22, 22, 0.95);
-            padding: 0.1em;
-            cursor: pointer;
-            margin: 0.5em;
-            outline: none;
-        }
-        .downloadSong{
-            vertical-align: middle;
-            width: 60px;
-            height: 60px;
-        }
-        skyButton{
-            color: #dad8b3;
-            border: solid #dad8b3 1.5px;
-            background-color: rgba(22, 22, 22, 0.65);
-            border-radius: 0.5em;
-            font-size: 1em;
-            padding: 0.4em;
-            box-sizing: border-box;
-            cursor: pointer;
-            margin: 0.5em;
-            outline: none; 
-        }
-    </style>
-    <head>
-        <meta name="theme-color" content="#2196F3">
-        <meta name="description" content="Song library for Sky Music!">
-        <meta name="keywords" content="Sky,Music,piano,harp,xylophone,drum,guitar,horn,bell,record,share,midi">
-        <meta name="author" content="thoseSkyModders">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-title" content="Sky Music Library">
-        <meta name="apple-mobile-web-app-status-bar-style" content="default">
-        <link rel="apple-touch-icon" href="Sky.png"> 
-        <meta property="og:image" content="https://repository-images.githubusercontent.com/261796811/08f6ec80-9ce7-11ea-8bf1-800c977cfaf1">
-        <meta property="og:site_name" content="Sky Music Library">
-        <meta property="og:title" content="Sky Music Library">
-        <meta property="og:url" content="https://sky-music.herokuapp.com/">
-        <meta property="og:description" content="Song library for Sky Music!">
-        <link rel="icon" type="image/png" href="/favicon.ico">
-        <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    </head>
-    <body>
-        <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
-        <div id="notes"></div>
-        <a href="/"class=skyButton style="border:solid 2px #dad8b3; text-decoration: none; border-radius: 0.3em; padding: 0.2em;">GO BACK</a><br><br>
-        <div style="font-size: 2em; font-family: Arial;">
-            <span>Download android app</span>
-            <a style="vertical-align: middle;" href="SkyMusic.apk" download><img src="/download.png"width="75" height="75" ></a>
-            <a href="https://discord.gg/NFFRTed" style="margin: 0.5em; vertical-align: middle"><img src="/discord.png" width="250" height="65"></a>
-        </div>
-        <div style="border-top: solid 2px #dad8b3; margin: 2em 0 2em 0; padding: 1em;">
-            Press a song to hear it (Wait for it to load), to download it press the <img class="downloadSong"> button.<br><br>
-            Once you download a song, you will be able to listen to it in the "manage recordings" 
-        </div>
-        <ul>
-            <h1>Song Pack</h1>
-            
-            <li><a>Song pack 1</a> <img class="downloadSong" onclick='downloadJSON("Song_pack_1")'><br><br></li>
-            <li><a>Song pack 2</a> <img class="downloadSong" onclick='downloadJSON("Song_pack_2")'><br><br></li>
+<style>
+    body {
+        padding: 1em;
+        background-color: rgba(22, 22, 22, 0.95);
+        color: #dad8b3;
+        font-family: Arial;
+    }
 
-            <h1>Easy</h1>
-            <li><skyButton onclick="playSong(this.innerHTML)">You are my Sunshine</skyButton> <img class="downloadSong" onclick='downloadJSON("You_are_my_Sunshine")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Ode to joy</skyButton> <img class="downloadSong" onclick='downloadJSON("Ode_to_joy")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">The lion sleeps tonight</skyButton> <img class="downloadSong" onclick='downloadJSON("The_lion_sleeps_tonight")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">undertale</skyButton> <img class="downloadSong" onclick='downloadJSON("undertale")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Kum Ba Yah</skyButton> <img class="downloadSong" onclick='downloadJSON("Kum_Ba_Yah")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Do-Re-Mi</skyButton> <img class="downloadSong" onclick='downloadJSON("Do-Re-Mi")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Binary Sunset Star Wars</skyButton> <img class="downloadSong" onclick='downloadJSON("Binary_Sunset_Star_Wars")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">bad romance chorus</skyButton> <img class="downloadSong" onclick='downloadJSON("bad_romance_chorus")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Tetris Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Tetris_Theme")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Clementine</skyButton> <img class="downloadSong" onclick='downloadJSON("Clementine")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Ive Been Working on the Railroad</skyButton> <img class="downloadSong" onclick='downloadJSON("Ive_Been_Working_on_the_Railroad")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">la Cucaracha</skyButton> <img class="downloadSong" onclick='downloadJSON("la_Cucaracha")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Lily - Alan Walker</skyButton> <img class="downloadSong" onclick='downloadJSON("Lily_-_Alan_Walker")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Shatter me</skyButton> <img class="downloadSong" onclick='downloadJSON("Shatter_me")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Ed sheeran perfecty</skyButton> <img class="downloadSong" onclick="downloadJSON('Ed_sheeran_perfecty')"><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">lavender Town</skyButton> <img class="downloadSong" onclick="downloadJSON('lavender_Town')"><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">San Francisco</skyButton> <img class="downloadSong" onclick="downloadJSON('San_Francisco')"><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Scarborough Fair</skyButton> <img class="downloadSong" onclick="downloadJSON('Scarborough_Fair')"><br><br></li>
-            
-            <h1>Medium</h1>
+    .floatingMessage {
+        position: fixed;
+        width: 60%;
+        left: calc(20% - 16px);
+        height: 15vh;
+        top: 50%;
+        font-size: 40px;
+        text-align: center;
+        padding: 1em;
+        font-family: Arial;
+        font-weight: bold;
+        color: #dad8b3;
+        background-color: rgba(22, 22, 22, 0.95);
+        display: none;
+        z-index: 110;
+        border: solid 2px #dad8b3;
+        border-radius: 1em;
+    }
 
-            <li><skyButton onclick="playSong(this.innerHTML)">Davy Joness Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Davy_Joness_Theme")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Hedwigs Theme Harry Potter</skyButton> <img class="downloadSong" onclick='downloadJSON("Hedwigs_Theme_Harry_Potter")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Flohwalzer</skyButton> <img class="downloadSong" onclick='downloadJSON("Flohwalzer")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Oh Susanna</skyButton> <img class="downloadSong" onclick='downloadJSON("Oh_Susanna")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Take Me to church</skyButton> <img class="downloadSong" onclick='downloadJSON("Take_Me_to_church")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Carrying You Laputa</skyButton> <img class="downloadSong" onclick="downloadJSON('Carrying_You_Laputa')"><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Gravity Falls Theme</skyButton> <img class="downloadSong" onclick="downloadJSON('Gravity_Falls_Theme')"><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">If You Are Happy</skyButton> <img class="downloadSong" onclick="downloadJSON('If_You_Are_Happy')"><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Lord Of The Rings CM</skyButton> <img class="downloadSong" onclick="downloadJSON('Lord_Of_The_Rings_CM')"><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Ode to Joy - Hard</skyButton> <img class="downloadSong" onclick="downloadJSON('Ode_to_Joy_-_Hard')"><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Owl City Fireflies</skyButton> <img class="downloadSong" onclick="downloadJSON('Owl_City_Fireflies')"><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Route 01 Pokemon</skyButton> <img class="downloadSong" onclick="downloadJSON('Route_01_Pokemon')"><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Skyrim theme</skyButton> <img class="downloadSong" onclick="downloadJSON('Skyrim_theme')"><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Hallelujah</skyButton> <img class="downloadSong" onclick="downloadJSON('Hallelujah')"><br><br></li>
-    
-            <h1>Hard</h1>
+    h1 {
+        color: rgba(235, 0, 27, 0.8);
+    }
 
-            <li><skyButton onclick="playSong(this.innerHTML)">Music sheet 8 Extended</skyButton> <img class="downloadSong" onclick='downloadJSON("Music_sheet_8_Extended")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Speak Softly Love - Godfather Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Speak_Softly_Love_-_Godfather_Theme")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Rather be</skyButton> <img class="downloadSong" onclick='downloadJSON("Rather_be")'><br><br></li>
-            <li><skyButton onclick="playSong(this.innerHTML)">Chuanyue shikong de sinian</skyButton> <img class="downloadSong" onclick="downloadJSON('Chuanyue_shikong_de_sinian')"><br><br></li>
-            
-            </ul>
-
-        </body>
-    <script>
-        var downloadButtons = document.getElementsByClassName("downloadSong")
-        for(var i = 0;i<downloadButtons.length;i++){
-            downloadButtons[i].src = "icons/download.png"
+    a {
+        font-size: 1.5em;
+        font-family: Arial;
+    }
+    @media only screen and (orientation:portrait) {
+        li{
+            margin-bottom: 10px;
         }
-        function downloadJSON(song) {
-            let request = new XMLHttpRequest();
-            request.open('GET', "./librarySongs/" + song + ".txt");
-            request.responseType = 'text';
-            request.onload = function () {
-                var inArray = convertToOldFormat(JSON.parse(request.response))
-                var savedSongs = localStorage.getItem("savedSongs")
-                if(savedSongs != null){
-                    try{
-                        savedSongs = JSON.parse(savedSongs)
-                    }catch{
-                        savedSongs = []
-                    }
-                }else{
+    }
+    .skyButton {
+        color: #dad8b3;
+        font-size: 1.5em;
+        background-color: rgba(22, 22, 22, 0.95);
+        padding: 0.1em;
+        cursor: pointer;
+        margin: 0.5em;
+        outline: none;
+    }
+
+    .skyButton2 {
+        border: solid 2px #dad8b3;
+        font-size: 1em;
+        text-decoration: none;
+        border-radius: 0.4em;
+        box-sizing: border-box;
+        background-color: rgba(22, 22, 22, 0.65);
+        color: #dad8b3;
+        font-weight: bold;
+    }
+
+    .select {
+        border: solid 2px #dad8b3;
+        font-size: 1em;
+        text-decoration: none;
+        border-radius: 0.3em;
+        color: #dad8b3;
+        background-color: rgba(22, 22, 22, 0.65);
+        text-align-last: center;
+        padding: 0 10px 0 10px;
+        margin: 0 10px 0 10px;
+        display: block;
+    }
+
+    .downloadSong {
+        vertical-align: middle;
+        width: 60px;
+        height: 60px;
+    }
+
+    skyButton {
+        color: #dad8b3;
+        border: solid #dad8b3 1.5px;
+        background-color: rgba(22, 22, 22, 0.65);
+        border-radius: 0.5em;
+        font-size: 1em;
+        padding: 0.4em;
+        box-sizing: border-box;
+        cursor: pointer;
+        margin: 0.5em;
+        outline: none;
+    }
+</style>
+
+<head>
+    <meta name="theme-color" content="#2196F3">
+    <meta name="description" content="Song library for Sky Music!">
+    <meta name="keywords" content="Sky,Music,piano,harp,xylophone,drum,guitar,horn,bell,record,share,midi">
+    <meta name="author" content="thoseSkyModders">
+    <meta name="mobile-web-app-capable" content="yes"> 
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Sky Music Library">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="Sky.png">
+    <meta property="og:image"
+        content="https://repository-images.githubusercontent.com/261796811/08f6ec80-9ce7-11ea-8bf1-800c977cfaf1">
+    <meta property="og:site_name" content="Sky Music Library">
+    <meta property="og:title" content="Sky Music Library">
+    <meta property="og:url" content="https://sky-music.herokuapp.com/">
+    <meta property="og:description" content="Song library for Sky Music!">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
+    <div id="notes"></div>
+    <a href="/" class=skyButton
+        style="border:solid 2px #dad8b3; text-decoration: none; border-radius: 0.3em; padding: 0.2em;">GO
+        BACK</a><br>
+    <div style="font-size: 2em; font-family: Arial;">
+        <span>Download android app</span>
+        <a style="vertical-align: middle;" href="SkyMusic.apk" download><img src="/download.png" width="75"
+                height="75"></a>
+        <a href="https://discord.gg/NFFRTed" style="margin: 0.5em; vertical-align: middle"><img src="/discord.png"
+                width="250" height="65"></a>
+    </div>
+    <div style="border-top: solid 2px #dad8b3; margin: 2em 0 2em 0; padding: 1em;">
+        Press a song to hear it (Wait for it to load), to download it press the <img class="downloadSong">
+        button.<br>
+        Once you download a song, you will be able to listen to it in the "manage recordings"
+    </div>
+    <div style="display: flex; flex-direction: row; font-size: 1.5em; align-items: center;">
+        Send us your song!
+        <select id="selectedSong" class="select">
+            <option selected disabled>Select song</option>
+        </select>
+        <button onclick="sendSong(this)" class="skyButton2">Send song</button>
+    </div>
+    <ul>
+        <h1>Song Pack</h1>
+
+        <li><a>Song pack 1</a> <img class="downloadSong" onclick='downloadJSON("Song_pack_1")'><br></li>
+        <li><a>Song pack 2</a> <img class="downloadSong" onclick='downloadJSON("Song_pack_2")'><br></li>
+
+        <h1>Easy</h1>
+
+        <li><skyButton onclick="playSong(this.innerHTML)">You are my Sunshine</skyButton> <img class="downloadSong" onclick='downloadJSON("You_are_my_Sunshine")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Ode to joy</skyButton> <img class="downloadSong" onclick='downloadJSON("Ode_to_joy")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">The lion sleeps tonight</skyButton> <img class="downloadSong" onclick='downloadJSON("The_lion_sleeps_tonight")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">undertale</skyButton> <img class="downloadSong" onclick='downloadJSON("undertale")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Kum Ba Yah</skyButton> <img class="downloadSong" onclick='downloadJSON("Kum_Ba_Yah")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Do-Re-Mi</skyButton> <img class="downloadSong" onclick='downloadJSON("Do-Re-Mi")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Binary Sunset Star Wars</skyButton> <img class="downloadSong" onclick='downloadJSON("Binary_Sunset_Star_Wars")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">bad romance chorus</skyButton> <img class="downloadSong" onclick='downloadJSON("bad_romance_chorus")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Tetris Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Tetris_Theme")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Clementine</skyButton> <img class="downloadSong" onclick='downloadJSON("Clementine")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Ive Been Working on the Railroad</skyButton> <img class="downloadSong" onclick='downloadJSON("Ive_Been_Working_on_the_Railroad")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">la Cucaracha</skyButton> <img class="downloadSong" onclick='downloadJSON("la_Cucaracha")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Lily - Alan Walker</skyButton> <img class="downloadSong" onclick='downloadJSON("Lily_-_Alan_Walker")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Shatter me</skyButton> <img class="downloadSong" onclick='downloadJSON("Shatter_me")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Ed sheeran perfecty</skyButton> <img class="downloadSong" onclick="downloadJSON('Ed_sheeran_perfecty')"><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">lavender Town</skyButton> <img class="downloadSong" onclick="downloadJSON('lavender_Town')"><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">San Francisco</skyButton> <img class="downloadSong" onclick="downloadJSON('San_Francisco')"><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Scarborough Fair</skyButton> <img class="downloadSong" onclick="downloadJSON('Scarborough_Fair')"><br></li>
+        
+        <h1>Medium</h1>
+
+        <li><skyButton onclick="playSong(this.innerHTML)">Davy Joness Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Davy_Joness_Theme")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Hedwigs Theme Harry Potter</skyButton> <img class="downloadSong" onclick='downloadJSON("Hedwigs_Theme_Harry_Potter")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Flohwalzer</skyButton> <img class="downloadSong" onclick='downloadJSON("Flohwalzer")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Oh Susanna</skyButton> <img class="downloadSong" onclick='downloadJSON("Oh_Susanna")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Take Me to church</skyButton> <img class="downloadSong" onclick='downloadJSON("Take_Me_to_church")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Carrying You Laputa</skyButton> <img class="downloadSong" onclick="downloadJSON('Carrying_You_Laputa')"><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Gravity Falls Theme</skyButton> <img class="downloadSong" onclick="downloadJSON('Gravity_Falls_Theme')"><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">If You Are Happy</skyButton> <img class="downloadSong" onclick="downloadJSON('If_You_Are_Happy')"><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Lord Of The Rings CM</skyButton> <img class="downloadSong" onclick="downloadJSON('Lord_Of_The_Rings_CM')"><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Ode to Joy - Hard</skyButton> <img class="downloadSong" onclick="downloadJSON('Ode_to_Joy_-_Hard')"><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Owl City Fireflies</skyButton> <img class="downloadSong" onclick="downloadJSON('Owl_City_Fireflies')"><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Route 01 Pokemon</skyButton> <img class="downloadSong" onclick="downloadJSON('Route_01_Pokemon')"><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Skyrim theme</skyButton> <img class="downloadSong" onclick="downloadJSON('Skyrim_theme')"><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Hallelujah</skyButton> <img class="downloadSong" onclick="downloadJSON('Hallelujah')"><br></li>
+
+        <h1>Hard</h1>
+
+        <li><skyButton onclick="playSong(this.innerHTML)">Music sheet 8 Extended</skyButton> <img class="downloadSong" onclick='downloadJSON("Music_sheet_8_Extended")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Speak Softly Love - Godfather Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Speak_Softly_Love_-_Godfather_Theme")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Rather be</skyButton> <img class="downloadSong" onclick='downloadJSON("Rather_be")'><br></li>
+        <li><skyButton onclick="playSong(this.innerHTML)">Chuanyue shikong de sinian</skyButton> <img class="downloadSong" onclick="downloadJSON('Chuanyue_shikong_de_sinian')"><br></li>
+        
+        </ul>
+</body>
+<script>
+    let picker = document.getElementById("selectedSong");
+    let lastSongSent = ""
+    function sendSong(btn) {
+
+        var songName = picker.options[picker.selectedIndex].value;
+        if (picker.selectedIndex == 0) {
+            showMessage("Select a song first!", 0, 1500)
+            return
+        }
+        if(lastSongSent == songName){
+            showMessage("Please don't send the song twice!", 2, 3000)
+            return
+        }
+        if(btn.getAttribute("used") == "true"){
+            showMessage("Wait 10 seconds before sending another", 2, 3000)
+            return
+        }
+        btn.setAttribute("used",true)
+        lastSongSent = songName
+        let storage = JSON.parse(localStorage.getItem("savedSongs"))
+        let song = ""
+        for (let i = 0; i < storage.length; i++) {
+            if (songName == storage[i].name) {
+                song = storage[i]
+                break
+            }
+        }
+        let request = new XMLHttpRequest();
+        request.open("POST", "/sendSongToDiscord");
+        request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+        request.onload = (res) => {
+            response = res.target.response;
+            showMessage(response, 1, 2500)
+            setTimeout(() => {
+                btn.setAttribute("used",false)
+            }, 10000);
+        };
+        request.onerror = () => {
+            showMessage("Error!", 0, 1500)
+            btn.setAttribute("used",false)
+        }
+        let data = {
+            song: song
+        }
+        request.send(JSON.stringify(data))
+    }
+    let localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
+    if (localStorageSongs != null) {
+        for (let i = 0; i < localStorageSongs.length; i++) {
+            var option = document.createElement("option")
+            option.innerHTML = localStorageSongs[i].name
+            picker.appendChild(option)
+        }
+    }
+    var downloadButtons = document.getElementsByClassName("downloadSong")
+    for (var i = 0; i < downloadButtons.length; i++) {
+        downloadButtons[i].src = "icons/download.png"
+    }
+
+    function downloadJSON(song) {
+        let request = new XMLHttpRequest();
+        request.open('GET', "./librarySongs/" + song + ".txt");
+        request.responseType = 'text';
+        request.onload = function () {
+            var inArray = convertToOldFormat(JSON.parse(request.response))
+            var savedSongs = localStorage.getItem("savedSongs")
+            if (savedSongs != null) {
+                try {
+                    savedSongs = JSON.parse(savedSongs)
+                } catch {
                     savedSongs = []
                 }
-                for(var i = 0;i<inArray.length;i++){
-                    var alreadyHasSong = false
-                    for(var j = 0; j<savedSongs.length;j++){
-                        if(inArray[i].name == savedSongs[j].name) alreadyHasSong = true
+            } else {
+                savedSongs = []
+            }
+            for (var i = 0; i < inArray.length; i++) {
+                var alreadyHasSong = false
+                for (var j = 0; j < savedSongs.length; j++) {
+                    if (inArray[i].name == savedSongs[j].name) alreadyHasSong = true
+                }
+                if (inArray.length == 1) {
+                    if (!alreadyHasSong) {
+                        savedSongs.push((inArray[i]))
+                        showMessage('Song "' + inArray[i].name + '" added to your songs!', 1, 2000)
+                    } else {
+                        showMessage('Song "' + inArray[i].name + '" was already saved!', 0, 2000)
                     }
-                    if(inArray.length == 1){
-                        if(!alreadyHasSong){
-                            savedSongs.push((inArray[i]))
-                            showMessage('Song "'+ inArray[i].name + '" added to your songs!',1,2000)
-                        }else{
-                            showMessage('Song "'+ inArray[i].name + '" was already saved!',0,2000)
-                        }
-                    }else{
-                        if(!alreadyHasSong){
-                            savedSongs.push((inArray[i]))
-                        }
+                } else {
+                    if (!alreadyHasSong) {
+                        savedSongs.push((inArray[i]))
                     }
                 }
-                if(inArray.length > 1) showMessage("Added song pack!",1,2000)
-                localStorage.setItem("savedSongs",JSON.stringify(savedSongs))
-                console.log("done")
+            }
+            if (inArray.length > 1) showMessage("Added song pack!", 1, 2000)
+            localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
+            console.log("done")
 
-                return
-                //Old thing to download, i keep it in here
-                var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
-                var dlAnchorElem = document.createElement("a")
-                dlAnchorElem.setAttribute("href", dataStr);
-                dlAnchorElem.setAttribute("download", song + ".txt");
-                dlAnchorElem.click();
-                dlAnchorElem.remove()
-            };
-            request.send();
-        }
-    
-        var notesHandler = document.getElementById("notes")
-        var keys = []
-        var songsArray = []
-        for (var i = 0; i < 15; i++) {
-            var audio = document.createElement("audio")
-            audio.controls = 'controls';
-            audio.src = 'Sounds/Xylophone/' + i + ".mp3";
-            audio.type = 'audio/mp3';
-            audio.style.display = "none"
-            audio.id = "Key" + i
-            keys.push(audio)
-            notesHandler.appendChild(audio)
-        }
-        let stopSong = false
-        async function playSong(songName) {
-            songName = songName.split(" ").join("_")
-            stopSong = true
-            await delay(1500)
-            let request = new XMLHttpRequest();
-            request.open('GET', "./librarySongs/" + songName + ".txt");
-            request.responseType = 'text';
-            request.onload = async function () {
-                song = JSON.parse(request.response)[0].songNotes
-                let delayTime = 0
-                let previousTime = 0
-                stopSong = false
-                for (let i = 0; i < song.length; i++) {
-                    var keyToPlay = song[i].key.substr(1)
-                    if (stopSong) break;
-                    delayTime = song[i].time -
-                        previousTime //how much time has to pass from one note to the other
-                    previousTime = song[i].time
-                    await delay(delayTime)
-                    document.getElementById(keyToPlay).currentTime = 0
-                    document.getElementById(keyToPlay).play()
-                }
-                stopSong = false
-            }
-            request.send()
-        }
-    
-        //-----------------------------------------------------------------------------------//
-        function convertToOldFormat(songs) {
-    if (!isNaN(songs[0].songNotes[0].key[0])) {
-        let convertedSongs = []
-        for (let i = 0; i < songs.length; i++) {
-            if(songs[i].bpm == undefined) songs[i].bpm = 220
-            if(songs[i].pitchLevel == undefined) songs[i].pitchLevel = 0
-            if(songs[i].isComposed == undefined) songs[i].isComposed = false
-            let oldFormat = {
-                name: songs[i].name,
-                bpm: songs[i].bpm,
-                pitchLevel: songs[i].pitchLevel,
-                isComposed: songs[i].isComposed,
-                songNotes: []
-            }
-
-            for (let j = 0; j < songs[i].songNotes.length; j++) {
-                let keyObj = {
-                    time: songs[i].songNotes[j].time,
-                    key: songs[i].songNotes[j].key.substr(1)
-                }
-                oldFormat.songNotes.push(keyObj)
-            }
-            convertedSongs.push(oldFormat)
-        }
-        return convertedSongs
-    } else {
-        return songs
+            return
+            //Old thing to download, i keep it in here
+            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
+            var dlAnchorElem = document.createElement("a")
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", song + ".txt");
+            dlAnchorElem.click();
+            dlAnchorElem.remove()
+        };
+        request.send();
     }
-}
-        const delay = ms => new Promise(res => setTimeout(res, ms))
 
-function showMessage(msg, msgType, duration) {
-    if (duration == undefined) duration = 1500
-    floatingMessage = document.getElementById("floatingMessage")
-    floatingMessage.innerHTML = msg
-    let color
-    if (msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
-    if (msgType == 1) color = "lightgreen" //SUCCESS
-    if (msgType == 2) color = "#dad8b3" //MESSAGE
-    floatingMessage.style.color = color
-    $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
-}
-    </script>
+    var notesHandler = document.getElementById("notes")
+    var keys = []
+    var songsArray = []
+    for (var i = 0; i < 15; i++) {
+        var audio = document.createElement("audio")
+        audio.controls = 'controls';
+        audio.src = 'Sounds/Xylophone/' + i + ".mp3";
+        audio.type = 'audio/mp3';
+        audio.style.display = "none"
+        audio.id = "Key" + i
+        keys.push(audio)
+        notesHandler.appendChild(audio)
+    }
+    let stopSong = false
+    async function playSong(songName) {
+        songName = songName.split(" ").join("_")
+        stopSong = true
+        await delay(1500)
+        let request = new XMLHttpRequest();
+        request.open('GET', "./librarySongs/" + songName + ".txt");
+        request.responseType = 'text';
+        request.onload = async function () {
+            song = JSON.parse(request.response)[0].songNotes
+            let delayTime = 0
+            let previousTime = 0
+            stopSong = false
+            for (let i = 0; i < song.length; i++) {
+                var keyToPlay = song[i].key.substr(1)
+                if (stopSong) break;
+                delayTime = song[i].time -
+                    previousTime //how much time has to pass from one note to the other
+                previousTime = song[i].time
+                await delay(delayTime)
+                document.getElementById(keyToPlay).currentTime = 0
+                document.getElementById(keyToPlay).play()
+            }
+            stopSong = false
+        }
+        request.send()
+    }
+
+    //-----------------------------------------------------------------------------------//
+    function convertToOldFormat(songs) {
+        if (!isNaN(songs[0].songNotes[0].key[0])) {
+            let convertedSongs = []
+            for (let i = 0; i < songs.length; i++) {
+                if (songs[i].bpm == undefined) songs[i].bpm = 220
+                if (songs[i].pitchLevel == undefined) songs[i].pitchLevel = 0
+                if (songs[i].isComposed == undefined) songs[i].isComposed = false
+                let oldFormat = {
+                    name: songs[i].name,
+                    bpm: songs[i].bpm,
+                    pitchLevel: songs[i].pitchLevel,
+                    isComposed: songs[i].isComposed,
+                    songNotes: []
+                }
+
+                for (let j = 0; j < songs[i].songNotes.length; j++) {
+                    let keyObj = {
+                        time: songs[i].songNotes[j].time,
+                        key: songs[i].songNotes[j].key.substr(1)
+                    }
+                    oldFormat.songNotes.push(keyObj)
+                }
+                convertedSongs.push(oldFormat)
+            }
+            return convertedSongs
+        } else {
+            return songs
+        }
+    }
+    const delay = ms => new Promise(res => setTimeout(res, ms))
+
+    function showMessage(msg, msgType, duration) {
+        if (duration == undefined) duration = 1500
+        floatingMessage = document.getElementById("floatingMessage")
+        floatingMessage.innerHTML = msg
+        let color
+        if (msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
+        if (msgType == 1) color = "lightgreen" //SUCCESS
+        if (msgType == 2) color = "#dad8b3" //MESSAGE
+        floatingMessage.style.color = color
+        $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
+    }
     
+    if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+        .then((reg) => {
+          console.log('Service worker registered.', reg);
+        });
+  });
+}
+</script>
+
 </html>

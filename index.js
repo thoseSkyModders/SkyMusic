@@ -6,6 +6,8 @@ const nodemailer = require('nodemailer');
 const hash = require('sha1');
 const crypto = require('crypto');
 const { uuid } = require('uuidv4');
+const hastebin = require("hastebin-gen");   
+var bodyParser = require('body-parser');
 //-----------------------------//
 let app = express();
 let discordToken = process.env.discordToken
@@ -44,7 +46,6 @@ var transporter = nodemailer.createTransport({
     }
 });
 app.use(express.static('public'));
-var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 var port = process.env.PORT || 8080
 setInterval(() => {
@@ -581,6 +582,30 @@ if (!inLocalhost) {
             } else {
                 res.send("The code is not correct, try again!")
             }
+        })
+
+        app.post("/sendSongToDiscord", async function (req, res) {
+            if(!botIsOnline){
+                res.send("Service unavailabe")
+                return
+            }
+            try{
+                let song = req.body.song
+                let songsChannel = bot.channels.cache.get("730884082258673715")
+                let fileName = song.name.split(" ").join("_")
+                let htmlSong = '<li><skyButton onclick="playSong(this.innerHTML)">'+song.name+'</skyButton> <img class="downloadSong" onclick="downloadJSON('+"'"+fileName+"'"+')"><br><br></li>\n'
+                let url = await hastebin(JSON.stringify(song), { extension: "txt" });
+                let embed = new Discord.MessageEmbed()
+                embed.setTitle(song.name.toUpperCase())
+                    .setDescription(url + "\n\n"+htmlSong)
+                    .setColor(3447003)
+                    songsChannel.send({embed})
+                res.send("Song sent!")
+            }catch(e){
+                reportError(e)
+                res.send("Error!")
+            }
+    
         })
     });
     app.get('*', function (req, res) {
