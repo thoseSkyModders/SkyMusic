@@ -4,7 +4,7 @@
   "description": "Website backend for the skyMusic",
   "main": "index.js",
   "engines": {
-    "node": "10.16.3"
+    "node": "12.18.3"
   },
   "scripts": {
     "start": "node index.js"
