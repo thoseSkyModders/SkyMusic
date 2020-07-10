@@ -764,3 +764,7 @@ function decrypt(text) {
     const cipher = crypto.createCipheriv("aes192", shareKey, shareIv)
     return cipher.update(text, 'utf8', 'hex') + cipher.final('hex')
 }
+
+if (!fs.existsSync(__dirname+"/public/temp")){
+    fs.mkdirSync(__dirname+"/public/temp");
+}
