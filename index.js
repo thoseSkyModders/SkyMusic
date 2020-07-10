@@ -112,7 +112,6 @@ app.post('/api/generateTempSong',cors(), function (req, res) {
                 id: makeseed(8)
             }
             tempSongs.push(song)
-            console.log(tempSongs)
             let url = "https://sky-music.herokuapp.com/?tempSong="+song.id  
             res.send(url)
         }else{
