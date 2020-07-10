@@ -15,10 +15,10 @@
           <meta name="description" content="Play/Practice/Share Sky songs with many instruments,keys and functions!">
           <meta name="keywords" content="Sky,Music,piano,harp,xylophone,drum,guitar,horn,bell,record,share,midi">
           <meta name="author" content="thoseSkyModders">
-          <meta name="mobile-web-app-capable" content="yes"> 
           <meta name="apple-mobile-web-app-capable" content="yes">
           <meta name="apple-mobile-web-app-title" content="Sky Music">
           <meta name="apple-mobile-web-app-status-bar-style" content="default">
+          <meta name="mobile-web-app-capable" content="yes"> 
           <link rel="apple-touch-icon" href="Sky.png"> 
           <meta property="og:image" content="https://repository-images.githubusercontent.com/261796811/08f6ec80-9ce7-11ea-8bf1-800c977cfaf1">
           <meta property="og:site_name" content="Sky Music">
@@ -27,8 +27,8 @@
           <meta property="og:description" content="Play/Practice/Share Sky songs with many instruments,keys and functions!">
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="shortcut icon" href="/favicon.png?v=2" type="image/x-icon" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="/scripts/jquery.js"></script>
+    <script src="/scripts/jqueryUI.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
     <title>Sky Music</title>
@@ -37,6 +37,10 @@
 </head>
 
 <body style="touch-action: pan-x pan-y;">
+
+    <h1 id="failedToLoad" style="font-size: 3em;">If you see this, the website failed to load, please refresh one or two times!<br>
+      In case it doesn't work, email us at thoseskymodders@gmail.com
+    </h1>
     <div id="setScale" align=center>
         <h2 id="welcome-text">Welcome to Sky Music!</h2>
         <div id="scale-text">
@@ -147,7 +151,8 @@
                     <option>Español</option>
                   </select>   
                     <button onclick = "toggleScaleDiv()" id="change-zoom-button" >Change website zoom</button>
-                    <button onclick = "toggleFullScreenSetting()" id="turnOffFullscreen">Turn off auto fullscreen</button>    
+                    <button onclick = "toggleFullScreenSetting()" id="turnOffFullscreen">Turn off auto fullscreen</button> 
+                    <button onclick = "reloadKeyboardSetting()" id="reload-keyboard-setting" >Reload keyboard when exiting page (If you don't hear audio)</button>   
                     <button onclick = "changeSettings(this)" id="Disable-next-key-practice">Disable next key practice</button>
                     <button onclick = "changeSettings(this)" id="Hide-practice-note-animation">Hide practice note animation</button>
                     <button onclick = "changeSettings(this)" id="Display-Note-Names">Display Note Names</button>
@@ -202,16 +207,16 @@
     <button id="menu" style="display: block;"onclick="showMenu()"></button>
     <div id="icon-bar" style="height: 200vh;">
         <button class="skyButton_2" onclick='resetPages(),showMenu(),document.getElementById("login").style.display = "none"'><p id="main-page-text-menu" class="texts">Main page</p></button>
-        <button class="skyButton_2" onclick="toggleLogin()"><p id="account-text-menu" class="texts">Account</p></button>
         <button class="skyButton_2" onclick="toggleSettings()"><p id="settings-text-menu" class="texts">Settings</p></button>
-        <button class="skyButton_2" onclick='window.open("songComposer.html")'><p id="song-composer-text-menu"  class="texts">Song composer</p></button>
-        <button class="skyButton_2" onclick='window.open("songLibrary.html")'><p id="library-text-menu" class="texts">Song Library</p></button>
+        <button class="skyButton_2" style="background-color: rgba(218, 206, 179,0.8);" onclick='redirectPage("/songComposer.html")'><p id="song-composer-text-menu"  class="texts">Song composer</p></button>
+        <button class="skyButton_2" onclick='redirectPage("/songLibrary.html")'><p id="library-text-menu" class="texts">Song Library</p></button>
+        <button class="skyButton_2" onclick='redirectPage("/sheetDisplayer.html")'><p id="sheet-displayer-text-menu"  class="texts">Sheet displayer</p></button>
+        <button class="skyButton_2" onclick="toggleLogin()"><p id="account-text-menu" class="texts">Account</p></button>
         <button class="skyButton_2" onclick='window.open("help.html")'><p id="help-text-menu"  class="texts">Need help?</p></button>
-        <button class="skyButton_2" onclick='window.open("sheetDisplayer.html")'><p id="sheet-displayer-text-menu"  class="texts">Sheet displayer</p></button>
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
             <input type="hidden" name="cmd" value="_s-xclick" />
             <input type="hidden" name="hosted_button_id" value="MFTNUQL2Z8UWW" />
-            <input style="width: 60%; position:absolute; margin-top:15vh; margin-left:20%;" type="image" src="https://cdn.discordapp.com/attachments/705815759879798824/709162406168756314/paypal-donate-button.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+            <input style="width: 60%; position:absolute; margin-top:10vh; margin-left:20%;" type="image" src="https://cdn.discordapp.com/attachments/705815759879798824/709162406168756314/paypal-donate-button.png" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
             <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
         </form>
             
@@ -244,25 +249,29 @@
         <button type="button" id="panfluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/panflute.png);"/></button>  
         TO REMOVE ONCE NEW INSTRUMENTS ARE ADDED
         -->
-        <div id="old-text" style="color: rgba(235, 0, 27, 1); font-weight: bold; margin-top: 15px; margin-bottom: 5px;">
+        <div id="old-text" style="color: rgba(235, 0, 27, 1); font-weight: bold; margin-top: 15px; margin-bottom: 5px; font-size: 0.8em;">
             OLD
         </div>
-        <button type="button" id="oldHarpBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/harp.png);"/>
+        <button type="button" id="oldHarpBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/harp.png);"></button>
+        <div style="color: rgba(235, 0, 27, 1); font-weight: bold; margin-top: 15px; margin-bottom: 5px; font-size: 0.8em;">
+          OTHER
+      </div>
+        <button type="button" id="toyUkuleleBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/ToyUkulele.png);"></button>
         
     </div>
     <div id="pitchTab" class="instrumentsWrapper">
-        <button class="pitchSelection" onclick="changePitch(this)">1</button>
-        <button class="pitchSelection" onclick="changePitch(this)">2</button>
-        <button class="pitchSelection" onclick="changePitch(this)">3</button>
-        <button class="pitchSelection" onclick="changePitch(this)">4</button>
-        <button class="pitchSelection" onclick="changePitch(this)">5</button>
-        <button class="pitchSelection" onclick="changePitch(this)">6</button>
-        <button class="pitchSelection" onclick="changePitch(this)">7</button>
-        <button class="pitchSelection" onclick="changePitch(this)">8</button>
-        <button class="pitchSelection" onclick="changePitch(this)">9</button>
-        <button class="pitchSelection" onclick="changePitch(this)">10</button>
-        <button class="pitchSelection" onclick="changePitch(this)">11</button>
-        <button class="pitchSelection" onclick="changePitch(this)" style="border:none;">12</button>
+        <button class="pitchSelection" id="pitch1" key=1 onclick="changePitch(this)">C</button>
+        <button class="pitchSelection" id="pitch2" key=2 onclick="changePitch(this)">D♭</button>
+        <button class="pitchSelection" id="pitch3" key=3 onclick="changePitch(this)">D</button>
+        <button class="pitchSelection" id="pitch4" key=4 onclick="changePitch(this)">E♭</button>
+        <button class="pitchSelection" id="pitch5" key=5 onclick="changePitch(this)">E</button>
+        <button class="pitchSelection" id="pitch6" key=6 onclick="changePitch(this)">F</button>
+        <button class="pitchSelection" id="pitch7" key=7 onclick="changePitch(this)">G♭</button>
+        <button class="pitchSelection" id="pitch8" key=8 onclick="changePitch(this)">G</button>
+        <button class="pitchSelection" id="pitch9" key=9 onclick="changePitch(this)">A♭</button>
+        <button class="pitchSelection" id="pitch10" key=10 onclick="changePitch(this)">A</button>
+        <button class="pitchSelection" id="pitch11" key=11 onclick="changePitch(this)">B♭</button>
+        <button class="pitchSelection" id="pitch12" key=12 onclick="changePitch(this)" style="border:none;">B</button>
     </div>
     <div id="songRange" class="songRange">
         <input type="number" id="startingNoteRange" value="0"><br>
@@ -272,6 +281,7 @@
 </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
+
  <!-- <input type="sleeping" placeholder="username" style="display: none"> Easter egg-->
 <script type="text/javascript" src="app.js"></script>
 

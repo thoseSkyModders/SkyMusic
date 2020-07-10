@@ -7,13 +7,15 @@ const hash = require('sha1');
 const crypto = require('crypto');
 const { uuid } = require('uuidv4');
 const hastebin = require("hastebin-gen");   
-var bodyParser = require('body-parser');
+let bodyParser = require('body-parser');
 const fs = require('fs');
+let cors = require('cors')
 //-----------------------------//
 let app = express();
 let discordToken = process.env.discordToken
 let mongoKey = process.env.mongoDBKey
 let emailPassword = process.env.pass
+let API_KEY = process.env.apiKey
 var awaitingVerification = []
 var resetverification = []
 const shareKey = process.env.shareKey
@@ -49,9 +51,14 @@ var transporter = nodemailer.createTransport({
 app.use(express.static('public'));
 app.use(bodyParser.json());
 var port = process.env.PORT || 8080
+
 setInterval(() => {
     removeUnusedVerification()
 }, 60000);
+
+setInterval(() => {
+    removeTempSongs()
+}, 600000);
 //----------------------------------------------------------------------------------------------//
 
 function removeUnusedVerification() {
@@ -76,8 +83,8 @@ function removeUnusedVerification() {
 function removeTempSongs() {
     let date = new Date().getTime()
     for (let i = 0; i < tempSongs.length; i++) {
-        console.log(tempSongs[i])
         if(tempSongs[i].expiration < date){
+            console.log("Removed song ID: "+tempSongs[i].id)
             tempSongs.splice(i, 1);
             i--
         }
@@ -93,14 +100,11 @@ var server = app.listen(port, () => {
 });
 //----------------------------------------------------------------------------------------------//
 
-/*
-setInterval(() => {
-    removeTempSongs()
-}, 10000);
-const API_KEY = "test"
-app.post('/generateTempSong', function (req, res) {
+
+app.post('/api/generateTempSong',cors(), function (req, res) {
     try{
         var value = req.body;
+        console.log(value)
         if(API_KEY === value.API_KEY){
             let song = {
                 song: value.song,
@@ -108,6 +112,7 @@ app.post('/generateTempSong', function (req, res) {
                 id: makeseed(8)
             }
             tempSongs.push(song)
+            console.log(tempSongs)
             let url = "https://sky-music.herokuapp.com/?tempSong="+song.id  
             res.send(url)
         }else{
@@ -129,12 +134,12 @@ app.post('/getTempSong', function (req, res) {
                 return
             }
         }
-        res.send("Song doesn't exist!")
+        res.send("false")
     }catch{
-        res.send("Error")
+        res.send("false")
     }
 });
-*/
+
 
 var botIsOnline = false
 if (!inLocalhost) {
