@@ -234,6 +234,10 @@
             showMessage("Error!", 0, 1500)
             btn.setAttribute("used",false)
         }
+        if (song.bpm == undefined) song.bpm = 220
+        if (song.pitchLevel == undefined) song.pitchLevel = 0
+        if (song.isComposed == undefined) song.isComposed = false
+        song.bitsPerPage =  16
         let data = {
             song: song
         }
@@ -355,6 +359,7 @@
                     name: songs[i].name,
                     bpm: songs[i].bpm,
                     pitchLevel: songs[i].pitchLevel,
+                    bitsPerPage: 16,
                     isComposed: songs[i].isComposed,
                     songNotes: []
                 }

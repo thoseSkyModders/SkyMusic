@@ -8,6 +8,7 @@ const crypto = require('crypto');
 const { uuid } = require('uuidv4');
 const hastebin = require("hastebin-gen");   
 var bodyParser = require('body-parser');
+const fs = require('fs');
 //-----------------------------//
 let app = express();
 let discordToken = process.env.discordToken
@@ -592,14 +593,24 @@ if (!inLocalhost) {
             try{
                 let song = req.body.song
                 let songsChannel = bot.channels.cache.get("730884082258673715")
-                let fileName = song.name.split(" ").join("_")
+                let fileName = sanitizeText(song.name.split(" ").join("_"))
                 let htmlSong = '<li><skyButton onclick="playSong(this.innerHTML)">'+song.name+'</skyButton> <img class="downloadSong" onclick="downloadJSON('+"'"+fileName+"'"+')"><br><br></li>\n'
-                let url = await hastebin(JSON.stringify(song), { extension: "txt" });
-                let embed = new Discord.MessageEmbed()
-                embed.setTitle(song.name.toUpperCase())
-                    .setDescription(url + "\n\n"+htmlSong)
-                    .setColor(3447003)
-                    songsChannel.send({embed})
+                fs.writeFile(__dirname+"/public/temp/"+fileName+".txt", JSON.stringify(song),async function(e) {
+                    if(e){ reportError(e); res.send("Error!"); return}
+                    try{
+                        let embed = new Discord.MessageEmbed()
+                        let file = new Discord.MessageAttachment(__dirname+"/public/temp/"+fileName+".txt");
+                        embed.setTitle(song.name.toUpperCase())
+                            .setDescription(htmlSong)
+                            .setColor(3447003)
+                        await songsChannel.send({ embed: embed, files: [file] });
+                        fs.unlinkSync(__dirname+"/public/temp/"+fileName+".txt")
+                    }catch(e){
+                        reportError(e)
+                        res.send("Error!")
+                        return
+                    }
+                }); 
                 res.send("Song sent!")
             }catch(e){
                 reportError(e)
@@ -650,6 +661,21 @@ function sendVerificationCode(credentials, res) { //error handled
     }
 }
 
+function sanitizeText(text){
+    text = text.split(".").join("")
+        .split("/").join("_")
+        .split("%").join("")
+        .split("*").join("")
+        .split(";").join("")
+        .split(":").join("")
+        .split(",").join("")
+        .split("=").join("")
+        .split("<").join("")
+        .split(">").join("")
+        .split("?").join("")
+        .split("\\").join("") // backslash
+    return text
+}
 function hashwithseed(string, randomseed) {
     var increment = 3;
     var input = randomseed + string;
