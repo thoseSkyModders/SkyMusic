@@ -415,3 +415,11 @@ input[type=number] {
     padding:1vw;
     overflow-y: auto; 
 }
+@media only screen and (orientation:portrait) {
+	.tempoContainer{
+        flex-direction: row;
+    }
+    .tempoButton{
+        width: 10vw;
+    }
+}

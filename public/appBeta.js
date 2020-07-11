@@ -1456,7 +1456,6 @@ function convertToOldFormat(songs) {
                 for(let x = k+1;x < oldFormat.songNotes.length && max5<5;x++){
                     if(oldFormat.songNotes[k].time == oldFormat.songNotes[x].time && oldFormat.songNotes[k].key == oldFormat.songNotes[x].key){
                         oldFormat.songNotes.splice(k,1)
-                        k--
                     }
                     max5++
                 }
