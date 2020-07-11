@@ -881,7 +881,7 @@ function loadMIDI(){
         document.getElementById("bpm").value = importBpm
         let pauseThreshold = Math.floor(60000 / importBpm)
         let threshold = 80
-        if(song.isComposed) threshold = 10
+        if(song.isComposed == "true" || song.isComposed === true) threshold = 10
         let parsedSong = []
         songContainer.innerHTML = ""
         song = song.songNotes
