@@ -268,7 +268,6 @@
         let data = {
             song: convertToNewFormat([song])[0]
         }
-        return
         request.send(JSON.stringify(data))
     }
     let localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
