@@ -171,9 +171,11 @@
             <div style="display: flex; flex-direction: row;  margin-top: 1%;">
                 <span id="numOfLayers" style="white-space: nowrap">Layer:</span>    
                 <div style=" display: flex; justify-content: flex-end; width: 100%;">
-                    <input id="layerNumberText" type="number" value=1 class="skyButton" style="min-width: 15%; width: 6vw; text-align: center; margin-right: 10vw;" placeholder="Layer" disabled>
-                    <input type="button" value="-"  class="skyButton" style="min-width: 15%; width: 6vw;" onclick="changeLayer(-1)">
-                    <input type="button" value="+"  class="skyButton" style="min-width: 15%; width: 6vw;" onclick="changeLayer(1)">
+                    
+                    <input id="layerNumberText" type="number" value=1 class="skyButton" style="min-width: 15%; width: 6vw; text-align: center; margin-right: 3.5vw;" placeholder="Layer" disabled>
+                    <input type="button" value="ALL" id="allLayers" class="skyButton" style="min-width: 12%; width: 6vw;" onclick="selectAllLayers()">
+                    <input type="button" value="-"  class="skyButton" style="min-width: 12%; width: 6vw;" onclick="changeLayer(-1)">
+                    <input type="button" value="+"  class="skyButton" style="min-width: 12%; width: 6vw;" onclick="changeLayer(1)">
                 </div>
             </div>
         </div>
@@ -231,6 +233,28 @@ function changeAlgorithmType(button){
     loadMIDI()
 }
 
+let mergedMidi = []
+function selectAllLayers(){
+    let btn = document.getElementById("allLayers")
+    mergedMidi = []
+    if(btn.style.backgroundColor == "rgb(235, 0, 27)"){
+        btn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+    }else{
+        btn.style.backgroundColor = "rgb(235, 0, 27)"
+        for(let i = 0; i<globalMidi.tracks.length;i++){
+            for(let j = 0;j<globalMidi.tracks[i].notes.length;j++){
+                let midiObj = {
+                    midi: globalMidi.tracks[i].notes[j].midi,
+                    time: globalMidi.tracks[i].notes[j].time
+                }
+                mergedMidi.push(midiObj)
+            }
+        }
+        mergedMidi = mergedMidi.sort(function(e1, e2){return e1.time - e2.time})
+    }
+    loadMIDI()
+}
+
 let globalMidi
 function openMIDI(){
     importMIDIDiv.style.display = "none"
@@ -247,6 +271,8 @@ function openMIDI(){
             toggleSettings()
             importMIDIDiv.style.display = "block"
             document.getElementById("settingsDiv").style.display = "none"
+            document.getElementById("allLayers").style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+            mergedMidi = []
             loadMIDI()
             filePicker.value = ""
         }
@@ -261,12 +287,17 @@ function changeLayer(value){
     if(newLayerNumber < 0 || newLayerNumber > globalMidi.tracks.length - 1) return
         layerNumber = newLayerNumber
         document.getElementById("layerNumberText").value = layerNumber + 1
+        document.getElementById("allLayers").style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        mergedMidi = []
         loadMIDI()
 }
 function loadMIDI(){
     let midi = globalMidi
     document.getElementById("numOfLayers").innerHTML = "Layer:("+midi.tracks.length+")"
     let songNotes = midi.tracks[layerNumber].notes
+    console.log(songNotes)
+    if(mergedMidi.length > 0) songNotes = mergedMidi
+    console.log(songNotes)
     let bpm = document.getElementById("bpm").value
     let offsetValue = offset.value
     let parsedSong = []
@@ -1157,6 +1188,7 @@ if ('serviceWorker' in navigator) {
         });
   });
 }
+
 </script>
 
 </html>

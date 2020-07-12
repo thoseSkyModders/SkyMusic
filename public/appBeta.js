@@ -1084,6 +1084,7 @@ function changeInstrument(button) { //function to change the instrument
     let chosenInstrument = button.id.replace("Btn", "") //gets which instrument has been selected
     document.getElementById("toggleInstruments").style.backgroundImage = button.style.backgroundImage //changes the image of the menu to the one instrument chosen
     instrumentsWrapper.style.display = "none"
+    stopSong()
     changeInstrumentSound(chosenInstrument)
 }
 
@@ -1405,9 +1406,9 @@ function downloadSongs() {
 function convertToNewFormat(songs) {
     let convertedSongs = []
     for (let i = 0; i < songs.length; i++) {
-        if(preLoadSongs[i].bpm == undefined) preLoadSongs[i].bpm = 220
-        if(preLoadSongs[i].pitchLevel == undefined) preLoadSongs[i].pitchLevel = 0
-        if(preLoadSongs[i].isComposed == undefined) preLoadSongs[i].isComposed = false
+        if(songs[i].bpm == undefined) songs[i].bpm = 220
+        if(songs[i].pitchLevel == undefined) songs[i].pitchLevel = 0
+        if(songs[i].isComposed == undefined) songs[i].isComposed = false
         let newFormat = {
             name: songs[i].name,
             bpm: parseInt(songs[i].bpm),
@@ -1887,6 +1888,7 @@ function stopSong() {
     isSongStopped = true
     document.getElementById("stopSong").style.visibility = "hidden"
     resetButtons()
+    clearInterval(checkStuck)
     $(songRange).fadeOut(200)
 }
 
@@ -1899,6 +1901,7 @@ async function playSong(song,pitch) {
     }
     */
     document.getElementById("stopSong").style.visibility = "visible"
+    clearInterval(checkStuck)
     $(songRange).fadeOut(200)
     let delayTime = 0
     let previousTime = 0
@@ -1951,6 +1954,7 @@ let betweenKeysTimes = []
 let timeToWait = 0
 let nextKeysToPress = []
 betweenKeysTimes.push(0) //offsets the first key
+let checkStuck
 function practice(inSong) {
     document.getElementById("stopSong").style.visibility = "visible"
     if (inSong.length != 0) { //If there is a song to be added, if there isn't it means that it comes from a ping from the button
@@ -1958,15 +1962,31 @@ function practice(inSong) {
         betweenKeysTimes = []
         betweenKeysTimes.push(0)
         timeToWait = 0
-        songToPractice = inSong
+        songToPractice = inSong 
         keysToWait = 1
         resetButtons()
+    let timesStuck = 0
+        checkStuck = setInterval(() => {
+            let isStuck = true
+            for(let i = 0;i<14;i++){
+                let current = document.getElementById("Key"+i).firstChild.style.backgroundColor
+                let next = document.getElementById("Key"+(i+1)).firstChild.style.backgroundColor
+                if(current != next){
+                    isStuck = false
+                    timesStuck = 0
+                    break
+                }
+            }
+            if(isStuck) timesStuck++
+            if(timesStuck == 3) timesStuck = 0,console.log("reset"), practice([]),timesStuck = 0
+        }, 200);
         for (let i = 1; i < songToPractice.length; i++) { //stores the time between keys
             betweenKeysTimes.push(songToPractice[i].time - songToPractice[i - 1].time)
         }
     }
     if (songToPractice.length == 0) {
         document.getElementById("stopSong").style.visibility = "hidden"
+        clearInterval(checkStuck)
         $(songRange).fadeOut(200)
         return
     }
@@ -1992,7 +2012,6 @@ function practice(inSong) {
                     }, 220)
                 }
             }, timeToWait - 320)
-            let willBeEmpty = songToPractice.length - keysToPress.length
             betweenKeysTimes.splice(0, keysToPress.length) //removes the times of each button since they arent used
             for (let i = 0; i < keysToPress.length; i++) { //it changes the color to the reddish one and removes the keys to be pressed from the array
                 $("#" + keysToPress[i].key).children(":first").cssborderColor = "transparent"

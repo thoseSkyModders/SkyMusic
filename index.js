@@ -104,7 +104,6 @@ var server = app.listen(port, () => {
 app.post('/api/generateTempSong',cors(), function (req, res) {
     try{
         var value = req.body;
-        console.log(value)
         if(API_KEY === value.API_KEY){
             let song = {
                 song: value.song,
@@ -115,10 +114,10 @@ app.post('/api/generateTempSong',cors(), function (req, res) {
             let url = "https://sky-music.herokuapp.com/?tempSong="+song.id  
             res.send(url)
         }else{
-            res.send("Invalid API key")
+            res.status(403).send("Invalid API key")
         }
     }catch{
-        res.send("Error")
+        res.status(500).send("Error")
     }
 });
 
@@ -598,8 +597,8 @@ if (!inLocalhost) {
                 let song = req.body.song
                 let songsChannel = bot.channels.cache.get("730884082258673715")
                 let fileName = sanitizeText(song.name.split(" ").join("_"))
-                let htmlSong = '<li><skyButton onclick="playSong(this.innerHTML)">'+song.name+'</skyButton> <img class="downloadSong" onclick="downloadJSON('+"'"+fileName+"'"+')"><br><br></li>\n'
-                fs.writeFile(__dirname+"/public/temp/"+fileName+".txt", JSON.stringify(song),async function(e) {
+                let htmlSong = '<li><skyButton onclick="playSong(this)">'+song.name+'</skyButton> <img class="downloadSong" onclick="downloadJSON('+"'"+fileName+"'"+')"><br></li>\n'
+                fs.writeFile(__dirname+"/public/temp/"+fileName+".txt", JSON.stringify([song]),async function(e) {
                     if(e){ reportError(e); res.send("Error!"); return}
                     try{
                         let embed = new Discord.MessageEmbed()
