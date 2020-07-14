@@ -5,8 +5,7 @@ const express = require("express");
 const nodemailer = require('nodemailer');
 const hash = require('sha1');
 const crypto = require('crypto');
-const { uuid } = require('uuidv4');
-const hastebin = require("hastebin-gen");   
+const { uuid } = require('uuidv4');  
 let bodyParser = require('body-parser');
 const fs = require('fs');
 let cors = require('cors')
@@ -59,6 +58,7 @@ setInterval(() => {
 setInterval(() => {
     removeTempSongs()
 }, 600000);
+
 //----------------------------------------------------------------------------------------------//
 
 function removeUnusedVerification() {
@@ -171,21 +171,19 @@ if (!inLocalhost) {
             }
         }
         if (err) throw err;
-        const db = db1.db("skyMusic");
+        const db = db1.db("skyMusic2");
+        console.log("REWRITE_PUBLIC")
         //----------------------------------------------------------------------------------------------//
-        app.post("/createAccount", async function (req, res) { //error is handled
-            var canProceed = true;
+        app.post("/createAccount", async function (req, res) { //updated
             var value = req.body;
             try {
                 value.email = value.email.toLowerCase()
                 if (value.password.length < 6) { //checks lenght of password
                     res.send("Password must be minimum 5 characters")
-                    canProceed = false;
                     return;
                 }
                 if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value.email)) { //check validity of email
                     res.send("Invalid email")
-                    canProceed = false;
                     return;
                 }
                 if (value.email.includes("$")) { //checks validity of email
@@ -194,41 +192,29 @@ if (!inLocalhost) {
                 }
             } catch (e) {
                 res.send("Error in credentials!")
-                console.log(e)
-                canProceed = false;
+                reportError(e)
+                return
             }
             try {
                 for (let i = 0; i < awaitingVerification.length; i++) { //if there is already a request pending from this mail
                     if (awaitingVerification[i].email == value.email) {
                         res.send("You have a pending verification, try again in 5 minutes") //request already existing
-                        canProceed = false;
-                        break;
+                        return
                     }
                 }
-                var savedEmails = await db.listCollections().toArray()
             } catch (e) {
                 res.send("Error while creating the account")
                 reportError(e)
-                canProceed = false;
+                return
             }
-            try {
-                for (let i = 0; i < savedEmails.length; i++) {
-                    if (savedEmails[i].name == value.email) { //checks if someone already registered with that mail
-                        res.send("This email is already in use")
-                        canProceed = false;
-                        break;
-                    }
-                }
-            } catch (e) {
-                res.send("Error!")
-                console.log(e)
-                canProceed = false;
-                return;
+            if(!await checkUser(value.email,db)){
+                sendVerificationCode(value, res) //sent verification, now it waits for next call from the user to verify the account
+            }else{
+                res.send("Email already registered!")
             }
-            if (canProceed) sendVerificationCode(value, res) //sent verification, now it waits for next call from the user to verify the account
         })
         //----------------------------------------------------------------------------------------------//
-        app.post("/verifyAccount", async function (req, res) { //error is handled
+        app.post("/verifyAccount", async function (req, res) { //updated
             var value = req.body;
             let canProceed = false;
             var credentials;
@@ -245,23 +231,21 @@ if (!inLocalhost) {
                 }
             } catch (e) {
                 res.send("Error!")
-                console.log(e)
                 reportError(e)
                 return;
             }
             if (canProceed) {
                 try {
                     console.log("Created account with name: " + credentials.email)
-                    await db.createCollection(credentials.email).catch()
-                    var collection = db.collection(credentials.email)
+                    let users = db.collection("Users")
                     var passwordseed = makeseed(20)
                     var finalhash = hash(hashwithseed(credentials.password, passwordseed))
                     if (finalhash != null) {
-                        await collection.insertOne({
-                            _id: 0,
+                        await users.insertOne({
                             email: credentials.email,
                             password: finalhash,
-                            seed: passwordseed
+                            seed: passwordseed,
+                            songs:[]
                         })
                     }
                 } catch {
@@ -273,7 +257,7 @@ if (!inLocalhost) {
             }
         })
         //----------------------------------------------------------------------------------------------//
-        app.post("/login", async function (req, res) { //error handles
+        app.post("/login", async function (req, res) { //updated
             var value = req.body;
             //checks email length
             try {
@@ -289,34 +273,14 @@ if (!inLocalhost) {
                 }
             } catch (e) {
                 res.send("Error!")
-                console.log(e)
+                reportError(e)
                 return;
             }
-            try {
-                var users = await db.listCollections().toArray()
-            } catch {
-                res.send("Error trying to Login!")
-                return
-            }
-            var userExists = false
-            for (let i = 0; i < users.length; i++) {
-                if (users[i].name == value.email) { //checks if the username exists
-                    userExists = true;
-                    break;
-                }
-            }
-            if (userExists) {
+            if (await checkUser(value.email,db)) {
+                let users = db.collection("Users")
+                let credentials = await users.findOne({email: value.email})
                 try {
-                    var collection = db.collection(value.email)
-                    var credentials = await collection.find({
-                        _id: 0
-                    }).toArray()
-                } catch {
-                    res.send("Credentials wrong!")
-                    return;
-                }
-                try {
-                    if (checkPassword(value.password, credentials[0].password, credentials[0].seed)) {
+                    if (checkPassword(value.password, credentials.password, credentials.seed)) {
                         console.log("login done by: " + value.email)
                         res.send(true)
                     } else {
@@ -332,8 +296,7 @@ if (!inLocalhost) {
                 res.send("Credentials wrong!")
             }
         })
-        app.post("/resetPassword", async function (req, res) {
-            var canProceed = false;
+        app.post("/resetPassword", async function (req, res) {//updated
             var value = req.body;
             try {
                 value.email = value.email.toLowerCase()
@@ -348,84 +311,77 @@ if (!inLocalhost) {
                 }
             } catch (e) {
                 res.send("Error in email!")
-                console.log(e)
-                canProceed = false;
+                reportError(e)
+                return
             }
             try {
                 for (let i = 0; i < resetverification.length; i++) { //if there is already a request pending from this mail
                     if (resetverification[i].email == value.email) {
                         res.send("You have a pending reset verification, try again in 5 minutes") //request already existing
-                        canProceed = false;
                         return;
                     }
                 }
-                var savedEmails = await db.listCollections().toArray()
             } catch (e) {
                 res.send("Error while checking the account")
-                canProceed = false;
+                return
             }
-            try {
-                for (let i = 0; i < savedEmails.length; i++) {
-                    if (savedEmails[i].name == value.email) { //checks if someone already registered with that mail
-                        canProceed = true;
-                        break;
-                    }
-                }
-            } catch (e) {
-                res.send("Error!")
-                console.log(e)
-                canProceed = false;
-                return;
+            if(await checkUser(value.email,db)){
+                sendresetlink(value, res) //sent verification, now it waits for next call from the user to reset password
+            }else{
+                res.send("No email registered!")
             }
-            if (canProceed) sendresetlink(value, res) //sent verification, now it waits for next call from the user to reset password
-            if (!canProceed) res.send("No email registered!")
         })
 
         app.post("/generateShareLink", async function (req, res) { //error handled
             var value = req.body;
             try{
                 var link = "https://sky-music.herokuapp.com?songUrl="+encrypt(JSON.stringify(value))
-            }catch{
+            }catch(e){
                 res.send(false)
                 return
             }
             res.send(link)
         })
 
-        app.post("/getByLink",async function (req, res) {
+        app.post("/getByLink",async function (req, res) {//updated
             try{
                 var value = JSON.parse(decrypt(req.body.url))
                 if(value.songName == undefined){
                     res.send(false)
                     return
                 }
-            }catch{
+            }catch(e){
+                console.log(e)
                 res.send(false)
                 return
             }
             try {
-                var collection = db.collection(value.email)
-            }catch{
+                var users = db.collection("Users")
+            }catch(e){
+                console.log(e)
                 res.send(false)
                 return
             }
             try{
-                var song = await collection.find({name: value.songName}).toArray()
-                song = [song[0].song]
-            }catch{
+                var savedSongs = await users.findOne({email: value.email})
+                var song = savedSongs.songs.filter(song => song.name == value.songName)
+                if(song.length == 0){
+                    res.send(false)
+                    return
+                }
+            }catch(e){
+                console.log(e)
                 res.send(false)
                 return
             }
             res.send(song)
         })
         //----------------------------------------------------------------------------------------------//
-        app.post("/getSongs", async function (req, res) { //error handled
+        app.post("/getSongs", async function (req, res) { //updated
             var value = req.body;
             try {
-                var collection = db.collection(value.email)
-                var credentials = await collection.find({
-                    _id: 0
-                }).toArray()
+                var users = db.collection("Users")
+                var credentials = await users.findOne({email: value.email})
             } catch (e) {
                 res.send("Error with the server!")
                 console.log("error with the server" + e)
@@ -437,35 +393,28 @@ if (!inLocalhost) {
                 return;
             }
             try {
-                if (checkPassword(value.password, credentials[0].password, credentials[0].seed)) {
-                    var allSongs = await collection.find().toArray()
-                    allSongs.splice(0, 1) //removes the credentials
-                    var songsToSend = []
-                    for (var i = 0; i < allSongs.length; i++) {
-                        songsToSend.push(allSongs[i].song)
-                    }
-                    res.send(songsToSend)
+                if (checkPassword(value.password, credentials.password, credentials.seed)) {
+                    var allSongs = await users.findOne({email: value.email})
+                    res.send(allSongs.songs)
                     console.log("songs sent to: " + value.email)
                 } else {
                     res.send("Credentials are wrong!")
                 }
             } catch (e) {
                 res.send("Error!")
-                console.log(e)
+                reportError(e)
             }
         })
         //----------------------------------------------------------------------------------------------//
-        app.post("/saveSongs", async function (req, res) {
+        app.post("/saveSongs", async function (req, res) { //updated
             var value = req.body;
             if (JSON.stringify(value).length > 50000) { //if it's longer than 30000 characters, to prevent too big files from being uploaded
                 res.send("Song is too large, it can't be uploaded")
                 return;
             }
             try {
-                var collection = db.collection(value.email)
-                var credentials = await collection.find({
-                    _id: 0
-                }).toArray()
+                var users = db.collection("Users")
+                var credentials = await users.findOne({email: value.email})
             } catch (e) {
                 res.send("Error with the account!")
                 return;
@@ -474,19 +423,17 @@ if (!inLocalhost) {
                 res.send("Credentials wrong")
                 return;
             }
-            console.log("limit the amount of songs u can store")
             var alreadySavedSongs = ""
             try {
-                if (checkPassword(value.password, credentials[0].password, credentials[0].seed)) {
+                if (checkPassword(value.password, credentials.password, credentials.seed)) {
                     for (var i = 0; i < value.song.length; i++) {
-                        var isSongSaved = await collection.find({
-                            name: value.song[i].name
-                        }).toArray()
-                        if (isSongSaved.length == 0) {
-                            await collection.insertOne({
-                                song: value.song[i],
-                                name: value.song[i].name
-                            })
+                        var savedSongs = await users.findOne({email: value.email})
+                        let isSaved = savedSongs.songs.filter(song => song.name == value.song[0].name)
+                        if (isSaved.length == 0) {
+                         await users.update(
+                                { email:value.email },
+                                { $push: {songs: value.song[i]} }
+                             )
                         } else {
                             alreadySavedSongs += "<br>" + value.song[i].name + " was already saved"
                         }
@@ -497,17 +444,16 @@ if (!inLocalhost) {
                     res.send("Credentials are wrong!")
                 }
             } catch (e) {
+                reportError(e)
                 res.send("Error!")
             }
         })
         //----------------------------------------------------------------------------------------------//
-        app.post("/deleteSong", async function (req, res) { //error handled
+        app.post("/deleteSong", async function (req, res) { //updated
             var value = req.body;
             try {
-                var collection = db.collection(value.email)
-                var credentials = await collection.find({
-                    _id: 0
-                }).toArray()
+                var users = db.collection("Users")
+                var credentials = await users.findOne({email: value.email})
             } catch (e) {
                 reportError(e)
                 res.send("Error with the server!")
@@ -520,10 +466,11 @@ if (!inLocalhost) {
                 return;
             }
             try {
-                if (checkPassword(value.password, credentials[0].password, credentials[0].seed)) {
-                    await collection.deleteOne({
-                        name: value.songName
-                    })
+                if (checkPassword(value.password, credentials.password, credentials.seed)) {
+                    users.update(
+                        {email: value.email},
+                        { $pull: { 'songs': { name: value.songName } } }
+                      )
                 } else {
                     res.send("Credentials are wrong!")
                     return;
@@ -535,10 +482,9 @@ if (!inLocalhost) {
             res.send("Song :" + value.songName + " deleted!")
             console.log("song deleted")
         })
-        app.post("/verifyResetCode", async function (req, res) { //error is handled
+        app.post("/verifyResetCode", async function (req, res) { //updated
             var value = req.body;
             let canProceed = false;
-            var customMessage = ""
             if (value.password.length < 6) {
                 res.send("Password needs to be at least 6 characters long!")
                 return;
@@ -547,11 +493,9 @@ if (!inLocalhost) {
                 res.send("Passwords don't match!")
                 return;
             }
-            customMessage = "Request doesn't exist"
             try {
                 for (let i = 0; i < resetverification.length; i++) {
                     if (resetverification[i].email == value.email) {
-                        customMessage = "Code is not correct!"
                         if (resetverification[i].code == value.code) {
                             canProceed = true;
                         }
@@ -559,17 +503,17 @@ if (!inLocalhost) {
                 }
             } catch (e) {
                 res.send("Error!")
-                console.log(e)
+                reportError(e)
                 return;
             }
             if (canProceed) {
                 try {
-                    let collection = db.collection(value.email)
+                    let users = db.collection("Users")
                     let passwordseed = makeseed(20)
                     let finalhash = hash(hashwithseed(value.password, passwordseed))
                     if (finalhash != null) {
-                        await collection.updateOne({
-                            _id: 0
+                        await users.updateOne({
+                            email: value.email
                         }, {
                             $set: {
                                 password: finalhash,
@@ -659,6 +603,7 @@ function sendVerificationCode(credentials, res) { //error handled
             }
         });
     } catch (e) {
+        reportError(e)
         res.send("Error!")
         return;
     }
@@ -722,7 +667,6 @@ function sendresetlink(credentials, res) { //error handled
             code: resetToken,
             timesChecked: 0
         }
-        console.log(verificationObj)
         var mailOptions = {
             from: 'thoseskymodders@gmail.com',
             to: credentials.email,
@@ -734,6 +678,7 @@ function sendresetlink(credentials, res) { //error handled
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 console.log("Error in sending email");
+                reportError(error)
                 res.send("Error!")
             } else {
                 console.log('Email sent: ' + info.response);
@@ -742,7 +687,7 @@ function sendresetlink(credentials, res) { //error handled
             }
         });
     } catch (e) {
-        console.log(e)
+        reportError(e)
         res.send("Error!")
         return;
     }
@@ -771,3 +716,7 @@ function decrypt(text) {
 if (!fs.existsSync(__dirname+"/public/temp")){
     fs.mkdirSync(__dirname+"/public/temp");
 }
+
+const checkUser = (mail, db) => db.collection("Users").findOne({email: mail}).then(user => {
+    return Boolean(user)
+  })
