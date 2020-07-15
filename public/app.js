@@ -273,15 +273,19 @@ function confirmScale(){
 let exitFullScreenBtn = document.getElementById("exitFullScreenBtn")
 function exitFullScreen(){
     exitFullScreenBtn.style.display = "none"
-    if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozCancelFullScreen) { /* Firefox */
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) { /* IE/Edge */
-        document.msExitFullscreen();
-      }
+    try{
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.mozCancelFullScreen) { /* Firefox */
+            document.mozCancelFullScreen();
+          } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) { /* IE/Edge */
+            document.msExitFullscreen();
+          }
+    }catch{
+        console.log("Error exiting full screen")
+    }
       isFullScreen = false
 }
 
@@ -1080,7 +1084,9 @@ document.onkeypress = function (evt) {
     let charCode = evt.keyCode || evt.which
     let charStr = String.fromCharCode(charCode).toLowerCase()
     //gets which key has been pressed and gets the corrisponding key associated to it and clicks it
-    if (objKeys[charStr] != null && !isTyping) document.getElementById(objKeys[charStr]).dispatchEvent(click);
+    try{
+        if (objKeys[charStr] != null && !isTyping) document.getElementById(objKeys[charStr]).dispatchEvent(click);
+    }catch{}
 };
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1164,7 +1170,8 @@ let urls = instrumentsNotes[storedInstrument]
 //--------------------------------------------------------------------------------------------------------//
 
 function set_up_reverb() {
-    fetch("reverb4.wav")
+    try{
+        fetch("reverb4.wav")
         .then(r => r.arrayBuffer())
         .then(b => a_ctx.decodeAudioData(b))
         .then(impulse_response => {
@@ -1176,6 +1183,7 @@ function set_up_reverb() {
             gainNode.connect(a_ctx.destination)
             a_reverb_destination = convolver
         })
+    }catch{}
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1921,7 +1929,11 @@ async function playSong(song,pitch) {
         delayTime = song[i].time - previousTime //how much time has to pass from one note to the other
         previousTime = song[i].time //the time from the start of the previous note, to be later calculated to get the delayTime
         await delay(delayTime)
-        document.getElementById(song[i].key).dispatchEvent(click);
+        try{
+            document.getElementById(song[i].key).dispatchEvent(click);
+        }catch{
+            console.log("Error playing song")
+        }
     }
     isSongStopped = false
     if(!ignoreStop) document.getElementById("stopSong").style.visibility = "hidden"
@@ -1934,9 +1946,13 @@ function resetButtons() {
        $("#Key"+i).children(":first").finish()
     }
     for (let i = 0; i < numOfKeys; i++) {
-        let btnBg = document.getElementById("Key" + i).firstChild
-        btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
-        btnBg.style.borderColor = "transparent"
+        try{
+            let btnBg = document.getElementById("Key" + i).firstChild
+            btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+            btnBg.style.borderColor = "transparent"
+        }catch{
+            console.log("Error resetting")
+        }
     }
 }
 
