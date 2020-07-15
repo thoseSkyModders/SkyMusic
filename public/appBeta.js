@@ -7,62 +7,10 @@
   \____/|_____|     
 
  */
-let logsObject = {
-    errors: [],
-    warns: [],
-    logs: [],
-    header: []
-}
 try{
-    console.defaultError = console.error.bind(console)
-    console.error = function(){
-        if(logsObject.errors.length == 0){
-            setTimeout(() => {
-                reportSavedLogs()
-            }, 3000);
-        } 
-        console.defaultError.apply(console, arguments)
-        logsObject.errors.push(Array.from(arguments))  
-    }
-    console.defaultLog = console.log.bind(console)
-    console.log = function(){
-        console.defaultLog.apply(console, arguments)
-        logsObject.logs.push(Array.from(arguments))
-    }
-    console.defaultWarn = console.warn.bind(console)
-    console.warn = function(){
-        console.defaultWarn.apply(console, arguments)
-        logsObject.warns.push(Array.from(arguments))
-    }
-    function reportSavedLogs(){
-        try{
-            var stats = {
-                name: platform.name,
-                version: platform.version,
-                layout: platform.layout,
-                os: platform.os,
-                product: platform.product,
-                manufacturer: platform.manufacturer,
-                description: platform.description
-            }
-            for (var key in stats) {
-                if (stats.hasOwnProperty(key)) {
-                    if (stats[key]) {
-                        logsObject.header.push(key + " : " + stats[key])
-                    }
-                }
-            }
-        }catch{}
-        if(logsObject.warns.length == 0) logsObject.warns.push("NONE")
-        if(logsObject.errors.length == 0) logsObject.errors.push("NONE")
-        if(logsObject.logs.length == 0) logsObject.logs.push("NONE")
-        let request = new XMLHttpRequest();
-        request.open("POST", "/reportSavedLogs");
-        request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
-        request.send(JSON.stringify(logsObject))   
-    }
+    Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
 }catch{
-    console.log("ERROR IN LOGGER")
+    console.log("nope")
 }
 
 var translateElements = {
@@ -2125,4 +2073,4 @@ if ('serviceWorker' in navigator) {
   });
 }
 */
-
+makeError()
