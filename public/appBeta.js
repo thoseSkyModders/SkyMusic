@@ -273,15 +273,19 @@ function confirmScale(){
 let exitFullScreenBtn = document.getElementById("exitFullScreenBtn")
 function exitFullScreen(){
     exitFullScreenBtn.style.display = "none"
-    if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozCancelFullScreen) { /* Firefox */
-        document.mozCancelFullScreen();
-      } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) { /* IE/Edge */
-        document.msExitFullscreen();
-      }
+    try{
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.mozCancelFullScreen) { /* Firefox */
+            document.mozCancelFullScreen();
+          } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+            document.webkitExitFullscreen();
+          } else if (document.msExitFullscreen) { /* IE/Edge */
+            document.msExitFullscreen();
+          }
+    }catch{
+        console.log("Error exiting full screen")
+    }
       isFullScreen = false
 }
 
@@ -1166,7 +1170,8 @@ let urls = instrumentsNotes[storedInstrument]
 //--------------------------------------------------------------------------------------------------------//
 
 function set_up_reverb() {
-    fetch("reverb4.wav")
+    try{
+        fetch("reverb4.wav")
         .then(r => r.arrayBuffer())
         .then(b => a_ctx.decodeAudioData(b, (impulse_response) => { 
             let convolver = a_ctx.createConvolver()
@@ -1177,6 +1182,7 @@ function set_up_reverb() {
             gainNode.connect(a_ctx.destination)
             a_reverb_destination = convolver
         }))
+    }catch{}
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1216,6 +1222,11 @@ const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
 let a_reverb_destination = a_ctx.destination // replaced by reverb path when loaded
 set_up_reverb()
 
+a_ctx.onstatechange = () => {
+    if (a_ctx.state === "suspended") {
+        a_ctx.resume()
+    }
+}
 let numOfKeys = 15
 let normalKeyboardKeyboardKeys = objKeys
 function initializeKeyboard(){
@@ -1939,9 +1950,13 @@ function resetButtons() {
        $("#Key"+i).children(":first").finish()
     }
     for (let i = 0; i < numOfKeys; i++) {
-        let btnBg = document.getElementById("Key" + i).firstChild
-        btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
-        btnBg.style.borderColor = "transparent"
+        try{
+            let btnBg = document.getElementById("Key" + i).firstChild
+            btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+            btnBg.style.borderColor = "transparent"
+        }catch{
+            console.log("Error resetting")
+        }
     }
 }
 
