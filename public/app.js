@@ -9,8 +9,8 @@
  */
 try{
     Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
-}catch{
-    console.log("nope")
+}catch(e){
+    console.log(e)
 }
 
 var translateElements = {
@@ -124,7 +124,7 @@ function changeLanguage(language){
             $("#"+translateElements[i]).text(translateText[language][i])
         }
         selectedLanguage = language
-    }catch{}
+    }catch(e){console.log(e)}
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -283,7 +283,7 @@ function exitFullScreen(){
           } else if (document.msExitFullscreen) { /* IE/Edge */
             document.msExitFullscreen()
           }
-    }catch{
+    }catch(e){
         console.log("Error exiting full screen")
     }
       isFullScreen = false
@@ -698,7 +698,8 @@ function getByLink(songUrl){
                     showMessage(systemMessagesText[selectedLanguage][9]+inputSongs[i].name,2,1500) // song already exists
                 }
             }
-            } catch {
+            } catch(e){
+                console.log(e)
                 showMessage(systemMessagesText[selectedLanguage][10],0,1500) //error importing song
             }
      }
@@ -902,7 +903,8 @@ function syncDB() { //Function that syncs the songs from the database in the cli
         response = res.target.response;
         try {
             var songsFromDB = JSON.parse(response)
-        } catch {
+        } catch(e){
+            console.log(e)
             showMessage(response, 0)
             return;
         }
@@ -1086,7 +1088,7 @@ document.onkeypress = function (evt) {
     //gets which key has been pressed and gets the corrisponding key associated to it and clicks it
     try{
         if (objKeys[charStr] != null && !isTyping) document.getElementById(objKeys[charStr]).dispatchEvent(click);
-    }catch{}
+    }catch(e){console.log(e)}
 };
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1397,7 +1399,8 @@ function importSongs() {
                     }
                 }
                 isreading = true
-                } catch {
+                } catch(e){
+                    console.log(e)
                     showMessage(systemMessagesText[selectedLanguage][10],0,1000) //error importing song
                 }
             }
@@ -1521,13 +1524,14 @@ function checkMidiAccess() {
         } else {
             showMessage(systemMessagesText[selectedLanguage][34], 0) //midi is not supported
         }
-    } catch {
+    } catch(e){
+        console.log(e)
         showMessage(systemMessagesText[selectedLanguage][34], 0) //midi is not supported
     }
 }
 try {
     if (navigator.requestMIDIAccess()) {} else {}
-} catch {}
+} catch(e){console.log(e)}
 
 //--------------------------------------------------------------------------------------------------------//
 
@@ -1895,7 +1899,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
             }
     songContainer.appendChild(shareButton)
     
-    } catch {
+    } catch(e){
         showMessage(systemMessagesText[selectedLanguage][10],0,1500) //error importing song
     }
 }
@@ -1938,7 +1942,7 @@ async function playSong(song,pitch) {
         await delay(delayTime)
         try{
             document.getElementById(song[i].key).dispatchEvent(click);
-        }catch{
+        }catch(e){
             console.log("Error playing song")
         }
     }
@@ -1957,7 +1961,7 @@ function resetButtons() {
             let btnBg = document.getElementById("Key" + i).firstChild
             btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
             btnBg.style.borderColor = "transparent"
-        }catch{
+        }catch(e){
             console.log("Error resetting")
         }
     }
