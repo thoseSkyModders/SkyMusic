@@ -8,7 +8,7 @@
 
  */
 try{
-    Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
+  Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
 }catch{
     console.log("nope")
 }
@@ -1080,7 +1080,9 @@ document.onkeypress = function (evt) {
     let charCode = evt.keyCode || evt.which
     let charStr = String.fromCharCode(charCode).toLowerCase()
     //gets which key has been pressed and gets the corrisponding key associated to it and clicks it
-    if (objKeys[charStr] != null && !isTyping) document.getElementById(objKeys[charStr]).dispatchEvent(click);
+    try{
+        if (objKeys[charStr] != null && !isTyping) document.getElementById(objKeys[charStr]).dispatchEvent(click);
+    }catch{}
 };
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1166,8 +1168,7 @@ let urls = instrumentsNotes[storedInstrument]
 function set_up_reverb() {
     fetch("reverb4.wav")
         .then(r => r.arrayBuffer())
-        .then(b => a_ctx.decodeAudioData(b))
-        .then(impulse_response => {
+        .then(b => a_ctx.decodeAudioData(b, (impulse_response) => { 
             let convolver = a_ctx.createConvolver()
             let gainNode = a_ctx.createGain()
             gainNode.gain.value = 2.5
@@ -1175,7 +1176,7 @@ function set_up_reverb() {
             convolver.connect(gainNode)
             gainNode.connect(a_ctx.destination)
             a_reverb_destination = convolver
-        })
+        }))
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1921,7 +1922,11 @@ async function playSong(song,pitch) {
         delayTime = song[i].time - previousTime //how much time has to pass from one note to the other
         previousTime = song[i].time //the time from the start of the previous note, to be later calculated to get the delayTime
         await delay(delayTime)
-        document.getElementById(song[i].key).dispatchEvent(click);
+        try{
+            document.getElementById(song[i].key).dispatchEvent(click);
+        }catch{
+            console.log("Error playing song")
+        }
     }
     isSongStopped = false
     if(!ignoreStop) document.getElementById("stopSong").style.visibility = "hidden"
@@ -2073,4 +2078,3 @@ if ('serviceWorker' in navigator) {
   });
 }
 */
-makeError()
