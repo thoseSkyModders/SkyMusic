@@ -126,9 +126,14 @@
         BACK</a>
         <br><br>
     <div style="font-size: 2em; font-family: Arial;">
-        <span>Download android app</span>
-        <a style="vertical-align: middle;" href="SkyMusic.apk" download><img src="/download.png" width="75"
-                height="75"></a>
+        <div id="downloadPWA" style="display: inline-block; display: none;">
+            <span>Download app</span>
+            <img style="margin: 0.5em; vertical-align: middle" src="/download.png" width="75" height="75">
+        </div>
+        <div id="downloadAPK" style="display: inline-block;">
+            <span>Download android app</span>
+            <a href="/SkyMusic.apk"><img style="margin: 0.5em; vertical-align: middle" src="/download.png" width="75" height="75"></a>
+        </div>
         <a href="https://discord.gg/NFFRTed" style="margin: 0.5em; vertical-align: middle"><img src="/discord.png"
                 width="250" height="65"></a>
     </div>
@@ -459,9 +464,30 @@
         if (msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
         if (msgType == 1) color = "lightgreen" //SUCCESS
         if (msgType == 2) color = "#dad8b3" //MESSAGE
-        floatingMessage.style.color = color
+       floatingMessage.style.color = color
         $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
     }
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    let deferredPrompt = e;
+    document.getElementById("downloadAPK").style.display = "none"
+    let downloadPWABtn = document.getElementById("downloadPWA")
+    downloadPWABtn.style.display = 'block'
+    downloadPWABtn.addEventListener('click', (e) => {
+        downloadPWABtn.style.display = 'none'
+        deferredPrompt.prompt()
+    })
+})
+
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+        .then((reg) => {
+          console.log('Service worker registered.', reg);
+        });
+  });
+}
 </script>
 
 </html>

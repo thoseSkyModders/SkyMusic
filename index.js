@@ -565,7 +565,28 @@ if (!inLocalhost) {
             }
     
         })
+
     });
+    app.post("/reportSavedLogs", async function (req, res) {
+        if(!botIsOnline){
+            res.send("oops")
+            return
+        }
+        let logs = req.body
+        try{
+            let embed = new Discord.MessageEmbed()
+            embed.setTitle("CLIENT ERROR")
+                .setDescription(logs.header.join("\n"))
+                .setColor(15158332)
+                .addField('Errors', logs.errors.join("\n"), false)
+                .addField('\u200b', '\u200b')
+                .addField('Warns', logs.warns.join("\n"), false)
+                .addField('\u200b', '\u200b')
+                .addField('Logs', logs.logs.join("\n"), false)
+            bot.channels.cache.get("732631538415566890").send({embed});
+        }catch{}
+            res.send("Log sent")  
+    })
     app.get('*', function (req, res) {
         res.status(404).sendFile(__dirname + "/public/errorLoading.html")
     });
