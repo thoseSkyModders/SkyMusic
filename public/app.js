@@ -275,13 +275,13 @@ function exitFullScreen(){
     exitFullScreenBtn.style.display = "none"
     try{
         if (document.exitFullscreen) {
-            document.exitFullscreen();
+            document.exitFullscreen().catch(function(){console.log("Error exiting fullscreen")})
           } else if (document.mozCancelFullScreen) { /* Firefox */
-            document.mozCancelFullScreen();
+            document.mozCancelFullScreen()
           } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
-            document.webkitExitFullscreen();
+            document.webkitExitFullscreen()
           } else if (document.msExitFullscreen) { /* IE/Edge */
-            document.msExitFullscreen();
+            document.msExitFullscreen()
           }
     }catch{
         console.log("Error exiting full screen")
@@ -1170,11 +1170,9 @@ let urls = instrumentsNotes[storedInstrument]
 //--------------------------------------------------------------------------------------------------------//
 
 function set_up_reverb() {
-    try{
         fetch("reverb4.wav")
         .then(r => r.arrayBuffer())
-        .then(b => a_ctx.decodeAudioData(b))
-        .then(impulse_response => {
+        .then(b => a_ctx.decodeAudioData(b, (impulse_response) => { 
             let convolver = a_ctx.createConvolver()
             let gainNode = a_ctx.createGain()
             gainNode.gain.value = 2.5
@@ -1182,8 +1180,9 @@ function set_up_reverb() {
             convolver.connect(gainNode)
             gainNode.connect(a_ctx.destination)
             a_reverb_destination = convolver
+        })).catch(function(){
+            console.log("Catched error ")
         })
-    }catch{}
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1223,6 +1222,11 @@ const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
 let a_reverb_destination = a_ctx.destination // replaced by reverb path when loaded
 set_up_reverb()
 
+a_ctx.onstatechange = () => {
+    if (a_ctx.state === "suspended") {
+        a_ctx.resume()
+    }
+}
 let numOfKeys = 15
 let normalKeyboardKeyboardKeys = objKeys
 function initializeKeyboard(){
@@ -1396,6 +1400,9 @@ function importSongs() {
                 } catch {
                     showMessage(systemMessagesText[selectedLanguage][10],0,1000) //error importing song
                 }
+            }
+            fr.onerror = function(){
+                showMessage(systemMessagesText[selectedLanguage][10],0,1000) 
             }
             fr.readAsText(this.files[0])
     })
@@ -2088,3 +2095,4 @@ if ('serviceWorker' in navigator) {
         });
   });
 }
+
