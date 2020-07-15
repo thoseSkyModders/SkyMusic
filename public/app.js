@@ -1173,7 +1173,7 @@ let urls = instrumentsNotes[storedInstrument]
 
 function set_up_reverb() {
         fetch("reverb4.wav")
-        .then(r => r.arrayBuffer())
+        .then(r => r.arrayBuffer().catch(function(){console.log("Catched error ")}))
         .then(b => a_ctx.decodeAudioData(b, (impulse_response) => { 
             let convolver = a_ctx.createConvolver()
             let gainNode = a_ctx.createGain()

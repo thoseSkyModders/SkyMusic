@@ -9,7 +9,7 @@
  */
 try{
   Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
-}catch{
+}catch(e){
     console.log("nope")
 }
 
@@ -1171,7 +1171,7 @@ let urls = instrumentsNotes[storedInstrument]
 
 function set_up_reverb() {
         fetch("reverb4.wav")
-        .then(r => r.arrayBuffer())
+        .then(r => r.arrayBuffer().catch(function(){console.log("Catched error ")}))
         .then(b => a_ctx.decodeAudioData(b, (impulse_response) => { 
             let convolver = a_ctx.createConvolver()
             let gainNode = a_ctx.createGain()
