@@ -95,6 +95,11 @@
         margin: 0.5em;
         outline: none;
     }
+    c{
+
+        color: #dad8b3;
+    }
+
 </style>
 
 <head>
@@ -115,6 +120,7 @@
     <meta property="og:description" content="Song library for Sky Music!">
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="shortcut icon" href="/favicon.png?v=2" type="image/x-icon" />
+    <title>Sky Music Library</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 
@@ -150,79 +156,92 @@
         <button onclick="sendSong(this)" class="skyButton2">Send song</button>
     </div>
     <ul>
-        <h1>Song Pack</h1>
+        <h1><c>▼</c> Song Pack</h1>
 
         <li><a>Song pack 1</a> <img class="downloadSong" onclick='downloadJSON("Song_pack_1")'><br></li>
         <li><a>Song pack 2</a> <img class="downloadSong" onclick='downloadJSON("Song_pack_2")'><br></li>
         <li><a>SCSM pack</a> <img class="downloadSong" onclick='downloadJSON("SCSM_pack")'><br></li>
-        <h1>Easy</h1>
+    </ul>
 
-        <li><skyButton onclick="playSong(this)">You are my Sunshine</skyButton> <img class="downloadSong" onclick='downloadJSON("You_are_my_Sunshine")'><br></li>
-        <li><skyButton onclick="playSong(this)">Ode to joy</skyButton> <img class="downloadSong" onclick='downloadJSON("Ode_to_joy")'><br></li>
-        <li><skyButton onclick="playSong(this)">The lion sleeps tonight</skyButton> <img class="downloadSong" onclick='downloadJSON("The_lion_sleeps_tonight")'><br></li>
-        <li><skyButton onclick="playSong(this)">undertale</skyButton> <img class="downloadSong" onclick='downloadJSON("undertale")'><br></li>
-        <li><skyButton onclick="playSong(this)">Kum Ba Yah</skyButton> <img class="downloadSong" onclick='downloadJSON("Kum_Ba_Yah")'><br></li>
-        <li><skyButton onclick="playSong(this)">Do-Re-Mi</skyButton> <img class="downloadSong" onclick='downloadJSON("Do-Re-Mi")'><br></li>
-        <li><skyButton onclick="playSong(this)">Binary Sunset Star Wars</skyButton> <img class="downloadSong" onclick='downloadJSON("Binary_Sunset_Star_Wars")'><br></li>
-        <li><skyButton onclick="playSong(this)">bad romance chorus</skyButton> <img class="downloadSong" onclick='downloadJSON("bad_romance_chorus")'><br></li>
-        <li><skyButton onclick="playSong(this)">Tetris Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Tetris_Theme")'><br></li>
-        <li><skyButton onclick="playSong(this)">Clementine</skyButton> <img class="downloadSong" onclick='downloadJSON("Clementine")'><br></li>
-        <li><skyButton onclick="playSong(this)">Ive Been Working on the Railroad</skyButton> <img class="downloadSong" onclick='downloadJSON("Ive_Been_Working_on_the_Railroad")'><br></li>
-        <li><skyButton onclick="playSong(this)">la Cucaracha</skyButton> <img class="downloadSong" onclick='downloadJSON("la_Cucaracha")'><br></li>
-        <li><skyButton onclick="playSong(this)">Lily - Alan Walker</skyButton> <img class="downloadSong" onclick='downloadJSON("Lily_-_Alan_Walker")'><br></li>
-        <li><skyButton onclick="playSong(this)">Shatter me</skyButton> <img class="downloadSong" onclick='downloadJSON("Shatter_me")'><br></li>
-        <li><skyButton onclick="playSong(this)">Ed sheeran perfecty</skyButton> <img class="downloadSong" onclick="downloadJSON('Ed_sheeran_perfecty')"><br></li>
-        <li><skyButton onclick="playSong(this)">lavender Town</skyButton> <img class="downloadSong" onclick="downloadJSON('lavender_Town')"><br></li>
-        <li><skyButton onclick="playSong(this)">San Francisco</skyButton> <img class="downloadSong" onclick="downloadJSON('San_Francisco')"><br></li>
-        <li><skyButton onclick="playSong(this)">Scarborough Fair</skyButton> <img class="downloadSong" onclick="downloadJSON('Scarborough_Fair')"><br></li>
-        <li><skyButton onclick="playSong(this)">Path Of The Wind - My Neighborhood Is Totoro OST - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('Path_Of_The_Wind_-_My_Neighborhood_Is_Totoro_OST')"><br></li>
-        <li><skyButton onclick="playSong(this)">Firefall SC</skyButton> <img class="downloadSong" onclick="downloadJSON('Firefall_SC')"><br></li>    
-        <li><skyButton onclick="playSong(this)">Hora dels Adeus</skyButton> <img class="downloadSong" onclick="downloadJSON('Hora_dels_Adeus')"><br></li>    
-        
-        <h1>Medium</h1>
+    <ul class="listelement">
+        <h1><c>▶</c> Easy</h1>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("You_are_my_Sunshine")'><skyButton onclick="playSong(this)">You are my Sunshine</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Ode_to_joy")'><skyButton onclick="playSong(this)">Ode to joy</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("The_lion_sleeps_tonight")'><skyButton onclick="playSong(this)">The lion sleeps tonight</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("undertale")'><skyButton onclick="playSong(this)">undertale</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Kum_Ba_Yah")'><skyButton onclick="playSong(this)">Kum Ba Yah</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Do-Re-Mi")'><skyButton onclick="playSong(this)">Do-Re-Mi</skyButton> <br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Binary_Sunset_Star_Wars")'><skyButton onclick="playSong(this)">Binary Sunset Star Wars</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("bad_romance_chorus")'><skyButton onclick="playSong(this)">bad romance chorus</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Tetris_Theme")'><skyButton onclick="playSong(this)">Tetris Theme</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Clementine")'><skyButton onclick="playSong(this)">Clementine</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Ive_Been_Working_on_the_Railroad")'><skyButton onclick="playSong(this)">Ive Been Working on the Railroad</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("la_Cucaracha")'><skyButton onclick="playSong(this)">la Cucaracha</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Lily_-_Alan_Walker")'><skyButton onclick="playSong(this)">Lily - Alan Walker</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Shatter_me")'><skyButton onclick="playSong(this)">Shatter me</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Ed_sheeran_perfect')"><skyButton onclick="playSong(this)">Ed sheeran perfect</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('lavender_Town')"><skyButton onclick="playSong(this)">lavender Town</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('San_Francisco')"><skyButton onclick="playSong(this)">San Francisco</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Scarborough_Fair')"><skyButton onclick="playSong(this)">Scarborough Fair</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Path_Of_The_Wind_-_My_Neighborhood_Is_Totoro_OST')"><skyButton onclick="playSong(this)">Path Of The Wind - My Neighborhood Is Totoro OST - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Firefall_SC')"><skyButton onclick="playSong(this)">Firefall SC</skyButton><br></li>    
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Hora_dels_Adeus')"><skyButton onclick="playSong(this)">Hora dels Adeus</skyButton><br></li>    
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Cant_help_falling_in_love')"><skyButton onclick="playSong(this)">Can't help falling in love</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Kygo_-_Firestone')"><skyButton onclick="playSong(this)">Kygo - Firestone</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Mitsuhas_Theme_YOUR_NAME')"><skyButton onclick="playSong(this)">Mitsuha's Theme (YOUR NAME)</skyButton><br></li>
+    </ul> 
+    <ul class="listelement">       
+        <h1><c>▶</c> Medium</h1>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Davy_Joness_Theme")'><skyButton onclick="playSong(this)">Davy Joness Theme</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Hedwigs_Theme_Harry_Potter")'><skyButton onclick="playSong(this)">Hedwigs Theme Harry Potter</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Flohwalzer")'><skyButton onclick="playSong(this)">Flohwalzer</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Oh_Susanna")'><skyButton onclick="playSong(this)">Oh Susanna</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Take_Me_to_church")'><skyButton onclick="playSong(this)">Take Me to church</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Carrying_You_Laputa')"><skyButton onclick="playSong(this)">Carrying You Laputa</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Gravity_Falls_Theme')"><skyButton onclick="playSong(this)">Gravity Falls Theme</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('If_You_Are_Happy')"><skyButton onclick="playSong(this)">If You Are Happy</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Lord_Of_The_Rings_CM')"><skyButton onclick="playSong(this)">Lord Of The Rings CM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Ode_to_Joy_-_Hard')"><skyButton onclick="playSong(this)">Ode to Joy - Hard</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Owl_City_Fireflies')"><skyButton onclick="playSong(this)">Owl City Fireflies</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Route_01_Pokemon')"><skyButton onclick="playSong(this)">Route 01 Pokemon</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Skyrim_theme')"><skyButton onclick="playSong(this)">Skyrim theme</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Hallelujah')"><skyButton onclick="playSong(this)">Hallelujah</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Ashikata_and_San_-_Princess_Mononoke_OST')"><skyButton onclick="playSong(this)">Ashikata and San - Princess Mononoke OST - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('em_đã_bỏ_thuốc_chưa')"><skyButton onclick="playSong(this)">em đã bỏ thuốc chưa - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('I_Love_You_3000')"><skyButton onclick="playSong(this)">I Love You 3000 - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Merry_Go_Round_of_Life_-_Howl_Moving_Castle_OST')"><skyButton onclick="playSong(this)">Merry Go Round of Life - Howl's Moving Castle OST - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Mononoke_Hime_Medley')"><skyButton onclick="playSong(this)">Mononoke Hime Medley - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('One_Summer_Day_-_Spirited_Away_OST')"><skyButton onclick="playSong(this)">One Summer Day - Spirited Away OST - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Play_Date')"><skyButton onclick="playSong(this)">Play Date - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Ponyo_on_the_Cliff_By_the_Sea_-_Ponyo_OST')"><skyButton onclick="playSong(this)">Ponyo on the Cliff By the Sea - Ponyo OST - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('SUMMERTIME')"><skyButton onclick="playSong(this)">SUMMERTIME - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Summer_-_Joe_Hisaishi')"><skyButton onclick="playSong(this)">Summer - Joe Hisaishi - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Kataware_Doki')"><skyButton onclick="playSong(this)">Kataware Doki</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('How_far_Ill_GoMoana')"><skyButton onclick="playSong(this)">How far I'll Go - Moana</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('穿越時空的思念')"><skyButton onclick="playSong(this)">穿越時空的思念 - Inuyasha </skyButton><br></li>
+    </ul>
+    <ul class="listelement">  
+        <h1><c>▶</c> Hard</h1>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('The_Myth_OST')"><skyButton onclick="playSong(this)">The Myth OST</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Music_sheet_8_Extended")'><skyButton onclick="playSong(this)">Music sheet 8 Extended</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Speak_Softly_Love_-_Godfather_Theme")'><skyButton onclick="playSong(this)">Speak Softly Love - Godfather Theme</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Rather_be")'><skyButton onclick="playSong(this)">Rather be</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Chuanyue_shikong_de_sinian')"><skyButton onclick="playSong(this)">Chuanyue shikong de sinian</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Có_Chắc_Yêu_Là_Đây_(Ballad Version)_by_Komo')"><skyButton onclick="playSong(this)">Có Chắc Yêu Là Đây (Ballad Version) by Komo - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Có_Chắc_Yêu_Là_Đây_-_Sơn_Tùng_MTP')"><skyButton onclick="playSong(this)">Có Chắc Yêu Là Đây - Sơn Tùng MTP - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Gravity_Fall_Opening_Theme_Song')"><skyButton onclick="playSong(this)">Gravity Fall Opening Theme Song (Hard) - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Renai_Circulation_-_Kana_Hanazawa_by_Komo_The_Bread')"><skyButton onclick="playSong(this)">Renai Circulation - Kana Hanazawa by Komo The Bread - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Tonari_no_Totoro_-_My_Neighborhood_Is_Totoro_OST')"><skyButton onclick="playSong(this)">Tonari no Totoro - My Neighborhood Is Totoro OST - SCSM</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('He_is_a_pirate')"><skyButton onclick="playSong(this)">He's a pirate</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('He_is_a_pirate(slow)')"><skyButton onclick="playSong(this)">He's a pirate (slow)</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Evangelion_-_A_true_angel_thesis')"><skyButton onclick="playSong(this)">Evangelion - A true angel thesis</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Priscillas_song_-_Skyrim')"><skyButton onclick="playSong(this)">Priscilla's song - Skyrim</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Alone')"><skyButton onclick="playSong(this)">Alone</skyButton><br></li>    
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Rolling_girl_-_Hatsune_Miku')"><skyButton onclick="playSong(this)">Rolling girl - Hatsune Miku</skyButton><br></li>    
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Wintergatan_-_Marble_machine')"><skyButton onclick="playSong(this)">Wintergatan - Marble machine</skyButton><br></li>    
+    </ul>
 
-        <li><skyButton onclick="playSong(this)">Davy Joness Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Davy_Joness_Theme")'><br></li>
-        <li><skyButton onclick="playSong(this)">Hedwigs Theme Harry Potter</skyButton> <img class="downloadSong" onclick='downloadJSON("Hedwigs_Theme_Harry_Potter")'><br></li>
-        <li><skyButton onclick="playSong(this)">Flohwalzer</skyButton> <img class="downloadSong" onclick='downloadJSON("Flohwalzer")'><br></li>
-        <li><skyButton onclick="playSong(this)">Oh Susanna</skyButton> <img class="downloadSong" onclick='downloadJSON("Oh_Susanna")'><br></li>
-        <li><skyButton onclick="playSong(this)">Take Me to church</skyButton> <img class="downloadSong" onclick='downloadJSON("Take_Me_to_church")'><br></li>
-        <li><skyButton onclick="playSong(this)">Carrying You Laputa</skyButton> <img class="downloadSong" onclick="downloadJSON('Carrying_You_Laputa')"><br></li>
-        <li><skyButton onclick="playSong(this)">Gravity Falls Theme</skyButton> <img class="downloadSong" onclick="downloadJSON('Gravity_Falls_Theme')"><br></li>
-        <li><skyButton onclick="playSong(this)">If You Are Happy</skyButton> <img class="downloadSong" onclick="downloadJSON('If_You_Are_Happy')"><br></li>
-        <li><skyButton onclick="playSong(this)">Lord Of The Rings CM</skyButton> <img class="downloadSong" onclick="downloadJSON('Lord_Of_The_Rings_CM')"><br></li>
-        <li><skyButton onclick="playSong(this)">Ode to Joy - Hard</skyButton> <img class="downloadSong" onclick="downloadJSON('Ode_to_Joy_-_Hard')"><br></li>
-        <li><skyButton onclick="playSong(this)">Owl City Fireflies</skyButton> <img class="downloadSong" onclick="downloadJSON('Owl_City_Fireflies')"><br></li>
-        <li><skyButton onclick="playSong(this)">Route 01 Pokemon</skyButton> <img class="downloadSong" onclick="downloadJSON('Route_01_Pokemon')"><br></li>
-        <li><skyButton onclick="playSong(this)">Skyrim theme</skyButton> <img class="downloadSong" onclick="downloadJSON('Skyrim_theme')"><br></li>
-        <li><skyButton onclick="playSong(this)">Hallelujah</skyButton> <img class="downloadSong" onclick="downloadJSON('Hallelujah')"><br></li>
-        <li><skyButton onclick="playSong(this)">Ashikata and San - Princess Mononoke OST - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('Ashikata_and_San_-_Princess_Mononoke_OST')"><br></li>
-        <li><skyButton onclick="playSong(this)">em đã bỏ thuốc chưa - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('em_đã_bỏ_thuốc_chưa')"><br></li>
-        <li><skyButton onclick="playSong(this)">I Love You 3000 - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('I_Love_You_3000')"><br></li>
-        <li><skyButton onclick="playSong(this)">Merry Go Round of Life - Howl's Moving Castle OST - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('Merry_Go_Round_of_Life_-_Howl_Moving_Castle_OST')"><br></li>
-        <li><skyButton onclick="playSong(this)">Mononoke Hime Medley - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('Mononoke_Hime_Medley')"><br></li>
-        <li><skyButton onclick="playSong(this)">One Summer Day - Spirited Away OST - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('One_Summer_Day_-_Spirited_Away_OST')"><br></li>
-        <li><skyButton onclick="playSong(this)">Play Date - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('Play_Date')"><br></li>
-        <li><skyButton onclick="playSong(this)">Ponyo on the Cliff By the Sea - Ponyo OST - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('Ponyo_on_the_Cliff_By_the_Sea_-_Ponyo_OST')"><br></li>
-        <li><skyButton onclick="playSong(this)">SUMMERTIME - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('SUMMERTIME')"><br></li>
-        <li><skyButton onclick="playSong(this)">Summer - Joe Hisaishi - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('Summer_-_Joe_Hisaishi')"><br></li>
-        
-        <h1>Hard</h1>
-
-        <li><skyButton onclick="playSong(this)">Music sheet 8 Extended</skyButton> <img class="downloadSong" onclick='downloadJSON("Music_sheet_8_Extended")'><br></li>
-        <li><skyButton onclick="playSong(this)">Speak Softly Love - Godfather Theme</skyButton> <img class="downloadSong" onclick='downloadJSON("Speak_Softly_Love_-_Godfather_Theme")'><br></li>
-        <li><skyButton onclick="playSong(this)">Rather be</skyButton> <img class="downloadSong" onclick='downloadJSON("Rather_be")'><br></li>
-        <li><skyButton onclick="playSong(this)">Chuanyue shikong de sinian</skyButton> <img class="downloadSong" onclick="downloadJSON('Chuanyue_shikong_de_sinian')"><br></li>
-        <li><skyButton onclick="playSong(this)">Có Chắc Yêu Là Đây (Ballad Version) by Komo - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('Có_Chắc_Yêu_Là_Đây_(Ballad Version)_by_Komo')"><br></li>
-        <li><skyButton onclick="playSong(this)">Có Chắc Yêu Là Đây - Sơn Tùng MTP - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('Có_Chắc_Yêu_Là_Đây_-_Sơn_Tùng_MTP')"><br></li>
-        <li><skyButton onclick="playSong(this)">Gravity Fall Opening Theme Song (Hard) - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('Gravity_Fall_Opening_Theme_Song')"><br></li>
-        <li><skyButton onclick="playSong(this)">Renai Circulation - Kana Hanazawa by Komo The Bread - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('Renai_Circulation_-_Kana_Hanazawa_by_Komo_The_Bread')"><br></li>
-        <li><skyButton onclick="playSong(this)">Tonari no Totoro - My Neighborhood Is Totoro OST - SCSM</skyButton> <img class="downloadSong" onclick="downloadJSON('Tonari_no_Totoro_-_My_Neighborhood_Is_Totoro_OST')"><br></li>
-        <li><skyButton onclick="playSong(this)">He's a pirate</skyButton> <img class="downloadSong" onclick="downloadJSON('He_is_a_pirate')"><br></li>
-        <li><skyButton onclick="playSong(this)">He's a pirate (slow)</skyButton> <img class="downloadSong" onclick="downloadJSON('He_is_a_pirate(slow)')"><br></li>
-        <li><skyButton onclick="playSong(this)">Evangelion - A true angel thesis</skyButton> <img class="downloadSong" onclick="downloadJSON('Evangelion_-_A_true_angel_thesis')"><br></li>
-        <li><skyButton onclick="playSong(this)">Alone</skyButton> <img class="downloadSong" onclick="downloadJSON('Alone')"><br></li>    
-        </ul>
-</body>
+        </body>
 <script>
         try{
     Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
@@ -233,6 +252,14 @@
     let picker = document.getElementById("selectedSong");
     let lastSongSent = ""
 
+        $('.content').hide();
+        $('.listelement').children("h1").on('click', function(){
+            if(!($(this.parentElement).children('.content').is(':visible'))){
+                $(this.parentElement).children('.content').show();
+            } else {
+                $('.content').hide();
+            }
+        });
     function sendSong(btn) {
 
         var songName = picker.options[picker.selectedIndex].value.trim()
@@ -389,7 +416,7 @@
     }
     let stopSong = false
     async function playSong(songName) {
-        let song = songName.parentElement.children[1].getAttribute('onclick')
+        let song = songName.parentElement.children[0].getAttribute('onclick')
         song = song.replace("downloadJSON('", "")
         song = song.replace("')", "")
         song = song.replace('downloadJSON("', "")

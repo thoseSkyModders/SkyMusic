@@ -303,21 +303,25 @@ let isDesktop = !checkIfMobile()
 let isFullScreen = false
 function toggleFullScreen(){
         //Makes the website full screen
-        document.getElementById("video1").play()
         if(isDesktop || ignoreFullScreen || isiOS){
             return
         }
         exitFullScreenBtn.style.display = "block"
         let el = document.documentElement;
         // Supports most browsers and their versions.
-        let requestMethod = el.requestFullScreen || el.webkitRequestFullScreen ||
-          el.mozRequestFullScreen || el.msRequestFullScreen;   
-        if (requestMethod) { 
-          requestMethod.call(el);    // Native full screen.
-        } else if (typeof window.ActiveXObject !== 'undefined') {    
-          let wscript = new ActiveXObject('WScript.Shell');    // Older IE.
-          if (wscript !== null) wscript.SendKeys('{F11}');
+        try{
+            let requestMethod = el.requestFullScreen || el.webkitRequestFullScreen ||
+            el.mozRequestFullScreen || el.msRequestFullScreen;   
+          if (requestMethod) { 
+            requestMethod.call(el)   // Native full screen.
+          } else if (typeof window.ActiveXObject !== 'undefined') {    
+            let wscript = new ActiveXObject('WScript.Shell');    // Older IE.
+            if (wscript !== null) wscript.SendKeys('{F11}');
+          }
+        }catch(e){
+            console.log(e)
         }
+
         isFullScreen = true
 }
 
@@ -927,7 +931,7 @@ function syncDB() { //Function that syncs the songs from the database in the cli
 
 function deleteFromDB(credentials, song) { //function to delete a song from the database of the account
     if (!isAuthenticated) {
-        showMessage(systemMessagesText[selectedLanguage][2], 2) //not logged
+        showMessage(systemMessagesText[selectedLanguage][21], 2) //not logged
         return;
     }
     let objToSend = {
@@ -952,7 +956,7 @@ function deleteFromDB(credentials, song) { //function to delete a song from the 
 
 function saveSongsToDB(credentials, songsToSend) { //saves a song to the database, first value is the credentials, second is the songs array to store
     if (!isAuthenticated) {
-        showMessage(systemMessagesText[selectedLanguage][2], 2) //not logged
+        showMessage(systemMessagesText[selectedLanguage][21], 2) //not logged
         return;
     }
     let objToSend = {
@@ -1171,7 +1175,9 @@ let urls = instrumentsNotes[storedInstrument]
 
 //--------------------------------------------------------------------------------------------------------//
 
+let reverbSetted = false
 function set_up_reverb() {
+    if(reverbSetted) return
         fetch("reverb4.wav")
         .then(r => r.arrayBuffer().catch(function(){console.log("Catched error ")}))
         .then(b => a_ctx.decodeAudioData(b, (impulse_response) => { 
@@ -1185,6 +1191,7 @@ function set_up_reverb() {
         })).catch(function(){
             console.log("Catched error ")
         })
+    reverbSetted = true
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1222,7 +1229,6 @@ let keyNames = {
 const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
 
 let a_reverb_destination = a_ctx.destination // replaced by reverb path when loaded
-set_up_reverb()
 
 a_ctx.onstatechange = () => {
     if (a_ctx.state === "suspended") {
@@ -1317,6 +1323,7 @@ function initializeKeyboard(){
                 keyTexts[i].style.color = "#dad8b3"
             }
         }
+        set_up_reverb()
     })
 }
 
@@ -2090,7 +2097,6 @@ function retry() {
 //delay function
 const delay = ms => new Promise(res => setTimeout(res, ms))
 initializeKeyboard()
-
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')

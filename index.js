@@ -541,7 +541,7 @@ if (!inLocalhost) {
                 let song = req.body.song
                 let songsChannel = bot.channels.cache.get("730884082258673715")
                 let fileName = sanitizeText(song.name.split(" ").join("_"))
-                let htmlSong = '<li><skyButton onclick="playSong(this)">'+song.name+'</skyButton> <img class="downloadSong" onclick="downloadJSON('+"'"+fileName+"'"+')"><br></li>\n'
+                let htmlSong = '<li> <img class="downloadSong" onclick="downloadJSON('+"'"+fileName+"'"+')"><skyButton onclick="playSong(this)">'+song.name+'</skyButton><br></li>\n'
                 fs.writeFile(__dirname+"/public/temp/"+fileName+".txt", JSON.stringify([song]),async function(e) {
                     if(e){ reportError(e); res.send("Error!"); return}
                     try{
