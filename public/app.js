@@ -12,7 +12,30 @@ try{
 }catch(e){
     console.log(e)
 }
-
+let floatingMessage
+function showMessage(msg, msgType, duration) {
+    if (duration == undefined) duration = 1500
+    floatingMessage = document.getElementById("floatingMessage")
+    if(floatingMessage.style.display == "block") return
+    floatingMessage.innerHTML = msg
+    let color
+    if (msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
+    if (msgType == 1) color = "lightgreen" //SUCCESS
+    if (msgType == 2) color = "#dad8b3" //MESSAGE
+    floatingMessage.style.color = color
+    $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
+}
+function checkLocalStorageSupport() {
+    try {
+      const key = "checkLocalStorage";
+      localStorage.setItem(key, key);
+      localStorage.removeItem(key);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  if(!checkLocalStorageSupport()) showMessage("Please enable site data to use the website",0,8000),console.log("Localstorage not available")
 var translateElements = {
     0:"scale-text",
     1:"confirm-scale",
@@ -379,21 +402,6 @@ function ignoreRotation(){
 let userDeniedRotate = localStorage.getItem("ignoreRotateWarning")
 if(userDeniedRotate == "true"){
     document.getElementById("rotateDevice").style.display = "none"
-}
-
-//--------------------------------------------------------------------------------------------------------//
-
-let floatingMessage
-function showMessage(msg, msgType, duration) {
-    if (duration == undefined) duration = 1500
-    floatingMessage = document.getElementById("floatingMessage")
-    floatingMessage.innerHTML = msg
-    let color
-    if (msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
-    if (msgType == 1) color = "lightgreen" //SUCCESS
-    if (msgType == 2) color = "#dad8b3" //MESSAGE
-    floatingMessage.style.color = color
-    $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
 }
 
 //--------------------------------------------------------------------------------------------------------//

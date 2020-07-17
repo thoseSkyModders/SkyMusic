@@ -30,6 +30,9 @@
     <title>Sky Music Composer</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" href="songComposerStyle.css" type="text/css">
+    <script src="/scripts/jquery.js"></script>
+    <script src="/scripts/jqueryUI.js"></script>
+    <script src="/scripts/jqueryPEP.js"></script>
     <script src="/scripts/Midi.js"></script>
 </head>
 
@@ -188,6 +191,7 @@
         <input type="button" value="Accurate mode" id="algorithmBtn" class="skyButton" onclick="changeAlgorithmType(this)">
         <input type="button" value="Done" style="float: right;" class="skyButton" onclick="this.parentNode.style.display = 'none',quickSave(),addToHistory()">
     </div>
+    <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
 <script>
     /*
@@ -204,6 +208,20 @@ if (e.pageX > 10 && e.pageX < window.innerWidth - 10) return;
 // prevent swipe to navigate gesture
 e.preventDefault();
 });
+
+let floatingMessage
+function showMessage(msg, msgType, duration) {
+    if (duration == undefined) duration = 1500
+    floatingMessage = document.getElementById("floatingMessage")
+    if(floatingMessage.style.display == "block") return
+    floatingMessage.innerHTML = msg
+    let color
+    if (msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
+    if (msgType == 1) color = "lightgreen" //SUCCESS
+    if (msgType == 2) color = "#dad8b3" //MESSAGE
+    floatingMessage.style.color = color
+    $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
+}
 
 let offset = document.getElementById("offset")
     offset.addEventListener("change",function(){
@@ -424,7 +442,7 @@ function loadMIDI(){
             document.getElementById("copyDiv").style.display = "none"
             resetCellBorders()
         }else{
-            alert("Missing start or end!")
+            showMessage("Missing start or end",0,2000)
         }
     }
     let releasedKey = true
@@ -507,7 +525,8 @@ function loadMIDI(){
 
 
     let selectCopy = function (event) {
-        event.path[1].style.border = "solid 2px "+copySelectionColor
+        let path = event.path || (event.composedPath && event.composedPath())
+        path[1].style.border = "solid 2px "+copySelectionColor
         let cells1 = document.getElementsByClassName("cell")
         for (let j = 0; j < cells1.length; j++) {
             cells1[j].removeEventListener("click", selectCopy)
@@ -764,7 +783,7 @@ function loadMIDI(){
         if (savedSongs == null) savedSongs = []
         for (var i = 0; i < savedSongs.length; i++) {
             if (savedSongs[i].name == song.name) {
-                alert("Song with this name already exists, pick another!")
+                showMessage("A song with this name already exists, choose another",0,3000)
                 return
             }
         }
@@ -800,7 +819,7 @@ function loadMIDI(){
         }
         savedSongs.push(song)
         localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
-        alert("Song saved!")
+        showMessage("Song saved!",1,2000)
     }
 
     //----------------------------------------------------------------------------------------------//
