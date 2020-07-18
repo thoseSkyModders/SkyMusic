@@ -335,8 +335,8 @@ function toggleFullScreen(){
         try{
             let requestMethod = el.requestFullScreen || el.webkitRequestFullScreen ||
             el.mozRequestFullScreen || el.msRequestFullScreen;   
-          if (requestMethod) { 
-            requestMethod.call(el)   // Native full screen.
+          if (requestMethod) {
+              try{requestMethod.call(el)}catch(e){console.log(e)}  // Native full screen.
           } else if (typeof window.ActiveXObject !== 'undefined') {    
             let wscript = new ActiveXObject('WScript.Shell');    // Older IE.
             if (wscript !== null) wscript.SendKeys('{F11}');
@@ -648,6 +648,7 @@ function getTempSong(url) {
             showMessage("Song doesn't exist!",0,1000)
             return
         }
+        song = convertToOldFormat(song)
         saveSong(song.name, song.songNotes, 1,song.pitchLevel,song.bpm,song.isComposed)
     };
     let data = {id: url}
