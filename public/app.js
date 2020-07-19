@@ -649,8 +649,18 @@ function getTempSong(url) {
             return
         }
         console.log(song)
-        song = convertToOldFormat(JSON.parse(song))
-        saveSong(song.name, song.songNotes, 1,song.pitchLevel,song.bpm,song.isComposed)
+        try{
+            song = convertToOldFormat([JSON.parse(song)])[0]
+            let element = document.getElementById("Song-" + song.name)
+            if(element == null){
+                saveSong(song.name, song.songNotes, 1,song.pitchLevel,song.bpm,song.isComposed)
+                showMessage(systemMessagesText[selectedLanguage][8]+song.name,1,1500)
+            }else{
+                showMessage(systemMessagesText[selectedLanguage][9]+song.name,2,1500)
+            }
+        }catch(e){
+            showMessage(systemMessagesText[selectedLanguage][10],0,1500)
+        }
     };
     let data = {id: url}
     request.send(JSON.stringify(data))    
