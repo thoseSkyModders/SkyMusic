@@ -112,7 +112,11 @@ app.post('/api/generateTempSong',cors(), function (req, res) {
             }
             tempSongs.push(song)
             let url = "https://sky-music.herokuapp.com/?tempSong="+song.id  
-            res.send(url)
+            let data = {
+                url: url,
+                receivedData: req.body
+            }
+            res.send(data)
         }else{
             res.status(403).send("Invalid API key")
         }

@@ -648,7 +648,8 @@ function getTempSong(url) {
             showMessage("Song doesn't exist!",0,1000)
             return
         }
-        song = convertToOldFormat(song)
+        console.log(song)
+        song = convertToOldFormat(JSON.parse(song))
         saveSong(song.name, song.songNotes, 1,song.pitchLevel,song.bpm,song.isComposed)
     };
     let data = {id: url}
@@ -1303,10 +1304,19 @@ function initializeKeyboard(){
                 let btnBg = btn.firstChild
                 let btnImg = btn.childNodes[1]
                 $(btn).children(":first").finish()
+                
                 let bgColor = btnBg.style.backgroundColor
                 if (bgColor == "rgba(235, 0, 27, 0.7)") {
+                    btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
                     btnBg.style.borderColor = "transparent"
                     practice([])
+                }else{
+                    btn.style.filter = "brightness(130%)"
+                    btn.firstChild.style.backgroundColor = "rgba(60, 60, 60, 0.65)"
+                    setTimeout(function () {
+                        btn.style.filter = 'brightness(100%)'
+                        btn.firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+                    }, 200)
                 }
                 const source = a_ctx.createBufferSource()
                 source.buffer = buf
@@ -1317,7 +1327,6 @@ function initializeKeyboard(){
                     source.connect(a_ctx.destination)
                 }
                 source.start(0)
-                reply_click(btn.id)
                 recordSong(btn.id)
                 btnImg.classList.toggle("keyTurn")
                 btn.classList.toggle("keyScale")
@@ -1347,35 +1356,11 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "3.4"
-let changelogMessage = "Update version " + currentVersion + '<br>Improved composer, New accounts available again'
+let currentVersion = "3.5"
+let changelogMessage = "Update version " + currentVersion + "<br>Improved practice, doesn't get stuck"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)
-}
-
-//--------------------------------------------------------------------------------------------------------//
-
-//Changes the brightness when button clicked.
-function reply_click(clicked_id) {
-    let i = clicked_id
-    let a = i.replace(/Key/, '')
-    let element = document.getElementById(i)
-    element.style.filter = "brightness(130%)"
-    let btnBg = element.firstChild
-    btnBg.style.backgroundColor = "rgba(60, 60, 60, 0.65)"
-    timer(element, a)
-}
-
-//--------------------------------------------------------------------------------------------------------//
-
-//resets the color of the button
-function timer(elem) {
-    setTimeout(function () {
-        elem.style.filter = 'brightness(100%)'
-        let btnBg = elem.firstChild
-        btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
-    }, 200)
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1928,7 +1913,6 @@ function stopSong() {
     isSongStopped = true
     document.getElementById("stopSong").style.visibility = "hidden"
     resetButtons()
-    clearInterval(checkStuck)
     $(songRange).fadeOut(200)
 }
 
@@ -1941,7 +1925,6 @@ async function playSong(song,pitch) {
     }
     */
     document.getElementById("stopSong").style.visibility = "visible"
-    clearInterval(checkStuck)
     $(songRange).fadeOut(200)
     let delayTime = 0
     let previousTime = 0
@@ -2013,28 +1996,12 @@ function practice(inSong) {
         songToPractice = inSong 
         keysToWait = 1
         resetButtons()
-    let timesStuck = 0
-        checkStuck = setInterval(() => {
-            let isStuck = true
-            for(let i = 0;i<14;i++){
-                let current = document.getElementById("Key"+i).firstChild.style.backgroundColor
-                let next = document.getElementById("Key"+(i+1)).firstChild.style.backgroundColor
-                if(current != next){
-                    isStuck = false
-                    timesStuck = 0
-                    break
-                }
-            }
-            if(isStuck) timesStuck++
-            if(timesStuck == 3) timesStuck = 0,console.log("reset"), practice([]),timesStuck = 0
-        }, 200);
         for (let i = 1; i < songToPractice.length; i++) { //stores the time between keys
             betweenKeysTimes.push(songToPractice[i].time - songToPractice[i - 1].time)
         }
     }
     if (songToPractice.length == 0) {
         document.getElementById("stopSong").style.visibility = "hidden"
-        clearInterval(checkStuck)
         $(songRange).fadeOut(200)
         return
     }
@@ -2052,14 +2019,13 @@ function practice(inSong) {
                 nextKeysToPress.push(songToPractice[i])
             }
         }
-        setTimeout(() => { //delays from the ping so that it lets the key change it's color 
             setTimeout(() => {
                 for (let i = 0; i < nextKeysToPress.length && !disableNextKey; i++) {
                     $("#" + nextKeysToPress[i].key).children(":first").animate({
                         "border-color": '#1BB8E8'
-                    }, 220)
+                    }, 10)
                 }
-            }, timeToWait - 320)
+            }, timeToWait - 100)
             betweenKeysTimes.splice(0, keysToPress.length) //removes the times of each button since they arent used
             for (let i = 0; i < keysToPress.length; i++) { //it changes the color to the reddish one and removes the keys to be pressed from the array
                 $("#" + keysToPress[i].key).children(":first").cssborderColor = "transparent"
@@ -2076,8 +2042,7 @@ function practice(inSong) {
                 }
                 songToPractice.splice(0, 1)
             }
-            timeToWait = betweenKeysTimes[0] - 220 //gets the first time of the array, that one is the time for the next one.
-        }, 220)
+            timeToWait = betweenKeysTimes[0] //gets the first time of the array, that one is the time for the next one.
 
         keysToWait = keysToPress.length //those are the keys presses to do before searching for the next key combination
     }
@@ -2106,6 +2071,8 @@ function retry() {
 //delay function
 const delay = ms => new Promise(res => setTimeout(res, ms))
 initializeKeyboard()
+
+
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
@@ -2114,4 +2081,5 @@ if ('serviceWorker' in navigator) {
         });
   });
 }
+
 
