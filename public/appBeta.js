@@ -8,11 +8,34 @@
 
  */
 try{
-  Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
+    Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
 }catch(e){
-    console.log("nope")
+    console.log(e)
 }
-
+let floatingMessage
+function showMessage(msg, msgType, duration) {
+    if (duration == undefined) duration = 1500
+    floatingMessage = document.getElementById("floatingMessage")
+    if(floatingMessage.style.display == "block") return
+    floatingMessage.innerHTML = msg
+    let color
+    if (msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
+    if (msgType == 1) color = "lightgreen" //SUCCESS
+    if (msgType == 2) color = "#dad8b3" //MESSAGE
+    floatingMessage.style.color = color
+    $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
+}
+function checkLocalStorageSupport() {
+    try {
+      const key = "checkLocalStorage";
+      localStorage.setItem(key, key);
+      localStorage.removeItem(key);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  if(!checkLocalStorageSupport()) showMessage("Please enable site data to use the website",0,8000),console.log("Localstorage not available")
 var translateElements = {
     0:"scale-text",
     1:"confirm-scale",
@@ -96,7 +119,7 @@ var translateText = {
     English:["Press + and - to change how the page looks!\nYou can always change this in the settings","CONFIRM","The website is better used in Landscape, please rotate your device.","Click anywhere to close","Account","EMAIL","PASSWORD","LOGIN","Create account","Forgot password?","Register to Sky Music!","EMAIL","PASSWORD","CONFIRM PASSWORD","REGISTER","Register to Sky Music!","CODE","CONFIRM","Go back","Reset Password!","EMAIL","SUBMIT","Go back","Reset Password!","RESET CODE","NEW PASSWORD","CONFIRM NEW PASSWORD","SUBMIT","Go back","Settings","Change website zoom","Turn off auto fullscreen","Disable next key practice","Hide practice note animation","Display Note Names","Check MIDI support","Reset all songs and settings","Go back","My songs","Account songs","Here are all your songs!","Import songs","Here are all the songs saved in your account!","Reload","Store all songs locally","Cancel","OK","Main page","Account","Settings","Song Library","Need help?","Manage Recordings","Start/Stop recording","OLD","Go back","Download songs","Select language","Welcome to Sky Music!","Never show again","Turn on compatibility mode","Sheet displayer","Song composer"],
     Italiano:["Premi + e - per cambiare l'aspetto del sito!\nPuoi sempre cambiarlo nelle impostazioni","CONFERMA","È consigliato l'uso del sito in orizzontale, ruota il dispositivo.","Premi ovunque per chiudere","Account","EMAIL","PASSWORD","LOGIN","Crea account","Password dimenticata?","Registrati su Sky Music!","EMAIL","PASSWORD","CONFERMA PASSWORD","REGISTRATI","Registrati su Sky Music!","CODICE","CONFERMA","Indietro","Resetta la Password!","EMAIL","INVIA","Indietro","Resetta la Password!","CODICE DI RESET","NUOVA PASSWORD","CONFERMA NUOVA PASSWORD","INVIA","Torna indietro","Impostazioni","Cambia zoom del sito","Disattiva schermo intero automatico","Disattiva indizio prossima nota","Nascondi animazione nella pratica","Mostra nomi delle note","Controlla supporto MIDI","Resetta tutte le canzoni e impostazioni","Indietro","Le mie canzoni","Canzoni dell'account","Ecco tutte le tue canzoni!","Importa canzoni","Ecco tutte le canzoni salvate nel tuo account!!","Ricarica","Salva tutto localmente","Cancella","OK","Pagina iniziale","Account","Impostazioni","Libreria canzoni","Bisogno di aiuto?","Gestisci registrazioni","Inizia/Ferma registrazione","VECCHIO","Indietro","Scarica canzoni","Seleziona lingua","Benvenuto su Sky Music!","Non mostrare più","Attiva modalità compatibilità","Visualizzatore canzoni","Compositore"],
     Français:["Appuie sur + et - pour changer l'apparence de la page!\nTu pourras toujours modifier cela plus tard dans Réglages","CONFIRMER","Le site est bien mieux en format paysage, tourne ton appareil s'il te plait.","Appuie n'importe où pour fermer","Compte","EMAIL","MOT DE PASSE","SE CONNECTER","Créer un compte","Mot de passe oublié ?","S'inscrire sur Sky Music!","EMAIL","MOT DE PASSE","CONFIRMER LE MOT DE PASSE","INSCRIPTION","S'inscrire sur Sky Music!","CODE","CONFIRMER","Retour","Reinitialiser le mot de passe!","EMAIL","SOUMETTRE","Retour","Reinitialiser le mot de passe!","REINITIAISER LE CODE","NOUVEAU MOT DE PASSE","CONFIRMER LE NOUVEAU MOT DE PASSE","SOUMETTRE","Retour","Réglages","Modifier le zoom","Désactiver le plein écran automatique","Désactiver l'entraînement pour la clé suivante","Masquer l'animation des notes de l'entraînement","Afficher le nom des notes","Voir support MIDI","Reinitialiser toutes les chansons et réglages","Retour","Mes chansons","Chansons du compte","Voici toutes tes chansons!","Importer des chansons","Voici toutes les chansons sauvegardées sur ton compte!","Recharger","Enregistrer les chansons localement","Fermer","OK","Page principale","Compte","Réglages","Bibliothèque des chansons","Besoin d'aide ?","Gérer les enregistrements","Start/Stop l'enregistrement","ANCIEN","Retour","Télécharger des chansons","Choisir la langue","Bienvenue sur Sky Music","Ne me montre plus jamais","Turn on compatibility mode","Sheet displayer","Song composer"],
-    Traditional_chinese_繁體中文:["按下 + 和 - 更改頁面的大小！\n您隨時可以在設定中更改此設定","確認","本網站更適合橫向使用，請旋轉您的設備。","點擊任意位置來關閉視窗","帳號","電子郵件","密碼","登入","創建帳號","忘記密碼？","註冊 Sky Music!","電子郵件","密碼","確認密碼","註冊","註冊 Sky Music!","驗証碼","確認","返回","重設密碼！","電子郵件","遞交","返回","重設密碼！","重設用驗証碼","新密碼","確認新密碼","遞交","返回","設定","改變頁面大小","關閉自動全屏","禁用 練習模式顯示下一鍵","隱藏 練習模式按鍵動畫","顯示音名","檢查支援MIDI","重設所有歌曲和設定","返回","本地歌曲","帳號歌曲","這是您的所有歌曲！","匯入歌曲","這是您帳號中保存的所有歌曲！","重新匯入","將所有歌曲存儲在本地","取消","OK","主頁","帳號","設定","歌曲庫","需要幫忙？","管理錄音","開始/停止 錄製","舊版","返回","下載歌曲","選擇語言","歡迎來到Sky Music!","不要再顯示","開啟兼容模式","Sheet displayer","Song composer"],
+    Traditional_chinese_繁體中文:["按下 + 和 - 更改頁面的大小！\n您隨時可以在設定中更改此設定","確認","本網站更適合橫向使用，請旋轉您的設備。","點擊任意位置來關閉視窗","帳號","電子郵件","密碼","登入","創建帳號","忘記密碼？","註冊 Sky Music!","電子郵件","密碼","確認密碼","註冊","註冊 Sky Music!","驗証碼","確認","返回","重設密碼！","電子郵件","遞交","返回","重設密碼！","重設用驗証碼","新密碼","確認新密碼","遞交","返回","設定","改變頁面大小","關閉自動全屏","禁用 練習模式顯示下一鍵","隱藏 練習模式按鍵動畫","顯示音名","檢查支援MIDI","重設所有歌曲和設定","返回","本地歌曲","帳號歌曲","這是您的所有歌曲！","匯入歌曲","這是您帳號中保存的所有歌曲！","重新匯入","將所有歌曲存儲在本地","取消","OK","主頁","帳號","設定","歌曲庫","需要幫忙？","管理錄音","開始/停止 錄製","舊版","返回","下載歌曲","選擇語言","歡迎來到Sky Music!","不要再顯示","開啟兼容模式","樂譄展示器","歌曲編輯器"],
     Português_Brasileiro:["Pressione + e - para alterar o tamanho dos ícones!\nVocê pode modificar em configurações quando quiser","OK","A experiencia fica melhor em posição de retrato. Por favor rotacione o seu dispositivo.","Toque para fechar.","CONTA","EMAIL","SENHA","LOGIN","Criar uma conta.","Esqueci minha senha.","Criar conta Sky Music!","EMAIL","SENHA","CONFIRMAR SENHA","CRIAR","Minha Conta Sky Music!","CÓDIGO","CONFIRMAR","Voltar","Resetar Senha!","EMAIL","ENVIAR","Voltar","Resetar Senha!","CÓDIGO DE RESET","NOVA SENHA","CONFIRMAR NOVA SENHA","ENVIAR","Voltar","Configurações","Alterar tamanho dos ícones","Desligar Tela Interia (Auto)","Desativar próxima tecla ao praticar","Desativar animação de nota ao praticar","Mostrar as Notas(CDEFGAB)","Checar suporte MIDI","Resetar todas as músicas e configurações.","Voltar","Minhas Músicas","Músicas na Nuvem","Aqui estão todas as suas músicas!","Importar Música","Aqui estão todas as suas músicas salvas na Nuvem!","Recarregar","Armazenar todas as músicas no dispositivo local.","Cancelar","OK","Página Principal","Minha Conta","Configurações","Biblioteca de Músicas","Precisa de ajuda?","Minhas Gravações","Iniciar/Parar gravação","ANTIGO","Voltar","Baixar Música","Trocar Idioma","Bem Vindo ao Sky Music!","Não mostre novamente","Ligar modo de compatibilidade","Sheet displayer","Song composer"],
     Deutsch:["Drücken Sie die Taste + und – um das Aussehen der Seite zu ändern!\nSie können dies immer in den Einstellungen ändern","BESTÄTIGEN"," Die Website hat eine bessere Verwendung im Querformat. Bitte drehen Sie Ihr Gerät.", "Klicken Sie bitte irgendwo auf den Bildschirm, um zu schließen","Konto","EMAIL","PASSWORT","ANMELDEN","Reg","Haben Sie das Passwort vergessen?","Registriere dich zu Sky Music!","EMAIL","PASSWORT","PASSWORT BESTÄTIGEN","REGISTRIEREN","Registriere dich zu Sky Music!","CODE","BESTÄTIGEN","Zurück","Passwort zurücksetzen!","EMAIL","BESTÄTIGEN","Zurück","Passwort zurücksetzen!","CODE ZURÜCKSETZEN","NEUES PASSWORT","NEUES PASSWORT BESTÄTIGEN","BESTÄTIGEN","Zurück","Einstellungen","Website-Zoom ändern","Automatischen Vollbildmodus ausschalten","Hinweis auf die nächste Note deaktivieren","Übungsnotenanimation ausblenden","Notennamen anzeigen","MIDI-Unterstützung überprüfen","Alle Lieder und Einstellungen zurücksetzen","Zurück","Meine Lieder","Konto Lieder","Hier sind alle deine Lieder!","Lieder importieren ","Hier sind alle gespeicherten Lieder auf deinem Konto!","Neu laden","Alle Lieder lokal speichern","Beenden","OK","Hauptseite","Konto","Einstellungen","Liederbibliothek","Brauchen Sie Hilfe?","Aufnahmen verwalten","Aufname starten/stoppen","ALT","Zurück","Lieder runterladen","Sprache auswählen","Willkommen zu Sky Music!","Nicht mehr anzeigen","Aktivieren Sie den Kompatibilitätsmodus","Sheet displayer","Song composer"],
     Русский:["Нажмите + и -, чтобы изменить внешний вид страницы!\nВы всегда можете изменить это в настройках","ПОДТВЕРДИТЬ","Веб-сайт лучше использовать в альбомной ориентации, поверните устройство","Нажмите в любом месте, чтобы закрыть","Аккаунт","Е-МЕЙЛ","ПАРОЛЬ","ЛОГИН","Создать аккаунт","Забыли пароль?","Зарегистрироваться в Sky Music!","Е-МЕЙЛ","ПАРОЛЬ","ПОДТВЕРДИТЬ ПАРОЛЬ","РЕГИСТРАЦИЯ","Зарегистрироваться в Sky Music!","КОД","ПОДТВЕРДИТЬ","Вернуться назад","Сбросить пароль!","Е-МЕЙЛ","ПОДТВЕРДИТЬ","Вернуться назад","Сбросить пароль!","СБРОСИТЬ КОД","НОВЫЙ ПАРОЛЬ","ПОДТВЕРДИТЬ НОВЫЙ ПАРОЛЬ","ПОДТВЕРДИТЬ","Вернуться назад","Настройки","Изменить масштабирование веб-сайта","Отключить автоматический полноэкранный режим","Отключить следующую ключевую практику","Скрыть анимацию заметки для практики","Показать имена заметок","Проверить поддержку MIDI","Сбросить все песни и настройки","Вернуться назад","Мои песни","Песни аккаунта","Вот все ваши песни!","Импортировать песни","Вот все песни, сохраненные в вашем аккаунте!, ","Перезагрузить","Сохранить все песни локально","Отмена","ОК","Главная страница","Аккаунт","Настройки","Библиотека песен","Нужна помощь?","Управление записями","Запуск/остановка записи","СТАРЫЕ","Вернуться назад","Скачать песни ","Выбрать язык","Добро пожаловать в Sky Music!","Больше не показывать","Turn on compatibility mode","Sheet displayer","Song composer"],
@@ -124,7 +147,7 @@ function changeLanguage(language){
             $("#"+translateElements[i]).text(translateText[language][i])
         }
         selectedLanguage = language
-    }catch{}
+    }catch(e){console.log(e)}
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -283,7 +306,7 @@ function exitFullScreen(){
           } else if (document.msExitFullscreen) { /* IE/Edge */
             document.msExitFullscreen()
           }
-    }catch{
+    }catch(e){
         console.log("Error exiting full screen")
     }
       isFullScreen = false
@@ -303,21 +326,25 @@ let isDesktop = !checkIfMobile()
 let isFullScreen = false
 function toggleFullScreen(){
         //Makes the website full screen
-        document.getElementById("video1").play()
         if(isDesktop || ignoreFullScreen || isiOS){
             return
         }
         exitFullScreenBtn.style.display = "block"
         let el = document.documentElement;
         // Supports most browsers and their versions.
-        let requestMethod = el.requestFullScreen || el.webkitRequestFullScreen ||
-          el.mozRequestFullScreen || el.msRequestFullScreen;   
-        if (requestMethod) { 
-          requestMethod.call(el);    // Native full screen.
-        } else if (typeof window.ActiveXObject !== 'undefined') {    
-          let wscript = new ActiveXObject('WScript.Shell');    // Older IE.
-          if (wscript !== null) wscript.SendKeys('{F11}');
+        try{
+            let requestMethod = el.requestFullScreen || el.webkitRequestFullScreen ||
+            el.mozRequestFullScreen || el.msRequestFullScreen;   
+          if (requestMethod) {
+              try{requestMethod.call(el)}catch(e){console.log(e)}  // Native full screen.
+          } else if (typeof window.ActiveXObject !== 'undefined') {    
+            let wscript = new ActiveXObject('WScript.Shell');    // Older IE.
+            if (wscript !== null) wscript.SendKeys('{F11}');
+          }
+        }catch(e){
+            console.log(e)
         }
+
         isFullScreen = true
 }
 
@@ -375,21 +402,6 @@ function ignoreRotation(){
 let userDeniedRotate = localStorage.getItem("ignoreRotateWarning")
 if(userDeniedRotate == "true"){
     document.getElementById("rotateDevice").style.display = "none"
-}
-
-//--------------------------------------------------------------------------------------------------------//
-
-let floatingMessage
-function showMessage(msg, msgType, duration) {
-    if (duration == undefined) duration = 1500
-    floatingMessage = document.getElementById("floatingMessage")
-    floatingMessage.innerHTML = msg
-    let color
-    if (msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
-    if (msgType == 1) color = "lightgreen" //SUCCESS
-    if (msgType == 2) color = "#dad8b3" //MESSAGE
-    floatingMessage.style.color = color
-    $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -636,6 +648,8 @@ function getTempSong(url) {
             showMessage("Song doesn't exist!",0,1000)
             return
         }
+        console.log(song)
+        song = convertToOldFormat(JSON.parse(song))
         saveSong(song.name, song.songNotes, 1,song.pitchLevel,song.bpm,song.isComposed)
     };
     let data = {id: url}
@@ -698,7 +712,8 @@ function getByLink(songUrl){
                     showMessage(systemMessagesText[selectedLanguage][9]+inputSongs[i].name,2,1500) // song already exists
                 }
             }
-            } catch {
+            } catch(e){
+                console.log(e)
                 showMessage(systemMessagesText[selectedLanguage][10],0,1500) //error importing song
             }
      }
@@ -902,7 +917,8 @@ function syncDB() { //Function that syncs the songs from the database in the cli
         response = res.target.response;
         try {
             var songsFromDB = JSON.parse(response)
-        } catch {
+        } catch(e){
+            console.log(e)
             showMessage(response, 0)
             return;
         }
@@ -925,7 +941,7 @@ function syncDB() { //Function that syncs the songs from the database in the cli
 
 function deleteFromDB(credentials, song) { //function to delete a song from the database of the account
     if (!isAuthenticated) {
-        showMessage(systemMessagesText[selectedLanguage][2], 2) //not logged
+        showMessage(systemMessagesText[selectedLanguage][21], 2) //not logged
         return;
     }
     let objToSend = {
@@ -950,7 +966,7 @@ function deleteFromDB(credentials, song) { //function to delete a song from the 
 
 function saveSongsToDB(credentials, songsToSend) { //saves a song to the database, first value is the credentials, second is the songs array to store
     if (!isAuthenticated) {
-        showMessage(systemMessagesText[selectedLanguage][2], 2) //not logged
+        showMessage(systemMessagesText[selectedLanguage][21], 2) //not logged
         return;
     }
     let objToSend = {
@@ -1086,7 +1102,7 @@ document.onkeypress = function (evt) {
     //gets which key has been pressed and gets the corrisponding key associated to it and clicks it
     try{
         if (objKeys[charStr] != null && !isTyping) document.getElementById(objKeys[charStr]).dispatchEvent(click);
-    }catch{}
+    }catch(e){console.log(e)}
 };
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1169,7 +1185,9 @@ let urls = instrumentsNotes[storedInstrument]
 
 //--------------------------------------------------------------------------------------------------------//
 
+let reverbSetted = false
 function set_up_reverb() {
+    if(reverbSetted) return
         fetch("reverb4.wav")
         .then(r => r.arrayBuffer().catch(function(){console.log("Catched error ")}))
         .then(b => a_ctx.decodeAudioData(b, (impulse_response) => { 
@@ -1183,6 +1201,7 @@ function set_up_reverb() {
         })).catch(function(){
             console.log("Catched error ")
         })
+    reverbSetted = true
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1220,7 +1239,6 @@ let keyNames = {
 const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
 
 let a_reverb_destination = a_ctx.destination // replaced by reverb path when loaded
-set_up_reverb()
 
 a_ctx.onstatechange = () => {
     if (a_ctx.state === "suspended") {
@@ -1286,10 +1304,19 @@ function initializeKeyboard(){
                 let btnBg = btn.firstChild
                 let btnImg = btn.childNodes[1]
                 $(btn).children(":first").finish()
+                
                 let bgColor = btnBg.style.backgroundColor
                 if (bgColor == "rgba(235, 0, 27, 0.7)") {
+                    btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
                     btnBg.style.borderColor = "transparent"
                     practice([])
+                }else{
+                    btn.style.filter = "brightness(130%)"
+                    btn.firstChild.style.backgroundColor = "rgba(60, 60, 60, 0.65)"
+                    setTimeout(function () {
+                        btn.style.filter = 'brightness(100%)'
+                        btn.firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+                    }, 200)
                 }
                 const source = a_ctx.createBufferSource()
                 source.buffer = buf
@@ -1300,7 +1327,6 @@ function initializeKeyboard(){
                     source.connect(a_ctx.destination)
                 }
                 source.start(0)
-                reply_click(btn.id)
                 recordSong(btn.id)
                 btnImg.classList.toggle("keyTurn")
                 btn.classList.toggle("keyScale")
@@ -1315,6 +1341,7 @@ function initializeKeyboard(){
                 keyTexts[i].style.color = "#dad8b3"
             }
         }
+        set_up_reverb()
     })
 }
 
@@ -1329,35 +1356,11 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "3.3"
-let changelogMessage = "Update version " + currentVersion + '<br>Improved composer, bug fixes, etc...'
+let currentVersion = "3.4"
+let changelogMessage = "Update version " + currentVersion + '<br>Improved composer, New accounts available again'
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)
-}
-
-//--------------------------------------------------------------------------------------------------------//
-
-//Changes the brightness when button clicked.
-function reply_click(clicked_id) {
-    let i = clicked_id
-    let a = i.replace(/Key/, '')
-    let element = document.getElementById(i)
-    element.style.filter = "brightness(130%)"
-    let btnBg = element.firstChild
-    btnBg.style.backgroundColor = "rgba(60, 60, 60, 0.65)"
-    timer(element, a)
-}
-
-//--------------------------------------------------------------------------------------------------------//
-
-//resets the color of the button
-function timer(elem) {
-    setTimeout(function () {
-        elem.style.filter = 'brightness(100%)'
-        let btnBg = elem.firstChild
-        btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
-    }, 200)
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1397,7 +1400,8 @@ function importSongs() {
                     }
                 }
                 isreading = true
-                } catch {
+                } catch(e){
+                    console.log(e)
                     showMessage(systemMessagesText[selectedLanguage][10],0,1000) //error importing song
                 }
             }
@@ -1521,13 +1525,14 @@ function checkMidiAccess() {
         } else {
             showMessage(systemMessagesText[selectedLanguage][34], 0) //midi is not supported
         }
-    } catch {
+    } catch(e){
+        console.log(e)
         showMessage(systemMessagesText[selectedLanguage][34], 0) //midi is not supported
     }
 }
 try {
     if (navigator.requestMIDIAccess()) {} else {}
-} catch {}
+} catch(e){console.log(e)}
 
 //--------------------------------------------------------------------------------------------------------//
 
@@ -1895,7 +1900,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
             }
     songContainer.appendChild(shareButton)
     
-    } catch {
+    } catch(e){
         showMessage(systemMessagesText[selectedLanguage][10],0,1500) //error importing song
     }
 }
@@ -1908,7 +1913,6 @@ function stopSong() {
     isSongStopped = true
     document.getElementById("stopSong").style.visibility = "hidden"
     resetButtons()
-    clearInterval(checkStuck)
     $(songRange).fadeOut(200)
 }
 
@@ -1921,7 +1925,6 @@ async function playSong(song,pitch) {
     }
     */
     document.getElementById("stopSong").style.visibility = "visible"
-    clearInterval(checkStuck)
     $(songRange).fadeOut(200)
     let delayTime = 0
     let previousTime = 0
@@ -1938,7 +1941,7 @@ async function playSong(song,pitch) {
         await delay(delayTime)
         try{
             document.getElementById(song[i].key).dispatchEvent(click);
-        }catch{
+        }catch(e){
             console.log("Error playing song")
         }
     }
@@ -1957,7 +1960,7 @@ function resetButtons() {
             let btnBg = document.getElementById("Key" + i).firstChild
             btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
             btnBg.style.borderColor = "transparent"
-        }catch{
+        }catch(e){
             console.log("Error resetting")
         }
     }
@@ -1993,28 +1996,12 @@ function practice(inSong) {
         songToPractice = inSong 
         keysToWait = 1
         resetButtons()
-    let timesStuck = 0
-        checkStuck = setInterval(() => {
-            let isStuck = true
-            for(let i = 0;i<14;i++){
-                let current = document.getElementById("Key"+i).firstChild.style.backgroundColor
-                let next = document.getElementById("Key"+(i+1)).firstChild.style.backgroundColor
-                if(current != next){
-                    isStuck = false
-                    timesStuck = 0
-                    break
-                }
-            }
-            if(isStuck) timesStuck++
-            if(timesStuck == 3) timesStuck = 0,console.log("reset"), practice([]),timesStuck = 0
-        }, 200);
         for (let i = 1; i < songToPractice.length; i++) { //stores the time between keys
             betweenKeysTimes.push(songToPractice[i].time - songToPractice[i - 1].time)
         }
     }
     if (songToPractice.length == 0) {
         document.getElementById("stopSong").style.visibility = "hidden"
-        clearInterval(checkStuck)
         $(songRange).fadeOut(200)
         return
     }
@@ -2032,14 +2019,13 @@ function practice(inSong) {
                 nextKeysToPress.push(songToPractice[i])
             }
         }
-        setTimeout(() => { //delays from the ping so that it lets the key change it's color 
             setTimeout(() => {
                 for (let i = 0; i < nextKeysToPress.length && !disableNextKey; i++) {
                     $("#" + nextKeysToPress[i].key).children(":first").animate({
                         "border-color": '#1BB8E8'
-                    }, 220)
+                    }, 10)
                 }
-            }, timeToWait - 320)
+            }, timeToWait - 100)
             betweenKeysTimes.splice(0, keysToPress.length) //removes the times of each button since they arent used
             for (let i = 0; i < keysToPress.length; i++) { //it changes the color to the reddish one and removes the keys to be pressed from the array
                 $("#" + keysToPress[i].key).children(":first").cssborderColor = "transparent"
@@ -2056,8 +2042,7 @@ function practice(inSong) {
                 }
                 songToPractice.splice(0, 1)
             }
-            timeToWait = betweenKeysTimes[0] - 220 //gets the first time of the array, that one is the time for the next one.
-        }, 220)
+            timeToWait = betweenKeysTimes[0] //gets the first time of the array, that one is the time for the next one.
 
         keysToWait = keysToPress.length //those are the keys presses to do before searching for the next key combination
     }
@@ -2086,6 +2071,7 @@ function retry() {
 //delay function
 const delay = ms => new Promise(res => setTimeout(res, ms))
 initializeKeyboard()
+
 /*
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -2096,3 +2082,4 @@ if ('serviceWorker' in navigator) {
   });
 }
 */
+
