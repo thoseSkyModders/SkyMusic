@@ -2065,8 +2065,8 @@ let pressedRetry = false
 function retry() {
     let startPoint = parseInt(startingNoteRange.value)
     retrySong = currentSong.slice(startPoint, currentSong.length)
-    practice(retrySong)
     resetButtons()
+    practice(retrySong)
 }
 //delay function
 const delay = ms => new Promise(res => setTimeout(res, ms))
