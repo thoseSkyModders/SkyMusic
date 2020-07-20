@@ -179,6 +179,10 @@
                 <option>B</option>
             </select>
         </div><br>
+        <div class="settingOption">
+            <span>Cave mode</span>
+            <button id="toggleReverbBtn" class="skyButton" style="float: right; width: 10vw;" onclick="toggleReverb()">OFF</button>
+        </div>
         <div class="settingOption" style="color: limegreen;">
             <span>Import MIDI</span>
             <button class="skyButton" style="float: right; width: 10vw;" onclick="openMIDI()">Select file</button>
@@ -189,6 +193,10 @@
             <select id="loadSongSelect" class="select">
                 <option selected disabled>Song</option>
             </select>
+        </div>
+        <div class="settingOption">
+            <span>Dark mode</span>
+            <button id="toggleDarkModeBtn" class="skyButton" style="float: right; width: 10vw;" onclick="toggleDarkMode()">OFF</button>
         </div>
         <input type="button" style="border-color: rgba(235, 0, 27, 1); color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
@@ -228,6 +236,8 @@
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
 <script>
+
+
 
 
 let selectedLayer = 1
@@ -287,7 +297,7 @@ let globalAlgorithmType = "old"
 function changeAlgorithmType(button){
     if(button.style.backgroundColor == "rgb(235, 0, 27)"){
         globalAlgorithmType = "old"
-        button.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        button.style.backgroundColor = keyColor
     }else{
         globalAlgorithmType = "new"
         button.style.backgroundColor = "rgb(235, 0, 27)"
@@ -300,7 +310,7 @@ function selectAllLayers(){
     let btn = document.getElementById("allLayers")
     mergedMidi = []
     if(btn.style.backgroundColor == "rgb(235, 0, 27)"){
-        btn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        btn.style.backgroundColor = keyColor
     }else{
         btn.style.backgroundColor = "rgb(235, 0, 27)"
         for(let i = 0; i<globalMidi.tracks.length;i++){
@@ -325,7 +335,7 @@ function openMIDI(){
         const reader = new FileReader()
         reader.onload = function(e) {
             globalAlgorithmType = "old"
-            document.getElementById("algorithmBtn").style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+            document.getElementById("algorithmBtn").style.backgroundColor = keyColor
             const midi = new Midi(e.target.result)
             globalMidi = midi
             layerNumber = 0
@@ -333,7 +343,7 @@ function openMIDI(){
             toggleSettings()
             importMIDIDiv.style.display = "block"
             document.getElementById("settingsDiv").style.display = "none"
-            document.getElementById("allLayers").style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+            document.getElementById("allLayers").style.backgroundColor = keyColor
             mergedMidi = []
             loadMIDI()
             filePicker.value = ""
@@ -349,7 +359,7 @@ function changeLayer(value){
     if(newLayerNumber < 0 || newLayerNumber > globalMidi.tracks.length - 1) return
         layerNumber = newLayerNumber
         document.getElementById("layerNumberText").value = layerNumber + 1
-        document.getElementById("allLayers").style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        document.getElementById("allLayers").style.backgroundColor = keyColor
         mergedMidi = []
         loadMIDI()
 }
@@ -665,7 +675,7 @@ function loadMIDI(){
                     bpmToMs = 60000 / document.getElementById("bpm").value
             }
             for (var k = 0; k < 15; k++) {
-                document.getElementById("Key" + k).firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+                document.getElementById("Key" + k).firstChild.style.backgroundColor = keyColor
                 document.getElementById("Key" + k).firstChild.style.borderColor = "transparent"
             }
             for (var j = 0; j < 15; j++) {
@@ -749,7 +759,7 @@ function loadMIDI(){
         if (canDelete) {
             addToHistory()
             for (var k = 0; k < 15; k++) {
-                document.getElementById("Key" + k).firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+                document.getElementById("Key" + k).firstChild.style.backgroundColor = keyColor
             }
             songContainer.innerHTML = ""
             
@@ -953,7 +963,7 @@ function loadMIDI(){
         selectedCell.style.opacity = "0.6"
         selectedCell = cell
         for (var i = 0; i < 15; i++) {
-            document.getElementById("Key" + i).firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+            document.getElementById("Key" + i).firstChild.style.backgroundColor = keyColor
             document.getElementById("Key" + i).firstChild.style.borderColor = "transparent"
         }
         for (var j = 0; j < 15; j++) {
@@ -989,8 +999,24 @@ function loadMIDI(){
         selectedCell.children[14 - n].style.borderColor = "transparent"
     }
 
+
+    window.addEventListener("beforeunload", function(event) {
+            every5 = 10
+            quickSave()
+    });
+
+    $(window).blur(function(){
+        every5 = 10
+        quickSave()
+    });
+    let every5 = 0
     function quickSave() {
-        localStorage.setItem("quickStorageBeta", songContainer.innerHTML)
+        every5 ++
+        if(every5 > 5){
+            localStorage.setItem("quickStorageBeta", songContainer.innerHTML)
+            console.log("quick save")  
+            every5 = 0
+        }
     }
     var quickSavedSong = localStorage.getItem("quickStorageBeta")
     if (quickSavedSong != null) {
@@ -1020,6 +1046,7 @@ function loadMIDI(){
         let selectedIndex = this.selectedIndex
         if(selectedIndex == 0) return
         if(localStorageSongs[selectedIndex - 1].isComposed){
+            localStorage.setItem("savedBpm",localStorageSongs[selectedIndex - 1].bpm)
             importSong(localStorageSongs[selectedIndex - 1],false,"new")
         }else{
             importSong(localStorageSongs[selectedIndex - 1],false,"old")
@@ -1145,6 +1172,13 @@ function loadMIDI(){
     }
     //----------------------------------------------------------------------------------------------//
     const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
+    let a_reverb_destination = a_ctx.destination // replaced by reverb path when loaded
+
+    a_ctx.onstatechange = () => {
+    if (a_ctx.state === "suspended") {
+        a_ctx.resume()
+    }
+}
     const db_url = './Sounds/'
     let instrumentsNotes = {
         piano: ["Piano/0.mp3", "Piano/1.mp3", "Piano/2.mp3", "Piano/3.mp3", "Piano/4.mp3", "Piano/5.mp3",
@@ -1259,7 +1293,11 @@ function loadMIDI(){
                         const source = a_ctx.createBufferSource()
                         source.buffer = buf
                         source.playbackRate.value = pitchKey;
-                        source.connect(a_ctx.destination)
+                        if (reverbToggled) {
+                            source.connect(a_reverb_destination)
+                        } else {
+                            source.connect(a_ctx.destination)
+                        }
                         source.start(0)
                         if(layerType != 2){
                             let btnBg = btn.firstChild
@@ -1275,7 +1313,7 @@ function loadMIDI(){
                             if (selectedLayer == 1){
                                 if (btnBg.style.backgroundColor == "rgba(235, 0, 27, 0.7)") {
                                     deselectNote(btn.id.replace("Key", ""))
-                                    btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+                                    btnBg.style.backgroundColor = keyColor
                                 } else {
                                     btnBg.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
                                     selectNote(btn.id.replace("Key", ""))
@@ -1292,7 +1330,11 @@ function loadMIDI(){
                         }
                     }
                 })
+            }).then(function(){
+                if(darkMode) turnOnDarkMode()
+                set_up_reverb()
             })
+            
     }
 
     function resetKeyClass(element) {
@@ -1335,6 +1377,74 @@ function loadMIDI(){
     selectedCell = getCell(0)
     selectedCell.style.opacity = "1"
 
+function toggleDarkMode(){
+    if(darkMode){
+        localStorage.setItem("darkMode",false)
+        location.reload()
+    }else{
+        localStorage.setItem("darkMode",true)
+        darkMode = true
+        turnOnDarkMode()
+    }
+}
+let keyColor =  "rgba(22, 22, 22, 0.65)"
+function turnOnDarkMode(){
+    document.getElementById("toggleDarkModeBtn").style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+    document.getElementById("toggleDarkModeBtn").innerHTML = "ON"
+    let layers = {
+        0:"#0E0E0E",
+        1:"rgba(44, 44, 44, 0.8)",
+        2:"#1E1E1E",
+        3:"#383838"
+    }
+    keyColor = "rgba(44, 44, 44, 0.8)"
+    setTimeout(() => {
+        $("body").css("background", layers[0])
+        $(".toolsContainer").css("background-color", layers[2])
+        $(".tool").css("background-color", layers[3])
+        $("#songContainer").css("background-color", layers[2])
+        $(".addPage").css("background-color", layers[3])
+        $(".btnBg").css("background-color",keyColor)
+    }, 300);
+}
+
+function set_up_reverb() {
+        fetch("reverb4.wav")
+        .then(r => r.arrayBuffer().catch(function(){console.log("Catched error ")}))
+        .then(b => a_ctx.decodeAudioData(b, (impulse_response) => { 
+            let convolver = a_ctx.createConvolver()
+            let gainNode = a_ctx.createGain()
+            gainNode.gain.value = 2.5
+            convolver.buffer = impulse_response
+            convolver.connect(gainNode)
+            gainNode.connect(a_ctx.destination)
+            a_reverb_destination = convolver
+        })).catch(function(){
+            console.log("Catched error ")
+        })
+}
+
+let darkMode = localStorage.getItem("darkMode")
+    if(savedInstrumentComposerSecondLayer != null){
+        darkMode = JSON.parse(darkMode)
+        if(darkMode) turnOnDarkMode()
+    }else{
+        darkMode = false
+    }
+
+let reverbToggled = false
+function toggleReverb() {
+    let toggleReverbBtn = document.getElementById("toggleReverbBtn")
+    if (reverbToggled) {
+        toggleReverbBtn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        toggleReverbBtn.innerHTML = "OFF"
+        reverbToggled = false
+    } else {
+        toggleReverbBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+        toggleReverbBtn.innerHTML = "ON"
+        reverbToggled = true
+    }
+}
     /*
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
