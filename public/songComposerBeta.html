@@ -1331,7 +1331,12 @@ function loadMIDI(){
                     }
                 })
             }).then(function(){
-                if(darkMode) turnOnDarkMode()
+                if(darkMode != null){
+                    darkMode = JSON.parse(darkMode)
+                    if(darkMode) turnOnDarkMode()
+                }else{
+                    darkMode = false
+                }
                 set_up_reverb()
             })
             
@@ -1398,14 +1403,12 @@ function turnOnDarkMode(){
         3:"#383838"
     }
     keyColor = "rgba(44, 44, 44, 0.8)"
-    setTimeout(() => {
         $("body").css("background", layers[0])
         $(".toolsContainer").css("background-color", layers[2])
         $(".tool").css("background-color", layers[3])
         $("#songContainer").css("background-color", layers[2])
         $(".addPage").css("background-color", layers[3])
         $(".btnBg").css("background-color",keyColor)
-    }, 300);
 }
 
 function set_up_reverb() {
@@ -1425,12 +1428,6 @@ function set_up_reverb() {
 }
 
 let darkMode = localStorage.getItem("darkMode")
-    if(savedInstrumentComposerSecondLayer != null){
-        darkMode = JSON.parse(darkMode)
-        if(darkMode) turnOnDarkMode()
-    }else{
-        darkMode = false
-    }
 
 let reverbToggled = false
 function toggleReverb() {
