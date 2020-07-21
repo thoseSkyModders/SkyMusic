@@ -1,10 +1,5 @@
-[
-  {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "xyz.appmaker.xplpjv",
-      "sha256_cert_fingerprints": ["22:28:61:F9:F2:C7:38:63:5F:66:8A:E0:32:FA:29:56:4E:87:49:D1:DF:6E:63:47:EF:A7:98:73:59:C5:DD:DF"]
-    }
-  }
-]
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target" : { "namespace": "android_app", "package_name": "com.herokuapp.sky_music.twa",
+                   "sha256_cert_fingerprints": ["DE:88:B1:6C:AB:F2:41:08:B4:3F:62:08:B3:21:DA:AA:9A:7B:B6:7B:9B:EF:B5:4B:04:FC:A8:00:06:B0:2F:02"] }
+    }]
