@@ -13,7 +13,7 @@
             for(let i = 0;i<songs.length;i++){
                 let names = songs[i].split("_").join(" ")   
                 if(names == "") break
-                 output += '<li><skyButton onclick="playSong(this.innerHTML)">'+names.trim()+'</skyButton> <img class="downloadSong" onclick="downloadJSON('+"'"+songs[i].trim()+"'"+')"><br><br></li>\n'
+                 output += '<li><img class="downloadSong" onclick="downloadJSON('+"'"+songs[i].trim()+"'"+')"><skyButton onclick="playSong(this)">'+names.trim()+'</skyButton><br></li>\n'
             }
             document.getElementById("out").value = output
         }
