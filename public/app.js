@@ -1316,7 +1316,7 @@ function initializeKeyboard(){
                 $(btn).children(":first").finish()
                 
                 let bgColor = btnBg.style.backgroundColor
-                if (bgColor == "rgba(235, 0, 27, 0.7)") {
+                if (bgColor.includes("rgba(235, 0, 27")) {
                     btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
                     btnBg.style.borderColor = "transparent"
                     practice([])
@@ -1366,8 +1366,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "3.5"
-let changelogMessage = "Update version " + currentVersion + "<br>Improved practice, doesn't get stuck"
+let currentVersion = "3.6"
+let changelogMessage = "Update version " + currentVersion + "<br>Improved practice, doesn't get stuck V2"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)
