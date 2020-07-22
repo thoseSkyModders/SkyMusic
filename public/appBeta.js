@@ -7,11 +7,7 @@
   \____/|_____|     
 
  */
-try{
-    Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
-}catch(e){
-    console.log(e)
-}
+
 let floatingMessage
 function showMessage(msg, msgType, duration) {
     if (duration == undefined) duration = 1500
@@ -1306,6 +1302,7 @@ function initializeKeyboard(){
 
             btn.addEventListener(inputMode, function (e) {
                 buttonPressEvent(this)
+                console.log("buttonclicked")
                 e.preventDefault()
             })
 
@@ -1314,11 +1311,12 @@ function initializeKeyboard(){
                 let btnBg = btn.firstChild
                 let btnImg = btn.childNodes[1]
                 $(btn).children(":first").finish()
-                
                 let bgColor = btnBg.style.backgroundColor
+                console.log(bgColor)
                 if (bgColor == "rgba(235, 0, 27, 0.7)") {
                     btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
                     btnBg.style.borderColor = "transparent"
+                    console.log("isPinging practice")
                     practice([])
                 }else{
                     btn.style.filter = "brightness(130%)"
@@ -1997,6 +1995,7 @@ let nextKeysToPress = []
 betweenKeysTimes.push(0) //offsets the first key
 let checkStuck
 function practice(inSong) {
+    console.log("practiceping")
     document.getElementById("stopSong").style.visibility = "visible"
     if (inSong.length != 0) { //If there is a song to be added, if there isn't it means that it comes from a ping from the button
         //RESET OF VALUES AND SETTING UP THE SONG
@@ -2082,14 +2081,6 @@ function retry() {
 const delay = ms => new Promise(res => setTimeout(res, ms))
 initializeKeyboard()
 
-/*
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-        .then((reg) => {
-          console.log('Service worker registered.', reg);
-        });
-  });
-}
-*/
+
+
 
