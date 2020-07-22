@@ -1313,7 +1313,7 @@ function initializeKeyboard(){
                 $(btn).children(":first").finish()
                 let bgColor = btnBg.style.backgroundColor
                 console.log(bgColor)
-                if (bgColor == "rgba(235, 0, 27, 0.7)") {
+                if (bgColor.includes("rgba(235, 0, 27")) {
                     btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
                     btnBg.style.borderColor = "transparent"
                     console.log("isPinging practice")
