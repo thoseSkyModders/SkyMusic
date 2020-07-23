@@ -763,7 +763,7 @@ function loadMIDI(){
             songContainer.innerHTML = ""
             
             addPage()
-            quickSave()
+            quickSave(true)
             selectCell(getCell(0))
             toggleSettings()
         }
@@ -900,6 +900,9 @@ function loadMIDI(){
                         time: timeStamp,
                         key: "Key" + j
                     }
+                    if(cells[i].children[14 - j].style.borderColor == "darkslategray") keyObj.l = 2
+                    if(cells[i].children[14 - j].style.borderColor == "darkslategray" 
+                    && cells[i].children[14 - j].style.backgroundColor == "rgba(235, 0, 27, 0.8)") keyObj.l = 3
                     song.songNotes.push(keyObj)
                 }
                 if(splitLayers && cells[i].children[14 - j].style.borderColor == "darkslategray"){
@@ -1000,18 +1003,16 @@ function loadMIDI(){
 
 
     window.addEventListener("beforeunload", function(event) {
-            every5 = 10
-            quickSave()
+            quickSave(true)
     });
 
     $(window).blur(function(){
-        every5 = 10
-        quickSave()
+        quickSave(true)
     });
     let every5 = 0
-    function quickSave() {
+    function quickSave(skip = false) {
         every5 ++
-        if(every5 > 5){
+        if(every5 > 5 || skip){
             localStorage.setItem("quickStorage", songContainer.innerHTML)
             console.log("quick save")  
             every5 = 0
@@ -1054,7 +1055,7 @@ function loadMIDI(){
 
 
     function importSong(song,ignoreSettings,algorithmType){
-        quickSave()
+        addToHistory()
         let importBpm = 220
         if(song.isComposed == undefined) song.isComposed = false
         if(song.bpm != undefined) importBpm = song.bpm
@@ -1142,7 +1143,21 @@ function loadMIDI(){
                     default: {
                         let key = parsedSong[i][j].key.replace("Key","")
                         selectedCell = songContainer.lastChild
-                        selectNote(key)
+                        switch(parsedSong[i][j].l){
+                            case 2:{
+                                selectNoteLayer2(key)
+                                break
+                            }
+                            case 3:{
+                                selectNote(key)
+                                selectNoteLayer2(key)
+                                break
+                            }
+                            default: {
+                                selectNote(key)
+                                break
+                            }
+                        }
                     } 
                 }
             }
@@ -1159,13 +1174,28 @@ function loadMIDI(){
                         default: {
                             let key = parsedSong[i][j].key.replace("Key","")
                             selectedCell = getCell(i)
-                            selectNote(key)
+                            
+                            switch(parsedSong[i][j].l){
+                                case 2:{
+                                    selectNoteLayer2(key)
+                                    break
+                                }
+                                case 3:{
+                                    selectNote(key)
+                                    selectNoteLayer2(key)
+                                    break
+                                }
+                                default: {
+                                    selectNote(key)
+                                    break
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-        addToHistory()
+        quickSave(true)
         selectCell(getCell(0))
         if(!ignoreSettings)toggleSettings()
     }
