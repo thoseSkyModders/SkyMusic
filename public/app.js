@@ -555,7 +555,7 @@ if (localStorage.getItem("disableNextKey") != null) {
     }
 }
 function changeSettings(button) { //function that once gotten the button, reads its id and choses which setting it is applied to and writes localstorage with said value
-    if (button.style.backgroundColor == "rgba(235, 0, 27, 0.8)") {
+    if (button.style.backgroundColor.includes("rgba(235, 0, 27")) {
         button.style.backgroundColor = "teal"
         if (button.id == "Hide-practice-note-animation") disableAnimation = false, localStorage.setItem("disableAnimation", disableAnimation)
         if (button.id == "Disable-next-key-practice") disableNextKey = false, localStorage.setItem("disableNextKey", disableNextKey)

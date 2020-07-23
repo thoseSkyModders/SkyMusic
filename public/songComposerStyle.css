@@ -233,6 +233,8 @@ div.full {
 }
 
 .skyButton {
+    -webkit-appearance: none;
+    -webkit-border-radius: none;
     border: solid 1.5px #dad8b3;
     text-decoration: none;
     border-radius: 0.4em;
@@ -243,6 +245,8 @@ div.full {
 }
 
 .tempoButton {
+    -webkit-appearance: none;
+    -webkit-border-radius: none;
     font-weight: bold;
     width: 8vw;
     min-width: 0;
@@ -260,6 +264,8 @@ div.full {
     flex-direction: column;
 }
 .select {
+    -webkit-appearance: none;
+    -webkit-border-radius: none;
     border: solid 1.5px #dad8b3;
     text-decoration: none;
     border-radius: 0.3em;

@@ -247,7 +247,7 @@ try{
 }
 let selectedLayer = 1
 function switchInstrumentLayer(btn){
-    if(btn.style.backgroundColor == "rgba(235, 0, 27, 0.7)"){
+    if(btn.style.backgroundColor.includes("rgba(235, 0, 27")){
         btn.style.backgroundColor = "#9B59B6"
         selectedLayer = 2
     }else{
@@ -680,7 +680,7 @@ function loadMIDI(){
                 document.getElementById("Key" + k).firstChild.style.borderColor = "transparent"
             }
             for (var j = 0; j < 15; j++) {
-                if (cells[i].children[14 - j].style.backgroundColor == "rgba(235, 0, 27, 0.8)") {
+                if (cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
                     document.getElementById("Key" + j).dispatchEvent(click)
                     document.getElementById("Key" + j).firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
                 }
@@ -896,7 +896,7 @@ function loadMIDI(){
                     bpmToMs = 60000 / document.getElementById("bpm").value
             }
             for (var j = 0; j < 15; j++) {
-                if (cells[i].children[14 - j].style.backgroundColor == "rgba(235, 0, 27, 0.8)" 
+                if (cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27") 
                 || (!splitLayers && cells[i].children[14 - j].style.borderColor == "darkslategray")) {
                     let keyObj = {
                         time: timeStamp,
@@ -904,7 +904,7 @@ function loadMIDI(){
                     }
                     if(cells[i].children[14 - j].style.borderColor == "darkslategray") keyObj.l = 2
                     if(cells[i].children[14 - j].style.borderColor == "darkslategray" 
-                    && cells[i].children[14 - j].style.backgroundColor == "rgba(235, 0, 27, 0.8)") keyObj.l = 3
+                    && cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) keyObj.l = 3
                     song.songNotes.push(keyObj)
                 }
                 if(splitLayers && cells[i].children[14 - j].style.borderColor == "darkslategray"){
@@ -971,7 +971,7 @@ function loadMIDI(){
             document.getElementById("Key" + i).firstChild.style.borderColor = "transparent"
         }
         for (var j = 0; j < 15; j++) {
-            if (cell.children[14 - j].style.backgroundColor == "rgba(235, 0, 27, 0.8)") {
+            if (cell.children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
                 document.getElementById("Key" + j).dispatchEvent(click)
                 document.getElementById("Key" + j).firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
             }
@@ -1350,7 +1350,7 @@ function loadMIDI(){
                             if (isPlaying || keyboardBlocked) return;
                             if (isTrusted) addToHistory()
                             if (selectedLayer == 1){
-                                if (btnBg.style.backgroundColor == "rgba(235, 0, 27, 0.7)") {
+                                if (btnBg.style.backgroundColor.includes("rgba(235, 0, 27")) {
                                     deselectNote(btn.id.replace("Key", ""))
                                     btnBg.style.backgroundColor = keyColor
                                 } else {
