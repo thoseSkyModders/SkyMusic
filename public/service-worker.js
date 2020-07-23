@@ -1,4 +1,4 @@
-const CACHE = "V3.4";
+const CACHE = "V3.5";
 
 const FILES_TO_CACHE = [
     'manifest.json',
@@ -128,6 +128,22 @@ const FILES_TO_CACHE = [
     '/Sounds/OldHarp/12.mp3',
     '/Sounds/OldHarp/13.mp3',
     '/Sounds/OldHarp/14.mp3',
+    //ToyUkulele
+    '/Sounds/ToyUkulele/0.mp3',
+    '/Sounds/ToyUkulele/1.mp3',
+    '/Sounds/ToyUkulele/2.mp3',
+    '/Sounds/ToyUkulele/3.mp3',
+    '/Sounds/ToyUkulele/4.mp3',
+    '/Sounds/ToyUkulele/5.mp3',
+    '/Sounds/ToyUkulele/6.mp3',
+    '/Sounds/ToyUkulele/7.mp3',
+    '/Sounds/ToyUkulele/8.mp3',
+    '/Sounds/ToyUkulele/9.mp3',
+    '/Sounds/ToyUkulele/10.mp3',
+    '/Sounds/ToyUkulele/11.mp3',
+    '/Sounds/ToyUkulele/12.mp3',
+    '/Sounds/ToyUkulele/13.mp3',
+    '/Sounds/ToyUkulele/14.mp3',
     //bells
     '/Sounds/Bells/0.mp3',
     '/Sounds/Bells/1.mp3',
@@ -163,6 +179,7 @@ const FILES_TO_CACHE = [
     '/images/horn.png',
     '/images/xylophone.png',
     '/images/flute.png',
+    '/images/ToyUkulele.png',
     //key images
     '/KeyImages/Circle.png',
     '/KeyImages/Diamond.png',

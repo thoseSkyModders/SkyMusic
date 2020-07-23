@@ -1456,6 +1456,7 @@ function convertToNewFormat(songs) {
                 time: songs[i].songNotes[j].time,
                 key: "1" + songs[i].songNotes[j].key
             }
+            if(!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
             newFormat.songNotes.push(keyObj)
         }
         convertedSongs.push(newFormat)
@@ -1484,6 +1485,7 @@ function convertToOldFormat(songs) {
                     time: songs[i].songNotes[j].time,
                     key: songs[i].songNotes[j].key.substr(1)
                 }
+                if(!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
                 oldFormat.songNotes.push(keyObj)
             }
             for(let k = 0;k < oldFormat.songNotes.length;k++){
