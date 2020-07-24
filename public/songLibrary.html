@@ -27,9 +27,12 @@
     }
 
     h1 {
-        color: rgba(235, 0, 27, 0.8);
+        color: rgba(235, 0, 27, 1);
     }
-
+    span{
+        color: rgba(235, 0, 27, 1);
+        text-decoration: none;
+    }
     a {
         font-size: 1.5em;
         font-family: Arial;
@@ -99,7 +102,6 @@
 
         color: #dad8b3;
     }
-
 </style>
 
 <head>
@@ -133,10 +135,6 @@
         BACK</a>
         <br><br>
     <div style="font-size: 2em; font-family: Arial;">
-        <div id="downloadPWA" style="display: inline-block; display: none;">
-            <span>Download app</span>
-            <img style="margin: 0.5em; vertical-align: middle" src="/download.png" width="75" height="75">
-        </div>
         <div id="downloadAPK" style="display: inline-block;">
             <span>Download android app</span>
             <a href="/SkyMusic.apk"><img style="margin: 0.5em; vertical-align: middle" src="/download.png" width="75" height="75"></a>
@@ -271,12 +269,15 @@
         <li class="content"> <img class="downloadSong" onclick="downloadJSON('valder_fields')"><skyButton onclick="playSong(this)">valder fields</skyButton><br></li>
     </ul>
 
-    <br>
 <!--
     <li><img class="downloadSong" onclick="downloadJSON('Megalovania_hard')"><skyButton onclick="playSong(this)">Megalovania hard</skyButton><br></li>
     <li><img class="downloadSong" onclick="downloadJSON('bad_apple')"><skyButton onclick="playSong(this)">bad apple</skyButton><br></li>
     -->
-</body>
+    <br><br>
+    <div style="text-align: center; font-size: 0.6em;">
+        <p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#" class="license-text"><a rel="cc:attributionURL" href="https://sky-music.herokuapp.com/"><span rel="dct:title">Sky Music</span></a> by <a rel="cc:attributionURL" href="https://sky-music.herokuapp.com/"><span rel="cc:attributionName">thoseSkyModders</span><br></a>CC BY-NC-SA 4.0<a href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg/?ref=chooser-v1" /><img  style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg/?ref=chooser-v1" /><img  style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg/?ref=chooser-v1" /><img  style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg/?ref=chooser-v1" /></a></p>
+        </div>
+    </body>
 <script>
 try {
     Sentry.init({
