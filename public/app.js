@@ -476,7 +476,7 @@ let reverbToggled = false
 function toggleReverb() {
     let toggleReverbBtn = document.getElementById("toggleReverbBtn")
     if (reverbToggled) {
-        toggleReverbBtn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        toggleReverbBtn.style.backgroundColor = layers[5]
         reverbToggled = false
     } else {
         toggleReverbBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
@@ -590,6 +590,57 @@ function resetPages() { //this hides all the pages that are contained into the s
     document.getElementById("resetPassword").style.display = "none"
     document.getElementById("register").style.display = "none"
     document.getElementById("confirmRegistration").style.display = "none"
+}
+
+
+
+let darkModeToggled = JSON.parse(localStorage.getItem("darkModeIndex"))
+if(darkModeToggled == null){
+    darkModeToggled = false
+    localStorage.setItem("darkModeIndex",false)
+}
+if(darkModeToggled) turnOnDarkMode(), document.getElementById("toggle-dark-mode").style.backgroundColor = "rgba(235, 0, 27, 1)"
+function toggleDarkMode(){
+    let btn = document.getElementById("toggle-dark-mode")
+    if(btn.style.backgroundColor.includes("235, 0, 27")){
+        localStorage.setItem("darkModeIndex",false)
+        location.reload()
+    }else{
+        btn.style.backgroundColor = "rgba(235, 0, 27, 1)"
+        localStorage.setItem("darkModeIndex",true)
+        darkModeToggled = true
+        turnOnDarkMode()
+    }
+}
+
+let layers = {
+    5:"rgba(22, 22, 22, 0.65)"
+}
+async function turnOnDarkMode(){
+    layers = {
+        0:"#181A1B",
+        1:"rgba(44, 44, 44, 0.8)",
+        2:"#1E1E1E",
+        3:"#383838",
+        4:"rgb(35, 35, 35)",
+        5:"#272B2D",
+        6:"#1C1E1F"
+    }
+    document.getElementsByClassName("video")[0].style.display = "none"
+    $(".skyButton").css("background-color", layers[6]).css("border","1.5px solid #dad8b3")
+    $(".btnImg").css("background-color", "rgba(82, 82, 82, 0.4)")
+    $(".tab").css("background-color", layers[6])
+    $(".pitchButton").css("background-color", layers[5])
+    $(".musicButton").css("background-color", layers[5])
+    $("#manageRecordingsBtn").css("background-color", layers[5])
+    $("#instrumentsNew").css("background-color", layers[5])
+    $("#pitchTab").css("background-color", layers[5])
+    $("#stopSong").css("background-color", layers[5])
+    $("#toggleRecordBtn").css("background-color", layers[5])
+    $("#savedSongsDivWrapper").css("background-color", layers[5])
+    $(".bottomSavedSongsDiv").css("background-color", layers[6])
+    $("body").css("background",layers[0]) 
+    console.log("dark")
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1352,6 +1403,7 @@ function initializeKeyboard(){
             }
         }
         set_up_reverb()
+        if(darkModeToggled) turnOnDarkMode()
     })
 }
 
@@ -1367,7 +1419,7 @@ function resetKeyClass(element) {
 
 let webVersion = localStorage.getItem("version")
 let currentVersion = "3.6"
-let changelogMessage = "Update version " + currentVersion + "<br>Improved practice, doesn't get stuck V2"
+let changelogMessage = "Update version " + currentVersion + "<br>Added dark mode"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)
@@ -1660,7 +1712,7 @@ function toggleRecord() {
         if (songArray.length != 0) {
             askSongName()
         }
-        toggleRecordBtn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        toggleRecordBtn.style.backgroundColor = layers[5]
     } else {
         songArray = []
         toggleRecordBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
@@ -1787,7 +1839,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
     console.log("song added!")
 
     let deleteButton = document.createElement("button")
-    deleteButton.innerHTML = "❌"
+    deleteButton.innerHTML = "<img src='icons/trash.png' alt='trash'  width='22px' style='vertical-align: bottom; margin:-0.5px;'\/>"
     deleteButton.className = "skyButton"
     deleteButton.style.width = "40px"
     deleteButton.style.marginLeft = "0.1em"
@@ -1795,7 +1847,6 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
     let saveToDb
     if (savingType == "2") { //if its a song coming from the database, put the delete button also to delete it from the db
         songText.setAttribute("fromDb", true)
-        deleteButton.innerHTML = "❌"
         dbSongsDiv.appendChild(songContainer)
         deleteButton.addEventListener("click", function () {
             if (confirm("Delete song: " + this.getAttribute("songName") + " from database?")) {
@@ -2093,5 +2144,3 @@ if ('serviceWorker' in navigator) {
         });
   });
 }
-
-

@@ -325,7 +325,7 @@ display: none;
 
 #stopSong {
 	background-image: url(icons/stop.png);
-	background-color: transparent;
+	background-color: rgba(22, 22, 22, 0.65);
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;

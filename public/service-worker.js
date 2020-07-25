@@ -1,4 +1,4 @@
-const CACHE = "V3.7";
+const CACHE = "V3.9";
 
 const FILES_TO_CACHE = [
     'manifest.json',
@@ -171,6 +171,7 @@ const FILES_TO_CACHE = [
     '/icons/rotate.svg',
     '/icons/saveToDb.png',
     '/icons/stop.png',
+    '/icons/trash.png',
     '/images/piano.png',
     '/images/harp.png',
     '/images/guitar.png',
