@@ -163,6 +163,7 @@
                     <button onclick = "checkMidiAccess()" id="check-midi-button" >Check MIDI support</button>
                     <button onclick = "resetLocalStorage()" id="reset-all-button" >Reset all songs and settings</button>
                     <button onclick = "togglecompatibilityMode()" id="change-button-input-mode" >Turn on compability mode</button>
+                    <button onclick = "toggleDarkMode()" id="toggle-dark-mode" >Turn on Dark mode</button>
                 </div> 
                 <span id="go-back-settings" onclick="resetPages()"><a href="#">Go back</a></span>
               </div>
@@ -216,7 +217,7 @@
         <button class="skyButton_2" onclick='redirectPage("/songLibrary.html")'><p id="library-text-menu" class="texts">Song Library</p></button>
         <button class="skyButton_2" onclick='redirectPage("/sheetDisplayer.html")'><p id="sheet-displayer-text-menu"  class="texts">Sheet displayer</p></button>
         <button class="skyButton_2" onclick="toggleLogin()"><p id="account-text-menu" class="texts">Account</p></button>
-        <button class="skyButton_2" onclick='window.open("help.html")'><p id="help-text-menu"  class="texts">Need help?</p></button>            
+        <button class="skyButton_2" onclick='window.open("help.html")'><p id="help-text-menu"  class="texts">Need help?</p></button>
     </div>
     <div class="menuDiv">
         <button class="skyButton" id="manageRecordingsBtn" onclick="toggleSavedSongs()">Manage Recordings</button>

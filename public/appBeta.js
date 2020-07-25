@@ -7,7 +7,11 @@
   \____/|_____|     
 
  */
-
+try{
+    Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
+}catch(e){
+    console.log(e)
+}
 let floatingMessage
 function showMessage(msg, msgType, duration) {
     if (duration == undefined) duration = 1500
@@ -472,7 +476,7 @@ let reverbToggled = false
 function toggleReverb() {
     let toggleReverbBtn = document.getElementById("toggleReverbBtn")
     if (reverbToggled) {
-        toggleReverbBtn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        toggleReverbBtn.style.backgroundColor = layers[5]
         reverbToggled = false
     } else {
         toggleReverbBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
@@ -551,7 +555,7 @@ if (localStorage.getItem("disableNextKey") != null) {
     }
 }
 function changeSettings(button) { //function that once gotten the button, reads its id and choses which setting it is applied to and writes localstorage with said value
-    if (button.style.backgroundColor == "rgba(235, 0, 27, 0.8)") {
+    if (button.style.backgroundColor.includes("rgba(235, 0, 27")) {
         button.style.backgroundColor = "teal"
         if (button.id == "Hide-practice-note-animation") disableAnimation = false, localStorage.setItem("disableAnimation", disableAnimation)
         if (button.id == "Disable-next-key-practice") disableNextKey = false, localStorage.setItem("disableNextKey", disableNextKey)
@@ -586,6 +590,57 @@ function resetPages() { //this hides all the pages that are contained into the s
     document.getElementById("resetPassword").style.display = "none"
     document.getElementById("register").style.display = "none"
     document.getElementById("confirmRegistration").style.display = "none"
+}
+
+
+
+let darkModeToggled = JSON.parse(localStorage.getItem("darkModeIndex"))
+if(darkModeToggled == null){
+    darkModeToggled = false
+    localStorage.setItem("darkModeIndex",false)
+}
+if(darkModeToggled) turnOnDarkMode(), document.getElementById("toggle-dark-mode").style.backgroundColor = "rgba(235, 0, 27, 1)"
+function toggleDarkMode(){
+    let btn = document.getElementById("toggle-dark-mode")
+    if(btn.style.backgroundColor.includes("235, 0, 27")){
+        localStorage.setItem("darkModeIndex",false)
+        location.reload()
+    }else{
+        btn.style.backgroundColor = "rgba(235, 0, 27, 1)"
+        localStorage.setItem("darkModeIndex",true)
+        darkModeToggled = true
+        turnOnDarkMode()
+    }
+}
+
+let layers = {
+    5:"rgba(22, 22, 22, 0.65)"
+}
+async function turnOnDarkMode(){
+    layers = {
+        0:"#181A1B",
+        1:"rgba(44, 44, 44, 0.8)",
+        2:"#1E1E1E",
+        3:"#383838",
+        4:"rgb(35, 35, 35)",
+        5:"#272B2D",
+        6:"#1C1E1F"
+    }
+    document.getElementsByClassName("video")[0].style.display = "none"
+    $(".skyButton").css("background-color", layers[6]).css("border","1.5px solid #dad8b3")
+    $(".btnImg").css("background-color", "rgba(82, 82, 82, 0.4)")
+    $(".tab").css("background-color", layers[6])
+    $(".pitchButton").css("background-color", layers[5])
+    $(".musicButton").css("background-color", layers[5])
+    $("#manageRecordingsBtn").css("background-color", layers[5])
+    $("#instrumentsNew").css("background-color", layers[5])
+    $("#pitchTab").css("background-color", layers[5])
+    $("#stopSong").css("background-color", layers[5])
+    $("#toggleRecordBtn").css("background-color", layers[5])
+    $("#savedSongsDivWrapper").css("background-color", layers[5])
+    $(".bottomSavedSongsDiv").css("background-color", layers[6])
+    $("body").css("background",layers[0]) 
+    console.log("dark")
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1302,7 +1357,6 @@ function initializeKeyboard(){
 
             btn.addEventListener(inputMode, function (e) {
                 buttonPressEvent(this)
-                console.log("buttonclicked")
                 e.preventDefault()
             })
 
@@ -1311,13 +1365,11 @@ function initializeKeyboard(){
                 let btnBg = btn.firstChild
                 let btnImg = btn.childNodes[1]
                 $(btn).children(":first").finish()
+                
                 let bgColor = btnBg.style.backgroundColor
-                console.log(bgColor)
-                console.log(bgColor.includes("rgba(235, 0, 27"))
                 if (bgColor.includes("rgba(235, 0, 27")) {
                     btnBg.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
                     btnBg.style.borderColor = "transparent"
-                    console.log("isPinging practice")
                     practice([])
                 }else{
                     btn.style.filter = "brightness(130%)"
@@ -1351,6 +1403,7 @@ function initializeKeyboard(){
             }
         }
         set_up_reverb()
+        if(darkModeToggled) turnOnDarkMode()
     })
 }
 
@@ -1365,8 +1418,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "3.5"
-let changelogMessage = "Update version " + currentVersion + "<br>Improved practice, doesn't get stuck"
+let currentVersion = "3.6"
+let changelogMessage = "Update version " + currentVersion + "<br>Improved practice, doesn't get stuck V2"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)
@@ -1455,6 +1508,7 @@ function convertToNewFormat(songs) {
                 time: songs[i].songNotes[j].time,
                 key: "1" + songs[i].songNotes[j].key
             }
+            if(!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
             newFormat.songNotes.push(keyObj)
         }
         convertedSongs.push(newFormat)
@@ -1483,6 +1537,7 @@ function convertToOldFormat(songs) {
                     time: songs[i].songNotes[j].time,
                     key: songs[i].songNotes[j].key.substr(1)
                 }
+                if(!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
                 oldFormat.songNotes.push(keyObj)
             }
             for(let k = 0;k < oldFormat.songNotes.length;k++){
@@ -1657,7 +1712,7 @@ function toggleRecord() {
         if (songArray.length != 0) {
             askSongName()
         }
-        toggleRecordBtn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        toggleRecordBtn.style.backgroundColor = layers[5]
     } else {
         songArray = []
         toggleRecordBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
@@ -1784,7 +1839,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
     console.log("song added!")
 
     let deleteButton = document.createElement("button")
-    deleteButton.innerHTML = "❌"
+    deleteButton.innerHTML = "<img src='icons/trash.png' alt='trash'  width='22px' style='vertical-align: bottom; margin:-0.5px;'\/>"
     deleteButton.className = "skyButton"
     deleteButton.style.width = "40px"
     deleteButton.style.marginLeft = "0.1em"
@@ -1792,7 +1847,6 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
     let saveToDb
     if (savingType == "2") { //if its a song coming from the database, put the delete button also to delete it from the db
         songText.setAttribute("fromDb", true)
-        deleteButton.innerHTML = "❌"
         dbSongsDiv.appendChild(songContainer)
         deleteButton.addEventListener("click", function () {
             if (confirm("Delete song: " + this.getAttribute("songName") + " from database?")) {
@@ -1996,7 +2050,6 @@ let nextKeysToPress = []
 betweenKeysTimes.push(0) //offsets the first key
 let checkStuck
 function practice(inSong) {
-    console.log("practiceping")
     document.getElementById("stopSong").style.visibility = "visible"
     if (inSong.length != 0) { //If there is a song to be added, if there isn't it means that it comes from a ping from the button
         //RESET OF VALUES AND SETTING UP THE SONG
@@ -2082,6 +2135,13 @@ function retry() {
 const delay = ms => new Promise(res => setTimeout(res, ms))
 initializeKeyboard()
 
-
-
-
+/*
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+        .then((reg) => {
+          console.log('Service worker registered.', reg);
+        });
+  });
+}
+*/

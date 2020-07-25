@@ -249,6 +249,7 @@ display: none;
 .btnImg {
 	width: calc(100% - 2vw);
 	height: calc(100% - 2vw);
+	border-radius: 0.9em;
 	z-index: 1;
 	position: absolute;
 	top: 1vw;
