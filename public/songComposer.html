@@ -150,6 +150,7 @@
                 <option>Drum</option>
                 <option>Bell</option>
                 <option>ToyUkulele</option>
+                <option>HandPan</option>
             </select>
         </div>
         <div class="settingOption">
@@ -164,6 +165,7 @@
                 <option>Drum</option>
                 <option>Bell</option>
                 <option>ToyUkulele</option>
+                <option>HandPan</option>
             </select>
         </div>
         <div class="settingOption">
@@ -1251,6 +1253,9 @@ function loadMIDI(){
         toyukulele: ["ToyUkulele/0.mp3", "ToyUkulele/1.mp3", "ToyUkulele/2.mp3", "ToyUkulele/3.mp3", "ToyUkulele/4.mp3",
          "ToyUkulele/5.mp3", "ToyUkulele/6.mp3", "ToyUkulele/7.mp3", "ToyUkulele/8.mp3", "ToyUkulele/9.mp3",
           "ToyUkulele/10.mp3", "ToyUkulele/11.mp3", "ToyUkulele/12.mp3", "ToyUkulele/13.mp3", "ToyUkulele/14.mp3"],
+        handpan: ["HandPan/0.mp3", "HandPan/1.mp3", "HandPan/2.mp3", "HandPan/3.mp3", "HandPan/4.mp3", "HandPan/5.mp3", 
+        "HandPan/6.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3","HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3",
+         "HandPan/7.mp3", "HandPan/7.mp3"],
 
     }
     let keyNames = {
@@ -1277,7 +1282,7 @@ function loadMIDI(){
             "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle",
         ]
         let newRowBreak = [6, 11]
-        if (instrument == "bell" || instrument == "drum") {
+        if (instrument == "bell" || instrument == "drum" || instrument == "handpan") {
             newRowBreak = [5, 9]
             numOfKeysLeft = 8
             numOfKeys = 8

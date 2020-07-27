@@ -1045,7 +1045,7 @@ function saveSongsToDB(credentials, songsToSend) { //saves a song to the databas
     request.onerror = function (e) {
         alert(systemMessagesText[selectedLanguage][27]) //error trying ot save songs
     };
-    if (JSON.stringify(objToSend).length > 50000) {
+    if (JSON.stringify(objToSend).length > 80000) {
         showMessage(systemMessagesText[selectedLanguage][28], 2) //song is too big
         return;
     }
@@ -1213,7 +1213,9 @@ let instrumentsNotes = {
     drum: ["Drum/0.mp3", "Drum/1.mp3", "Drum/2.mp3", "Drum/3.mp3", "Drum/4.mp3", "Drum/5.mp3", "Drum/6.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3"],
     horn: ["Horn/0.mp3", "Horn/1.mp3", "Horn/2.mp3", "Horn/3.mp3", "Horn/4.mp3", "Horn/5.mp3", "Horn/6.mp3", "Horn/7.mp3", "Horn/8.mp3", "Horn/9.mp3", "Horn/10.mp3", "Horn/11.mp3", "Horn/12.mp3", "Horn/13.mp3", "Horn/14.mp3"],
     toyUkulele: ["ToyUkulele/0.mp3", "ToyUkulele/1.mp3", "ToyUkulele/2.mp3", "ToyUkulele/3.mp3", "ToyUkulele/4.mp3", "ToyUkulele/5.mp3", "ToyUkulele/6.mp3", "ToyUkulele/7.mp3", "ToyUkulele/8.mp3", "ToyUkulele/9.mp3", "ToyUkulele/10.mp3", "ToyUkulele/11.mp3", "ToyUkulele/12.mp3", "ToyUkulele/13.mp3", "ToyUkulele/14.mp3"],
-
+    handPan: ["HandPan/0.mp3", "HandPan/1.mp3", "HandPan/2.mp3", "HandPan/3.mp3", "HandPan/4.mp3", "HandPan/5.mp3", "HandPan/6.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3","HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3"],
+    oldPiano: ["OldPiano/0.mp3", "OldPiano/1.mp3", "OldPiano/2.mp3", "OldPiano/3.mp3", "OldPiano/4.mp3", "OldPiano/5.mp3", "OldPiano/6.mp3", "OldPiano/7.mp3", "OldPiano/8.mp3", "OldPiano/9.mp3", "OldPiano/10.mp3", "OldPiano/11.mp3", "OldPiano/12.mp3", "OldPiano/13.mp3", "OldPiano/14.mp3"],
+    
 }
 //Changes sounds when instrument is selected
 function changeInstrumentSound(instrument) {
@@ -1321,7 +1323,7 @@ function initializeKeyboard(){
             objKeys = normalKeyboardKeyboardKeys
         let numOfKeysLeft = 15
             numOfKeys = 15
-        if (storedInstrument == "bell" || storedInstrument == "drum") {
+        if (storedInstrument == "bell" || storedInstrument == "drum" || storedInstrument == "handPan") {
             newRowBreak = [5, 9]
             numOfKeysLeft = 8
             numOfKeys = 8
@@ -1419,7 +1421,7 @@ function resetKeyClass(element) {
 
 let webVersion = localStorage.getItem("version")
 let currentVersion = "3.6"
-let changelogMessage = "Update version " + currentVersion + "<br>Improved practice, doesn't get stuck V2"
+let changelogMessage = "Update version " + currentVersion + "<br>Added dark mode"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)
