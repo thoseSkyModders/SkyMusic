@@ -1,4 +1,4 @@
-const CACHE = "V3.9";
+const CACHE = "V4";
 
 const FILES_TO_CACHE = [
     'manifest.json',
@@ -32,6 +32,22 @@ const FILES_TO_CACHE = [
     '/Sounds/Piano/12.mp3',
     '/Sounds/Piano/13.mp3',
     '/Sounds/Piano/14.mp3',
+    //Piano
+    '/Sounds/OldPiano/0.mp3',
+    '/Sounds/OldPiano/1.mp3',
+    '/Sounds/OldPiano/2.mp3',
+    '/Sounds/OldPiano/3.mp3',
+    '/Sounds/OldPiano/4.mp3',
+    '/Sounds/OldPiano/5.mp3',
+    '/Sounds/OldPiano/6.mp3',
+    '/Sounds/OldPiano/7.mp3',
+    '/Sounds/OldPiano/8.mp3',
+    '/Sounds/OldPiano/9.mp3',
+    '/Sounds/OldPiano/10.mp3',
+    '/Sounds/OldPiano/11.mp3',
+    '/Sounds/OldPiano/12.mp3',
+    '/Sounds/OldPiano/13.mp3',
+    '/Sounds/OldPiano/14.mp3',
     //xylophone
     '/Sounds/Xylophone/0.mp3',
     '/Sounds/Xylophone/1.mp3',
@@ -162,6 +178,15 @@ const FILES_TO_CACHE = [
     '/Sounds/Drum/5.mp3',
     '/Sounds/Drum/6.mp3',
     '/Sounds/Drum/7.mp3',
+    //drum
+    '/Sounds/HandPan/0.mp3',
+    '/Sounds/HandPan/1.mp3',
+    '/Sounds/HandPan/2.mp3',
+    '/Sounds/HandPan/3.mp3',
+    '/Sounds/HandPan/4.mp3',
+    '/Sounds/HandPan/5.mp3',
+    '/Sounds/HandPan/6.mp3',
+    '/Sounds/HandPan/7.mp3',
     //icons
     '/icons/next_back_arrows.svg',
     '/icons/settingsIcon.svg',
@@ -173,6 +198,7 @@ const FILES_TO_CACHE = [
     '/icons/stop.png',
     '/icons/trash.png',
     '/images/piano.png',
+    '/images/handPan.png',
     '/images/harp.png',
     '/images/guitar.png',
     '/images/bell.png',

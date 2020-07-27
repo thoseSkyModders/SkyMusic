@@ -15,7 +15,10 @@ body {
 .floatingMessage {
 	position: absolute;
 	width: 40%;
-	left: 28.5%;
+	left: 0;
+	right: 0;
+	margin-right: auto;
+	margin-left: auto;
 	height: 15%;
 	top: 70%;
 	font-size: 1em;
@@ -438,8 +441,18 @@ input[type=number] {
     padding:1vw;
     overflow-y: auto; 
 }
+.rightContainer{
+    position: absolute;
+    left: 0.5em; 
+    bottom: 0.5em; 
+    display: flex;
+    flex-direction: column;
+}
 @media only screen and (orientation:portrait) {
 	.tempoContainer{
+        flex-direction: row;
+    }
+    .rightContainer{
         flex-direction: row;
     }
     .tempoButton{

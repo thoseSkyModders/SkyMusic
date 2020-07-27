@@ -38,7 +38,10 @@
 .floatingMessage {
 	position: absolute;
 	width: 40%;
-	left: 28.5%;
+	left: 0;
+	right: 0;
+	margin-right: auto;
+	margin-left: auto;
 	height: 15%;
 	top: 70%;
 	font-size: 1em;
@@ -99,7 +102,10 @@
 	height: 70%;
 	width: 50%;
 	top:15%;
-	left:25%;
+	left: 0;
+	right: 0;
+	margin-right: auto;
+	margin-left: auto;
 	background-color: rgba(22, 22, 22, 0.9);
 	border-radius: 1em;
 	border: solid 2px #dad8b3;
@@ -229,7 +235,10 @@ display: none;
 		border-radius: 1em;
 		position: absolute;
 		width: 90%;
-		left: 5%;
+		left: 0;
+		right: 0;
+		margin-right: auto;
+		margin-left: auto;
 		top: 85%;
 		user-select: none;
 	}
@@ -518,7 +527,10 @@ button {
 	width: 75%;
 	position: absolute;
 	margin-top: 5vh;
-	margin-left: 12.5%;
+	left: 0;
+	right: 0;
+	margin-right: auto;
+	margin-left: auto;
 	background-color: #414141;
 	color: #dad8b3;
 	border: solid #dad8b3 2px;
@@ -602,7 +614,10 @@ html{
 	position: absolute;
 	text-align: center;
 	width: 40%;
-	left: 30%;
+	left: 0;
+	right: 0;
+	margin-right: auto;
+	margin-left: auto;
 	top:5%;
 	color:#dad8b3;
 	border: solid 2px #dad8b3;
