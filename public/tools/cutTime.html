@@ -1,0 +1,16 @@
+<html>
+    <body>
+        <textarea id="inpSong"></textarea>
+        <textarea id="outpSong"></textarea>
+    </body>
+    <script>
+        inpSong.addEventListener("change",function(){
+            let song = JSON.parse(this.value)
+            let startTime = song[0].songNotes[0].time - 400
+            song[0].songNotes.forEach(element => {
+                element.time -= startTime
+            });
+            outpSong.value = JSON.stringify(song)
+        })
+    </script>
+</html>

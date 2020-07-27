@@ -65,7 +65,6 @@ function removeUnusedVerification() {
     for (let i = 0; i < awaitingVerification.length; i++) {
         awaitingVerification[i].timesChecked++
         if (awaitingVerification[i].timesChecked > 5) {
-            console.log("deleted verification by: " + awaitingVerification[i].email)
             awaitingVerification.splice(i, 1)
             i--
         }
@@ -73,7 +72,6 @@ function removeUnusedVerification() {
     for (let i = 0; i < resetverification.length; i++) {
         resetverification[i].timesChecked++
         if (resetverification[i].timesChecked > 5) {
-            console.log("deleted reset by: " + resetverification[i].email)
             resetverification.splice(i, 1)
             i--
         }
@@ -84,7 +82,6 @@ function removeTempSongs() {
     let date = new Date().getTime()
     for (let i = 0; i < tempSongs.length; i++) {
         if(tempSongs[i].expiration < date){
-            console.log("Removed song ID: "+tempSongs[i].id)
             tempSongs.splice(i, 1);
             i--
         }
@@ -172,7 +169,6 @@ if (!inLocalhost) {
         }
         if (err) throw err;
         const db = db1.db("skyMusic2");
-        console.log("REWRITE_PUBLIC")
         //----------------------------------------------------------------------------------------------//
         app.post("/createAccount", async function (req, res) { //updated
             var value = req.body;
@@ -236,7 +232,6 @@ if (!inLocalhost) {
             }
             if (canProceed) {
                 try {
-                    console.log("Created account with name: " + credentials.email)
                     let users = db.collection("Users")
                     var passwordseed = makeseed(20)
                     var finalhash = hash(hashwithseed(credentials.password, passwordseed))
@@ -262,12 +257,10 @@ if (!inLocalhost) {
             //checks email length
             try {
                 if (value.email.length > 64 || value.password.length > 128 || value.password.length < 5) {
-                    console.log("Invalid email or password length. Attempted username or password length : " + value.email.length + ":" + value.password.length)
                     res.send("Invalid credentials")
                     return;
                 }
                 if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value.email)) {
-                    console.log("Invalid email")
                     res.send("Invalid email")
                     return;
                 }
@@ -281,10 +274,8 @@ if (!inLocalhost) {
                 let credentials = await users.findOne({email: value.email})
                 try {
                     if (checkPassword(value.password, credentials.password, credentials.seed)) {
-                        console.log("login done by: " + value.email)
                         res.send(true)
                     } else {
-                        console.log("Failed login by: " + value.email)
                         res.send("Credentials wrong!")
                     }
                 } catch (e) {
@@ -292,7 +283,6 @@ if (!inLocalhost) {
                     console.log(e)
                 }
             } else {
-                console.log("User: " + value.email + " doesn't exist!")
                 res.send("Credentials wrong!")
             }
         })
@@ -384,19 +374,17 @@ if (!inLocalhost) {
                 var credentials = await users.findOne({email: value.email})
             } catch (e) {
                 res.send("Error with the server!")
-                console.log("error with the server" + e)
+                console.log(e)
                 return
             }
             if (credentials == undefined) {
                 res.send("Credentials wrong")
-                console.log("credentials wrong")
                 return;
             }
             try {
                 if (checkPassword(value.password, credentials.password, credentials.seed)) {
                     var allSongs = await users.findOne({email: value.email})
                     res.send(allSongs.songs)
-                    console.log("songs sent to: " + value.email)
                 } else {
                     res.send("Credentials are wrong!")
                 }
@@ -408,7 +396,7 @@ if (!inLocalhost) {
         //----------------------------------------------------------------------------------------------//
         app.post("/saveSongs", async function (req, res) { //updated
             var value = req.body;
-            if (JSON.stringify(value).length > 50000) { //if it's longer than 30000 characters, to prevent too big files from being uploaded
+            if (JSON.stringify(value).length > 80000) { //if it's longer than 80000 characters, to prevent too big files from being uploaded
                 res.send("Song is too large, it can't be uploaded")
                 return;
             }
@@ -439,7 +427,6 @@ if (!inLocalhost) {
                         }
                     }
                     res.send("Added songs" + alreadySavedSongs)
-                    console.log("added songs!" + alreadySavedSongs)
                 } else {
                     res.send("Credentials are wrong!")
                 }
@@ -457,12 +444,10 @@ if (!inLocalhost) {
             } catch (e) {
                 reportError(e)
                 res.send("Error with the server!")
-                console.log("error with the server")
                 return
             }
             if (credentials == undefined) {
                 res.send("Credentials wrong")
-                console.log("credentials wrong")
                 return;
             }
             try {
@@ -480,7 +465,6 @@ if (!inLocalhost) {
                 return;
             }
             res.send("Song :" + value.songName + " deleted!")
-            console.log("song deleted")
         })
         app.post("/verifyResetCode", async function (req, res) { //updated
             var value = req.body;
@@ -520,7 +504,6 @@ if (!inLocalhost) {
                                 seed: passwordseed
                             }
                         }).catch()
-                        console.log("Successfully reset " + value.email + "'s password")
                         res.send(true)
                     }
                 } catch (e) {
@@ -615,10 +598,8 @@ function sendVerificationCode(credentials, res) { //error handled
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                console.log("Error in sending email");
                 res.send("Error!")
             } else {
-                console.log('Email sent: ' + info.response);
                 awaitingVerification.push(verificationObj)
                 res.send(true)
             }
@@ -698,11 +679,9 @@ function sendresetlink(credentials, res) { //error handled
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                console.log("Error in sending email");
                 reportError(error)
                 res.send("Error!")
             } else {
-                console.log('Email sent: ' + info.response);
                 resetverification.push(verificationObj)
                 res.send(true)
             }
