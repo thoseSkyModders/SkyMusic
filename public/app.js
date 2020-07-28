@@ -313,6 +313,20 @@ function exitFullScreen(){
 }
 
 //--------------------------------------------------------------------------------------------------------//
+function checkPWA(){
+    let bool = false
+    try{
+       let arrBool = ["fullscreen", "standalone", "minimal-ui"].some(
+            (displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches
+        );
+        bool = (arrBool || document.referrer.includes('android-app://'))
+    }catch{
+
+    }
+    return bool  
+}
+
+
 
 function checkIfMobile() {
     let check = false;
@@ -322,11 +336,12 @@ function checkIfMobile() {
 
 //--------------------------------------------------------------------------------------------------------//
 
+let isPWA = checkPWA()
 let isDesktop = !checkIfMobile()
 let isFullScreen = false
 function toggleFullScreen(){
         //Makes the website full screen
-        if(isDesktop || ignoreFullScreen || isiOS){
+        if(isDesktop || ignoreFullScreen || isiOS || isPWA){
             return
         }
         exitFullScreenBtn.style.display = "block"
@@ -353,11 +368,6 @@ function toggleFullScreen(){
 let exitedPage = false 
 $(window).blur(function(){
     exitedPage = true
-    if(!isFullScreen){
-        return
-    }
-    exitFullScreen()
-    exitFullScreenBtn.style.display = "none"
 });
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1925,6 +1935,11 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         else{
             threshold = 80
         }
+        try{
+            songLength = JSON.parse(songText.innerHTML).length
+        }catch(e){
+            console.log(e)
+        }
         practice(JSON.parse(songText.innerHTML))
         startingNoteRange.value = 0
         rangePicker.value = 0
@@ -2049,8 +2064,9 @@ let keysToWait = 1
 let betweenKeysTimes = []
 let timeToWait = 0
 let nextKeysToPress = []
+let songLength = 0
 betweenKeysTimes.push(0) //offsets the first key
-let checkStuck
+let songProgress = document.getElementById("songProgress")
 function practice(inSong) {
     document.getElementById("stopSong").style.visibility = "visible"
     if (inSong.length != 0) { //If there is a song to be added, if there isn't it means that it comes from a ping from the button
@@ -2059,6 +2075,7 @@ function practice(inSong) {
         betweenKeysTimes.push(0)
         timeToWait = 0
         songToPractice = inSong 
+        songProgress.style.height = "0%"
         keysToWait = 1
         resetButtons()
         for (let i = 1; i < songToPractice.length; i++) { //stores the time between keys
@@ -2107,9 +2124,13 @@ function practice(inSong) {
                 }
                 songToPractice.splice(0, 1)
             }
-            timeToWait = betweenKeysTimes[0] //gets the first time of the array, that one is the time for the next one.
-
+        timeToWait = betweenKeysTimes[0] //gets the first time of the array, that one is the time for the next one.
         keysToWait = keysToPress.length //those are the keys presses to do before searching for the next key combination
+        try{
+            songProgress.style.height = (songToPractice.length / songLength*100-100)*-1+"%"
+        }catch(e){
+            console.log(e)
+        }
     }
 }
 
@@ -2132,6 +2153,7 @@ function retry() {
     retrySong = currentSong.slice(startPoint, currentSong.length)
     resetButtons()
     practice(retrySong)
+
 }
 //delay function
 const delay = ms => new Promise(res => setTimeout(res, ms))

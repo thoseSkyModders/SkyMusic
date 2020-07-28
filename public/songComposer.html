@@ -204,6 +204,10 @@
             <span>Dark mode</span>
             <button id="toggleDarkModeBtn" class="skyButton" style="float: right; width: 10vw;" onclick="toggleDarkMode()">OFF</button>
         </div>
+        <div class="settingOption">
+            <span>Download sheet</span>
+            <button class="skyButton" style="float: right; width: 10vw;" onclick="downloadSheet()">Download</button>
+        </div>
         <input type="button" style="border-color: rgba(235, 0, 27, 1); color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
     <div id="importMIDIDiv" style="display: none; height: 50%; width: 40%; opacity: 0.9; font-size: 0.9em;">
@@ -833,7 +837,7 @@ function loadMIDI(){
 
     //----------------------------------------------------------------------------------------------//
 
-    function save() {
+    function save(download = false) {
         let name = ""
         let promptMessage = "Write song name"
         while(true){
@@ -842,6 +846,7 @@ function loadMIDI(){
             if (name == null || name == "") {
                 return
             }
+            if(download) break
             var savedSongs = JSON.parse(localStorage.getItem("savedSongs"))
             if (savedSongs == null) savedSongs = []
             for (var i = 0; i < savedSongs.length; i++) {
@@ -924,6 +929,11 @@ function loadMIDI(){
             splitSong.name += " - Secondary"
             savedSongs.push(splitSong)
         }
+        if(download){
+            downloadJSON(song,song.name)
+            showMessage("Song downloaded!",1,2000)
+            return
+        }
         savedSongs.push(song)
         localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
         showMessage("Song saved!",1,2000)
@@ -951,7 +961,9 @@ function loadMIDI(){
             songContainer.appendChild(cell)
         } else {
             songContainer.insertBefore(cell, getCell(appendIndex));
+            selectCell(cell)
         }
+        
     }
 
     //----------------------------------------------------------------------------------------------//
@@ -1488,6 +1500,19 @@ function toggleReverb() {
         toggleReverbBtn.innerHTML = "ON"
         reverbToggled = true
     }
+}
+
+function downloadSheet(){
+save(true)
+}
+
+function downloadJSON(inArray, fileName) {
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
+    let dlAnchorElem = document.createElement("a")
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", fileName + ".txt");
+    dlAnchorElem.click();
+    dlAnchorElem.remove()
 }
 
 if ('serviceWorker' in navigator) {
