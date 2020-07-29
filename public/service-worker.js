@@ -197,6 +197,7 @@ const FILES_TO_CACHE = [
     '/icons/saveToDb.png',
     '/icons/stop.png',
     '/icons/trash.png',
+    '/icons/menu.png',
     '/images/piano.png',
     '/images/handPan.png',
     '/images/harp.png',

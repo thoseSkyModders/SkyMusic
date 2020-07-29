@@ -800,7 +800,7 @@ html{
 	border: none;
 	position: absolute;
 	background: rgba(22, 22, 22, 0);
-	background-image: url('./menu.png');
+	background-image: url('./icons/menu.png');
 	background-size: 35px 35px;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -809,6 +809,9 @@ html{
 	padding: 30px;
 }
 @media only screen and (orientation:portrait){
+	#savedSongsDivWrapper{
+		width:90%;
+	}
 	#menu{
 		bottom: 0;
 	}
@@ -876,7 +879,6 @@ html{
 	background-color: #333;
 	filter: opacity(90%);
 }
-
 /* Style the buttons inside the tab */
 .tab button {
 	background-color: inherit;
@@ -899,7 +901,12 @@ html{
 	background-color: #dad8b3;
 	color: black
 }
-
+@media only screen and (orientation:portrait){
+	.tab button {
+		padding: 12px 14px;
+		font-size: 14px;
+	}
+}
 #dbSongs {
 	display: none;
 }
