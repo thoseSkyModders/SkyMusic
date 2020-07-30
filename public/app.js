@@ -1225,6 +1225,7 @@ let instrumentsNotes = {
     toyUkulele: ["ToyUkulele/0.mp3", "ToyUkulele/1.mp3", "ToyUkulele/2.mp3", "ToyUkulele/3.mp3", "ToyUkulele/4.mp3", "ToyUkulele/5.mp3", "ToyUkulele/6.mp3", "ToyUkulele/7.mp3", "ToyUkulele/8.mp3", "ToyUkulele/9.mp3", "ToyUkulele/10.mp3", "ToyUkulele/11.mp3", "ToyUkulele/12.mp3", "ToyUkulele/13.mp3", "ToyUkulele/14.mp3"],
     handPan: ["HandPan/0.mp3", "HandPan/1.mp3", "HandPan/2.mp3", "HandPan/3.mp3", "HandPan/4.mp3", "HandPan/5.mp3", "HandPan/6.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3","HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3"],
     oldPiano: ["OldPiano/0.mp3", "OldPiano/1.mp3", "OldPiano/2.mp3", "OldPiano/3.mp3", "OldPiano/4.mp3", "OldPiano/5.mp3", "OldPiano/6.mp3", "OldPiano/7.mp3", "OldPiano/8.mp3", "OldPiano/9.mp3", "OldPiano/10.mp3", "OldPiano/11.mp3", "OldPiano/12.mp3", "OldPiano/13.mp3", "OldPiano/14.mp3"],
+    contrabass: ["Contrabass/0.mp3", "Contrabass/1.mp3", "Contrabass/2.mp3", "Contrabass/3.mp3", "Contrabass/4.mp3", "Contrabass/5.mp3", "Contrabass/6.mp3", "Contrabass/7.mp3", "Contrabass/8.mp3", "Contrabass/9.mp3", "Contrabass/10.mp3", "Contrabass/11.mp3", "Contrabass/12.mp3", "Contrabass/13.mp3", "Contrabass/14.mp3"],
     
 }
 //Changes sounds when instrument is selected
@@ -1237,8 +1238,13 @@ function changeInstrumentSound(instrument) {
 let storedInstrument = "piano"
 if (localStorage.getItem("instrument")) {
     storedInstrument = localStorage.getItem("instrument")
-    document.getElementById("toggleInstruments").style.backgroundImage = document.getElementById(storedInstrument + "Btn").style.backgroundImage
-} else {
+    try{
+        document.getElementById("toggleInstruments").style.backgroundImage = document.getElementById(storedInstrument + "Btn").style.backgroundImage
+
+    }catch(e){
+        console.log(e)
+    }
+    } else {
     localStorage.setItem("instrument", "piano")
 }
 

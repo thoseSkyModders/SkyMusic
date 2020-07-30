@@ -204,6 +204,9 @@
         <li class="content"> <img class="downloadSong" onclick="downloadJSON('Still_DRE')"><skyButton onclick="playSong(this)">Still D.R.E. (Thug life)</skyButton><br></li>
         <li class="content"> <img class="downloadSong" onclick="downloadJSON('Renesmees_Lullaby')"><skyButton onclick="playSong(this)">Renesmee's Lullaby</skyButton><br></li>
         <li class="content"> <img class="downloadSong" onclick="downloadJSON('Avatars_Love')"><skyButton onclick="playSong(this)">Avatar's Love</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('MinecraftThemefor_Handpan_Key_E')"><skyButton onclick="playSong(this)">Minecraft Theme (for Handpan Key E)</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Log_drivers_walts')"><skyButton onclick="playSong(this)">Log driver's walts</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('O_Holy_Night')"><skyButton onclick="playSong(this)">O Holy Night</skyButton><br></li>
     
     </ul> 
     <ul class="listelement">       
@@ -249,7 +252,12 @@
         <li class="content"> <img class="downloadSong" onclick="downloadJSON('Someone_You_Loved')"><skyButton onclick="playSong(this)">Someone You Loved</skyButton><br></li>
         <li class="content"> <img class="downloadSong" onclick="downloadJSON('Astronomia')"><skyButton onclick="playSong(this)">Astronomia (Coffin song)</skyButton><br></li>
         <li class="content"> <img class="downloadSong" onclick="downloadJSON('Undertale_OST_012_Home_-_Toby_Fox')"><skyButton onclick="playSong(this)">Undertale OST 012 Home - Toby Fox</skyButton><br></li>
-    
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('The_DeadSouth-_Act_of_Approach')"><skyButton onclick="playSong(this)">The Dead South - Act of Approach</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Higurashi_no_Naku_Koroni-_Dear_You')"><skyButton onclick="playSong(this)">Higurashi no Naku Koro ni - Dear You</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('NieR_Replicant-Song_of_the_Ancients')"><skyButton onclick="playSong(this)">NieR Replicant-Song of the Ancients</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('BTS_-_Friends')"><skyButton onclick="playSong(this)">BTS - Friends</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Grandpas_Theme_-_Stardew_Valley')"><skyButton onclick="playSong(this)">Grandpas Theme - Stardew Valley</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Main_Theme_-_AnimalCrossing__NewHorizon')"><skyButton onclick="playSong(this)">Main Theme - AnimalCrossing  NewHorizon</skyButton><br></li>
     </ul>
     <ul class="listelement">  
         <h1><c>▶</c> Hard</h1>
@@ -284,9 +292,20 @@
         <li class="content"><img class="downloadSong" onclick="downloadJSON('bad_apple')"><skyButton onclick="playSong(this)">bad apple</skyButton><br></li>
         <li class="content"> <img class="downloadSong" onclick="downloadJSON('Viva_la_Vida')"><skyButton onclick="playSong(this)">Viva la Vida 2</skyButton><br></li>
         <li class="content"> <img class="downloadSong" onclick="downloadJSON('Serendipity_-_BTS_Jimin')"><skyButton onclick="playSong(this)">Serendipity - BTS (Jimin)</skyButton><br></li>
-    
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Nier_OST_Shadow_Lord')"><skyButton onclick="playSong(this)">Nier OST Shadow Lord</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('KaineSalvation')"><skyButton onclick="playSong(this)">Kaine(Salvation)</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Love4Eva')"><skyButton onclick="playSong(this)">Love4Eva</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Kawaranai_mono_-_Girl_Who_Leapt_Through_Time')"><skyButton onclick="playSong(this)">Kawaranai mono - Girl Who Leapt Through Time</skyButton><br></li>
+        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Top_-_Stray_Kids_Tower_of_God_OP')"><skyButton onclick="playSong(this)">Top - Stray Kids Tower of God OP</skyButton><br></li>
+
+    </ul>
+    <ul class="listelement" id="AtoZ">  
+        <h1><c>▶</c> A - Z</h1>
     </ul>
     <br><br>
+    
+
+
     <div style="display: flex; flex-direction: row;">
         <a href="http://sky-music.github.io" style="margin-right: 0.5em;"><img src="/icons/skyLib.png"
             width="135" height="95"></a> 
@@ -319,6 +338,7 @@ $('.listelement').children("h1").on('click', function() {
         $('.content').hide();
     }
 });
+
 
 function sendSong(btn) {
     
@@ -500,8 +520,8 @@ function initializeKeyboard() {
             })
         })
 }
-
-let stopSong = false
+let date = new Date
+let globalPlayTimestamp = date.getTime()
 async function playSong(songName) {
     let song = songName.parentElement.children[0].getAttribute('onclick')
     song = song.replace("downloadJSON('", "")
@@ -509,8 +529,6 @@ async function playSong(songName) {
     song = song.replace('downloadJSON("', "")
     song = song.replace('")', "")
     songName = song
-    stopSong = true
-    await delay(1500)
     let request = new XMLHttpRequest();
     request.open('GET', "./librarySongs/" + songName + ".txt");
     request.responseType = 'text';
@@ -518,16 +536,18 @@ async function playSong(songName) {
         song = convertToOldFormat(JSON.parse(request.response))[0].songNotes
         let delayTime = 0
         let previousTime = 0
-        stopSong = false
+        date = new Date
+        let startSongTimestamp = date.getTime()
+        globalPlayTimestamp = startSongTimestamp
+        await delay(500)
         for(let i = 0; i < song.length; i++) {
+            if (globalPlayTimestamp != startSongTimestamp){ ignoreStop = true; break}
             var keyToPlay = song[i].key
-            if(stopSong) break;
             delayTime = song[i].time - previousTime //how much time has to pass from one note to the other
             previousTime = song[i].time
             await delay(delayTime)
             document.getElementById(keyToPlay).click()
         }
-        stopSong = false
     }
     request.send()
 }
@@ -589,6 +609,19 @@ function showMessage(msg, msgType, duration) {
 }
 
 initializeKeyboard()
+
+try{
+    let AtoZsongs = Array.prototype.slice.call(document.getElementsByTagName("skybutton"), 0);
+    AtoZsongs.sort(function(a, b) {
+        var textA = a.parentElement.children[1].innerHTML.toUpperCase();
+        var textB = b.parentElement.children[1].innerHTML.toUpperCase();
+        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+    })
+    let AtoZ = document.getElementById("AtoZ")
+    AtoZsongs.forEach(e =>AtoZ.appendChild(e.parentElement.cloneNode(true)))
+}catch(e){
+    console.log(e)
+}
 </script>
 
 </html>
