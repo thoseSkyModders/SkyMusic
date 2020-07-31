@@ -609,20 +609,6 @@ if(darkModeToggled == null){
     darkModeToggled = false
     localStorage.setItem("darkModeIndex",false)
 }
-if(darkModeToggled) turnOnDarkMode(), document.getElementById("toggle-dark-mode").style.backgroundColor = "rgba(235, 0, 27, 1)"
-function toggleDarkMode(){
-    let btn = document.getElementById("toggle-dark-mode")
-    if(btn.style.backgroundColor.includes("235, 0, 27")){
-        localStorage.setItem("darkModeIndex",false)
-        location.reload()
-    }else{
-        btn.style.backgroundColor = "rgba(235, 0, 27, 1)"
-        localStorage.setItem("darkModeIndex",true)
-        darkModeToggled = true
-        turnOnDarkMode()
-    }
-}
-
 let layers = {
     5:"rgba(22, 22, 22, 0.65)"
 }
@@ -652,7 +638,19 @@ async function turnOnDarkMode(){
     $("body").css("background",layers[0]) 
     console.log("dark")
 }
-
+if(darkModeToggled) turnOnDarkMode(), document.getElementById("toggle-dark-mode").style.backgroundColor = "rgba(235, 0, 27, 1)"
+function toggleDarkMode(){
+    let btn = document.getElementById("toggle-dark-mode")
+    if(btn.style.backgroundColor.includes("235, 0, 27")){
+        localStorage.setItem("darkModeIndex",false)
+        location.reload()
+    }else{
+        btn.style.backgroundColor = "rgba(235, 0, 27, 1)"
+        localStorage.setItem("darkModeIndex",true)
+        darkModeToggled = true
+        turnOnDarkMode()
+    }
+}
 //--------------------------------------------------------------------------------------------------------//
 /*
    _                 _                         _                                   _   
