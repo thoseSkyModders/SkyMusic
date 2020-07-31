@@ -44,6 +44,14 @@ body {
     box-sizing: border-box;
 }
 
+.numberPicker{
+    border: none;
+    background-color: transparent;
+    color: #dad8b3;
+    font-size: 15px;
+    width: 45px;
+    text-align: center;
+}
 #songContainer {
     height: 100%;
     border: solid 1.5px #dad8b3;

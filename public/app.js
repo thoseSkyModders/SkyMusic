@@ -1301,7 +1301,7 @@ function preload(urls) {
 //--------------------------------------------------------------------------------------------------------//
 
 //BUTTONS
-let keyNames = {
+let keyNamesAllInstruments = {
     0: ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C"],
     1: ["D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭"],
     2: ["D", "E", "F♯", "G", "A", "B", "C♯", "D", "E", "F♯", "G", "A", "B", "C♯", "D"],
@@ -1315,6 +1315,35 @@ let keyNames = {
     10: ["B♭", "C", "D", "E♭", "F", "G", "A", "B♭", "C", "D", "E♭", "F", "G", "A", "B♭"],
     11: ["B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B"]
 }
+let keyNamesBell = {
+    0: ["C", "D", "G", "A", "C", "D", "G", "A","","","","","","",""],
+    1: ["D♭", "E♭", "A♭", "B♭", "D♭", "E♭", "A♭", "B♭","","","","","","",""],
+    2: ["D", "E", "A", "B", "D", "E", "A", "B","","","","","","",""],
+    3: ["E♭", "F", "B♭", "C", "E♭", "F", "B♭", "C","","","","","","",""],
+    4: ["E", "F♯", "B", "C♯", "E", "F♯", "B", "C♯","","","","","","",""],
+    5: ["F", "G", "C", "D", "F", "G", "C", "D","","","","","","",""],
+    6: ["G♭", "A♭", "D♭", "E♭", "G♭", "A♭", "D♭", "E♭","","","","","","",""],
+    7: ["G", "A", "D", "E", "G", "A", "D", "E","","","","","","",""],
+    8: ["A♭", "B♭", "E♭", "F", "A♭", "B♭", "E♭", "F","","","","","","",""],
+    9: ["A", "B", "E", "F♯", "A", "B", "E", "F♯","","","","","","",""],
+    10: ["B♭", "C", "F", "G", "B♭", "C", "F", "G","","","","","","",""],
+    11: ["B", "C♯", "F♯", "G♯", "B", "C♯", "F♯", "G♯","","","","","","",""]
+}
+let keyNamesHandPan = {
+    0: ["D", "A", "C", "D", "F", "G", "A", "C","","","","","","",""],
+    1: ["E♭", "B♭", "D♭", "E♭", "G♭", "A♭", "B♭", "D♭","","","","","","",""],
+    2: ["E", "B", "D", "E", "G", "A", "B", "D","","","","","","",""],
+    3: ["F", "C", "E♭", "F", "A♭", "B♭", "C", "E♭","","","","","","",""],
+    4: ["F♯", "C♯", "E", "F♯", "A", "B", "C♯", "E","","","","","","",""],
+    5: ["G", "D", "F", "G", "B♭", "C", "D", "F","","","","","","",""],
+    6: ["A♭", "E♭", "G♭", "A♭", "C♭", "D♭", "E♭", "G♭","","","","","","",""],
+    7: ["A", "E", "G", "A", "C", "D", "E", "G","","","","","","",""],
+    8: ["B♭", "F", "A♭", "B♭", "D♭", "E♭", "F", "A♭","","","","","","",""],
+    9: ["B", "F♯", "A", "B", "D", "E", "F♯", "A","","","","","","",""],
+    10: ["C", "G", "B♭", "C", "E♭", "F", "G", "B♭","","","","","","",""],
+    11: ["C♯", "G♯", "B", "C♯", "E", "F♯", "G♯", "B","","","","","","",""]
+}
+let keyNames = keyNamesAllInstruments
 const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
 
 let a_reverb_destination = a_ctx.destination // replaced by reverb path when loaded
@@ -1339,6 +1368,7 @@ function initializeKeyboard(){
             objKeys = normalKeyboardKeyboardKeys
         let numOfKeysLeft = 15
             numOfKeys = 15
+            keyNames = keyNamesAllInstruments
         if (storedInstrument == "bell" || storedInstrument == "drum" || storedInstrument == "handPan") {
             newRowBreak = [5, 9]
             numOfKeysLeft = 8
@@ -1356,6 +1386,8 @@ function initializeKeyboard(){
                 "d": "Key6",
                 "f": "Key7"
             }
+            if(storedInstrument == "bell") keyNames = keyNamesBell
+            if(storedInstrument == "handPan") keyNames = keyNamesHandPan
         }
         let j = 1
         audioBuffers.forEach((buf, i) => {
@@ -1436,8 +1468,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "3.7"
-let changelogMessage = "Update version " + currentVersion + "<br>Added dark mode and handpan"
+let currentVersion = "3.8"
+let changelogMessage = "Update version " + currentVersion + "<br>Added dark mode and handpan, bug fixes"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)

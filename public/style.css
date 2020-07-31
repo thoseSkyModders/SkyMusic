@@ -111,6 +111,8 @@
 	border: solid 2px #dad8b3;
 	z-index: 1000;
 	color: #dad8b3;
+	text-align: center;
+	overflow-y: auto;
 }
 .songRange {
 	z-index: 0;
