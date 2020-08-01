@@ -1667,52 +1667,53 @@ function getMIDIMessage(message) {
     let command = message.data[0] >> 4
     let note = message.data[1]
     let time = message.data[2]
+    console.log(message.data)
     if (command == 9 && time != 0) { //if the command is keyDown and the noteNumber are between 36 and 60
         console.log(note)
         switch (note) {
-            case 36:
+            case 48:
                 document.getElementById("Key0").dispatchEvent(click);
                 break;
-            case 38:
+            case 50:
                 document.getElementById("Key1").dispatchEvent(click);
                 break;
-            case 40:
+            case 52:
                 document.getElementById("Key2").dispatchEvent(click);
                 break;
-            case 41:
+            case 53:
                 document.getElementById("Key3").dispatchEvent(click);
                 break;
-            case 43:
+            case 55:
                 document.getElementById("Key4").dispatchEvent(click);
                 break;
-            case 45:
+            case 57:
                 document.getElementById("Key5").dispatchEvent(click);
                 break;
-            case 47:
+            case 59:
                 document.getElementById("Key6").dispatchEvent(click);
                 break;
-            case 48:
+            case 60:
                 document.getElementById("Key7").dispatchEvent(click);
                 break;
-            case 50:
+            case 62:
                 document.getElementById("Key8").dispatchEvent(click);
                 break;
-            case 52:
+            case 64:
                 document.getElementById("Key9").dispatchEvent(click);
                 break;
-            case 53:
+            case 65:
                 document.getElementById("Key10").dispatchEvent(click);
                 break;
-            case 55:
+            case 67:
                 document.getElementById("Key11").dispatchEvent(click);
                 break;
-            case 57:
+            case 69:
                 document.getElementById("Key12").dispatchEvent(click);
                 break;
-            case 59:
+            case 71:
                 document.getElementById("Key13").dispatchEvent(click);
                 break;
-            case 60:
+            case 72:
                 document.getElementById("Key14").dispatchEvent(click);
                 break;
         }
