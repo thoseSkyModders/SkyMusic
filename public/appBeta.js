@@ -1665,11 +1665,9 @@ let click = new Event(inputMode)
 
 function getMIDIMessage(message) {
     let command = message.data[0] >> 4
-    let note = message.data[1];
-    console.log("COMMAND: ",command)
-    console.log("NOTE: ",note)
-    console.log(message.data)
-    if (command == 9 && note > 35 && note < 61) { //if the command is keyDown and the noteNumber are between 36 and 60
+    let note = message.data[1]
+    let time = message.data[2]
+    if (command == 9 && note > 35 && note < 61 && time != 0) { //if the command is keyDown and the noteNumber are between 36 and 60
         switch (note) {
             case 36:
                 document.getElementById("Key0").dispatchEvent(click);
