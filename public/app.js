@@ -1504,8 +1504,10 @@ function importSongs() {
                         if(inputSongs[i].pitchLevel == undefined) inputSongs[i].pitchLevel = 0
                         if(inputSongs[i].isComposed == undefined) inputSongs[i].isComposed = false
                         saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed)
+                        showMessage(systemMessagesText[selectedLanguage][24]) //Done
+                        $("#savedSongsDivWrapper").animate({scrollTop:$("#savedSongsDivWrapper")[0].scrollHeight}, 300);    
                     } else {
-                        console.log(systemMessagesText[selectedLanguage][9] + inputSongs[i].name + " n" + i) //song already exists
+                        showMessage(systemMessagesText[selectedLanguage][9] + inputSongs[i].name + " n" + i,2,2000) //song already exists
                         //showMessage("The song already exists: "+inputSongs[i].name,2) gets annoying after a while, idk if adding it back
                     }
                 }
@@ -1514,6 +1516,7 @@ function importSongs() {
                     console.log(e)
                     showMessage(systemMessagesText[selectedLanguage][10],0,1000) //error importing song
                 }
+                filePicker.value = ""
             }
             fr.onerror = function(){
                 showMessage(systemMessagesText[selectedLanguage][10],0,1000) 

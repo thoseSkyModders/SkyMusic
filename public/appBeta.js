@@ -313,6 +313,20 @@ function exitFullScreen(){
 }
 
 //--------------------------------------------------------------------------------------------------------//
+function checkPWA(){
+    let bool = false
+    try{
+       let arrBool = ["fullscreen", "standalone", "minimal-ui"].some(
+            (displayMode) => window.matchMedia('(display-mode: ' + displayMode + ')').matches
+        );
+        bool = (arrBool || document.referrer.includes('android-app://'))
+    }catch{
+
+    }
+    return bool  
+}
+
+
 
 function checkIfMobile() {
     let check = false;
@@ -322,11 +336,12 @@ function checkIfMobile() {
 
 //--------------------------------------------------------------------------------------------------------//
 
+let isPWA = checkPWA()
 let isDesktop = !checkIfMobile()
 let isFullScreen = false
 function toggleFullScreen(){
         //Makes the website full screen
-        if(isDesktop || ignoreFullScreen || isiOS){
+        if(isDesktop || ignoreFullScreen || isiOS || isPWA){
             return
         }
         exitFullScreenBtn.style.display = "block"
@@ -353,11 +368,6 @@ function toggleFullScreen(){
 let exitedPage = false 
 $(window).blur(function(){
     exitedPage = true
-    if(!isFullScreen){
-        return
-    }
-    exitFullScreen()
-    exitFullScreenBtn.style.display = "none"
 });
 
 //--------------------------------------------------------------------------------------------------------//
@@ -599,20 +609,6 @@ if(darkModeToggled == null){
     darkModeToggled = false
     localStorage.setItem("darkModeIndex",false)
 }
-if(darkModeToggled) turnOnDarkMode(), document.getElementById("toggle-dark-mode").style.backgroundColor = "rgba(235, 0, 27, 1)"
-function toggleDarkMode(){
-    let btn = document.getElementById("toggle-dark-mode")
-    if(btn.style.backgroundColor.includes("235, 0, 27")){
-        localStorage.setItem("darkModeIndex",false)
-        location.reload()
-    }else{
-        btn.style.backgroundColor = "rgba(235, 0, 27, 1)"
-        localStorage.setItem("darkModeIndex",true)
-        darkModeToggled = true
-        turnOnDarkMode()
-    }
-}
-
 let layers = {
     5:"rgba(22, 22, 22, 0.65)"
 }
@@ -642,7 +638,19 @@ async function turnOnDarkMode(){
     $("body").css("background",layers[0]) 
     console.log("dark")
 }
-
+if(darkModeToggled) turnOnDarkMode(), document.getElementById("toggle-dark-mode").style.backgroundColor = "rgba(235, 0, 27, 1)"
+function toggleDarkMode(){
+    let btn = document.getElementById("toggle-dark-mode")
+    if(btn.style.backgroundColor.includes("235, 0, 27")){
+        localStorage.setItem("darkModeIndex",false)
+        location.reload()
+    }else{
+        btn.style.backgroundColor = "rgba(235, 0, 27, 1)"
+        localStorage.setItem("darkModeIndex",true)
+        darkModeToggled = true
+        turnOnDarkMode()
+    }
+}
 //--------------------------------------------------------------------------------------------------------//
 /*
    _                 _                         _                                   _   
@@ -1215,6 +1223,7 @@ let instrumentsNotes = {
     toyUkulele: ["ToyUkulele/0.mp3", "ToyUkulele/1.mp3", "ToyUkulele/2.mp3", "ToyUkulele/3.mp3", "ToyUkulele/4.mp3", "ToyUkulele/5.mp3", "ToyUkulele/6.mp3", "ToyUkulele/7.mp3", "ToyUkulele/8.mp3", "ToyUkulele/9.mp3", "ToyUkulele/10.mp3", "ToyUkulele/11.mp3", "ToyUkulele/12.mp3", "ToyUkulele/13.mp3", "ToyUkulele/14.mp3"],
     handPan: ["HandPan/0.mp3", "HandPan/1.mp3", "HandPan/2.mp3", "HandPan/3.mp3", "HandPan/4.mp3", "HandPan/5.mp3", "HandPan/6.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3","HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3"],
     oldPiano: ["OldPiano/0.mp3", "OldPiano/1.mp3", "OldPiano/2.mp3", "OldPiano/3.mp3", "OldPiano/4.mp3", "OldPiano/5.mp3", "OldPiano/6.mp3", "OldPiano/7.mp3", "OldPiano/8.mp3", "OldPiano/9.mp3", "OldPiano/10.mp3", "OldPiano/11.mp3", "OldPiano/12.mp3", "OldPiano/13.mp3", "OldPiano/14.mp3"],
+    contrabass: ["Contrabass/0.mp3", "Contrabass/1.mp3", "Contrabass/2.mp3", "Contrabass/3.mp3", "Contrabass/4.mp3", "Contrabass/5.mp3", "Contrabass/6.mp3", "Contrabass/7.mp3", "Contrabass/8.mp3", "Contrabass/9.mp3", "Contrabass/10.mp3", "Contrabass/11.mp3", "Contrabass/12.mp3", "Contrabass/13.mp3", "Contrabass/14.mp3"],
     
 }
 //Changes sounds when instrument is selected
@@ -1227,8 +1236,13 @@ function changeInstrumentSound(instrument) {
 let storedInstrument = "piano"
 if (localStorage.getItem("instrument")) {
     storedInstrument = localStorage.getItem("instrument")
-    document.getElementById("toggleInstruments").style.backgroundImage = document.getElementById(storedInstrument + "Btn").style.backgroundImage
-} else {
+    try{
+        document.getElementById("toggleInstruments").style.backgroundImage = document.getElementById(storedInstrument + "Btn").style.backgroundImage
+
+    }catch(e){
+        console.log(e)
+    }
+    } else {
     localStorage.setItem("instrument", "piano")
 }
 
@@ -1285,7 +1299,7 @@ function preload(urls) {
 //--------------------------------------------------------------------------------------------------------//
 
 //BUTTONS
-let keyNames = {
+let keyNamesAllInstruments = {
     0: ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C"],
     1: ["D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭"],
     2: ["D", "E", "F♯", "G", "A", "B", "C♯", "D", "E", "F♯", "G", "A", "B", "C♯", "D"],
@@ -1299,6 +1313,35 @@ let keyNames = {
     10: ["B♭", "C", "D", "E♭", "F", "G", "A", "B♭", "C", "D", "E♭", "F", "G", "A", "B♭"],
     11: ["B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B"]
 }
+let keyNamesBell = {
+    0: ["C", "D", "G", "A", "C", "D", "G", "A","","","","","","",""],
+    1: ["D♭", "E♭", "A♭", "B♭", "D♭", "E♭", "A♭", "B♭","","","","","","",""],
+    2: ["D", "E", "A", "B", "D", "E", "A", "B","","","","","","",""],
+    3: ["E♭", "F", "B♭", "C", "E♭", "F", "B♭", "C","","","","","","",""],
+    4: ["E", "F♯", "B", "C♯", "E", "F♯", "B", "C♯","","","","","","",""],
+    5: ["F", "G", "C", "D", "F", "G", "C", "D","","","","","","",""],
+    6: ["G♭", "A♭", "D♭", "E♭", "G♭", "A♭", "D♭", "E♭","","","","","","",""],
+    7: ["G", "A", "D", "E", "G", "A", "D", "E","","","","","","",""],
+    8: ["A♭", "B♭", "E♭", "F", "A♭", "B♭", "E♭", "F","","","","","","",""],
+    9: ["A", "B", "E", "F♯", "A", "B", "E", "F♯","","","","","","",""],
+    10: ["B♭", "C", "F", "G", "B♭", "C", "F", "G","","","","","","",""],
+    11: ["B", "C♯", "F♯", "G♯", "B", "C♯", "F♯", "G♯","","","","","","",""]
+}
+let keyNamesHandPan = {
+    0: ["D", "A", "C", "D", "F", "G", "A", "C","","","","","","",""],
+    1: ["E♭", "B♭", "D♭", "E♭", "G♭", "A♭", "B♭", "D♭","","","","","","",""],
+    2: ["E", "B", "D", "E", "G", "A", "B", "D","","","","","","",""],
+    3: ["F", "C", "E♭", "F", "A♭", "B♭", "C", "E♭","","","","","","",""],
+    4: ["F♯", "C♯", "E", "F♯", "A", "B", "C♯", "E","","","","","","",""],
+    5: ["G", "D", "F", "G", "B♭", "C", "D", "F","","","","","","",""],
+    6: ["A♭", "E♭", "G♭", "A♭", "C♭", "D♭", "E♭", "G♭","","","","","","",""],
+    7: ["A", "E", "G", "A", "C", "D", "E", "G","","","","","","",""],
+    8: ["B♭", "F", "A♭", "B♭", "D♭", "E♭", "F", "A♭","","","","","","",""],
+    9: ["B", "F♯", "A", "B", "D", "E", "F♯", "A","","","","","","",""],
+    10: ["C", "G", "B♭", "C", "E♭", "F", "G", "B♭","","","","","","",""],
+    11: ["C♯", "G♯", "B", "C♯", "E", "F♯", "G♯", "B","","","","","","",""]
+}
+let keyNames = keyNamesAllInstruments
 const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
 
 let a_reverb_destination = a_ctx.destination // replaced by reverb path when loaded
@@ -1323,6 +1366,7 @@ function initializeKeyboard(){
             objKeys = normalKeyboardKeyboardKeys
         let numOfKeysLeft = 15
             numOfKeys = 15
+            keyNames = keyNamesAllInstruments
         if (storedInstrument == "bell" || storedInstrument == "drum" || storedInstrument == "handPan") {
             newRowBreak = [5, 9]
             numOfKeysLeft = 8
@@ -1340,6 +1384,8 @@ function initializeKeyboard(){
                 "d": "Key6",
                 "f": "Key7"
             }
+            if(storedInstrument == "bell") keyNames = keyNamesBell
+            if(storedInstrument == "handPan") keyNames = keyNamesHandPan
         }
         let j = 1
         audioBuffers.forEach((buf, i) => {
@@ -1420,8 +1466,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "3.6"
-let changelogMessage = "Update version " + currentVersion + "<br>Added dark mode"
+let currentVersion = "3.8"
+let changelogMessage = "Update version " + currentVersion + "<br>Added dark mode and handpan, bug fixes"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)
@@ -1458,8 +1504,10 @@ function importSongs() {
                         if(inputSongs[i].pitchLevel == undefined) inputSongs[i].pitchLevel = 0
                         if(inputSongs[i].isComposed == undefined) inputSongs[i].isComposed = false
                         saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed)
+                        showMessage(systemMessagesText[selectedLanguage][24]) //Done
+                        $("#savedSongsDivWrapper").animate({scrollTop:$("#savedSongsDivWrapper")[0].scrollHeight}, 300);    
                     } else {
-                        console.log(systemMessagesText[selectedLanguage][9] + inputSongs[i].name + " n" + i) //song already exists
+                        showMessage(systemMessagesText[selectedLanguage][9] + inputSongs[i].name + " n" + i,2,2000) //song already exists
                         //showMessage("The song already exists: "+inputSongs[i].name,2) gets annoying after a while, idk if adding it back
                     }
                 }
@@ -1468,6 +1516,7 @@ function importSongs() {
                     console.log(e)
                     showMessage(systemMessagesText[selectedLanguage][10],0,1000) //error importing song
                 }
+                filePicker.value = ""
             }
             fr.onerror = function(){
                 showMessage(systemMessagesText[selectedLanguage][10],0,1000) 
@@ -1585,21 +1634,32 @@ function downloadJSON(inArray, fileName) {
 let isMidiAllowed = true;
 
 function checkMidiAccess() {
-    try {
-        if (navigator.requestMIDIAccess()) {
-            showMessage(systemMessagesText[selectedLanguage][33], 1) //midi is supported
-        } else {
-            showMessage(systemMessagesText[selectedLanguage][34], 0) //midi is not supported
-        }
-    } catch(e){
-        console.log(e)
-        showMessage(systemMessagesText[selectedLanguage][34], 0) //midi is not supported
-    }
-}
-try {
-    if (navigator.requestMIDIAccess()) {} else {}
-} catch(e){console.log(e)}
+    navigator.requestMIDIAccess()
+    .then(
+      (midi) => midiReady(midi),
+      (err) => {showMessage(systemMessagesText[selectedLanguage][34], 0); console.log(err)});
 
+}
+function midiReady(midi) {
+    // Also react to device changes.
+    midi.addEventListener('statechange', (event) => initDevices(event.target));
+    initDevices(midi);
+}
+let  midiIn = []
+function initDevices(midi) {
+    midiIn = []
+    const inputs = midi.inputs.values();
+    for (let input = inputs.next(); input && !input.done; input = inputs.next()) {
+      midiIn.push(input.value);
+    }
+    startListening();
+  }
+  
+  function startListening() {
+    for (const input of midiIn) {
+      input.addEventListener('midimessage', getMIDIMessage)
+    }
+  }
 //--------------------------------------------------------------------------------------------------------//
 
 let click = new Event(inputMode)
@@ -1607,6 +1667,8 @@ let click = new Event(inputMode)
 function getMIDIMessage(message) {
     let command = message.data[0];
     let note = message.data[1];
+    console.log("COMMAND: ",command)
+    console.log("NOTE: ",note)
     if (command == 144 && note > 35 && note < 61) { //if the command is keyDown and the noteNumber are between 36 and 60
         switch (note) {
             case 36:
@@ -1925,6 +1987,11 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         else{
             threshold = 80
         }
+        try{
+            songLength = JSON.parse(songText.innerHTML).length
+        }catch(e){
+            console.log(e)
+        }
         practice(JSON.parse(songText.innerHTML))
         startingNoteRange.value = 0
         rangePicker.value = 0
@@ -2049,8 +2116,9 @@ let keysToWait = 1
 let betweenKeysTimes = []
 let timeToWait = 0
 let nextKeysToPress = []
+let songLength = 0
 betweenKeysTimes.push(0) //offsets the first key
-let checkStuck
+let songProgress = document.getElementById("songProgress")
 function practice(inSong) {
     document.getElementById("stopSong").style.visibility = "visible"
     if (inSong.length != 0) { //If there is a song to be added, if there isn't it means that it comes from a ping from the button
@@ -2059,6 +2127,7 @@ function practice(inSong) {
         betweenKeysTimes.push(0)
         timeToWait = 0
         songToPractice = inSong 
+        songProgress.style.height = "0%"
         keysToWait = 1
         resetButtons()
         for (let i = 1; i < songToPractice.length; i++) { //stores the time between keys
@@ -2107,9 +2176,13 @@ function practice(inSong) {
                 }
                 songToPractice.splice(0, 1)
             }
-            timeToWait = betweenKeysTimes[0] //gets the first time of the array, that one is the time for the next one.
-
+        timeToWait = betweenKeysTimes[0] //gets the first time of the array, that one is the time for the next one.
         keysToWait = keysToPress.length //those are the keys presses to do before searching for the next key combination
+        try{
+            songProgress.style.height = (songToPractice.length / songLength*100-100)*-1+"%"
+        }catch(e){
+            console.log(e)
+        }
     }
 }
 
@@ -2132,6 +2205,7 @@ function retry() {
     retrySong = currentSong.slice(startPoint, currentSong.length)
     resetButtons()
     practice(retrySong)
+
 }
 //delay function
 const delay = ms => new Promise(res => setTimeout(res, ms))

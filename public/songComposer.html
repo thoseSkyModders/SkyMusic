@@ -624,7 +624,7 @@ function loadMIDI(){
     }
 
     function scrollPage(cell){
-        for(let i = 0; i < 5; i++){
+        for(let i = 0; i < 8; i++){
             if(cell.nextSibling == null) break
             cell = cell.nextSibling
         }
@@ -853,10 +853,9 @@ function loadMIDI(){
             var savedSongs = JSON.parse(localStorage.getItem("savedSongs"))
             if (savedSongs == null) savedSongs = []
             for (var i = 0; i < savedSongs.length; i++) {
-                if (savedSongs[i].name == name) {
-                    alreadySaved = true
-                    break
-                }
+                if (savedSongs[i].name == name){ alreadySaved = true; break }
+                if (savedSongs[i].name == name + " - Main"){ alreadySaved = true; break }
+                if (savedSongs[i].name == name + "- Secondary"){ alreadySaved = true; break }
             }
             if(alreadySaved){
                 promptMessage = "A song with the name: "+name+" is already saved, choose another"
