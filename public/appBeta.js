@@ -1632,16 +1632,15 @@ function downloadJSON(inArray, fileName) {
 
 */
 let isMidiAllowed = true;
-
 function checkMidiAccess() {
     navigator.requestMIDIAccess()
     .then(
       (midi) => midiReady(midi),
-      (err) => {showMessage(systemMessagesText[selectedLanguage][34], 0); console.log(err)});
+      (err) => {showMessage(systemMessagesText[selectedLanguage][34], 0, 1000); console.log(err)});
 
 }
 function midiReady(midi) {
-    // Also react to device changes.
+    showMessage(systemMessagesText[selectedLanguage][33], 1, 1000)
     midi.addEventListener('statechange', (event) => initDevices(event.target));
     initDevices(midi);
 }
@@ -1665,11 +1664,12 @@ function initDevices(midi) {
 let click = new Event(inputMode)
 
 function getMIDIMessage(message) {
-    let command = message.data[0];
+    let command = message.data[0] >> 4
     let note = message.data[1];
     console.log("COMMAND: ",command)
     console.log("NOTE: ",note)
-    if (command == 144 && note > 35 && note < 61) { //if the command is keyDown and the noteNumber are between 36 and 60
+    console.log(message.data)
+    if (command == 9 && note > 35 && note < 61) { //if the command is keyDown and the noteNumber are between 36 and 60
         switch (note) {
             case 36:
                 document.getElementById("Key0").dispatchEvent(click);
