@@ -499,8 +499,12 @@ function loadMIDI(){
             copiedCells = []
         for (var i = 0; i < cells.length; i++) {
             if(cells[i].style.borderColor == "rgb(235, 0, 27)") canAddCells = true, hasStart = true
-            if(cells[i].style.borderColor == "rgb(0, 235, 207)")copiedCells.push(cells[i]), canAddCells = false, hasEnd = true
-            if(canAddCells)copiedCells.push(cells[i])
+            if(cells[i].style.borderColor == "rgb(0, 235, 207)"){
+                copiedCells.push(cells[i].cloneNode(true))
+                canAddCells = false
+                hasEnd = true
+            }
+            if(canAddCells) copiedCells.push(cells[i].cloneNode(true))
         }
         if(hasStart && hasEnd){
             document.getElementById("copyDiv").style.display = "none"
@@ -565,6 +569,7 @@ function loadMIDI(){
         if(copiedCells.length < 2) return
         for(let i = 0; i<copiedCells.length; i++){
             let cell = copiedCells[copiedCells.length-i-1].cloneNode(true)
+            cell.style.border = ""
             cell.style.opacity = "0.6"
             cell.addEventListener("pointerdown", function () {
                 if (getCellPosition(selectedCell) == getCellPosition(this)) return

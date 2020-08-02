@@ -1,4 +1,4 @@
-const CACHE = "V4.2";
+const CACHE = "V4.3";
 
 const FILES_TO_CACHE = [
     'manifest.json',
@@ -12,6 +12,7 @@ const FILES_TO_CACHE = [
   //'/beta.html',
     '/songComposerStyle.css',
     '/songComposer.html',
+    '/sheetDisplayer.html',
     '/style.css',
     '/reverb4.wav',
     '/favicon.png',

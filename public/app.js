@@ -1466,8 +1466,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "3.8"
-let changelogMessage = "Update version " + currentVersion + "<br>Added dark mode and handpan, bug fixes"
+let currentVersion = "3.9"
+let changelogMessage = "Update version " + currentVersion + "<br>Improved: UI, MIDI support, sheet displayer"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)
@@ -1505,7 +1505,7 @@ function importSongs() {
                         if(inputSongs[i].isComposed == undefined) inputSongs[i].isComposed = false
                         saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed)
                         showMessage(systemMessagesText[selectedLanguage][24]) //Done
-                        $("#savedSongsDivWrapper").animate({scrollTop:$("#savedSongsDivWrapper")[0].scrollHeight}, 300);    
+                        $("#savedSongsDiv").animate({scrollTop:$("#savedSongsDiv")[0].scrollHeight}, 300);    
                     } else {
                         showMessage(systemMessagesText[selectedLanguage][9] + inputSongs[i].name + " n" + i,2,2000) //song already exists
                         //showMessage("The song already exists: "+inputSongs[i].name,2) gets annoying after a while, idk if adding it back
@@ -1631,76 +1631,116 @@ function downloadJSON(inArray, fileName) {
  |_|  |_|_|\__,_|_|  \___\___/|_| |_|\__|_|  \___/|_|                                                 
 
 */
-let isMidiAllowed = true;
-
 function checkMidiAccess() {
-    try {
-        if (navigator.requestMIDIAccess()) {
-            showMessage(systemMessagesText[selectedLanguage][33], 1) //midi is supported
-        } else {
-            showMessage(systemMessagesText[selectedLanguage][34], 0) //midi is not supported
-        }
-    } catch(e){
-        console.log(e)
-        showMessage(systemMessagesText[selectedLanguage][34], 0) //midi is not supported
-    }
-}
-try {
-    if (navigator.requestMIDIAccess()) {} else {}
-} catch(e){console.log(e)}
+    navigator.requestMIDIAccess()
+    .then(
+      (midi) => midiReady(midi),
+      (err) => {showMessage(systemMessagesText[selectedLanguage][34], 0, 1000); console.log(err)});
 
+}
+function midiReady(midi) {
+    showMessage(systemMessagesText[selectedLanguage][33], 1, 1000)
+    midi.addEventListener('statechange', (event) => initDevices(event.target))
+    initDevices(midi)
+}
+let  midiIn = []
+function initDevices(midi) {
+    midiIn = []
+    const inputs = midi.inputs.values()
+    for (let input = inputs.next(); input && !input.done; input = inputs.next()) {
+      midiIn.push(input.value)
+    }
+    startListening()
+  }
+  
+  function startListening() {
+    for (const input of midiIn) {
+      input.addEventListener('midimessage', getMIDIMessage)
+    }
+  }
 //--------------------------------------------------------------------------------------------------------//
 
 let click = new Event(inputMode)
 
 function getMIDIMessage(message) {
-    let command = message.data[0];
-    let note = message.data[1];
-    if (command == 144 && note > 35 && note < 61) { //if the command is keyDown and the noteNumber are between 36 and 60
+    let command = message.data[0] >> 4
+    let note = message.data[1]
+    let time = message.data[2]
+    if (command == 9 && time != 0) {
         switch (note) {
-            case 36:
+            case 48:
                 document.getElementById("Key0").dispatchEvent(click);
                 break;
-            case 38:
+            case 49:
+                document.getElementById("Key0").dispatchEvent(click);
+                break;                
+            case 50:
                 document.getElementById("Key1").dispatchEvent(click);
                 break;
-            case 40:
-                document.getElementById("Key2").dispatchEvent(click);
-                break;
-            case 41:
-                document.getElementById("Key3").dispatchEvent(click);
-                break;
-            case 43:
-                document.getElementById("Key4").dispatchEvent(click);
-                break;
-            case 45:
-                document.getElementById("Key5").dispatchEvent(click);
-                break;
-            case 47:
-                document.getElementById("Key6").dispatchEvent(click);
-                break;
-            case 48:
-                document.getElementById("Key7").dispatchEvent(click);
-                break;
-            case 50:
-                document.getElementById("Key8").dispatchEvent(click);
+            case 51:
+                document.getElementById("Key1").dispatchEvent(click);
                 break;
             case 52:
-                document.getElementById("Key9").dispatchEvent(click);
+                document.getElementById("Key2").dispatchEvent(click);
                 break;
             case 53:
-                document.getElementById("Key10").dispatchEvent(click);
+                document.getElementById("Key3").dispatchEvent(click);
+                break;
+            case 54:
+                document.getElementById("Key3").dispatchEvent(click);
                 break;
             case 55:
-                document.getElementById("Key11").dispatchEvent(click);
+                document.getElementById("Key4").dispatchEvent(click);
+                break;
+            case 56:
+                document.getElementById("Key4").dispatchEvent(click);
                 break;
             case 57:
-                document.getElementById("Key12").dispatchEvent(click);
+                document.getElementById("Key5").dispatchEvent(click);
+                break;
+            case 58:
+                document.getElementById("Key5").dispatchEvent(click);
                 break;
             case 59:
-                document.getElementById("Key13").dispatchEvent(click);
+                document.getElementById("Key6").dispatchEvent(click);
                 break;
             case 60:
+                document.getElementById("Key7").dispatchEvent(click);
+                break;
+            case 61:
+                document.getElementById("Key7").dispatchEvent(click);
+                break;
+            case 62:
+                document.getElementById("Key8").dispatchEvent(click);
+                break;
+            case 63:
+                document.getElementById("Key8").dispatchEvent(click);
+                break;
+            case 64:
+                document.getElementById("Key9").dispatchEvent(click);
+                break;
+            case 65:
+                document.getElementById("Key10").dispatchEvent(click);
+                break;
+            case 66:
+                document.getElementById("Key10").dispatchEvent(click);
+                break;
+            case 67:
+                document.getElementById("Key11").dispatchEvent(click);
+                break;
+            case 68:
+                document.getElementById("Key11").dispatchEvent(click);
+                break;
+            case 69:
+                document.getElementById("Key12").dispatchEvent(click);
+                break;
+            case 70:
+                document.getElementById("Key12").dispatchEvent(click);
+                break;
+            case 71:
+                document.getElementById("Key13").dispatchEvent(click);
+                break;
+            case 72:
                 document.getElementById("Key14").dispatchEvent(click);
                 break;
         }
@@ -2197,7 +2237,6 @@ function retry() {
 //delay function
 const delay = ms => new Promise(res => setTimeout(res, ms))
 initializeKeyboard()
-
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {

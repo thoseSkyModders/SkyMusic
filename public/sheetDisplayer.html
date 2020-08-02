@@ -52,18 +52,31 @@
             margin: 0.5em;
             outline: none;
         }
+        #textFormat{
+            border: solid 2px black;
+            border-radius:1em ;
+            width: 90%;
+            overflow: auto;
+            height: 30%;
+            display: none;
+            margin-left:5%;
+            font-size: 0.8em;
+            margin-top: 20px;
+            padding: 1em;
+        }
     </style>
 </head>
 
 <body>
     <a href="/"class=skyButton style="border:solid 2px #dad8b3; text-decoration: none; border-radius: 0.3em; padding: 0.2em; float: left; margin-bottom: 2vh;">GO BACK</a>
-    <div style="display: inline-block;">
+    <div style="display: inline-block; width: 100%;">
         <select id="loadSongSelect" class="skyButton" style="width: 50%;">
             <option selected disabled>Select Song</option>
         </select>
     </div>
     For other visual sheets visit <a href="https://sky-music.github.io/">this website</a>
     <div id="tabsHolder" style="text-align:left;"></div>
+    <textarea spellcheck="false" id="textFormat" onClick="this.setSelectionRange(0, this.value.length)" ></textarea>
 </body>
 <script>
     const TAB_WIDTH = "150"
@@ -163,6 +176,8 @@
         var indexes = [] //this holds where there needs to add a line break
         tabsHolder.innerHTML = "" //resets the table that holds all the tabs
         var input = convertedSong //this contains all the notes that will be played
+        document.getElementById("textFormat").value = input
+        document.getElementById("textFormat").style.display = "block"
         input = input.split("\n").join("\n ") //adds a space to the new line
             .split(".").join("") //removes the dots, this will create a null array later on that we will use to ignore the drawing of the canvas
             .split("-").join("") //for now removes the - 
@@ -173,7 +188,6 @@
         }
         var parsedInput = input.split(" ") //splits every note combination at spaces
         var numOfTabs = 0 //this keeps track of how many tabs there are
-
         for (var i = 0; i < parsedInput.length; i++) {
             numOfTabs++
             if (parsedInput[i].includes(
@@ -188,7 +202,7 @@
         var allTabs = document.getElementsByClassName("tabs")
         for (var i = 0; i < indexes.length; i++) { //adds a line break
             var lineBreak = document.createElement("div")
-            lineBreak.style.borderTop = "solid 2px gray"
+            lineBreak.style.borderTop = "solid 2px black"
             lineBreak.style.margin = "1vh"
             lineBreak.style.width = "100%"
             tabsHolder.insertBefore(lineBreak, allTabs[indexes[i]]);
