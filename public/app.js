@@ -1821,7 +1821,7 @@ function openSonglist(evt, listType) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
     evt.currentTarget.className += " active";
-    document.getElementById(listType).style.display = "block";
+    document.getElementById(listType).style.display = "flex";
     if (listType == "dbSongs" && dbSongs.length == 0) syncDB() //if it's the first time pressing the button
 }
 

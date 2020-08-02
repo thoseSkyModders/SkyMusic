@@ -520,13 +520,12 @@ button {
 
 .bottomSavedSongsDiv {
 	border-top: 2px solid #dad8b3;
-	position: sticky;
-	bottom: 0;
 	padding: 0.5em;
 	box-sizing: border-box;
 	background: #333;
 	width: 100%;
 	display: inline-flex;
+	border-radius: 0 0 1.5em 1.5em;
 }
 
 .bottomSavedSongsDiv .skyButton {
@@ -536,6 +535,8 @@ button {
 .topSavedSongsDiv {
 	padding: 0.5em;
 	box-sizing: border-box;
+	flex-grow: 1;
+	overflow: auto;
 }
 
 .inputFile {
@@ -563,13 +564,12 @@ button {
 	display: none;
 	z-index: 10;
 	max-height: 90vh;
-	overflow: auto;
 }
 
 .floatingDiv h3 {
 	padding: 0.2em;
 	box-sizing: border-box;
-	margin-bottom: 0;
+	margin: 10px;
 }
 
 div.fileinputs {
@@ -817,6 +817,7 @@ html{
 	left: 0; 
 	bottom: 0; 
 	right: 0;
+	overflow: hidden;
 }
 @media only screen and (orientation:portrait){
 	#savedSongsDivWrapper{
@@ -885,10 +886,10 @@ html{
 
 /* Style the tab */
 .tab {
-	overflow: hidden;
 	border-bottom: 2px solid #dad8b3;
 	background-color: #333;
 	filter: opacity(90%);
+	flex-grow: 0;
 }
 /* Style the buttons inside the tab */
 .tab button {
@@ -900,7 +901,7 @@ html{
 	padding: 14px 16px;
 	transition: 0.3s;
 	font-size: 17px;
-	color: #dad8b3
+	color: #dad8b3;
 }
 
 .tab button:hover {
@@ -920,4 +921,14 @@ html{
 }
 #dbSongs {
 	display: none;
+}
+.tabcontent {
+	flex-direction: column;
+	overflow: auto;
+	flex-grow: 1;
+}
+#songsFlexWrapper {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }

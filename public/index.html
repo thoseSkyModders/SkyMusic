@@ -173,6 +173,7 @@
 
 
     <div id="savedSongsDivWrapper" class="floatingDiv">
+      <div id="songsFlexWrapper">
         <div class="tab">
             <button id="localStoredBtn" class="tablinks active" onclick="openSonglist(event, 'localSongs')">My songs</button>
             <button id="accountBtn" class="tablinks" onclick="openSonglist(event, 'dbSongs')">Account songs</button>
@@ -180,8 +181,9 @@
           </div>
         <!--Local Songs-->
           <div id="localSongs" class="tabcontent">
-            <h3 id="local-tab-text">Here are all your songs!</h3>
-            <div id="savedSongsDiv" class="topSavedSongsDiv"></div>
+            <div id="savedSongsDiv" class="topSavedSongsDiv">
+              <h3 id="local-tab-text">Here are all your songs!</h3>
+            </div>
             <div class = "bottomSavedSongsDiv">
                 <button id="import-button" class="skyButton" onclick="importSongs()">Import songs</button>
                 <button id="download-songs-button" class="skyButton" onclick="downloadSongs()">Download songs</button>
@@ -197,6 +199,7 @@
                 <button id="store-all-button" class="skyButton" onclick="storeSongsLocally()">Store all songs locally</button>
             </div>
           </div>
+        </div>
     </div>
     <div class="videoWrapper video">
         <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
