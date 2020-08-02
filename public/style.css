@@ -525,7 +525,6 @@ button {
 	background: #333;
 	width: 100%;
 	display: inline-flex;
-	border-radius: 0 0 1.5em 1.5em;
 }
 
 .bottomSavedSongsDiv .skyButton {
@@ -889,7 +888,6 @@ html{
 	border-bottom: 2px solid #dad8b3;
 	background-color: #333;
 	filter: opacity(90%);
-	flex-grow: 0;
 }
 /* Style the buttons inside the tab */
 .tab button {
