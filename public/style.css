@@ -1004,6 +1004,9 @@ html{
 		padding: 12px 14px;
 		font-size: 14px;
 	}
+	#formatChooser{
+		width: 80%;
+	}
 }
 #dbSongs {
 	display: none;

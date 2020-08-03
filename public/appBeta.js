@@ -1492,9 +1492,13 @@ function toggleABCImport(){
 
 function toggleImportSong(){
     formatImport.style.display = "flex"
+    document.getElementById("formatOutput").style.display = "none"
     document.getElementById("importText").style.display = "block"
     document.getElementById("abcImport").style.display = "none"
     document.getElementById("abcExport").style.display = "none"
+    document.getElementById("nameImport").value = ""
+    document.getElementById("abcTextarea").value = ""
+    document.getElementById("bpmImport").value = 220
     $(formatChoser).fadeIn(200)
 }
 
@@ -1565,9 +1569,14 @@ function importABC(){
         saveSong(song.name, song.songNotes, 1,song.pitchLevel,song.bpm,song.isComposed)
         showMessage(systemMessagesText[selectedLanguage][24],1,1500)
         $(formatChooser).fadeOut(200)
+        $("#savedSongsDiv").animate({scrollTop:$("#savedSongsDiv")[0].scrollHeight}, 300);
 }
-
-
+document.getElementById("abcTextarea").addEventListener("focus",function(){
+    isTyping = true
+})
+document.getElementById("abcTextarea").addEventListener("blur",function(){
+    isTyping = false
+})
 let songToDownload = []
 function choseExportFormat(song, songName){
     songToDownload = [song,songName]
