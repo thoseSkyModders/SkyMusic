@@ -525,6 +525,7 @@ button {
 	background: #333;
 	width: 100%;
 	display: inline-flex;
+	flex-shrink: 0;
 }
 
 .bottomSavedSongsDiv .skyButton {
