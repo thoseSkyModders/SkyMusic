@@ -7,11 +7,6 @@
   \____/|_____|     
 
  */
-try{
-    Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
-}catch(e){
-    console.log(e)
-}
 let floatingMessage
 function showMessage(msg, msgType, duration) {
     if (duration == undefined) duration = 1500
@@ -1466,8 +1461,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "3.8"
-let changelogMessage = "Update version " + currentVersion + "<br>Added dark mode and handpan, bug fixes"
+let currentVersion = "3.9"
+let changelogMessage = "Update version " + currentVersion + "<br>Improved: UI, MIDI support, sheet displayer"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)
@@ -1487,8 +1482,180 @@ if (webVersion != currentVersion) {
                                |_|                                                  |_|                   
 
 */
-let filePicker = document.getElementById("filePicker")
 
+let formatChoser = document.getElementById("formatChooser")
+function toggleABCImport(){
+    $(".format").css("display","none")
+    document.getElementById("importText").style.display = "none"
+    document.getElementById("abcImport").style.display = "flex"
+}
+
+function toggleImportSong(){
+    formatImport.style.display = "flex"
+    document.getElementById("importText").style.display = "block"
+    document.getElementById("abcImport").style.display = "none"
+    document.getElementById("abcExport").style.display = "none"
+    $(formatChoser).fadeIn(200)
+}
+
+function importABC(){
+    let name = document.getElementById("nameImport").value
+    if(document.getElementById("nameImport").value == ""){
+        showMessage("Write a song name!",0,2000)
+        return
+    }
+    let bpm = document.getElementById("bpmImport").value
+    if(bpm == "" || bpm < 1){
+        showMessage("Write song BPM, default 220",0,2000)
+        return
+    }
+    let alredyExists = (document.getElementById("Song-" + name) == null)
+    if(!alredyExists){
+        showMessage(systemMessagesText[selectedLanguage][9] + name,2,2000)
+        return
+    }
+    let textarea = document.getElementById("abcTextarea")
+    let songText = textarea.value.toUpperCase()
+    let songArray = songText.split(".").join(" ").split(" ")
+        songArray = songArray.map(element => {
+            if(element == "") return []
+            element = element.match(/.{2}/g)
+            return element
+        });
+        let parsedSong = []
+        songArray.forEach(element => {
+            if(element.length == 0) parsedSong.push([])
+            let innerArray = []
+            for(let i = 0; i < element.length; i++){
+                let offset = -1
+                switch(element[i][0]){
+                    case "B":
+                        offset = 4
+                        break;
+                    case "C":
+                        offset = 9
+                        break;
+                }
+                innerArray.push( "Key" + (offset + parseInt(element[i][1])))
+            }
+            parsedSong.push(innerArray)
+        })
+
+        let tempo = 0
+        let ms = Math.floor(60000/bpm)
+        let songToImport = []
+        parsedSong.forEach(element => {
+            tempo += ms
+            if(element.length == 0){tempo -=tempo/2; return} 
+            element.forEach(e => {
+                let objKey = {
+                    time:tempo,
+                    key:e
+                }
+                songToImport.push(objKey)
+           })
+        })
+        let song = {
+            name: name,
+            isComposed: true,
+            bpm:bpm,
+            pitchLevel: 0,
+            songNotes: songToImport
+        }
+        saveSong(song.name, song.songNotes, 1,song.pitchLevel,song.bpm,song.isComposed)
+        showMessage(systemMessagesText[selectedLanguage][24],1,1500)
+        $(formatChooser).fadeOut(200)
+}
+
+
+let songToDownload = []
+function choseExportFormat(song, songName){
+    songToDownload = [song,songName]
+    $(".format").css("display","none")
+    document.getElementById("importText").style.display = "block"
+    document.getElementById("formatOutput").style.display = "flex"
+    $(formatChoser).fadeIn(200)
+}
+function downloadSong(){
+    downloadJSON(songToDownload[0],songToDownload[1],false)
+    $(formatChoser).fadeOut(100)
+}
+function toggleABCExport(){
+    $(".format").css("display","none")
+    document.getElementById("importText").style.display = "none"
+    document.getElementById("abcExport").style.display = "flex"
+    let song = songToDownload[0][0].songNotes
+    let convertedSong = ""
+    for (var i = 0; i < song.length; i++) {
+        var key = parseInt(song[i].key.replace("Key", ""))
+        switch (key) {
+            case 0:
+                key = "A1"
+                break;
+            case 1:
+                key = "A2"
+                break;
+            case 2:
+                key = "A3"
+                break;
+            case 3:
+                key = "A4"
+                break;
+            case 4:
+                key = "A5"
+                break;
+            case 5:
+                key = "B1"
+                break;
+            case 6:
+                key = "B2"
+                break;
+            case 7:
+                key = "B3"
+                break;
+            case 8:
+                key = "B4"
+                break;
+            case 9:
+                key = "B5"
+                break;
+            case 10:
+                key = "C1"
+                break;
+            case 11:
+                key = "C2"
+                break;
+            case 12:
+                key = "C3"
+                break;
+            case 13:
+                key = "C4"
+                break;
+            case 14:
+                key = "C5"
+        }
+        convertedSong += key
+        if(i == song.length-1){
+            break
+        }
+        if ((song[i+1].time - song[i].time) > 80) {
+            convertedSong += " "
+        }
+        if ((song[i+1].time - song[i].time) > 500) {
+            convertedSong += ". "
+        }
+        if ((song[i+1].time - song[i].time) > 1500) {
+            convertedSong += "\n"
+        }
+    }
+    document.getElementById("abcTextareaExport").value = convertedSong
+}
+
+function downloadAbc(){
+    downloadJSON(document.getElementById("abcTextareaExport").value,songToDownload[1],true)
+}
+let filePicker = document.getElementById("filePicker")
+let formatImport = document.getElementById("formatImport")
 function importSongs() {
     let isreading = false
     filePicker.addEventListener("change", function () { //once file is picked it reads the content
@@ -1504,8 +1671,9 @@ function importSongs() {
                         if(inputSongs[i].pitchLevel == undefined) inputSongs[i].pitchLevel = 0
                         if(inputSongs[i].isComposed == undefined) inputSongs[i].isComposed = false
                         saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed)
-                        showMessage(systemMessagesText[selectedLanguage][24]) //Done
-                        $("#savedSongsDivWrapper").animate({scrollTop:$("#savedSongsDivWrapper")[0].scrollHeight}, 300);    
+                        showMessage(systemMessagesText[selectedLanguage][24],1,1500) //Done
+                        $("#savedSongsDiv").animate({scrollTop:$("#savedSongsDiv")[0].scrollHeight}, 300);
+                        document.getElementById("formatChooser").style.display = "none"   
                     } else {
                         showMessage(systemMessagesText[selectedLanguage][9] + inputSongs[i].name + " n" + i,2,2000) //song already exists
                         //showMessage("The song already exists: "+inputSongs[i].name,2) gets annoying after a while, idk if adding it back
@@ -1533,7 +1701,7 @@ function downloadSongs() {
     if (songs != null) { //if there were some songs saved
         songs = JSON.parse(songs)
         if (songs.length != 0) { //if there were some songs saved
-            downloadJSON(songs, "mySongs")
+            downloadJSON(songs, "mySongs",false)
         }
     }
 }
@@ -1610,8 +1778,10 @@ function convertToOldFormat(songs) {
 
 //--------------------------------------------------------------------------------------------------------//
 
-function downloadJSON(inArray, fileName) {
-    inArray = convertToNewFormat(inArray)
+function downloadJSON(inArray, fileName, isText = false) {
+    if(!isText){
+        inArray = convertToNewFormat(inArray)
+    }
     let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
     let dlAnchorElem = document.createElement("a")
     dlAnchorElem.setAttribute("href", dataStr);
@@ -1631,7 +1801,6 @@ function downloadJSON(inArray, fileName) {
  |_|  |_|_|\__,_|_|  \___\___/|_| |_|\__|_|  \___/|_|                                                 
 
 */
-let isMidiAllowed = true;
 function checkMidiAccess() {
     navigator.requestMIDIAccess()
     .then(
@@ -1641,17 +1810,17 @@ function checkMidiAccess() {
 }
 function midiReady(midi) {
     showMessage(systemMessagesText[selectedLanguage][33], 1, 1000)
-    midi.addEventListener('statechange', (event) => initDevices(event.target));
-    initDevices(midi);
+    midi.addEventListener('statechange', (event) => initDevices(event.target))
+    initDevices(midi)
 }
 let  midiIn = []
 function initDevices(midi) {
     midiIn = []
-    const inputs = midi.inputs.values();
+    const inputs = midi.inputs.values()
     for (let input = inputs.next(); input && !input.done; input = inputs.next()) {
-      midiIn.push(input.value);
+      midiIn.push(input.value)
     }
-    startListening();
+    startListening()
   }
   
   function startListening() {
@@ -1667,14 +1836,18 @@ function getMIDIMessage(message) {
     let command = message.data[0] >> 4
     let note = message.data[1]
     let time = message.data[2]
-    console.log(message.data)
-    if (command == 9 && time != 0) { //if the command is keyDown and the noteNumber are between 36 and 60
-        console.log(note)
+    if (command == 9 && time != 0) {
         switch (note) {
             case 48:
                 document.getElementById("Key0").dispatchEvent(click);
                 break;
+            case 49:
+                document.getElementById("Key0").dispatchEvent(click);
+                break;                
             case 50:
+                document.getElementById("Key1").dispatchEvent(click);
+                break;
+            case 51:
                 document.getElementById("Key1").dispatchEvent(click);
                 break;
             case 52:
@@ -1683,10 +1856,19 @@ function getMIDIMessage(message) {
             case 53:
                 document.getElementById("Key3").dispatchEvent(click);
                 break;
+            case 54:
+                document.getElementById("Key3").dispatchEvent(click);
+                break;
             case 55:
                 document.getElementById("Key4").dispatchEvent(click);
                 break;
+            case 56:
+                document.getElementById("Key4").dispatchEvent(click);
+                break;
             case 57:
+                document.getElementById("Key5").dispatchEvent(click);
+                break;
+            case 58:
                 document.getElementById("Key5").dispatchEvent(click);
                 break;
             case 59:
@@ -1695,7 +1877,13 @@ function getMIDIMessage(message) {
             case 60:
                 document.getElementById("Key7").dispatchEvent(click);
                 break;
+            case 61:
+                document.getElementById("Key7").dispatchEvent(click);
+                break;
             case 62:
+                document.getElementById("Key8").dispatchEvent(click);
+                break;
+            case 63:
                 document.getElementById("Key8").dispatchEvent(click);
                 break;
             case 64:
@@ -1704,10 +1892,19 @@ function getMIDIMessage(message) {
             case 65:
                 document.getElementById("Key10").dispatchEvent(click);
                 break;
+            case 66:
+                document.getElementById("Key10").dispatchEvent(click);
+                break;
             case 67:
                 document.getElementById("Key11").dispatchEvent(click);
                 break;
+            case 68:
+                document.getElementById("Key11").dispatchEvent(click);
+                break;
             case 69:
+                document.getElementById("Key12").dispatchEvent(click);
+                break;
+            case 70:
                 document.getElementById("Key12").dispatchEvent(click);
                 break;
             case 71:
@@ -1817,6 +2014,7 @@ document.getElementById("touch").addEventListener("click", function () {
     menuButton.style.display = "block"
     promptDiv.style.display = "none"
     $('[id^=Key]').css('height', "calc((100vh - 6vw - 50px)/3)")
+    $(formatChoser).fadeOut(200)
     document.getElementById("touch").style.height = "calc(100vh - 50px)";
 })
 
@@ -1834,7 +2032,7 @@ function openSonglist(evt, listType) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
     evt.currentTarget.className += " active";
-    document.getElementById(listType).style.display = "block";
+    document.getElementById(listType).style.display = "flex";
     if (listType == "dbSongs" && dbSongs.length == 0) syncDB() //if it's the first time pressing the button
 }
 
@@ -2021,7 +2219,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         }
         let array = []
         array.push(songObj)
-        downloadJSON(array, storedSongName)
+        choseExportFormat(array, storedSongName)
     })
     songContainer.appendChild(deleteButton)
     songContainer.appendChild(trainSong)
@@ -2210,7 +2408,6 @@ function retry() {
 //delay function
 const delay = ms => new Promise(res => setTimeout(res, ms))
 initializeKeyboard()
-
 /*
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {

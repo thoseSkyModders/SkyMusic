@@ -43,7 +43,7 @@
     <h1 id="failedToLoad" style="font-size: 3em;">If you see this, the website failed to load, please refresh one or two times!<br>
       In case it doesn't work, email us at thoseskymodders@gmail.com
     </h1>
-    <div id="setScale" align=center>
+    <div id="setScale">
         <h2 id="welcome-text">Welcome to Sky Music!</h2>
         <div id="scale-text">
         Press + and - to change how the page looks!<br>
@@ -54,6 +54,7 @@
         <button class="skyButton" style="width: 30px;" onclick="changeScale(1)">+</button><br>
         <button class="skyButton" id="confirm-scale" onclick="confirmScale()" style="width: 90%;">CONFIRM</button>
         <div>For any issues, check the SETTINGS and the help page</div>
+        <div>If the app blocks or you see a black screen, rotate your device</div>
     </div>
     <!--https://www.flaticon.com/free-icon/rotate-smartphone_81564?term=rotate%20phone&page=1&position=22-->
     <div id="rotateDevice" onclick="this.style.display = 'none'">
@@ -172,16 +173,19 @@
 
 
     <div id="savedSongsDivWrapper" class="floatingDiv">
+      <div id="songsFlexWrapper">
         <div class="tab">
             <button id="localStoredBtn" class="tablinks active" onclick="openSonglist(event, 'localSongs')">My songs</button>
             <button id="accountBtn" class="tablinks" onclick="openSonglist(event, 'dbSongs')">Account songs</button>
+            <button  class="tablinks" style="background-color: rgba(235, 0, 27, 0.5);"onclick="redirectPage('/songComposer.html')">Compose</button>
           </div>
         <!--Local Songs-->
           <div id="localSongs" class="tabcontent">
-            <h3 id="local-tab-text">Here are all your songs!</h3>
-            <div id="savedSongsDiv" class="topSavedSongsDiv"></div>
+            <div id="savedSongsDiv" class="topSavedSongsDiv">
+              <h3 id="local-tab-text">Here are all your songs!</h3>
+            </div>
             <div class = "bottomSavedSongsDiv">
-                <button id="import-button" class="skyButton" onclick="importSongs()">Import songs</button>
+                <button id="import-button" class="skyButton" onclick="toggleImportSong()">Import songs</button>
                 <button id="download-songs-button" class="skyButton" onclick="downloadSongs()">Download songs</button>
                 <input type=file style="display:none;" id="filePicker">
             </div>
@@ -195,6 +199,7 @@
                 <button id="store-all-button" class="skyButton" onclick="storeSongsLocally()">Store all songs locally</button>
             </div>
           </div>
+        </div>
     </div>
     <div class="videoWrapper video">
         <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
@@ -242,7 +247,8 @@
         <button type="button" id="drumBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/drum.png);"></button>
         <button type="button" id="handPanBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/handPan.png);"></button>  
         <button type="button" id="bellBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bell.png);"></button>
-        <!--<button type="button" id="bassBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bass.png);"/></button>
+        <!--
+        <button type="button" id="contrabassBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/contrabass.png);"></button>
         <button type="button" id="winterPiano" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/winterPiano.png);"/></button>
         <button type="button" id="banjoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/banjoBtn.png);"/></button> 
         <button type="button" id="panfluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/panflute.png);"/></button>  
@@ -278,9 +284,58 @@
         <input type="number" id="startingNoteRange" value="0"><br>
         <input id="rangePicker" type="range" max="10" min="0" orient="vertical" ><br>
         <input type="button" style="background-color: transparent; border: none; font-size: 1.5em; outline: none;" onclick="retry()" value="🔄">
+        <div class="songProgressWrapper">
+          <div  class="songProgress" id="songProgress">
+          </div>
+        </div>
     </div>
 </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
+    <div id="formatChooser" format="txt">
+      <div id="importText" style="height: 20%; width: 100%;">Select format</div>
+      <div id="formatImport" class="format">
+        <div class="formatButton" onclick="toggleABCImport()">
+          <p>
+            Abc1/5
+          </p>
+        </div>
+        <div class="formatButton" style = "color: rgb(22,22,22); background-color: #5e8e63;"onclick="importSongs()">
+          <p>.TXT
+            <a style="font-size: 0.5em;">(suggested)</a>
+          </p>
+        </div>
+      </div>
+      <div id="formatOutput" class="format">
+        <div class="formatButton" onclick="toggleABCExport()">
+          <p>
+            Abc1/5
+          </p>
+        </div>
+        <div class="formatButton" style = "color: rgb(22,22,22); background-color: #5e8e63;"onclick="downloadSong()">
+          <p>.TXT
+            <a style="font-size: 0.5em;">(suggested)</a>
+          </p>
+        </div>
+      </div>
+      <div id="abcImport" class="format" style="display: none; height: 100%;">
+        <div id="importAbcData">
+          <div>
+            Name:
+            <input id="nameImport" type="text" placeholder="name">
+          </div>
+          <div>
+            BPM:
+            <input id="bpmImport" type="number" value="220">
+          </div>
+        </div>
+        <textarea id="abcTextarea" placeholder="paste song here"></textarea>
+        <button id="importAbc" onclick="importABC()">Import</button>
+      </div>
+      <div id="abcExport" class="format" style="display: none; height: 100%;">
+        <textarea id="abcTextareaExport" onclick="this.setSelectionRange(0, this.value.length)"></textarea>
+        <button id="exportAbc" onclick="downloadAbc()">Download</button>
+      </div>
+    </div>
 </body>
 
  <!-- <input type="sleeping" placeholder="username" style="display: none"> Easter egg-->
