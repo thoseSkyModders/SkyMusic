@@ -9,6 +9,8 @@
         gtag('js', new Date());
         gtag('config', 'UA-166077524-1');
     </script>
+    <script src="https://browser.sentry-cdn.com/5.19.2/bundle.min.js" integrity="sha384-JpEWxJ7oLRn+baXBgcCKEv73uYWsgouzEResgJneOXvTjDZ+1crAXcNAKZoiL96Z" crossorigin="anonymous"></script>
+    
           <meta name="theme-color" content="#2196F3">
           <meta name="description" content="Compose songs for Sky Music">
           <meta name="keywords" content="Sky,Music,piano,harp,xylophone,drum,guitar,horn,bell,record,share,midi,compose">
@@ -60,7 +62,7 @@
                 <input id="next" class="tool mirrorX" type="button" style="background-image: url('./icons/next_back_arrows.svg');" onclick="next()">
             </div>
             <div>
-                <input type="button" class="tool" onclick="switchInstrumentLayer(this)" style="background-color: rgba(235, 0, 27, 0.7);" value="Layer">
+                <input type="button" id="layerBtn"class="tool" onclick="switchInstrumentLayer(this)" style="background-color: rgba(235, 0, 27, 0.7);" value="Layer">
             </div>
             <div>
                 <input class="tool" type="button" value="Undo" onclick="undo()">
@@ -103,7 +105,7 @@
         <div id=touchLayer2 style="display: none;">
         </div>
     </div>
-    <div style="position: absolute; left: 0.5em; bottom: 0.5em; display: flex; flex-direction: column;">
+    <div class="rightContainer">
         <button class="skyButton" onclick="blockKeyboard(this)">No Keys</button>
         <a href="/"><button class="skyButton">GO BACK</button></a>
     </div>
@@ -147,6 +149,8 @@
                 <option>Flute</option>
                 <option>Drum</option>
                 <option>Bell</option>
+                <option>ToyUkulele</option>
+                <option>HandPan</option>
             </select>
         </div>
         <div class="settingOption">
@@ -160,6 +164,8 @@
                 <option>Flute</option>
                 <option>Drum</option>
                 <option>Bell</option>
+                <option>ToyUkulele</option>
+                <option>HandPan</option>
             </select>
         </div>
         <div class="settingOption">
@@ -198,6 +204,10 @@
             <span>Dark mode</span>
             <button id="toggleDarkModeBtn" class="skyButton" style="float: right; width: 10vw;" onclick="toggleDarkMode()">OFF</button>
         </div>
+        <div class="settingOption">
+            <span>Download sheet</span>
+            <button class="skyButton" style="float: right; width: 10vw;" onclick="downloadSheet()">Download</button>
+        </div>
         <input type="button" style="border-color: rgba(235, 0, 27, 1); color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
     <div id="importMIDIDiv" style="display: none; height: 50%; width: 40%; opacity: 0.9; font-size: 0.9em;">
@@ -228,29 +238,32 @@
         <div style="display: flex; flex-direction: row; justify-content: center; margin-top: 5%; margin-bottom: 5%;">
             BPM 
             <input id="midiBPM" type="range" min="50" max="500" value="220" step="5" style="width: 60%; margin:0 5px 0 5px">
-            <span id="midiBPMText">220</span>
+            <input class="numberPicker" type="number" id="midiBPMText" value="220">
         </div>
-        <input type="button" value="Accurate mode" id="algorithmBtn" class="skyButton" onclick="changeAlgorithmType(this)">
-        <input type="button" value="Done" style="float: right;" class="skyButton" onclick="this.parentNode.style.display = 'none',quickSave(),addToHistory()">
+        <div style="display: flex; flex-direction: row;">
+            <input type="button" value="Accurate mode" style="flex: 1 1 0;" id="algorithmBtn" class="skyButton" onclick="changeAlgorithmType(this)">
+            <input type="button" value="Scale down" style="flex: 1 1 0;" id="scaleMIDIBtn" class="skyButton" onclick="scaleDownMIDI(this)">         
+        </div>
+        <input type="button" value="Done" class="skyButton" onclick="this.parentNode.style.display = 'none',quickSave(),addToHistory()"
+        style="background-color: limegreen; color:rgb(22,22,22); width: 99%;">
     </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
 <script>
-
-
-
-
+try{
+    Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
+}catch(e){
+    console.log(e)
+}
 let selectedLayer = 1
 function switchInstrumentLayer(btn){
-    console.log()
-    if(btn.style.backgroundColor == "rgba(235, 0, 27, 0.7)"){
+    if(btn.style.backgroundColor.includes("rgba(235, 0, 27")){
         btn.style.backgroundColor = "#9B59B6"
         selectedLayer = 2
     }else{
         btn.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
         selectedLayer = 1
     }
-    console.log(selectedLayer)
 }
 
 
@@ -289,10 +302,13 @@ function changeOffset(change){
 
 let midiBPM = document.getElementById("midiBPM")
 midiBPM.addEventListener("input",function(){
-    document.getElementById("midiBPMText").innerHTML = this.value
+    document.getElementById("midiBPMText").value = this.value
     document.getElementById("bpm").value = this.value
 })
-
+midiBPMText.addEventListener("change",function(){
+    document.getElementById("midiBPM").value = this.value
+    document.getElementById("bpm").value = this.value
+})
 let globalAlgorithmType = "old"
 function changeAlgorithmType(button){
     if(button.style.backgroundColor == "rgb(235, 0, 27)"){
@@ -305,6 +321,17 @@ function changeAlgorithmType(button){
     loadMIDI()
 }
 
+let canScaleDown = false
+function scaleDownMIDI(button){
+    if(button.style.backgroundColor == "rgb(235, 0, 27)"){
+        button.style.backgroundColor = keyColor
+        canScaleDown = false
+    }else{
+        button.style.backgroundColor = "rgb(235, 0, 27)"
+        canScaleDown = true
+    }
+    loadMIDI()
+}
 let mergedMidi = []
 function selectAllLayers(){
     let btn = document.getElementById("allLayers")
@@ -367,15 +394,15 @@ function loadMIDI(){
     let midi = globalMidi
     document.getElementById("numOfLayers").innerHTML = "Layer:("+midi.tracks.length+")"
     let songNotes = midi.tracks[layerNumber].notes
-    console.log(songNotes)
     if(mergedMidi.length > 0) songNotes = mergedMidi
-    console.log(songNotes)
     let bpm = document.getElementById("bpm").value
     let offsetValue = offset.value
     let parsedSong = []
     let numOfAccidentals = 0
     for(let i = 0; i<songNotes.length;i++){
         var noteToAdd = songNotes[i].midi - offsetValue
+        if(canScaleDown && noteToAdd > 60) noteToAdd-=12
+        console.log(noteToAdd)
             switch (noteToAdd) {
                 case 36:noteToAdd = 0 ;break;
                 case 37:noteToAdd = 0 ; numOfAccidentals++;break;
@@ -489,8 +516,12 @@ function loadMIDI(){
             copiedCells = []
         for (var i = 0; i < cells.length; i++) {
             if(cells[i].style.borderColor == "rgb(235, 0, 27)") canAddCells = true, hasStart = true
-            if(cells[i].style.borderColor == "rgb(0, 235, 207)")copiedCells.push(cells[i]), canAddCells = false, hasEnd = true
-            if(canAddCells)copiedCells.push(cells[i])
+            if(cells[i].style.borderColor == "rgb(0, 235, 207)"){
+                copiedCells.push(cells[i].cloneNode(true))
+                canAddCells = false
+                hasEnd = true
+            }
+            if(canAddCells) copiedCells.push(cells[i].cloneNode(true))
         }
         if(hasStart && hasEnd){
             document.getElementById("copyDiv").style.display = "none"
@@ -555,6 +586,7 @@ function loadMIDI(){
         if(copiedCells.length < 2) return
         for(let i = 0; i<copiedCells.length; i++){
             let cell = copiedCells[copiedCells.length-i-1].cloneNode(true)
+            cell.style.border = ""
             cell.style.opacity = "0.6"
             cell.addEventListener("pointerdown", function () {
                 if (getCellPosition(selectedCell) == getCellPosition(this)) return
@@ -614,7 +646,7 @@ function loadMIDI(){
     }
 
     function scrollPage(cell){
-        for(let i = 0; i < 5; i++){
+        for(let i = 0; i < 8; i++){
             if(cell.nextSibling == null) break
             cell = cell.nextSibling
         }
@@ -679,7 +711,7 @@ function loadMIDI(){
                 document.getElementById("Key" + k).firstChild.style.borderColor = "transparent"
             }
             for (var j = 0; j < 15; j++) {
-                if (cells[i].children[14 - j].style.backgroundColor == "rgba(235, 0, 27, 0.8)") {
+                if (cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
                     document.getElementById("Key" + j).dispatchEvent(click)
                     document.getElementById("Key" + j).firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
                 }
@@ -764,7 +796,7 @@ function loadMIDI(){
             songContainer.innerHTML = ""
             
             addPage()
-            quickSave()
+            quickSave(true)
             selectCell(getCell(0))
             toggleSettings()
         }
@@ -830,7 +862,7 @@ function loadMIDI(){
 
     //----------------------------------------------------------------------------------------------//
 
-    function save() {
+    function save(download = false) {
         let name = ""
         let promptMessage = "Write song name"
         while(true){
@@ -839,13 +871,13 @@ function loadMIDI(){
             if (name == null || name == "") {
                 return
             }
+            if(download) break
             var savedSongs = JSON.parse(localStorage.getItem("savedSongs"))
             if (savedSongs == null) savedSongs = []
             for (var i = 0; i < savedSongs.length; i++) {
-                if (savedSongs[i].name == name) {
-                    alreadySaved = true
-                    break
-                }
+                if (savedSongs[i].name == name){ alreadySaved = true; break }
+                if (savedSongs[i].name == name + " - Main"){ alreadySaved = true; break }
+                if (savedSongs[i].name == name + "- Secondary"){ alreadySaved = true; break }
             }
             if(alreadySaved){
                 promptMessage = "A song with the name: "+name+" is already saved, choose another"
@@ -874,7 +906,7 @@ function loadMIDI(){
         }
         let splitLayers = false
         if(isMultiLayer){
-            splitLayers = confirm('The song has 2 layers, press "OK" to make two separate sheets, Cancel to merge them')
+            splitLayers = confirm('The song has 2 layers, press "OK" to make two separate sheets, "Cancel" to merge them')
         }
         let splitSong = JSON.parse(JSON.stringify(song))
         var bpmToMs = 60000 / document.getElementById("bpm").value
@@ -895,12 +927,15 @@ function loadMIDI(){
                     bpmToMs = 60000 / document.getElementById("bpm").value
             }
             for (var j = 0; j < 15; j++) {
-                if (cells[i].children[14 - j].style.backgroundColor == "rgba(235, 0, 27, 0.8)" 
+                if (cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27") 
                 || (!splitLayers && cells[i].children[14 - j].style.borderColor == "darkslategray")) {
                     let keyObj = {
                         time: timeStamp,
                         key: "Key" + j
                     }
+                    if(cells[i].children[14 - j].style.borderColor == "darkslategray") keyObj.l = 2
+                    if(cells[i].children[14 - j].style.borderColor == "darkslategray" 
+                    && cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) keyObj.l = 3
                     song.songNotes.push(keyObj)
                 }
                 if(splitLayers && cells[i].children[14 - j].style.borderColor == "darkslategray"){
@@ -913,6 +948,20 @@ function loadMIDI(){
             }
             timeStamp += Math.floor(bpmToMs)
         }
+
+        if(download){
+            let songToDownload = []
+            let filename = song.name
+            song.name += " - Main"
+            splitSong.name += " - Secondary"
+            songToDownload.push(song)
+            if(splitSong.songNotes.length > 0){
+                songToDownload.push(splitSong)
+            }
+            downloadJSON(songToDownload,filename)
+            showMessage("Song downloaded!",1,1500)
+            return
+        }
         if(splitSong.songNotes.length > 0){
             song.name += " - Main"
             splitSong.name += " - Secondary"
@@ -920,7 +969,7 @@ function loadMIDI(){
         }
         savedSongs.push(song)
         localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
-        showMessage("Song saved!",1,2000)
+        showMessage("Song saved!",1,1500)
     }
 
     //----------------------------------------------------------------------------------------------//
@@ -945,7 +994,9 @@ function loadMIDI(){
             songContainer.appendChild(cell)
         } else {
             songContainer.insertBefore(cell, getCell(appendIndex));
+            selectCell(cell)
         }
+        
     }
 
     //----------------------------------------------------------------------------------------------//
@@ -967,7 +1018,7 @@ function loadMIDI(){
             document.getElementById("Key" + i).firstChild.style.borderColor = "transparent"
         }
         for (var j = 0; j < 15; j++) {
-            if (cell.children[14 - j].style.backgroundColor == "rgba(235, 0, 27, 0.8)") {
+            if (cell.children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
                 document.getElementById("Key" + j).dispatchEvent(click)
                 document.getElementById("Key" + j).firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
             }
@@ -1001,24 +1052,22 @@ function loadMIDI(){
 
 
     window.addEventListener("beforeunload", function(event) {
-            every5 = 10
-            quickSave()
+            quickSave(true)
     });
 
     $(window).blur(function(){
-        every5 = 10
-        quickSave()
+        quickSave(true)
     });
     let every5 = 0
-    function quickSave() {
+    function quickSave(skip = false) {
         every5 ++
-        if(every5 > 5){
-            localStorage.setItem("quickStorageBeta", songContainer.innerHTML)
+        if(every5 > 5 || skip){
+            localStorage.setItem("quickStorage", songContainer.innerHTML)
             console.log("quick save")  
             every5 = 0
         }
     }
-    var quickSavedSong = localStorage.getItem("quickStorageBeta")
+    var quickSavedSong = localStorage.getItem("quickStorage")
     if (quickSavedSong != null) {
         songContainer.innerHTML = quickSavedSong.replace("opacity: 1;", "opacity: 0.6;")
         for (let i = 0; i < songContainer.childElementCount; i++) {
@@ -1055,7 +1104,7 @@ function loadMIDI(){
 
 
     function importSong(song,ignoreSettings,algorithmType){
-        quickSave()
+        addToHistory()
         let importBpm = 220
         if(song.isComposed == undefined) song.isComposed = false
         if(song.bpm != undefined) importBpm = song.bpm
@@ -1143,7 +1192,21 @@ function loadMIDI(){
                     default: {
                         let key = parsedSong[i][j].key.replace("Key","")
                         selectedCell = songContainer.lastChild
-                        selectNote(key)
+                        switch(parsedSong[i][j].l){
+                            case 2:{
+                                selectNoteLayer2(key)
+                                break
+                            }
+                            case 3:{
+                                selectNote(key)
+                                selectNoteLayer2(key)
+                                break
+                            }
+                            default: {
+                                selectNote(key)
+                                break
+                            }
+                        }
                     } 
                 }
             }
@@ -1160,13 +1223,28 @@ function loadMIDI(){
                         default: {
                             let key = parsedSong[i][j].key.replace("Key","")
                             selectedCell = getCell(i)
-                            selectNote(key)
+                            
+                            switch(parsedSong[i][j].l){
+                                case 2:{
+                                    selectNoteLayer2(key)
+                                    break
+                                }
+                                case 3:{
+                                    selectNote(key)
+                                    selectNoteLayer2(key)
+                                    break
+                                }
+                                default: {
+                                    selectNote(key)
+                                    break
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-        addToHistory()
+        quickSave(true)
         selectCell(getCell(0))
         if(!ignoreSettings)toggleSettings()
     }
@@ -1217,21 +1295,57 @@ function loadMIDI(){
             "Horn/7.mp3", "Horn/8.mp3", "Horn/9.mp3", "Horn/10.mp3", "Horn/11.mp3", "Horn/12.mp3",
             "Horn/13.mp3", "Horn/14.mp3"
         ],
+        toyukulele: ["ToyUkulele/0.mp3", "ToyUkulele/1.mp3", "ToyUkulele/2.mp3", "ToyUkulele/3.mp3", "ToyUkulele/4.mp3",
+         "ToyUkulele/5.mp3", "ToyUkulele/6.mp3", "ToyUkulele/7.mp3", "ToyUkulele/8.mp3", "ToyUkulele/9.mp3",
+          "ToyUkulele/10.mp3", "ToyUkulele/11.mp3", "ToyUkulele/12.mp3", "ToyUkulele/13.mp3", "ToyUkulele/14.mp3"],
+        handpan: ["HandPan/0.mp3", "HandPan/1.mp3", "HandPan/2.mp3", "HandPan/3.mp3", "HandPan/4.mp3", "HandPan/5.mp3", 
+        "HandPan/6.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3","HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3",
+         "HandPan/7.mp3", "HandPan/7.mp3"],
+
     }
-    let keyNames = {
-        0: ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C"],
-        1: ["D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭"],
-        2: ["D", "E", "F♯", "G", "A", "B", "C♯", "D", "E", "F♯", "G", "A", "B", "C♯", "D"],
-        3: ["E♭", "F", "G", "A♭", "B♭", "C", "D", "E♭", "F", "G", "A♭", "B♭", "C", "D", "E♭"],
-        4: ["E", "F♯", "G♯", "A", "B", "C♯", "D♯", "E", "F♯", "G♯", "A", "B", "C♯", "D♯", "E"],
-        5: ["F", "G", "A", "B♭", "C", "D", "E", "F", "G", "A", "B♭", "C", "D", "E", "F"],
-        6: ["G♭", "A♭", "B♭", "C♭", "D♭", "E♭", "F", "G♭", "A♭", "B♭", "C♭", "D♭", "E♭", "F", "G♭"],
-        7: ["G", "A", "B", "C", "D", "E", "F♯", "G", "A", "B", "C", "D", "E", "F♯", "G"],
-        8: ["A♭", "B♭", "C", "D♭", "E♭", "F", "G", "A♭", "B♭", "C", "D♭", "E♭", "F", "G", "A♭"],
-        9: ["A", "B", "C♯", "D", "E", "F♯", "G♯", "A", "B", "C♯", "D", "E", "F♯", "G♯", "A"],
-        10: ["B♭", "C", "D", "E♭", "F", "G", "A", "B♭", "C", "D", "E♭", "F", "G", "A", "B♭"],
-        11: ["B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B"]
-    }
+    let keyNamesAllInstruments = {
+    0: ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C"],
+    1: ["D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭"],
+    2: ["D", "E", "F♯", "G", "A", "B", "C♯", "D", "E", "F♯", "G", "A", "B", "C♯", "D"],
+    3: ["E♭", "F", "G", "A♭", "B♭", "C", "D", "E♭", "F", "G", "A♭", "B♭", "C", "D", "E♭"],
+    4: ["E", "F♯", "G♯", "A", "B", "C♯", "D♯", "E", "F♯", "G♯", "A", "B", "C♯", "D♯", "E"],
+    5: ["F", "G", "A", "B♭", "C", "D", "E", "F", "G", "A", "B♭", "C", "D", "E", "F"],
+    6: ["G♭", "A♭", "B♭", "C♭", "D♭", "E♭", "F", "G♭", "A♭", "B♭", "C♭", "D♭", "E♭", "F", "G♭"],
+    7: ["G", "A", "B", "C", "D", "E", "F♯", "G", "A", "B", "C", "D", "E", "F♯", "G"],
+    8: ["A♭", "B♭", "C", "D♭", "E♭", "F", "G", "A♭", "B♭", "C", "D♭", "E♭", "F", "G", "A♭"],
+    9: ["A", "B", "C♯", "D", "E", "F♯", "G♯", "A", "B", "C♯", "D", "E", "F♯", "G♯", "A"],
+    10: ["B♭", "C", "D", "E♭", "F", "G", "A", "B♭", "C", "D", "E♭", "F", "G", "A", "B♭"],
+    11: ["B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B"]
+}
+let keyNamesBell = {
+    0: ["C", "D", "G", "A", "C", "D", "G", "A","","","","","","",""],
+    1: ["D♭", "E♭", "A♭", "B♭", "D♭", "E♭", "A♭", "B♭","","","","","","",""],
+    2: ["D", "E", "A", "B", "D", "E", "A", "B","","","","","","",""],
+    3: ["E♭", "F", "B♭", "C", "E♭", "F", "B♭", "C","","","","","","",""],
+    4: ["E", "F♯", "B", "C♯", "E", "F♯", "B", "C♯","","","","","","",""],
+    5: ["F", "G", "C", "D", "F", "G", "C", "D","","","","","","",""],
+    6: ["G♭", "A♭", "D♭", "E♭", "G♭", "A♭", "D♭", "E♭","","","","","","",""],
+    7: ["G", "A", "D", "E", "G", "A", "D", "E","","","","","","",""],
+    8: ["A♭", "B♭", "E♭", "F", "A♭", "B♭", "E♭", "F","","","","","","",""],
+    9: ["A", "B", "E", "F♯", "A", "B", "E", "F♯","","","","","","",""],
+    10: ["B♭", "C", "F", "G", "B♭", "C", "F", "G","","","","","","",""],
+    11: ["B", "C♯", "F♯", "G♯", "B", "C♯", "F♯", "G♯","","","","","","",""]
+}
+let keyNamesHandPan = {
+    0: ["D", "A", "C", "D", "F", "G", "A", "C","","","","","","",""],
+    1: ["E♭", "B♭", "D♭", "E♭", "G♭", "A♭", "B♭", "D♭","","","","","","",""],
+    2: ["E", "B", "D", "E", "G", "A", "B", "D","","","","","","",""],
+    3: ["F", "C", "E♭", "F", "A♭", "B♭", "C", "E♭","","","","","","",""],
+    4: ["F♯", "C♯", "E", "F♯", "A", "B", "C♯", "E","","","","","","",""],
+    5: ["G", "D", "F", "G", "B♭", "C", "D", "F","","","","","","",""],
+    6: ["A♭", "E♭", "G♭", "A♭", "C♭", "D♭", "E♭", "G♭","","","","","","",""],
+    7: ["A", "E", "G", "A", "C", "D", "E", "G","","","","","","",""],
+    8: ["B♭", "F", "A♭", "B♭", "D♭", "E♭", "F", "A♭","","","","","","",""],
+    9: ["B", "F♯", "A", "B", "D", "E", "F♯", "A","","","","","","",""],
+    10: ["C", "G", "B♭", "C", "E♭", "F", "G", "B♭","","","","","","",""],
+    11: ["C♯", "G♯", "B", "C♯", "E", "F♯", "G♯", "B","","","","","","",""]
+}
+let keyNames = keyNamesAllInstruments
     let newRowBreak = [6, 11]
 
     function changeInstrument(instrument,keyboardLayer = 1) {
@@ -1242,13 +1356,16 @@ function loadMIDI(){
             "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle",
         ]
         let newRowBreak = [6, 11]
-        if (instrument == "bell" || instrument == "drum") {
+        keyNames = keyNamesAllInstruments
+        if (instrument == "bell" || instrument == "drum" || instrument == "handpan") {
             newRowBreak = [5, 9]
             numOfKeysLeft = 8
             numOfKeys = 8
             buttonImages = ["Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle",
                 "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle"
             ]
+            if(instrument == "bell") keyNames = keyNamesBell
+            if(instrument == "handPan") keyNames = keyNamesHandPan
         }
         urls = instrumentsNotes[instrument]
         if(keyboardLayer == 2){
@@ -1305,13 +1422,17 @@ function loadMIDI(){
                             btnImg.classList.toggle("keyTurn")
                             btn.classList.toggle("keyScale")
                             resetKeyClass(btn)
-                            if (btnBg.style.borderColor == "rgb(155, 89, 182)" || selectedLayer == 2){
-                                document.getElementById(2+btn.id).dispatchEvent(click)
+                            if ((btnBg.style.borderColor == "rgb(155, 89, 182)" || selectedLayer == 2)){
+                                try{
+                                    document.getElementById(2+btn.id).dispatchEvent(click)
+                                }catch(e){
+                                    return
+                                }
                             }
                             if (isPlaying || keyboardBlocked) return;
                             if (isTrusted) addToHistory()
                             if (selectedLayer == 1){
-                                if (btnBg.style.backgroundColor == "rgba(235, 0, 27, 0.7)") {
+                                if (btnBg.style.backgroundColor.includes("rgba(235, 0, 27")) {
                                     deselectNote(btn.id.replace("Key", ""))
                                     btnBg.style.backgroundColor = keyColor
                                 } else {
@@ -1378,6 +1499,7 @@ function loadMIDI(){
         document.getElementById("instrumentLayer2Selection").selectedIndex = localStorage.getItem("savedInstrumentIndexSecondLayer")
     }else{
         changeInstrument("guitar",2)
+        document.getElementById("instrumentLayer2Selection").selectedIndex = 2
     } 
     selectedCell = getCell(0)
     selectedCell.style.opacity = "1"
@@ -1402,6 +1524,7 @@ function turnOnDarkMode(){
         2:"#1E1E1E",
         3:"#383838"
     }
+    let layerColor = document.getElementById("layerBtn").style.backgroundColor
     keyColor = "rgba(44, 44, 44, 0.8)"
         $("body").css("background", layers[0])
         $(".toolsContainer").css("background-color", layers[2])
@@ -1409,6 +1532,7 @@ function turnOnDarkMode(){
         $("#songContainer").css("background-color", layers[2])
         $(".addPage").css("background-color", layers[3])
         $(".btnBg").css("background-color",keyColor)
+        document.getElementById("layerBtn").style.backgroundColor = layerColor
 }
 
 function set_up_reverb() {
@@ -1442,7 +1566,20 @@ function toggleReverb() {
         reverbToggled = true
     }
 }
-    /*
+
+function downloadSheet(){
+save(true)
+}
+
+function downloadJSON(inArray, fileName) {
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
+    let dlAnchorElem = document.createElement("a")
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", fileName + ".txt");
+    dlAnchorElem.click();
+    dlAnchorElem.remove()
+}
+/*
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
