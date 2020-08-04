@@ -190,8 +190,8 @@
             <button id="toggleReverbBtn" class="skyButton" style="float: right; width: 10vw;" onclick="toggleReverb()">OFF</button>
         </div>
         <div class="settingOption" style="color: limegreen;">
-            <span>Import MIDI</span>
-            <button class="skyButton" style="float: right; width: 10vw;" onclick="openMIDI()">Select file</button>
+            <span >Import MIDI</span>
+            <button id="midiImportButton" class="skyButton" style="float: right; width: 10vw;" onclick="openMIDI()">Select file</button>
             <input type="file" style="display: none;" id="filePicker"/>
         </div>
         <div class="settingOption">
@@ -265,8 +265,6 @@ function switchInstrumentLayer(btn){
         selectedLayer = 1
     }
 }
-
-
 document.getElementsByTagName("body")[0].addEventListener('touchstart', (e) => {
 
 // is not near edge of view, exit
@@ -1579,6 +1577,25 @@ function downloadJSON(inArray, fileName) {
     dlAnchorElem.click();
     dlAnchorElem.remove()
 }
+try{
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString);
+    if(urlParams.has("importMidi")){
+        toggleSettings()
+        flashMidi()
+    }
+}catch(e){
+    console.log(e)
+}
+async function flashMidi(){
+        document.getElementById("midiImportButton").scrollIntoView()
+        for(let i = 0;i<3;i++){
+            $("#midiImportButton").animate({ backgroundColor: "rgba(235, 0, 27, 0.7)"}, 500);
+            await delay(800)
+            $("#midiImportButton").animate({ backgroundColor: "rgba(22, 22, 22, 0.65)"}, 500);
+            await delay(800)
+        }
+    }
 /*
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
