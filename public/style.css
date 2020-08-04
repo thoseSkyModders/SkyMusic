@@ -53,7 +53,8 @@
 	background-color: rgba(22, 22, 22, 0.95);
 	display: none;
 	z-index: 110;
-	border: solid 2px #dad8b3;
+	/*border: solid 1px #dad8b3;*/
+	box-shadow: 0 0 5px 3px rgba(0,0,0,0.3);
 	border-radius: 0.8em;
 }
 
@@ -108,7 +109,8 @@
 	margin-left: auto;
 	background-color: rgba(22, 22, 22, 0.9);
 	border-radius: 1em;
-	border: solid 2px #dad8b3;
+	border: solid 1px #222;
+	box-shadow: 0 0 3px 3px rgba(0,0,0,0.3);
 	z-index: 1000;
 	color: #dad8b3;
 	text-align: center;
@@ -360,6 +362,7 @@ display: none;
 #stopSong {
 	background-image: url(icons/stop.png);
 	background-color: rgba(22, 22, 22, 0.65);
+	box-shadow: 0 0 5px 3px rgba(0,0,0,0.3);
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
@@ -375,6 +378,7 @@ display: none;
 
 .musicButton {
 	background: rgba(22, 22, 22, 0.65);
+	box-shadow: 0 0 5px 3px rgba(0,0,0,0.3);
 	background-image: url('./images/piano.png');
 	background-size: 25px 25px;
 	background-repeat: no-repeat;
@@ -391,6 +395,7 @@ display: none;
 
 .pitchButton {
 	background: rgba(22, 22, 22, 0.65);
+	box-shadow: 0 0 5px 3px rgba(0,0,0,0.3);
 	background-size: 25px 25px;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -409,12 +414,13 @@ display: none;
 .pitchSelection {
 	border: none;
 	width: 40px;
-	border-bottom: solid 1.5px #dad8b3;
+	border-bottom: solid 1.5px #888;
 	background-color: transparent;
 	margin-bottom: 5px;
 	font-size: 30px;
 	color: #dad8b3;
 	font-weight: bold;
+	cursor: pointer;
 }
 
 .instrumentButton {
@@ -424,7 +430,6 @@ display: none;
 	border: none;
 	height: 40px;
 	width: 40px;
-	margin: 2px;
 	cursor: pointer;
 	outline: none;
 }
@@ -434,13 +439,15 @@ display: none;
 	border-radius: 1em;
 	background-color: rgba(22, 22, 22, 0.65);
 	display: none;
-	width: 12vh;
+	width: 60px;
 	position: absolute;
-	height: 60%;
-	overflow-y: scroll;
+	overflow-y: auto;
+	max-height: 90%;
 	right: 5%;
-	top: 10%;
+	top: 5%;
 	z-index: 1;
+	padding: 10px;
+	box-sizing: border-box;
 }
 
 @keyframes bounce-background {
@@ -519,7 +526,7 @@ button {
 }
 
 .bottomSavedSongsDiv {
-	border-top: 2px solid #dad8b3;
+	border-top: 1px solid #222;
 	padding: 0.5em;
 	box-sizing: border-box;
 	background: #333;
@@ -530,6 +537,7 @@ button {
 
 .bottomSavedSongsDiv .skyButton {
 	width: calc(50% - 1em);
+	box-shadow: none;
 }
 
 .topSavedSongsDiv {
@@ -559,7 +567,7 @@ button {
 	margin-left: auto;
 	background-color: #414141;
 	color: #dad8b3;
-	border: solid #dad8b3 2px;
+	border: solid #222 1px;
 	border-radius: 1.5em;
 	display: none;
 	z-index: 10;
@@ -605,7 +613,8 @@ div.fakefile {
 
 .skyButton {
 	color: #dad8b3;
-	border: solid #dad8b3 1.5px;
+	border: none;
+	/*border: solid rgba(50,50,50,0.5) 2px;*/
 	background-color: rgba(22, 22, 22, 0.65);
 	border-radius: 0.5em;
 	font-size: 1em;
@@ -614,6 +623,7 @@ div.fakefile {
 	cursor: pointer;
 	margin: 0.5em;
 	outline: none;
+	box-shadow: 0 0 5px 1px rgba(0,0,0,0.3);
 }
 
 .menuDiv {
@@ -645,7 +655,7 @@ html{
 	margin-left: auto;
 	top:5%;
 	color:#dad8b3;
-	border: solid 2px #dad8b3;
+	border: solid 1px #111;
 	border-radius: 0.8em;
 	background-color: rgba(15, 15, 15, 0.85);
 }
@@ -653,11 +663,17 @@ html{
 	width: 92%;
 	text-align: center;
 	margin: 10px 0 5px;
-	height: 20px;
+	height: 30px;
+	border-radius: 5px;
+	outline: 0;
+	background: rgba(100,100,100,0.9);
+	border: 0;
+	color: white;
 }
 #promptOK, #promptCancel {
 	width: 46%;
 	margin: 1%;
+	background: rgba(75,75,75,0.9);
 }
 #touch {
 	height: calc(100vh - 50px);
@@ -794,6 +810,7 @@ html{
 	backdrop-filter: blur(20px);
 	display: none;
 	z-index: 99;
+	background: rgba(0,0,0,0.3);
 }
 
 #menu {
@@ -866,14 +883,15 @@ html{
 	margin-left: auto;
 	top:30%;
 	width: 50%;
-	height: 30%;
+	height: 35%;
 	z-index: 10;
 	color:#dad8b3;
 	text-align: center;
 	background-color: rgba(22, 22, 22, 0.95);
-	border: 2px solid #dad8b3;
+    border: 1.5px #676761 solid;
 	border-radius: 0.8em;
 	padding: 1em;
+	padding-top: 0.5em;
 }
 .format{
 	display: flex;
@@ -886,7 +904,6 @@ html{
 }
 .formatButton{
 	color: #dad8b3;
-	border: solid #dad8b3 1.5px;
 	background-color: rgba(44, 44, 44, 0.8);
 	border-radius: 0.5em;
 	font-size: 1em;
@@ -904,17 +921,33 @@ html{
 	justify-content: center;
 	vertical-align: middle
 }
-
+.buttonsHolder{
+	display: none;
+}
+.songButton{
+}
+.copyDiv{
+	width: 90%;
+	height: 90%;
+	color: #dad8b3;
+	background-color: #dad8b3;
+	color: rgb(22,22,22);
+	padding: 0.5em;
+}
+.copyDiv::selection{
+	background: rgba(235, 0, 27, 0.5);;
+}
 #abcTextarea, #abcTextareaExport{
 	color: #dad8b3;
-	border: solid #dad8b3 1.5px;
+    border:none;
 	background-color: rgba(44, 44, 44, 0.8);
 	width: 60%;
 	margin-right: 1%;
 	border-radius: 0.5em;	
 	text-align: center;
 	overflow-y: auto;
-	overflow-x: hidden;
+    overflow-x: hidden;
+    resize: none;
 }
 #abcTextareaExport{
 	width: 80%;
@@ -924,8 +957,8 @@ html{
 	opacity: 1;
 }
 #importAbc,#exportAbc{
-	color: #dad8b3;
-	border: solid #dad8b3 1.5px;
+    color: #dad8b3;
+    border: none;
 	background-color: rgba(44, 44, 44, 0.8);
 	width:15%;
 	border-radius: 0.5em;
@@ -937,9 +970,14 @@ html{
 	width: 20%;
 	margin-right: 1%;
 }
+.midiImport{
+	height: 20%;
+	margin-top: 1%;
+	border-radius: 0.2em;
+}
 #importAbcData input{
 	color: #dad8b3;
-	border: solid #dad8b3 1.5px;
+    border: none;
 	background-color: rgba(44, 44, 44, 0.8);
 	border-radius: 0.2em;
 	width: 90%;
@@ -972,10 +1010,10 @@ html{
 
 /* Style the tab */
 .tab {
-	border-bottom: 2px solid #dad8b3;
+    border-bottom: 1px solid #222;
 	background-color: #333;
 	filter: opacity(90%);
-	width: 100%;
+	margin: 0;
 }
 /* Style the buttons inside the tab */
 .tab button {

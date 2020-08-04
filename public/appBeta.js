@@ -607,6 +607,8 @@ if(darkModeToggled == null){
 let layers = {
     5:"rgba(22, 22, 22, 0.65)"
 }
+document.getElementById("songsFlexWrapper").addEventListener("click",async function(){
+})
 async function turnOnDarkMode(){
     layers = {
         0:"#181A1B",
@@ -618,9 +620,9 @@ async function turnOnDarkMode(){
         6:"#1C1E1F"
     }
     document.getElementsByClassName("video")[0].style.display = "none"
-    $(".skyButton").css("background-color", layers[6]).css("border","1.5px solid #dad8b3")
+    $(".skyButton").css("background-color", layers[6])
     $(".btnImg").css("background-color", "rgba(82, 82, 82, 0.4)")
-    $(".tab").css("background-color", layers[6])
+    //$(".tab").css("background-color", layers[6])
     $(".pitchButton").css("background-color", layers[5])
     $(".musicButton").css("background-color", layers[5])
     $("#manageRecordingsBtn").css("background-color", layers[5])
@@ -628,8 +630,9 @@ async function turnOnDarkMode(){
     $("#pitchTab").css("background-color", layers[5])
     $("#stopSong").css("background-color", layers[5])
     $("#toggleRecordBtn").css("background-color", layers[5])
-    $("#savedSongsDivWrapper").css("background-color", layers[5])
-    $(".bottomSavedSongsDiv").css("background-color", layers[6])
+    $("#savedSongsDivWrapper").css("background-color", layers[5]).css({"border":"1.5px #676761 solid"})
+    //$(".songButton").css({"box-shadow":"0 0 1px 1px rgba(0,0,0,0.3)"})
+    //$(".bottomSavedSongsDiv").css("background-color", layers[6])
     $("body").css("background",layers[0]) 
     console.log("dark")
 }
@@ -2124,7 +2127,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
     console.log("song added!")
 
     let deleteButton = document.createElement("button")
-    deleteButton.innerHTML = "<img src='icons/trash.png' alt='trash'  width='22px' style='vertical-align: bottom; margin:-0.5px;'\/>"
+    deleteButton.innerHTML = "<img src='icons/trash1.svg' alt='trash'  width='22px' style='vertical-align: bottom; margin:-0.5px;'\/>"
     deleteButton.className = "skyButton"
     deleteButton.style.width = "40px"
     deleteButton.style.marginLeft = "0.1em"
@@ -2140,7 +2143,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
             }
         })
     var shareLink = document.createElement("button")
-        shareLink.innerHTML = "<img src='icons/share.png' alt='share'  width='25px' style='vertical-align: bottom; margin:-2.5px;'\/>"
+        shareLink.innerHTML = "<img src='icons/share1.svg' alt='share'  width='25px' style='vertical-align: bottom; margin:-2.5px;'\/>"
         shareLink.className = "skyButton"
         shareLink.style.marginLeft = "0.1em"
         shareLink.style.width = "40px"
@@ -2169,8 +2172,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         })
 
         saveToDb = document.createElement("button")
-        saveToDb.innerHTML = "<img src='icons/saveToDb.png' alt='share' width='25px' style='vertical-align: bottom; margin:-2.5px;'/>"
-        //https://www.flaticon.com/free-icon/diskette_965418?term=save%20cloud&page=1&position=31
+        saveToDb.innerHTML = "<img src='icons/saveToDb2.svg' alt='share' width='25px' style='vertical-align: bottom; margin:-2.5px;'/>"
         saveToDb.className = "skyButton"
         saveToDb.style.marginLeft = "0.1em"
         saveToDb.style.width = "40px"
@@ -2192,10 +2194,10 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
     }
     //--------------------------------// Button to play this song in practice mode
     let trainSong = document.createElement("button")
-    trainSong.innerHTML = "🎯"
+    trainSong.innerHTML = "<img src='icons/practice.svg' alt='share' width='25px' style='vertical-align: bottom; margin:-2.5px;'/>"
     trainSong.className = "skyButton"
-    trainSong.style.width = "40px"
     trainSong.style.marginLeft = "0.1em"
+    trainSong.style.width = "40px"
     trainSong.setAttribute("songName", songName)
     trainSong.addEventListener("click", function () {
         savedSongsDivWrapper.style.display = "none"
@@ -2223,7 +2225,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
     })
     //--------------------------------// Button to share this song
     let shareButton = document.createElement("button")
-    shareButton.innerHTML = "<img src='icons/download.png' alt='share'  width='25px' style='vertical-align: bottom; margin:-2.5px;'\/>"
+    shareButton.innerHTML = "<img src='icons/download1.svg' alt='share'  width='25px' style='vertical-align: bottom; margin:-2.5px;'\/>"
     shareButton.style.color = "lightgreen"
     shareButton.style.fontWeight = "bold"
     shareButton.className = "skyButton"
@@ -2248,7 +2250,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         buttonsHolder.className = "buttonsHolder"
         buttonsHolder.appendChild(deleteButton)
     let expandButton = document.createElement("button")
-        expandButton.innerHTML = "<img src='icons/more.png' alt='share'  width='25px' style='vertical-align: bottom; margin:-2.5px;'\/>"
+        expandButton.innerHTML = "<img src='icons/more.svg' alt='share'  width='30px' style='vertical-align: bottom; margin:-5px;'\/>"
         expandButton.style.color = "lightgreen"
         expandButton.style.fontWeight = "bold"
         expandButton.className = "skyButton expandButton"
@@ -2259,7 +2261,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
             $(".buttonsHolder").css("display","none")
             $(".expandButton").css("display","inline")
             $(".songButton").css("width","calc((100% - 70px) - 3em)")
-            $(this.parentNode.children[0]).css({"width":"calc(100% - 138px - 5em)"})
+            $(this.parentNode.children[0]).css({"width":"calc(100% - 136px - 5em)"})
             this.parentNode.children[3].style.display = "inline"
             this.style.display = "none"
         })

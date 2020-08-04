@@ -174,10 +174,10 @@
 
     <div id="savedSongsDivWrapper" class="floatingDiv">
       <div id="songsFlexWrapper">
-        <div class="tab">
+        <div class="tab"> 
             <button id="localStoredBtn" class="tablinks active" onclick="openSonglist(event, 'localSongs')">My songs</button>
             <button id="accountBtn" class="tablinks" onclick="openSonglist(event, 'dbSongs')">Account songs</button>
-            <button  class="tablinks" style="background-color: rgba(235, 0, 27, 0.5);"onclick="redirectPage('/songComposer.html')">Compose</button>
+            <button  class="tablinks" style="background-color: teal; float:right"onclick="redirectPage('/songComposer.html')">Compose</button>
           </div>
         <!--Local Songs-->
           <div id="localSongs" class="tabcontent">
@@ -185,7 +185,7 @@
               <h3 id="local-tab-text">Here are all your songs!</h3>
             </div>
             <div class = "bottomSavedSongsDiv">
-                <button id="import-button" class="skyButton" onclick="importSongs()">Import songs</button>
+                <button id="import-button" class="skyButton" onclick="toggleImportSong()">Import songs</button>
                 <button id="download-songs-button" class="skyButton" onclick="downloadSongs()">Download songs</button>
                 <input type=file style="display:none;" id="filePicker">
             </div>
@@ -247,7 +247,8 @@
         <button type="button" id="drumBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/drum.png);"></button>
         <button type="button" id="handPanBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/handPan.png);"></button>  
         <button type="button" id="bellBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bell.png);"></button>
-        <!--<button type="button" id="bassBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bass.png);"/></button>
+        <!--
+        <button type="button" id="contrabassBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/contrabass.png);"></button>
         <button type="button" id="winterPiano" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/winterPiano.png);"/></button>
         <button type="button" id="banjoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/banjoBtn.png);"/></button> 
         <button type="button" id="panfluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/panflute.png);"/></button>  
@@ -290,6 +291,60 @@
     </div>
 </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
+    <div id="formatChooser">
+      <div id="importText" style="width: 100%;">Select format</div>
+      <div id="formatImport" class="format" style="flex-direction: column; height: 100%;">
+        <div style="display: flex; height: 65%;">
+          <div class="formatButton" onclick="toggleABCImport()">
+            <p>
+              ABC1-5
+            </p>
+          </div>
+          <div class="formatButton" style = "color: rgb(22,22,22); background-color: #5e8e63;"onclick="importSongs()">
+            <p>.TXT
+              <br>
+              <a style="font-size: 0.5em;">(suggested)</a>
+            </p>
+          </div>
+        </div>
+        <div class="formatButton midiImport" onclick="redirectPage('/songComposer.html?importMidi=true')">
+          <p>
+            MIDI
+          </p>
+        </div>
+      </div>
+      <div id="formatOutput" class="format" style="display: none; height: 80%;">
+        <div class="formatButton" onclick="toggleABCExport()">
+          <p>
+            ABC1-5
+          </p>
+        </div>
+        <div class="formatButton" style = "color: rgb(22,22,22); background-color: #5e8e63;"onclick="downloadSong()">
+          <p>.TXT
+            <br>
+            <a style="font-size: 0.5em;">(suggested)</a>
+          </p>
+        </div>
+      </div>
+      <div id="abcImport" class="format" style="display: none; height: 100%;">
+        <div id="importAbcData">
+          <div>
+            Name:
+            <input id="nameImport" type="text" placeholder="name">
+          </div>
+          <div>
+            BPM:
+            <input id="bpmImport" type="number" value="220">
+          </div>
+        </div>
+        <textarea id="abcTextarea" placeholder="Paste song here, ex: A1 A2 A3 . A4 A5"></textarea>
+        <button id="importAbc" onclick="importABC()">Import</button>
+      </div>
+      <div id="abcExport" class="format" style="display: none; height: 100%;">
+        <textarea id="abcTextareaExport" onclick="this.setSelectionRange(0, this.value.length)"></textarea>
+        <button id="exportAbc" onclick="downloadAbc()">Download</button>
+      </div>
+    </div>
 </body>
 
  <!-- <input type="sleeping" placeholder="username" style="display: none"> Easter egg-->

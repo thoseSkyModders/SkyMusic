@@ -77,6 +77,20 @@
                 <input id="playBtn" class="tool" type="button" value="Play" onclick="play()">
             </div>
         </div>
+        <div class="toolsContainer" id="smallToolContainer" style="width: 7%; min-width: 75px; display:none;">
+            <div class="full">
+                <input id="next2" class="tool mirrorX" type="button" style="background-image: url('./icons/next_back_arrows.svg');" onclick="next()">
+            </div>
+            <div class="full">  
+                <input id="before2" class="tool" type="button" style="background-image: url('./icons/next_back_arrows.svg');" onclick="before()">
+            </div>
+            <div class="full">
+                <input type="button" id="layerBtn"class="tool" onclick="switchInstrumentLayer(this)" style="background-color: rgba(235, 0, 27, 0.7);" value="Layer">
+            </div>
+            <div class="full">
+                <input id="playBtn2" class="tool" type="button" value="Play" onclick="play()">
+            </div>
+        </div>
         <div id="songContainer"></div>
         <input class="addPage" type="button" value="+" onclick="addPage()">
         <div class="toolsContainer" style="width: 7%; min-width: 75px; margin-left: 5px;">
@@ -106,6 +120,7 @@
         </div>
     </div>
     <div class="rightContainer">
+        <button class="skyButton" onclick="expandNotesContainer(this)">Expand</button>
         <button class="skyButton" onclick="blockKeyboard(this)">No Keys</button>
         <a href="/"><button class="skyButton">GO BACK</button></a>
     </div>
@@ -190,8 +205,8 @@
             <button id="toggleReverbBtn" class="skyButton" style="float: right; width: 10vw;" onclick="toggleReverb()">OFF</button>
         </div>
         <div class="settingOption" style="color: limegreen;">
-            <span>Import MIDI</span>
-            <button class="skyButton" style="float: right; width: 10vw;" onclick="openMIDI()">Select file</button>
+            <span >Import MIDI</span>
+            <button id="midiImportButton" class="skyButton" style="float: right; width: 10vw;" onclick="openMIDI()">Select file</button>
             <input type="file" style="display: none;" id="filePicker"/>
         </div>
         <div class="settingOption">
@@ -201,14 +216,10 @@
             </select>
         </div>
         <div class="settingOption">
-            <span>Dark mode</span>
-            <button id="toggleDarkModeBtn" class="skyButton" style="float: right; width: 10vw;" onclick="toggleDarkMode()">OFF</button>
-        </div>
-        <div class="settingOption">
             <span>Download sheet</span>
             <button class="skyButton" style="float: right; width: 10vw;" onclick="downloadSheet()">Download</button>
         </div>
-        <input type="button" style="border-color: rgba(235, 0, 27, 1); color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
+        <input type="button" style="border: rgba(235, 0, 27, 1) solid 1px; color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
     <div id="importMIDIDiv" style="display: none; height: 50%; width: 40%; opacity: 0.9; font-size: 0.9em;">
         Find the best offset and layer by increasing or decreasing the value
@@ -240,8 +251,12 @@
             <input id="midiBPM" type="range" min="50" max="500" value="220" step="5" style="width: 60%; margin:0 5px 0 5px">
             <input class="numberPicker" type="number" id="midiBPMText" value="220">
         </div>
-        <input type="button" value="Accurate mode" id="algorithmBtn" class="skyButton" onclick="changeAlgorithmType(this)">
-        <input type="button" value="Done" style="float: right;" class="skyButton" onclick="this.parentNode.style.display = 'none',quickSave(),addToHistory()">
+        <div style="display: flex; flex-direction: row;">
+            <input type="button" value="Accurate mode" style="flex: 1 1 0;" id="algorithmBtn" class="skyButton" onclick="changeAlgorithmType(this)">
+            <input type="button" value="Scale down" style="flex: 1 1 0;" id="scaleMIDIBtn" class="skyButton" onclick="scaleDownMIDI(this)">         
+        </div>
+        <input type="button" value="Done" class="skyButton" onclick="this.parentNode.style.display = 'none',quickSave(),addToHistory()"
+        style="background-color: limegreen; color:rgb(22,22,22); width: 99%;">
     </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
@@ -261,8 +276,6 @@ function switchInstrumentLayer(btn){
         selectedLayer = 1
     }
 }
-
-
 document.getElementsByTagName("body")[0].addEventListener('touchstart', (e) => {
 
 // is not near edge of view, exit
@@ -317,6 +330,17 @@ function changeAlgorithmType(button){
     loadMIDI()
 }
 
+let canScaleDown = false
+function scaleDownMIDI(button){
+    if(button.style.backgroundColor == "rgb(235, 0, 27)"){
+        button.style.backgroundColor = keyColor
+        canScaleDown = false
+    }else{
+        button.style.backgroundColor = "rgb(235, 0, 27)"
+        canScaleDown = true
+    }
+    loadMIDI()
+}
 let mergedMidi = []
 function selectAllLayers(){
     let btn = document.getElementById("allLayers")
@@ -386,6 +410,8 @@ function loadMIDI(){
     let numOfAccidentals = 0
     for(let i = 0; i<songNotes.length;i++){
         var noteToAdd = songNotes[i].midi - offsetValue
+        if(canScaleDown && noteToAdd > 60) noteToAdd-=12
+        console.log(noteToAdd)
             switch (noteToAdd) {
                 case 36:noteToAdd = 0 ;break;
                 case 37:noteToAdd = 0 ; numOfAccidentals++;break;
@@ -655,12 +681,15 @@ function loadMIDI(){
         }
     }
     //----------------------------------------------------------------------------------------------//
+    let playBtn2 = document.getElementById("playBtn2")
     async function play() {
-        if (playBtn.value == "Play") {
+        if (playBtn.value == "Play" || playBtn2 .value == "Play") {
+            playBtn2 .value = "Stop"
             playBtn.value = "Stop"
             disableCells("none")
         } else {
             stopPlaying = true
+            playBtn2.value = "Play"
             playBtn.value = "Play"
             disableCells("auto")
             return;
@@ -757,10 +786,20 @@ function loadMIDI(){
     })
 
     var keyboardBlocked = false
-
+    function expandNotesContainer(btn) {
+        if (btn.style.backgroundColor == "rgb(235, 0, 27)") {
+            btn.style.backgroundColor = "#383838"
+            $(".toolsContainer").css({"display":"inline-flex"})
+            $("#smallToolContainer").css({"display":"none"})
+        } else {
+            btn.style.backgroundColor = "rgb(235, 0, 27)"
+            $(".toolsContainer").css({"display":"none"})
+            $("#smallToolContainer").css({"display":"inline-flex"})
+        }
+    }
     function blockKeyboard(btn) {
         if (btn.style.backgroundColor == "rgb(235, 0, 27)") {
-            btn.style.backgroundColor = "rgb(22, 22, 22)"
+            btn.style.backgroundColor = "#383838"
             keyboardBlocked = false
         } else {
             btn.style.backgroundColor = "rgb(235, 0, 27)"
@@ -931,19 +970,28 @@ function loadMIDI(){
             }
             timeStamp += Math.floor(bpmToMs)
         }
+
+        if(download){
+            let songToDownload = []
+            let filename = song.name
+            song.name += " - Main"
+            splitSong.name += " - Secondary"
+            songToDownload.push(song)
+            if(splitSong.songNotes.length > 0){
+                songToDownload.push(splitSong)
+            }
+            downloadJSON(songToDownload,filename)
+            showMessage("Song downloaded!",1,1500)
+            return
+        }
         if(splitSong.songNotes.length > 0){
             song.name += " - Main"
             splitSong.name += " - Secondary"
             savedSongs.push(splitSong)
         }
-        if(download){
-            downloadJSON(song,song.name)
-            showMessage("Song downloaded!",1,2000)
-            return
-        }
         savedSongs.push(song)
         localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
-        showMessage("Song saved!",1,2000)
+        showMessage("Song saved!",1,1500)
     }
 
     //----------------------------------------------------------------------------------------------//
@@ -1426,12 +1474,6 @@ let keyNames = keyNamesAllInstruments
                     }
                 })
             }).then(function(){
-                if(darkMode != null){
-                    darkMode = JSON.parse(darkMode)
-                    if(darkMode) turnOnDarkMode()
-                }else{
-                    darkMode = false
-                }
                 set_up_reverb()
             })
             
@@ -1478,36 +1520,7 @@ let keyNames = keyNamesAllInstruments
     selectedCell = getCell(0)
     selectedCell.style.opacity = "1"
 
-function toggleDarkMode(){
-    if(darkMode){
-        localStorage.setItem("darkMode",false)
-        location.reload()
-    }else{
-        localStorage.setItem("darkMode",true)
-        darkMode = true
-        turnOnDarkMode()
-    }
-}
-let keyColor =  "rgba(22, 22, 22, 0.65)"
-function turnOnDarkMode(){
-    document.getElementById("toggleDarkModeBtn").style.backgroundColor = "rgba(235, 0, 27, 0.8)"
-    document.getElementById("toggleDarkModeBtn").innerHTML = "ON"
-    let layers = {
-        0:"#0E0E0E",
-        1:"rgba(44, 44, 44, 0.8)",
-        2:"#1E1E1E",
-        3:"#383838"
-    }
-    let layerColor = document.getElementById("layerBtn").style.backgroundColor
-    keyColor = "rgba(44, 44, 44, 0.8)"
-        $("body").css("background", layers[0])
-        $(".toolsContainer").css("background-color", layers[2])
-        $(".tool").css("background-color", layers[3])
-        $("#songContainer").css("background-color", layers[2])
-        $(".addPage").css("background-color", layers[3])
-        $(".btnBg").css("background-color",keyColor)
-        document.getElementById("layerBtn").style.backgroundColor = layerColor
-}
+let keyColor =  "rgba(44, 44, 44, 0.8)"
 
 function set_up_reverb() {
         fetch("reverb4.wav")
@@ -1525,7 +1538,6 @@ function set_up_reverb() {
         })
 }
 
-let darkMode = localStorage.getItem("darkMode")
 
 let reverbToggled = false
 function toggleReverb() {
@@ -1553,7 +1565,26 @@ function downloadJSON(inArray, fileName) {
     dlAnchorElem.click();
     dlAnchorElem.remove()
 }
-
+try{
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString);
+    if(urlParams.has("importMidi")){
+        toggleSettings()
+        flashMidi()
+    }
+}catch(e){
+    console.log(e)
+}
+async function flashMidi(){
+        document.getElementById("midiImportButton").scrollIntoView()
+        for(let i = 0;i<5;i++){
+            $("#midiImportButton").animate({ backgroundColor: "rgba(235, 0, 27, 0.7)"}, 500);
+            await delay(800)
+            $("#midiImportButton").animate({ backgroundColor: "#383838"}, 500);
+            await delay(800)
+        }
+    }
+/*
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
@@ -1562,7 +1593,7 @@ if ('serviceWorker' in navigator) {
         });
   });
 }
-
+*/
 </script>
 
 </html>

@@ -1,4 +1,4 @@
-const CACHE = "V4.4";
+const CACHE = "V4.6";
 
 const FILES_TO_CACHE = [
     'manifest.json',
@@ -191,13 +191,15 @@ const FILES_TO_CACHE = [
     //icons
     '/icons/next_back_arrows.svg',
     '/icons/settingsIcon.svg',
-    '/icons/download.png',
+    '/icons/download1.svg',
     '/icons/exitFullScreen.png',
     '/icons/reverb.png',
     '/icons/rotate.svg',
-    '/icons/saveToDb.png',
+    '/icons/saveToDb2.svg',
     '/icons/stop.png',
-    '/icons/trash.png',
+    '/icons/more.svg',
+    '/icons/practice.svg',
+    '/icons/trash1.svg',
     '/icons/menu.png',
     '/images/piano.png',
     '/images/handPan.png',

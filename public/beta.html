@@ -35,7 +35,7 @@
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
     <title>Sky Music</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="styleBeta.css" type="text/css">
+    <link rel="stylesheet" href="beta.css" type="text/css">
 </head>
 
 <body style="touch-action: pan-x pan-y;">
@@ -177,7 +177,7 @@
         <div class="tab"> 
             <button id="localStoredBtn" class="tablinks active" onclick="openSonglist(event, 'localSongs')">My songs</button>
             <button id="accountBtn" class="tablinks" onclick="openSonglist(event, 'dbSongs')">Account songs</button>
-            <button  class="tablinks" style="background-color: rgba(235, 0, 27, 0.5);"onclick="redirectPage('/songComposer.html')">Compose</button>
+            <button  class="tablinks" style="background-color: teal; float:right"onclick="redirectPage('/songComposer.html')">Compose</button>
           </div>
         <!--Local Songs-->
           <div id="localSongs" class="tabcontent">
@@ -302,6 +302,7 @@
           </div>
           <div class="formatButton" style = "color: rgb(22,22,22); background-color: #5e8e63;"onclick="importSongs()">
             <p>.TXT
+              <br>
               <a style="font-size: 0.5em;">(suggested)</a>
             </p>
           </div>

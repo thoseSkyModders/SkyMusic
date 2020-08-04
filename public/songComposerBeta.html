@@ -77,6 +77,20 @@
                 <input id="playBtn" class="tool" type="button" value="Play" onclick="play()">
             </div>
         </div>
+        <div class="toolsContainer" id="smallToolContainer" style="width: 7%; min-width: 75px; display:none;">
+            <div class="full">
+                <input id="next2" class="tool mirrorX" type="button" style="background-image: url('./icons/next_back_arrows.svg');" onclick="next()">
+            </div>
+            <div class="full">  
+                <input id="before2" class="tool" type="button" style="background-image: url('./icons/next_back_arrows.svg');" onclick="before()">
+            </div>
+            <div class="full">
+                <input type="button" id="layerBtn"class="tool" onclick="switchInstrumentLayer(this)" style="background-color: rgba(235, 0, 27, 0.7);" value="Layer">
+            </div>
+            <div class="full">
+                <input id="playBtn2" class="tool" type="button" value="Play" onclick="play()">
+            </div>
+        </div>
         <div id="songContainer"></div>
         <input class="addPage" type="button" value="+" onclick="addPage()">
         <div class="toolsContainer" style="width: 7%; min-width: 75px; margin-left: 5px;">
@@ -106,6 +120,7 @@
         </div>
     </div>
     <div class="rightContainer">
+        <button class="skyButton" onclick="expandNotesContainer(this)">Expand</button>
         <button class="skyButton" onclick="blockKeyboard(this)">No Keys</button>
         <a href="/"><button class="skyButton">GO BACK</button></a>
     </div>
@@ -201,14 +216,10 @@
             </select>
         </div>
         <div class="settingOption">
-            <span>Dark mode</span>
-            <button id="toggleDarkModeBtn" class="skyButton" style="float: right; width: 10vw;" onclick="toggleDarkMode()">OFF</button>
-        </div>
-        <div class="settingOption">
             <span>Download sheet</span>
             <button class="skyButton" style="float: right; width: 10vw;" onclick="downloadSheet()">Download</button>
         </div>
-        <input type="button" style="border-color: rgba(235, 0, 27, 1); color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
+        <input type="button" style="border: rgba(235, 0, 27, 1) solid 1px; color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
     <div id="importMIDIDiv" style="display: none; height: 50%; width: 40%; opacity: 0.9; font-size: 0.9em;">
         Find the best offset and layer by increasing or decreasing the value
@@ -670,12 +681,15 @@ function loadMIDI(){
         }
     }
     //----------------------------------------------------------------------------------------------//
+    let playBtn2 = document.getElementById("playBtn2")
     async function play() {
-        if (playBtn.value == "Play") {
+        if (playBtn.value == "Play" || playBtn2 .value == "Play") {
+            playBtn2 .value = "Stop"
             playBtn.value = "Stop"
             disableCells("none")
         } else {
             stopPlaying = true
+            playBtn2.value = "Play"
             playBtn.value = "Play"
             disableCells("auto")
             return;
@@ -772,10 +786,20 @@ function loadMIDI(){
     })
 
     var keyboardBlocked = false
-
+    function expandNotesContainer(btn) {
+        if (btn.style.backgroundColor == "rgb(235, 0, 27)") {
+            btn.style.backgroundColor = "#383838"
+            $(".toolsContainer").css({"display":"inline-flex"})
+            $("#smallToolContainer").css({"display":"none"})
+        } else {
+            btn.style.backgroundColor = "rgb(235, 0, 27)"
+            $(".toolsContainer").css({"display":"none"})
+            $("#smallToolContainer").css({"display":"inline-flex"})
+        }
+    }
     function blockKeyboard(btn) {
         if (btn.style.backgroundColor == "rgb(235, 0, 27)") {
-            btn.style.backgroundColor = "rgb(22, 22, 22)"
+            btn.style.backgroundColor = "#383838"
             keyboardBlocked = false
         } else {
             btn.style.backgroundColor = "rgb(235, 0, 27)"
@@ -1450,12 +1474,6 @@ let keyNames = keyNamesAllInstruments
                     }
                 })
             }).then(function(){
-                if(darkMode != null){
-                    darkMode = JSON.parse(darkMode)
-                    if(darkMode) turnOnDarkMode()
-                }else{
-                    darkMode = false
-                }
                 set_up_reverb()
             })
             
@@ -1502,36 +1520,7 @@ let keyNames = keyNamesAllInstruments
     selectedCell = getCell(0)
     selectedCell.style.opacity = "1"
 
-function toggleDarkMode(){
-    if(darkMode){
-        localStorage.setItem("darkMode",false)
-        location.reload()
-    }else{
-        localStorage.setItem("darkMode",true)
-        darkMode = true
-        turnOnDarkMode()
-    }
-}
-let keyColor =  "rgba(22, 22, 22, 0.65)"
-function turnOnDarkMode(){
-    document.getElementById("toggleDarkModeBtn").style.backgroundColor = "rgba(235, 0, 27, 0.8)"
-    document.getElementById("toggleDarkModeBtn").innerHTML = "ON"
-    let layers = {
-        0:"#0E0E0E",
-        1:"rgba(44, 44, 44, 0.8)",
-        2:"#1E1E1E",
-        3:"#383838"
-    }
-    let layerColor = document.getElementById("layerBtn").style.backgroundColor
-    keyColor = "rgba(44, 44, 44, 0.8)"
-        $("body").css("background", layers[0])
-        $(".toolsContainer").css("background-color", layers[2])
-        $(".tool").css("background-color", layers[3])
-        $("#songContainer").css("background-color", layers[2])
-        $(".addPage").css("background-color", layers[3])
-        $(".btnBg").css("background-color",keyColor)
-        document.getElementById("layerBtn").style.backgroundColor = layerColor
-}
+let keyColor =  "rgba(44, 44, 44, 0.8)"
 
 function set_up_reverb() {
         fetch("reverb4.wav")
@@ -1549,7 +1538,6 @@ function set_up_reverb() {
         })
 }
 
-let darkMode = localStorage.getItem("darkMode")
 
 let reverbToggled = false
 function toggleReverb() {
@@ -1589,10 +1577,10 @@ try{
 }
 async function flashMidi(){
         document.getElementById("midiImportButton").scrollIntoView()
-        for(let i = 0;i<3;i++){
+        for(let i = 0;i<5;i++){
             $("#midiImportButton").animate({ backgroundColor: "rgba(235, 0, 27, 0.7)"}, 500);
             await delay(800)
-            $("#midiImportButton").animate({ backgroundColor: "rgba(22, 22, 22, 0.65)"}, 500);
+            $("#midiImportButton").animate({ backgroundColor: "#383838"}, 500);
             await delay(800)
         }
     }
