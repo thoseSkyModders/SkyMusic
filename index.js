@@ -90,7 +90,7 @@ function removeTempSongs() {
 //----------------------------------------------------------------------------------------------//
 
 app.get("/", function (req, res) {
-    res.sendFile(__dirname + "/index.html")
+    res.sendFile(__dirname + "/beta.html")
 })
 var server = app.listen(port, () => {
     console.log("server is running on port", server.address().port);
