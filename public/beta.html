@@ -35,7 +35,7 @@
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
     <title>Sky Music</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="styleBeta.css" type="text/css">
 </head>
 
 <body style="touch-action: pan-x pan-y;">
@@ -174,7 +174,7 @@
 
     <div id="savedSongsDivWrapper" class="floatingDiv">
       <div id="songsFlexWrapper">
-        <div class="tab">
+        <div class="tab"> 
             <button id="localStoredBtn" class="tablinks active" onclick="openSonglist(event, 'localSongs')">My songs</button>
             <button id="accountBtn" class="tablinks" onclick="openSonglist(event, 'dbSongs')">Account songs</button>
             <button  class="tablinks" style="background-color: rgba(235, 0, 27, 0.5);"onclick="redirectPage('/songComposer.html')">Compose</button>
@@ -292,20 +292,27 @@
 </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
     <div id="formatChooser">
-      <div id="importText" style="height: 20%; width: 100%;">Select format</div>
-      <div id="formatImport" class="format">
-        <div class="formatButton" onclick="toggleABCImport()">
-          <p>
-            ABC1-5
-          </p>
+      <div id="importText" style="width: 100%;">Select format</div>
+      <div id="formatImport" class="format" style="flex-direction: column; height: 100%;">
+        <div style="display: flex; height: 65%;">
+          <div class="formatButton" onclick="toggleABCImport()">
+            <p>
+              ABC1-5
+            </p>
+          </div>
+          <div class="formatButton" style = "color: rgb(22,22,22); background-color: #5e8e63;"onclick="importSongs()">
+            <p>.TXT
+              <a style="font-size: 0.5em;">(suggested)</a>
+            </p>
+          </div>
         </div>
-        <div class="formatButton" style = "color: rgb(22,22,22); background-color: #5e8e63;"onclick="importSongs()">
-          <p>.TXT
-            <a style="font-size: 0.5em;">(suggested)</a>
+        <div class="formatButton midiImport" onclick="redirectPage('/songComposerBeta.html?importMidi=true')">
+          <p>
+            MIDI
           </p>
         </div>
       </div>
-      <div id="formatOutput" class="format">
+      <div id="formatOutput" class="format" style="display: none; height: 80%;">
         <div class="formatButton" onclick="toggleABCExport()">
           <p>
             ABC1-5

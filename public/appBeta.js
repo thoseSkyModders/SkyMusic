@@ -731,13 +731,19 @@ function generateShareLink(name){
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
         response = res.target.response;
-        const el = document.createElement('textarea');
+        const el = document.createElement('textarea')
+            el.className = "copyDiv"
         el.value = response;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-        showMessage(systemMessagesText[selectedLanguage][6],1,1500) //link copied
+        if(true){
+            showMessage("",2,4000)
+            document.getElementById("floatingMessage").appendChild(el)
+            el.select();
+        }else{
+            document.body.appendChild(el);
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            showMessage(systemMessagesText[selectedLanguage][6],1,1500) //link copied
+        }
     };
     var data = {
         email: globalCredentials.email,
@@ -1520,6 +1526,7 @@ function importABC(){
     }
     let textarea = document.getElementById("abcTextarea")
     let songText = textarea.value.toUpperCase()
+    try{
     let songArray = songText.split(".").join(" ").split(" ")
         songArray = songArray.map(element => {
             if(element == "") return []
@@ -1549,8 +1556,12 @@ function importABC(){
         let ms = Math.floor(60000/bpm)
         let songToImport = []
         parsedSong.forEach(element => {
-            tempo += ms
-            if(element.length == 0){tempo -=tempo/2; return} 
+            if(element.length == 0){
+                tempo +=Math.floor(ms/3)
+                return
+            }else{
+                tempo += ms
+            }
             element.forEach(e => {
                 let objKey = {
                     time:tempo,
@@ -1570,6 +1581,9 @@ function importABC(){
         showMessage(systemMessagesText[selectedLanguage][24],1,1500)
         $(formatChooser).fadeOut(200)
         $("#savedSongsDiv").animate({scrollTop:$("#savedSongsDiv")[0].scrollHeight}, 300);
+    }catch{
+        showMessage(systemMessagesText[selectedLanguage][10],0,1500)
+    }
 }
 document.getElementById("abcTextarea").addEventListener("focus",function(){
     isTyping = true
@@ -2094,8 +2108,8 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         playSong(JSON.parse(songText.innerHTML),songText.getAttribute("pitchLevel"))
     })
     songButton.innerHTML = songName
-    songButton.className = "skyButton"
-    songButton.style.width = "calc(100% - 135px - 5em)"
+    songButton.className = "skyButton songButton"
+    songButton.style.width = "calc((100% - 70px) - 3em)"
     //--------------------------------// This holds the text of the array of the song 
     let songText = document.createElement("div")
     songText.setAttribute("fromDb", false)
@@ -2121,7 +2135,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         dbSongsDiv.appendChild(songContainer)
         deleteButton.addEventListener("click", function () {
             if (confirm("Delete song: " + this.getAttribute("songName") + " from database?")) {
-                this.parentNode.parentNode.removeChild(this.parentNode)
+                this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)
                 deleteFromDB(globalCredentials, this.getAttribute("songName"))
             }
         })
@@ -2139,7 +2153,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         //--------------------------------// button to delete the song from the saved and to delete it from the menu
         deleteButton.addEventListener("click", function () {
             if (confirm("Delete song: " + this.getAttribute("songName") + "?")) {
-                this.parentNode.parentNode.removeChild(this.parentNode)
+                this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)
                 let savedSongs = localStorage.getItem("savedSongs")
                 if (savedSongs != null) {
                     savedSongs = JSON.parse(savedSongs)
@@ -2230,14 +2244,34 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         array.push(songObj)
         choseExportFormat(array, storedSongName)
     })
-    songContainer.appendChild(deleteButton)
+    let buttonsHolder = document.createElement("div")
+        buttonsHolder.className = "buttonsHolder"
+        buttonsHolder.appendChild(deleteButton)
+    let expandButton = document.createElement("button")
+        expandButton.innerHTML = "<img src='icons/more.png' alt='share'  width='25px' style='vertical-align: bottom; margin:-2.5px;'\/>"
+        expandButton.style.color = "lightgreen"
+        expandButton.style.fontWeight = "bold"
+        expandButton.className = "skyButton expandButton"
+        expandButton.style.width = "40px"
+        expandButton.style.marginLeft = "0.1em"
+        expandButton.setAttribute("songName", songName)
+        expandButton.addEventListener("click", function () {
+            $(".buttonsHolder").css("display","none")
+            $(".expandButton").css("display","inline")
+            $(".songButton").css("width","calc((100% - 70px) - 3em)")
+            $(this.parentNode.children[0]).css({"width":"calc(100% - 138px - 5em)"})
+            this.parentNode.children[3].style.display = "inline"
+            this.style.display = "none"
+        })
     songContainer.appendChild(trainSong)
+    buttonsHolder.insertBefore(shareButton, buttonsHolder.firstChild);
     if (saveToDb != undefined){
-        songContainer.appendChild(saveToDb)
+        buttonsHolder.insertBefore(saveToDb, buttonsHolder.firstChild);
     }else{
-        songContainer.appendChild(shareLink)
-            }
-    songContainer.appendChild(shareButton)
+        buttonsHolder.insertBefore(shareLink, buttonsHolder.firstChild);
+    }
+    songContainer.appendChild(buttonsHolder)
+    songContainer.appendChild(expandButton)
     
     } catch(e){
         showMessage(systemMessagesText[selectedLanguage][10],0,1500) //error importing song
@@ -2246,6 +2280,11 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
 
 //--------------------------------------------------------------------------------------------------------//
 
+function showAllButtonsHolders(){
+    $(".expandButton").css("display","none")
+    $(".buttonsHolder").css("display","inline")
+    $(".songButton").css({"width":"calc(100% - 138px - 5em)"})
+}
 let isSongStopped = false
 
 function stopSong() {
