@@ -711,7 +711,6 @@ function getTempSong(url) {
             showMessage("Song doesn't exist!",0,1000)
             return
         }
-        console.log(song)
         try{
             song = convertToOldFormat([JSON.parse(song)])[0]
             let element = document.getElementById("Song-" + song.name)
@@ -742,13 +741,15 @@ function generateShareLink(name){
         response = res.target.response;
         const el = document.createElement('textarea')
             el.className = "copyDiv"
-        el.value = response;
-        if(true){
-            showMessage("",2,4000)
+            el.readOnly = true
+        el.value = response
+        if(isiOS){
+            showMessage("",2,5000)
             document.getElementById("floatingMessage").appendChild(el)
             el.select();
         }else{
             document.body.appendChild(el);
+            el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
             showMessage(systemMessagesText[selectedLanguage][6],1,1500) //link copied
@@ -1584,6 +1585,7 @@ function importABC(){
             isComposed: true,
             bpm:bpm,
             pitchLevel: 0,
+            bitsPerPage: 16,
             songNotes: songToImport
         }
         saveSong(song.name, song.songNotes, 1,song.pitchLevel,song.bpm,song.isComposed)
@@ -2046,10 +2048,20 @@ document.getElementById("touch").addEventListener("click", function () {
     menuButton.style.display = "block"
     promptDiv.style.display = "none"
     $('[id^=Key]').css('height', "calc((100vh - 6vw - 50px)/3)")
-    $(formatChoser).fadeOut(200)
+    if(!selectedAbcTextarea){
+        $(formatChoser).fadeOut(200)
+    }
     document.getElementById("touch").style.height = "calc(100vh - 50px)";
 })
-
+let selectedAbcTextarea = false
+document.getElementById("abcTextarea").addEventListener("focus",function(){
+    console.log(true)
+    selectedAbcTextarea = true
+})
+document.getElementById("abcTextarea").addEventListener("blur",async function(){
+    await delay(100)
+    selectedAbcTextarea = false
+})
 //--------------------------------------------------------------------------------------------------------//
 
 //TAB PAGE FOR SAVED SONGS
@@ -2209,7 +2221,6 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         savedSongsDivWrapper.style.display = "none"
         let storedSongName = this.getAttribute("songName")
         let songText = document.getElementById("Song-" + storedSongName)
-        console.log(songText.getAttribute("isComposed"))
         if(songText.getAttribute("isComposed") == "true"){
             threshold = 50
         }
