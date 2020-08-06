@@ -36,20 +36,7 @@
     <script src="/scripts/jqueryUI.js"></script>
     <script src="/scripts/jqueryPEP.js"></script>
     <script src="/scripts/Midi.js"></script>
-    <style>
-        .note {
-            box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            border: solid 2px transparent;
-            height: calc((100% / 15) - 0.1em);
-            width: 80%;
-            margin: auto;
-            margin-top: 0.1em;
-            background-color: transparent;
-            text-align: center;
-        }
-    </style>
+
 </head>
 
 <body style="touch-action: pan-x pan-y;">
@@ -101,7 +88,7 @@
                 <input id="-C" class="tool" type="button" value="-C" onclick="removeCell()">
             </div>
             <div class="full">
-                <input class="tool " type="button" value="Copy" onclick="startCopy()">
+                <input class="tool " type="button" value="Tools" onclick="toggleSelection()">
             </div>
             <div class="full">
                 <input class="tool " type="button" value="Paste" onclick="paste()">
@@ -130,18 +117,29 @@
         <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: deepskyblue;" value="1/4">
         <input type="button" class="tempoButton" onclick="changeTempo(this)" style="background-color: rgb(255, 114, 190);" value="1/8">
     </div>
-    <div id="copyDiv">
-        <div class="settingOption full"> 
-            <span>Select start</span>
-            <input id="startCopyBtn" style="float: right;" class="skyButton" type="button" value="Start" onclick="selectStartCopy()">
+    <div id="toolsDiv">
+        <div style="display: flex; flex-direction: row; margin-bottom: 1vh; justify-content: space-between; margin-bottom: auto;">
+            <div style="background-color: #232323; border-radius: 0.5em; padding: 0.3em; width: 100%;">
+                <div class="settingOption full"> 
+                    <span>Select start</span>
+                    <input id="startCopyBtn" class="skyButton" type="button" value="Start" onclick="selectStartCopy()">
+                </div>
+                <div class="settingOption full">
+                    <span>Select end</span>
+                    <input id="endCopyBtn" class="skyButton" type="button" value="End" onclick="selectEndCopy()">
+                </div>
+            </div>
+            <input class="skyButton" id="finishedSelection" type="button" value="Close" onclick="finishedSelection()">
         </div>
-        <div class="settingOption full">
-            <span>Select end</span>
-            <input id="endCopyBtn" style="float: right;" class="skyButton" type="button" value="End" onclick="selectEndCopy()">
+        <div class="settingOption full"  style="display: flex; flex-direction: row; justify-content: space-between;">
+            <input class="skyButton toolButton" type="button" value="Copy" onclick="finishCopy()">
+            <input class="skyButton toolButton" id="copyLayerBtn" type="button" value="Copy layer" onclick="copyLayer()">
+            <input class="skyButton toolButton" type="button" value="Erase" onclick="erase()">       
         </div>
-        <div class="settingOption full"  style=" text-align: center;">
-            <input class="skyButton" type="button" value="Cancel" onclick="cancelCopy()">
-            <input class="skyButton" type="button" value="Copy" onclick="finishCopy()">
+        <div class="settingOption full"  style="display: flex; flex-direction: row; justify-content: space-between;">
+            <input class="skyButton toolButton" type="button" value="Paste" onclick="paste()">
+            <input class="skyButton toolButton" type="button" value="Paste layer" onclick="pasteLayer()">
+            <input class="skyButton toolButton" type="button" value="Delete" onclick="deleteMany()">       
         </div>
     </div>
 
@@ -221,7 +219,7 @@
         </div>
         <input type="button" style="border: rgba(235, 0, 27, 1) solid 1px; color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
-    <div id="importMIDIDiv" style="display: none; height: 50%; width: 40%; opacity: 0.9; font-size: 0.9em;">
+    <div id="importMIDIDiv" style="display: none; height: 50%; width: 40%; opacity: 0.95; font-size: 0.9em;">
         Find the best offset and layer by increasing or decreasing the value
         <div class="settingOption full"> 
             <div style="display: flex; flex-direction: row;  margin-top: 2%;">
@@ -269,9 +267,11 @@ try{
 let selectedLayer = 1
 function switchInstrumentLayer(btn){
     if(btn.style.backgroundColor.includes("rgba(235, 0, 27")){
+        document.getElementById("copyLayerBtn").style.borderColor = "#9B59B6"
         btn.style.backgroundColor = "#9B59B6"
         selectedLayer = 2
     }else{
+        document.getElementById("copyLayerBtn").style.borderColor = "rgba(235, 0, 27, 0.7)"
         btn.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
         selectedLayer = 1
     }
@@ -322,7 +322,7 @@ let globalAlgorithmType = "old"
 function changeAlgorithmType(button){
     if(button.style.backgroundColor == "rgb(235, 0, 27)"){
         globalAlgorithmType = "old"
-        button.style.backgroundColor = keyColor
+        button.style.backgroundColor = "#383838"
     }else{
         globalAlgorithmType = "new"
         button.style.backgroundColor = "rgb(235, 0, 27)"
@@ -333,7 +333,7 @@ function changeAlgorithmType(button){
 let canScaleDown = false
 function scaleDownMIDI(button){
     if(button.style.backgroundColor == "rgb(235, 0, 27)"){
-        button.style.backgroundColor = keyColor
+        button.style.backgroundColor = "#383838"
         canScaleDown = false
     }else{
         button.style.backgroundColor = "rgb(235, 0, 27)"
@@ -346,7 +346,7 @@ function selectAllLayers(){
     let btn = document.getElementById("allLayers")
     mergedMidi = []
     if(btn.style.backgroundColor == "rgb(235, 0, 27)"){
-        btn.style.backgroundColor = keyColor
+        btn.style.backgroundColor = "#383838"
     }else{
         btn.style.backgroundColor = "rgb(235, 0, 27)"
         for(let i = 0; i<globalMidi.tracks.length;i++){
@@ -371,7 +371,7 @@ function openMIDI(){
         const reader = new FileReader()
         reader.onload = function(e) {
             globalAlgorithmType = "old"
-            document.getElementById("algorithmBtn").style.backgroundColor = keyColor
+            document.getElementById("algorithmBtn").style.backgroundColor = "#383838"
             const midi = new Midi(e.target.result)
             globalMidi = midi
             layerNumber = 0
@@ -379,7 +379,7 @@ function openMIDI(){
             toggleSettings()
             importMIDIDiv.style.display = "block"
             document.getElementById("settingsDiv").style.display = "none"
-            document.getElementById("allLayers").style.backgroundColor = keyColor
+            document.getElementById("allLayers").style.backgroundColor = "#383838"
             mergedMidi = []
             loadMIDI()
             filePicker.value = ""
@@ -395,7 +395,7 @@ function changeLayer(value){
     if(newLayerNumber < 0 || newLayerNumber > globalMidi.tracks.length - 1) return
         layerNumber = newLayerNumber
         document.getElementById("layerNumberText").value = layerNumber + 1
-        document.getElementById("allLayers").style.backgroundColor = keyColor
+        document.getElementById("allLayers").style.backgroundColor = "#383838"
         mergedMidi = []
         loadMIDI()
 }
@@ -501,13 +501,13 @@ function loadMIDI(){
             settingsDiv.style.display = "none"
         }
     }
-    function startCopy() {
+    function toggleSelection() {
         let cells = document.getElementsByClassName("cell")
         resetCellBorders()
-        document.getElementById("copyDiv").style.display = "block"
-        document.getElementById("startCopyBtn").style.borderColor = "#dad8b3"
+        document.getElementById("toolsDiv").style.display = "flex"
+        document.getElementById("startCopyBtn").style.borderColor = "transparent"
         document.getElementById("startCopyBtn").style.color = "#dad8b3"
-        document.getElementById("endCopyBtn").style.borderColor = "#dad8b3"
+        document.getElementById("endCopyBtn").style.borderColor = "transparent"
         document.getElementById("endCopyBtn").style.color = "#dad8b3"
         for (var i = 0; i < cells.length; i++) {
             cells[i].addEventListener("pointerdown", function () {
@@ -515,28 +515,90 @@ function loadMIDI(){
         }
 
     }
-
-    let copiedCells = []
-    function finishCopy(){
+    let selectedCellsArray = []
+    function getSelectedCells(){
         let cells = document.getElementsByClassName("cell")
         let hasStart = false
         let hasEnd = false
         let canAddCells = false
-            copiedCells = []
+            selectedCellsArray = []
         for (var i = 0; i < cells.length; i++) {
-            if(cells[i].style.borderColor == "rgb(235, 0, 27)") canAddCells = true, hasStart = true
-            if(cells[i].style.borderColor == "rgb(0, 235, 207)"){
-                copiedCells.push(cells[i].cloneNode(true))
-                canAddCells = false
-                hasEnd = true
+            if(canAddCells) selectedCellsArray.push(cells[i])
+            if(cells[i].style.borderColor == "rgb(235, 0, 27)" || cells[i].style.borderColor == "rgb(235, 0, 28)"){
+                canAddCells = !canAddCells
+                if(hasStart) hasEnd = true
+                hasStart = true
+                if(canAddCells) selectedCellsArray.push(cells[i])
             }
-            if(canAddCells) copiedCells.push(cells[i].cloneNode(true))
         }
         if(hasStart && hasEnd){
-            document.getElementById("copyDiv").style.display = "none"
             resetCellBorders()
+            toggleSelection()
         }else{
             showMessage("Missing start or end",0,2000)
+            selectedCellsArray = []
+        }
+    }
+    let copiedCells = []
+    function finishCopy(){
+        getSelectedCells()
+        addToHistory()
+        copiedCells = []
+        for (var i = 0; i < selectedCellsArray.length; i++) {
+            copiedCells.push(selectedCellsArray[i].cloneNode(true))
+        }
+
+    }
+    function erase(){
+        getSelectedCells()
+        addToHistory()
+        if(selectedCellsArray.length == 0) return
+        let firstCellPosition = getCellPosition(selectedCellsArray[0])
+        let eraseLength = selectedCellsArray.length
+        deleteMany(true)
+        for(let i = 0; i < eraseLength; i++){
+            addCell(firstCellPosition)
+        }
+    }
+    let copiedLayer = []
+    function copyLayer(){
+        getSelectedCells()
+        addToHistory()
+        copiedLayer = []
+        for(let i = 0; i < selectedCellsArray.length; i++){
+            copiedLayer.push(selectedCellsArray[i].cloneNode(true))
+            for(let j = 0; j < copiedLayer[i].children.length; j++){
+                if(selectedLayer == 1){
+                    copiedLayer[i].children[j].style.borderColor = "transparent"
+                }else{
+                    copiedLayer[i].children[j].style.backgroundColor = "transparent"
+                }
+            }
+        }
+    }
+    function pasteLayer(){
+        addToHistory()
+        if(copiedLayer.length == 0) return
+        let cellPostion = getCellPosition(selectedCell)
+
+        for(let i = 0; i<copiedLayer.length; i++){
+            let nextCell = getCell(cellPostion+i)
+            if(nextCell == null) addCell("end"), nextCell = getCell(cellPostion+i)
+            selectCell(nextCell)
+            for(let j = 0;j<15;j++){
+                if(selectedLayer == 1){
+                    if(copiedLayer[i].children[j].style.backgroundColor.includes("rgba(235, 0, 27")) selectNote(14-j)
+                }else{
+                    if(copiedLayer[i].children[j].style.borderColor.includes("darkslategray")) selectNoteLayer2(14-j)
+                }
+            }
+        }
+    }
+    function deleteMany(ignore = false){
+        if(!ignore)getSelectedCells()
+        addToHistory()
+        for (var i = 0; i < selectedCellsArray.length; i++) {
+            selectedCellsArray[i].remove()
         }
     }
     let releasedKey = true
@@ -618,7 +680,6 @@ function loadMIDI(){
         }
     }
 
-
     let selectCopy = function (event) {
         let path = event.path || (event.composedPath && event.composedPath())
         path[1].style.border = "solid 2px "+copySelectionColor
@@ -629,18 +690,18 @@ function loadMIDI(){
     }
 
     function selectEndCopy() {
-        copySelectionColor = "rgb(0, 235, 207)"
+        copySelectionColor = "rgb(235, 0, 28)"
         document.getElementById("endCopyBtn").style.borderColor = copySelectionColor
         document.getElementById("endCopyBtn").style.color = copySelectionColor
         let cells = document.getElementsByClassName("cell")
         for (let i = 0; i < cells.length; i++) {
-            if(cells[i].style.borderColor == "rgb(0, 235, 207)") cells[i].style.border = ""
+            if(cells[i].style.borderColor == "rgb(235, 0, 28)") cells[i].style.border = ""
             cells[i].addEventListener("click", selectCopy)
         }
     }
 
-    function cancelCopy(){
-        document.getElementById("copyDiv").style.display = "none"
+    function finishedSelection(){
+        document.getElementById("toolsDiv").style.display = "none"
         resetCellBorders()
         let cells = document.getElementsByClassName("cell")
         for (let i = 0; i < cells.length; i++) {
@@ -1543,7 +1604,7 @@ let reverbToggled = false
 function toggleReverb() {
     let toggleReverbBtn = document.getElementById("toggleReverbBtn")
     if (reverbToggled) {
-        toggleReverbBtn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        toggleReverbBtn.style.backgroundColor = "#383838"
         toggleReverbBtn.innerHTML = "OFF"
         reverbToggled = false
     } else {
@@ -1584,7 +1645,7 @@ async function flashMidi(){
             await delay(800)
         }
     }
-/*
+
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
@@ -1593,7 +1654,7 @@ if ('serviceWorker' in navigator) {
         });
   });
 }
-*/
+
 </script>
 
 </html>

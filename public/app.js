@@ -7,11 +7,6 @@
   \____/|_____|     
 
  */
-try{
-    Sentry.init({ dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520' });    
-}catch(e){
-    console.log(e)
-}
 let floatingMessage
 function showMessage(msg, msgType, duration) {
     if (duration == undefined) duration = 1500
@@ -1470,6 +1465,7 @@ function initializeKeyboard(){
 
 function resetKeyClass(element) {
     setTimeout(() => {
+
         element.childNodes[1].classList.remove("keyTurn")
         element.classList.remove("keyScale")
     }, 200)
@@ -2428,10 +2424,10 @@ function practice(inSong) {
             betweenKeysTimes.splice(0, keysToPress.length) //removes the times of each button since they arent used
             for (let i = 0; i < keysToPress.length; i++) { //it changes the color to the reddish one and removes the keys to be pressed from the array
                 $("#" + keysToPress[i].key).children(":first").cssborderColor = "transparent"
-                if (disableAnimation) {
-                    $("#" + keysToPress[i].key).children(":first").css("border-color", "transparent").css({
+                if (disableAnimation) {               
+                    $("#" + keysToPress[i].key).children(":first").css("border-color", "transparent").animate({
                         backgroundColor: 'rgba(235, 0, 27, 0.7)'
-                    })
+                    }, 220)
 
                 } else {
                     $("#" + keysToPress[i].key).children(":first").css("border-color", "transparent").animate({
@@ -2442,6 +2438,7 @@ function practice(inSong) {
                 songToPractice.splice(0, 1)
             }
         timeToWait = betweenKeysTimes[0] //gets the first time of the array, that one is the time for the next one.
+        if(timeToWait < 220) timeToWait = 220
         keysToWait = keysToPress.length //those are the keys presses to do before searching for the next key combination
         try{
             songProgress.style.height = (songToPractice.length / songLength*100-100)*-1+"%"

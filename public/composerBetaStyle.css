@@ -458,7 +458,7 @@ input[type=number] {
     border: 1.5px solid #383838;
     border-radius: 10px;
     background-color: rgba(22, 22, 22, 1);
-    display: none;
+    display: flex;
     flex-direction: column;
     width: 50%;
     height: 47vh;
