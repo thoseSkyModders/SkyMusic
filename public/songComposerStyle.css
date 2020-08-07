@@ -114,7 +114,7 @@ body {
     -webkit-background-origin:border;
     width: 100%;
     height: 100%;
-    font-size: 1.2em;
+    font-size: 1em;
     border: none;
     border-radius: 5px;
     border-bottom: 2px solid transparent;
@@ -429,7 +429,10 @@ input[type=number] {
     display: none;
     width: 49%;
     height: 49%;
-    left: 25%;
+    left: 0;
+    right: 0;
+    margin-right: auto;
+    margin-left: auto;
     top:25%;
     z-index: 100;
     text-align: left;
@@ -475,13 +478,17 @@ input[type=number] {
 }
 #finishedSelection{
     margin-left: 1em;
+    width: 45px;
+    min-width: 45px;
+    height: 45px;
+    margin-top: 0;
+    font-size: 1.2em;
     flex: 1 1 0;
-    max-width: 100px;
-    height: inherit;
-    background-color: limegreen;
-    color: rgba(22, 22, 22, 1);
 }
 #copyLayerBtn{
+    border:solid 2px rgba(235, 0, 27, 0.7) ;
+}
+#eraseLayerBtn{
     border:solid 2px rgba(235, 0, 27, 0.7) ;
 }
 #endCopyBtn{
@@ -502,6 +509,11 @@ input[type=number] {
     display: flex;
     flex-direction: column;
 }
+.toolsContainerRight{
+    width: 7%;
+    min-width: 75px;
+    margin-left: 5px;
+}
 @media only screen and (orientation:portrait) {
 	.tempoContainer{
         flex-direction: row;
@@ -519,5 +531,21 @@ input[type=number] {
         width: 90%;
         height: 40vh;
         bottom: 10vh;
+    }
+    .cell{
+        min-width: 2.4vw;
+        width: 2.4vw;
+    }
+    .tool{
+        font-size: 0.8em;
+    }
+    .toolsContainer{
+        min-width: 100px;
+    }
+    .toolsContainerRight{
+        min-width: 50px;
+    }
+    #settingsDiv{
+        width: 80%;
     }
 }
