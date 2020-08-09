@@ -1312,45 +1312,45 @@ function preload(urls) {
 //BUTTONS
 let keyNamesAllInstruments = {
     0: ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C"],
-    1: ["D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭"],
-    2: ["D", "E", "F♯", "G", "A", "B", "C♯", "D", "E", "F♯", "G", "A", "B", "C♯", "D"],
-    3: ["E♭", "F", "G", "A♭", "B♭", "C", "D", "E♭", "F", "G", "A♭", "B♭", "C", "D", "E♭"],
-    4: ["E", "F♯", "G♯", "A", "B", "C♯", "D♯", "E", "F♯", "G♯", "A", "B", "C♯", "D♯", "E"],
-    5: ["F", "G", "A", "B♭", "C", "D", "E", "F", "G", "A", "B♭", "C", "D", "E", "F"],
-    6: ["G♭", "A♭", "B♭", "C♭", "D♭", "E♭", "F", "G♭", "A♭", "B♭", "C♭", "D♭", "E♭", "F", "G♭"],
-    7: ["G", "A", "B", "C", "D", "E", "F♯", "G", "A", "B", "C", "D", "E", "F♯", "G"],
-    8: ["A♭", "B♭", "C", "D♭", "E♭", "F", "G", "A♭", "B♭", "C", "D♭", "E♭", "F", "G", "A♭"],
-    9: ["A", "B", "C♯", "D", "E", "F♯", "G♯", "A", "B", "C♯", "D", "E", "F♯", "G♯", "A"],
-    10: ["B♭", "C", "D", "E♭", "F", "G", "A", "B♭", "C", "D", "E♭", "F", "G", "A", "B♭"],
-    11: ["B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B"]
+    1: ["Db", "Eb", "F", "Gb", "Ab", "Bb", "C", "Db", "Eb", "F", "Gb", "Ab", "Bb", "C", "Db"],
+    2: ["D", "E", "F#", "G", "A", "B", "C#", "D", "E", "F#", "G", "A", "B", "C#", "D"],
+    3: ["Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb"],
+    4: ["E", "F#", "G#", "A", "B", "C#", "D#", "E", "F#", "G#", "A", "B", "C#", "D#", "E"],
+    5: ["F", "G", "A", "Bb", "C", "D", "E", "F", "G", "A", "Bb", "C", "D", "E", "F"],
+    6: ["Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F", "Gb"],
+    7: ["G", "A", "B", "C", "D", "E", "F#", "G", "A", "B", "C", "D", "E", "F#", "G"],
+    8: ["Ab", "Bb", "C", "Db", "Eb", "F", "G", "Ab", "Bb", "C", "Db", "Eb", "F", "G", "Ab"],
+    9: ["A", "B", "C#", "D", "E", "F#", "G#", "A", "B", "C#", "D", "E", "F#", "G#", "A"],
+    10: ["Bb", "C", "D", "Eb", "F", "G", "A", "Bb", "C", "D", "Eb", "F", "G", "A", "Bb"],
+    11: ["B", "C#", "D#", "E", "F#", "G#", "A#", "B", "C#", "D#", "E", "F#", "G#", "A#", "B"]
 }
 let keyNamesBell = {
     0: ["C", "D", "G", "A", "C", "D", "G", "A","","","","","","",""],
-    1: ["D♭", "E♭", "A♭", "B♭", "D♭", "E♭", "A♭", "B♭","","","","","","",""],
+    1: ["Db", "Eb", "Ab", "Bb", "Db", "Eb", "Ab", "Bb","","","","","","",""],
     2: ["D", "E", "A", "B", "D", "E", "A", "B","","","","","","",""],
-    3: ["E♭", "F", "B♭", "C", "E♭", "F", "B♭", "C","","","","","","",""],
-    4: ["E", "F♯", "B", "C♯", "E", "F♯", "B", "C♯","","","","","","",""],
+    3: ["Eb", "F", "Bb", "C", "Eb", "F", "Bb", "C","","","","","","",""],
+    4: ["E", "F#", "B", "C#", "E", "F#", "B", "C#","","","","","","",""],
     5: ["F", "G", "C", "D", "F", "G", "C", "D","","","","","","",""],
-    6: ["G♭", "A♭", "D♭", "E♭", "G♭", "A♭", "D♭", "E♭","","","","","","",""],
+    6: ["Gb", "Ab", "Db", "Eb", "Gb", "Ab", "Db", "Eb","","","","","","",""],
     7: ["G", "A", "D", "E", "G", "A", "D", "E","","","","","","",""],
-    8: ["A♭", "B♭", "E♭", "F", "A♭", "B♭", "E♭", "F","","","","","","",""],
-    9: ["A", "B", "E", "F♯", "A", "B", "E", "F♯","","","","","","",""],
-    10: ["B♭", "C", "F", "G", "B♭", "C", "F", "G","","","","","","",""],
-    11: ["B", "C♯", "F♯", "G♯", "B", "C♯", "F♯", "G♯","","","","","","",""]
+    8: ["Ab", "Bb", "Eb", "F", "Ab", "Bb", "Eb", "F","","","","","","",""],
+    9: ["A", "B", "E", "F#", "A", "B", "E", "F#","","","","","","",""],
+    10: ["Bb", "C", "F", "G", "Bb", "C", "F", "G","","","","","","",""],
+    11: ["B", "C#", "F#", "G#", "B", "C#", "F#", "G#","","","","","","",""]
 }
 let keyNamesHandPan = {
     0: ["D", "A", "C", "D", "F", "G", "A", "C","","","","","","",""],
-    1: ["E♭", "B♭", "D♭", "E♭", "G♭", "A♭", "B♭", "D♭","","","","","","",""],
+    1: ["Eb", "Bb", "Db", "Eb", "Gb", "Ab", "Bb", "Db","","","","","","",""],
     2: ["E", "B", "D", "E", "G", "A", "B", "D","","","","","","",""],
-    3: ["F", "C", "E♭", "F", "A♭", "B♭", "C", "E♭","","","","","","",""],
-    4: ["F♯", "C♯", "E", "F♯", "A", "B", "C♯", "E","","","","","","",""],
-    5: ["G", "D", "F", "G", "B♭", "C", "D", "F","","","","","","",""],
-    6: ["A♭", "E♭", "G♭", "A♭", "C♭", "D♭", "E♭", "G♭","","","","","","",""],
+    3: ["F", "C", "Eb", "F", "Ab", "Bb", "C", "Eb","","","","","","",""],
+    4: ["F#", "C#", "E", "F#", "A", "B", "C#", "E","","","","","","",""],
+    5: ["G", "D", "F", "G", "Bb", "C", "D", "F","","","","","","",""],
+    6: ["Ab", "Eb", "Gb", "Ab", "Cb", "Db", "Eb", "Gb","","","","","","",""],
     7: ["A", "E", "G", "A", "C", "D", "E", "G","","","","","","",""],
-    8: ["B♭", "F", "A♭", "B♭", "D♭", "E♭", "F", "A♭","","","","","","",""],
-    9: ["B", "F♯", "A", "B", "D", "E", "F♯", "A","","","","","","",""],
-    10: ["C", "G", "B♭", "C", "E♭", "F", "G", "B♭","","","","","","",""],
-    11: ["C♯", "G♯", "B", "C♯", "E", "F♯", "G♯", "B","","","","","","",""]
+    8: ["Bb", "F", "Ab", "Bb", "Db", "Eb", "F", "Ab","","","","","","",""],
+    9: ["B", "F#", "A", "B", "D", "E", "F#", "A","","","","","","",""],
+    10: ["C", "G", "Bb", "C", "Eb", "F", "G", "Bb","","","","","","",""],
+    11: ["C#", "G#", "B", "C#", "E", "F#", "G#", "B","","","","","","",""]
 }
 let keyNames = keyNamesAllInstruments
 const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
@@ -1433,7 +1433,7 @@ function initializeKeyboard(){
                     practice([])
                 }else{
                     btn.style.filter = "brightness(130%)"
-                    btn.firstChild.style.backgroundColor = "rgba(60, 60, 60, 0.65)"
+                    if(!isPracticing) btn.firstChild.style.backgroundColor = "rgba(60, 60, 60, 0.65)"
                     setTimeout(function () {
                         btn.style.filter = 'brightness(100%)'
                         btn.firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
@@ -2311,6 +2311,7 @@ let isSongStopped = false
 function stopSong() {
     isSongStopped = true
     document.getElementById("stopSong").style.visibility = "hidden"
+    isPracticing = false
     resetButtons()
     $(songRange).fadeOut(200)
 }
@@ -2384,6 +2385,7 @@ let betweenKeysTimes = []
 let timeToWait = 0
 let nextKeysToPress = []
 let songLength = 0
+let isPracticing = false
 betweenKeysTimes.push(0) //offsets the first key
 let songProgress = document.getElementById("songProgress")
 function practice(inSong) {
@@ -2396,6 +2398,7 @@ function practice(inSong) {
         songToPractice = inSong 
         songProgress.style.height = "0%"
         keysToWait = 1
+        isPracticing = true
         resetButtons()
         for (let i = 1; i < songToPractice.length; i++) { //stores the time between keys
             betweenKeysTimes.push(songToPractice[i].time - songToPractice[i - 1].time)
@@ -2404,6 +2407,7 @@ function practice(inSong) {
     if (songToPractice.length == 0) {
         document.getElementById("stopSong").style.visibility = "hidden"
         $(songRange).fadeOut(200)
+        isPracticing = false
         return
     }
     keysToWait--

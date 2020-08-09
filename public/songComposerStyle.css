@@ -514,6 +514,46 @@ input[type=number] {
     min-width: 75px;
     margin-left: 5px;
 }
+#promptDiv{
+	z-index: 100;
+    display: none;
+	padding: 1em;
+	position: absolute;
+	text-align: center;
+	width: 40%;
+	left: 0;
+	right: 0;
+	margin-right: auto;
+	margin-left: auto;
+	top:5%;
+	color:#dad8b3;
+    border: 2px #383838 solid;
+	border-radius: 0.8em;
+	background-color: rgba(15, 15, 15, 0.9);
+}
+#promptInput {
+	width: 100%;
+	text-align: center;
+	margin: 10px 0 5px;
+	height: 30px;
+	border-radius: 5px;
+	outline: 0;
+	background: rgba(100,100,100,0.9);
+	border: 0;
+	color: white;
+}
+#promptInput::placeholder {
+    color: white;
+    opacity: 0.7;
+}
+#promptOK, #promptCancel,#replaceSong,#choseAnotherName,#splitSong,#mergeSong {
+    flex: 1 1 0;
+    margin: 0;
+	background: rgba(75,75,75,0.9);
+}
+#promptCancel,#replaceSong,#mergeSong{
+    margin-right: 2%;
+}
 @media only screen and (orientation:portrait) {
 	.tempoContainer{
         flex-direction: row;
@@ -546,6 +586,9 @@ input[type=number] {
         min-width: 50px;
     }
     #settingsDiv{
+        width: 80%;
+    }
+    #promptDiv{
         width: 80%;
     }
 }
