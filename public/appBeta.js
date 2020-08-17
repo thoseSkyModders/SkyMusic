@@ -145,6 +145,19 @@ function changeLanguage(language){
     }catch(e){console.log(e)}
 }
 
+
+let screenLocked = false
+function lockScreen(){
+    let lockScreenBtn = document.getElementById("lockScreen")
+    screenLocked = !screenLocked
+    if(screenLocked){
+        lockScreenBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+        bodyScrollLock.disableBodyScroll();
+    }else{
+        lockScreenBtn.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
+        bodyScrollLock.enableBodyScroll();
+    }
+}
 //--------------------------------------------------------------------------------------------------------//
 
 var savedLanguage = localStorage.getItem("language")
@@ -368,7 +381,9 @@ $(window).blur(function(){
 //--------------------------------------------------------------------------------------------------------//
 
 $(window).focus(function(){
-    if(exitedPage && autoReloadKeyboard) location.reload()
+    if(exitedPage && autoReloadKeyboard){
+        if(document.getElementById("secondPage").style.display != "block") location.reload()
+    }
 });
 
 //--------------------------------------------------------------------------------------------------------//
@@ -631,6 +646,7 @@ async function turnOnDarkMode(){
     $("#stopSong").css("background-color", layers[5])
     $("#toggleRecordBtn").css("background-color", layers[5])
     $("#savedSongsDivWrapper").css("background-color", layers[5]).css({"border":"1.5px #676761 solid"})
+    $("#floatingMessage").css({"border":"1.5px #676761 solid"})
     //$(".songButton").css({"box-shadow":"0 0 1px 1px rgba(0,0,0,0.3)"})
     //$(".bottomSavedSongsDiv").css("background-color", layers[6])
     $("body").css("background",layers[0]) 
@@ -705,7 +721,6 @@ function getTempSong(url) {
             showMessage("Song doesn't exist!",0,1000)
             return
         }
-        console.log(song)
         try{
             song = convertToOldFormat([JSON.parse(song)])[0]
             let element = document.getElementById("Song-" + song.name)
@@ -736,13 +751,15 @@ function generateShareLink(name){
         response = res.target.response;
         const el = document.createElement('textarea')
             el.className = "copyDiv"
-        el.value = response;
-        if(true){
-            showMessage("",2,4000)
+            el.readOnly = true
+        el.value = response
+        if(isiOS){
+            showMessage("",2,5000)
             document.getElementById("floatingMessage").appendChild(el)
             el.select();
         }else{
             document.body.appendChild(el);
+            el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
             showMessage(systemMessagesText[selectedLanguage][6],1,1500) //link copied
@@ -781,6 +798,8 @@ function getByLink(songUrl){
                 if (element == null) { //if there is an element with this id, it means that the song with that name already exists
                     saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed)
                     showMessage(systemMessagesText[selectedLanguage][8]+inputSongs[i].name,1,1500) //Added song by link
+                    toggleSavedSongs()
+                    $("#savedSongsDiv").animate({scrollTop:$("#savedSongsDiv")[0].scrollHeight}, 300);
                 } else {
                     showMessage(systemMessagesText[selectedLanguage][9]+inputSongs[i].name,2,1500) // song already exists
                 }
@@ -1228,7 +1247,8 @@ let instrumentsNotes = {
     handPan: ["HandPan/0.mp3", "HandPan/1.mp3", "HandPan/2.mp3", "HandPan/3.mp3", "HandPan/4.mp3", "HandPan/5.mp3", "HandPan/6.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3","HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3"],
     oldPiano: ["OldPiano/0.mp3", "OldPiano/1.mp3", "OldPiano/2.mp3", "OldPiano/3.mp3", "OldPiano/4.mp3", "OldPiano/5.mp3", "OldPiano/6.mp3", "OldPiano/7.mp3", "OldPiano/8.mp3", "OldPiano/9.mp3", "OldPiano/10.mp3", "OldPiano/11.mp3", "OldPiano/12.mp3", "OldPiano/13.mp3", "OldPiano/14.mp3"],
     contrabass: ["Contrabass/0.mp3", "Contrabass/1.mp3", "Contrabass/2.mp3", "Contrabass/3.mp3", "Contrabass/4.mp3", "Contrabass/5.mp3", "Contrabass/6.mp3", "Contrabass/7.mp3", "Contrabass/8.mp3", "Contrabass/9.mp3", "Contrabass/10.mp3", "Contrabass/11.mp3", "Contrabass/12.mp3", "Contrabass/13.mp3", "Contrabass/14.mp3"],
-    
+    winterPiano: ["WinterPiano/0.mp3", "WinterPiano/1.mp3", "WinterPiano/2.mp3", "WinterPiano/3.mp3", "WinterPiano/4.mp3", "WinterPiano/5.mp3","WinterPiano/6.mp3", "WinterPiano/7.mp3", "WinterPiano/8.mp3", "WinterPiano/9.mp3", "WinterPiano/10.mp3", "WinterPiano/11.mp3","WinterPiano/12.mp3", "WinterPiano/13.mp3", "WinterPiano/14.mp3"
+],
 }
 //Changes sounds when instrument is selected
 function changeInstrumentSound(instrument) {
@@ -1305,45 +1325,45 @@ function preload(urls) {
 //BUTTONS
 let keyNamesAllInstruments = {
     0: ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C"],
-    1: ["D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭", "E♭", "F", "G♭", "A♭", "B♭", "C", "D♭"],
-    2: ["D", "E", "F♯", "G", "A", "B", "C♯", "D", "E", "F♯", "G", "A", "B", "C♯", "D"],
-    3: ["E♭", "F", "G", "A♭", "B♭", "C", "D", "E♭", "F", "G", "A♭", "B♭", "C", "D", "E♭"],
-    4: ["E", "F♯", "G♯", "A", "B", "C♯", "D♯", "E", "F♯", "G♯", "A", "B", "C♯", "D♯", "E"],
-    5: ["F", "G", "A", "B♭", "C", "D", "E", "F", "G", "A", "B♭", "C", "D", "E", "F"],
-    6: ["G♭", "A♭", "B♭", "C♭", "D♭", "E♭", "F", "G♭", "A♭", "B♭", "C♭", "D♭", "E♭", "F", "G♭"],
-    7: ["G", "A", "B", "C", "D", "E", "F♯", "G", "A", "B", "C", "D", "E", "F♯", "G"],
-    8: ["A♭", "B♭", "C", "D♭", "E♭", "F", "G", "A♭", "B♭", "C", "D♭", "E♭", "F", "G", "A♭"],
-    9: ["A", "B", "C♯", "D", "E", "F♯", "G♯", "A", "B", "C♯", "D", "E", "F♯", "G♯", "A"],
-    10: ["B♭", "C", "D", "E♭", "F", "G", "A", "B♭", "C", "D", "E♭", "F", "G", "A", "B♭"],
-    11: ["B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B", "C♯", "D♯", "E", "F♯", "G♯", "A♯", "B"]
+    1: ["Db", "Eb", "F", "Gb", "Ab", "Bb", "C", "Db", "Eb", "F", "Gb", "Ab", "Bb", "C", "Db"],
+    2: ["D", "E", "F#", "G", "A", "B", "C#", "D", "E", "F#", "G", "A", "B", "C#", "D"],
+    3: ["Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb"],
+    4: ["E", "F#", "G#", "A", "B", "C#", "D#", "E", "F#", "G#", "A", "B", "C#", "D#", "E"],
+    5: ["F", "G", "A", "Bb", "C", "D", "E", "F", "G", "A", "Bb", "C", "D", "E", "F"],
+    6: ["Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F", "Gb"],
+    7: ["G", "A", "B", "C", "D", "E", "F#", "G", "A", "B", "C", "D", "E", "F#", "G"],
+    8: ["Ab", "Bb", "C", "Db", "Eb", "F", "G", "Ab", "Bb", "C", "Db", "Eb", "F", "G", "Ab"],
+    9: ["A", "B", "C#", "D", "E", "F#", "G#", "A", "B", "C#", "D", "E", "F#", "G#", "A"],
+    10: ["Bb", "C", "D", "Eb", "F", "G", "A", "Bb", "C", "D", "Eb", "F", "G", "A", "Bb"],
+    11: ["B", "C#", "D#", "E", "F#", "G#", "A#", "B", "C#", "D#", "E", "F#", "G#", "A#", "B"]
 }
 let keyNamesBell = {
     0: ["C", "D", "G", "A", "C", "D", "G", "A","","","","","","",""],
-    1: ["D♭", "E♭", "A♭", "B♭", "D♭", "E♭", "A♭", "B♭","","","","","","",""],
+    1: ["Db", "Eb", "Ab", "Bb", "Db", "Eb", "Ab", "Bb","","","","","","",""],
     2: ["D", "E", "A", "B", "D", "E", "A", "B","","","","","","",""],
-    3: ["E♭", "F", "B♭", "C", "E♭", "F", "B♭", "C","","","","","","",""],
-    4: ["E", "F♯", "B", "C♯", "E", "F♯", "B", "C♯","","","","","","",""],
+    3: ["Eb", "F", "Bb", "C", "Eb", "F", "Bb", "C","","","","","","",""],
+    4: ["E", "F#", "B", "C#", "E", "F#", "B", "C#","","","","","","",""],
     5: ["F", "G", "C", "D", "F", "G", "C", "D","","","","","","",""],
-    6: ["G♭", "A♭", "D♭", "E♭", "G♭", "A♭", "D♭", "E♭","","","","","","",""],
+    6: ["Gb", "Ab", "Db", "Eb", "Gb", "Ab", "Db", "Eb","","","","","","",""],
     7: ["G", "A", "D", "E", "G", "A", "D", "E","","","","","","",""],
-    8: ["A♭", "B♭", "E♭", "F", "A♭", "B♭", "E♭", "F","","","","","","",""],
-    9: ["A", "B", "E", "F♯", "A", "B", "E", "F♯","","","","","","",""],
-    10: ["B♭", "C", "F", "G", "B♭", "C", "F", "G","","","","","","",""],
-    11: ["B", "C♯", "F♯", "G♯", "B", "C♯", "F♯", "G♯","","","","","","",""]
+    8: ["Ab", "Bb", "Eb", "F", "Ab", "Bb", "Eb", "F","","","","","","",""],
+    9: ["A", "B", "E", "F#", "A", "B", "E", "F#","","","","","","",""],
+    10: ["Bb", "C", "F", "G", "Bb", "C", "F", "G","","","","","","",""],
+    11: ["B", "C#", "F#", "G#", "B", "C#", "F#", "G#","","","","","","",""]
 }
 let keyNamesHandPan = {
     0: ["D", "A", "C", "D", "F", "G", "A", "C","","","","","","",""],
-    1: ["E♭", "B♭", "D♭", "E♭", "G♭", "A♭", "B♭", "D♭","","","","","","",""],
+    1: ["Eb", "Bb", "Db", "Eb", "Gb", "Ab", "Bb", "Db","","","","","","",""],
     2: ["E", "B", "D", "E", "G", "A", "B", "D","","","","","","",""],
-    3: ["F", "C", "E♭", "F", "A♭", "B♭", "C", "E♭","","","","","","",""],
-    4: ["F♯", "C♯", "E", "F♯", "A", "B", "C♯", "E","","","","","","",""],
-    5: ["G", "D", "F", "G", "B♭", "C", "D", "F","","","","","","",""],
-    6: ["A♭", "E♭", "G♭", "A♭", "C♭", "D♭", "E♭", "G♭","","","","","","",""],
+    3: ["F", "C", "Eb", "F", "Ab", "Bb", "C", "Eb","","","","","","",""],
+    4: ["F#", "C#", "E", "F#", "A", "B", "C#", "E","","","","","","",""],
+    5: ["G", "D", "F", "G", "Bb", "C", "D", "F","","","","","","",""],
+    6: ["Ab", "Eb", "Gb", "Ab", "Cb", "Db", "Eb", "Gb","","","","","","",""],
     7: ["A", "E", "G", "A", "C", "D", "E", "G","","","","","","",""],
-    8: ["B♭", "F", "A♭", "B♭", "D♭", "E♭", "F", "A♭","","","","","","",""],
-    9: ["B", "F♯", "A", "B", "D", "E", "F♯", "A","","","","","","",""],
-    10: ["C", "G", "B♭", "C", "E♭", "F", "G", "B♭","","","","","","",""],
-    11: ["C♯", "G♯", "B", "C♯", "E", "F♯", "G♯", "B","","","","","","",""]
+    8: ["Bb", "F", "Ab", "Bb", "Db", "Eb", "F", "Ab","","","","","","",""],
+    9: ["B", "F#", "A", "B", "D", "E", "F#", "A","","","","","","",""],
+    10: ["C", "G", "Bb", "C", "Eb", "F", "G", "Bb","","","","","","",""],
+    11: ["C#", "G#", "B", "C#", "E", "F#", "G#", "B","","","","","","",""]
 }
 let keyNames = keyNamesAllInstruments
 const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
@@ -1363,6 +1383,7 @@ function initializeKeyboard(){
     ]
     document.getElementById("touch").innerHTML =
     '<div class="Row1" id="row1"></div><div class="Row2" id="row2"></div><div class="Row3" id="row3"></div>'
+    console.log(storedInstrument)
     urls = instrumentsNotes[storedInstrument]
     preload(urls)
     .then(audioBuffers => {
@@ -1425,7 +1446,7 @@ function initializeKeyboard(){
                     practice([])
                 }else{
                     btn.style.filter = "brightness(130%)"
-                    btn.firstChild.style.backgroundColor = "rgba(60, 60, 60, 0.65)"
+                    if(!isPracticing) btn.firstChild.style.backgroundColor = "rgba(60, 60, 60, 0.65)"
                     setTimeout(function () {
                         btn.style.filter = 'brightness(100%)'
                         btn.firstChild.style.backgroundColor = "rgba(22, 22, 22, 0.65)"
@@ -1463,6 +1484,7 @@ function initializeKeyboard(){
 
 function resetKeyClass(element) {
     setTimeout(() => {
+
         element.childNodes[1].classList.remove("keyTurn")
         element.classList.remove("keyScale")
     }, 200)
@@ -1470,8 +1492,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "3.9"
-let changelogMessage = "Update version " + currentVersion + "<br>Improved: UI, MIDI support, sheet displayer"
+let currentVersion = "4"
+let changelogMessage = "Update version " + currentVersion + "<br>UI rework! :3"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)
@@ -1578,6 +1600,7 @@ function importABC(){
             isComposed: true,
             bpm:bpm,
             pitchLevel: 0,
+            bitsPerPage: 16,
             songNotes: songToImport
         }
         saveSong(song.name, song.songNotes, 1,song.pitchLevel,song.bpm,song.isComposed)
@@ -1696,7 +1719,7 @@ function importSongs() {
                         if(inputSongs[i].bpm == undefined) inputSongs[i].bpm = 220
                         if(inputSongs[i].pitchLevel == undefined) inputSongs[i].pitchLevel = 0
                         if(inputSongs[i].isComposed == undefined) inputSongs[i].isComposed = false
-                        saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed)
+                        saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed,inputSongs[i].composedSong)
                         showMessage(systemMessagesText[selectedLanguage][24],1,1500) //Done
                         $("#savedSongsDiv").animate({scrollTop:$("#savedSongsDiv")[0].scrollHeight}, 300);
                         document.getElementById("formatChooser").style.display = "none"   
@@ -1777,6 +1800,7 @@ function convertToOldFormat(songs) {
                 isComposed: songs[i].isComposed,
                 songNotes: [],
             }
+            if(songs[i].composedSong != undefined) oldFormat.composedSong = songs[i].composedSong
             for (let j = 0; j < songs[i].songNotes.length; j++) {
                 let keyObj = {
                     time: songs[i].songNotes[j].time,
@@ -2040,10 +2064,20 @@ document.getElementById("touch").addEventListener("click", function () {
     menuButton.style.display = "block"
     promptDiv.style.display = "none"
     $('[id^=Key]').css('height', "calc((100vh - 6vw - 50px)/3)")
-    $(formatChoser).fadeOut(200)
+    if(!selectedAbcTextarea){
+        $(formatChoser).fadeOut(200)
+    }
     document.getElementById("touch").style.height = "calc(100vh - 50px)";
 })
-
+let selectedAbcTextarea = false
+document.getElementById("abcTextarea").addEventListener("focus",function(){
+    console.log(true)
+    selectedAbcTextarea = true
+})
+document.getElementById("abcTextarea").addEventListener("blur",async function(){
+    await delay(100)
+    selectedAbcTextarea = false
+})
 //--------------------------------------------------------------------------------------------------------//
 
 //TAB PAGE FOR SAVED SONGS
@@ -2079,7 +2113,7 @@ if (preLoadSongs != null) {
 
 //--------------------------------------------------------------------------------------------------------//
 
-function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = false) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
+function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = false,composedSong = undefined) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
     try {
         let songObj = {
             name: songName,
@@ -2088,6 +2122,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
             bpm: parseInt(bpm),
             isComposed: isComposed
         }
+        if(composedSong != undefined) songObj.composedSong = composedSong
     if (savingType == "1") { //doesnt save if it is preloading   
         let songStorage = localStorage.getItem("savedSongs")
         if (songStorage != null) {
@@ -2203,7 +2238,6 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         savedSongsDivWrapper.style.display = "none"
         let storedSongName = this.getAttribute("songName")
         let songText = document.getElementById("Song-" + storedSongName)
-        console.log(songText.getAttribute("isComposed"))
         if(songText.getAttribute("isComposed") == "true"){
             threshold = 50
         }
@@ -2292,6 +2326,7 @@ let isSongStopped = false
 function stopSong() {
     isSongStopped = true
     document.getElementById("stopSong").style.visibility = "hidden"
+    isPracticing = false
     resetButtons()
     $(songRange).fadeOut(200)
 }
@@ -2365,6 +2400,7 @@ let betweenKeysTimes = []
 let timeToWait = 0
 let nextKeysToPress = []
 let songLength = 0
+let isPracticing = false
 betweenKeysTimes.push(0) //offsets the first key
 let songProgress = document.getElementById("songProgress")
 function practice(inSong) {
@@ -2377,6 +2413,7 @@ function practice(inSong) {
         songToPractice = inSong 
         songProgress.style.height = "0%"
         keysToWait = 1
+        isPracticing = true
         resetButtons()
         for (let i = 1; i < songToPractice.length; i++) { //stores the time between keys
             betweenKeysTimes.push(songToPractice[i].time - songToPractice[i - 1].time)
@@ -2385,6 +2422,7 @@ function practice(inSong) {
     if (songToPractice.length == 0) {
         document.getElementById("stopSong").style.visibility = "hidden"
         $(songRange).fadeOut(200)
+        isPracticing = false
         return
     }
     keysToWait--
@@ -2411,10 +2449,10 @@ function practice(inSong) {
             betweenKeysTimes.splice(0, keysToPress.length) //removes the times of each button since they arent used
             for (let i = 0; i < keysToPress.length; i++) { //it changes the color to the reddish one and removes the keys to be pressed from the array
                 $("#" + keysToPress[i].key).children(":first").cssborderColor = "transparent"
-                if (disableAnimation) {
-                    $("#" + keysToPress[i].key).children(":first").css("border-color", "transparent").css({
+                if (disableAnimation) {               
+                    $("#" + keysToPress[i].key).children(":first").css("border-color", "transparent").animate({
                         backgroundColor: 'rgba(235, 0, 27, 0.7)'
-                    })
+                    }, 220)
 
                 } else {
                     $("#" + keysToPress[i].key).children(":first").css("border-color", "transparent").animate({
@@ -2425,6 +2463,7 @@ function practice(inSong) {
                 songToPractice.splice(0, 1)
             }
         timeToWait = betweenKeysTimes[0] //gets the first time of the array, that one is the time for the next one.
+        if(timeToWait < 220) timeToWait = 220
         keysToWait = keysToPress.length //those are the keys presses to do before searching for the next key combination
         try{
             songProgress.style.height = (songToPractice.length / songLength*100-100)*-1+"%"

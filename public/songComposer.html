@@ -1097,23 +1097,21 @@ function loadMIDI(){
             timeStamp += Math.floor(bpmToMs)
         }
 
+        if(!splitLayers) song.composedSong = getSongData()
+        if(splitSong.songNotes.length > 0){
+            song.name += " - Main"
+            splitSong.name += " - Secondary"
+        }
         if(download){
             let songToDownload = []
             let filename = song.name
             songToDownload.push(song)
             if(splitSong.songNotes.length > 0){
-                song.name += " - Main"
-                splitSong.name += " - Secondary"
                 songToDownload.push(splitSong)
             }
-            downloadJSON(songToDownload,filename)
+            downloadJSON(convertToNewFormat(songToDownload),filename)
             showMessage("Song downloaded!",1,1500)
             return
-        }
-        if(!splitLayers) song.composedSong = getSongData()
-        if(splitSong.songNotes.length > 0){
-            song.name += " - Main"
-            splitSong.name += " - Secondary"
         }
         if(replace){
             let alreadySavedSong = false
@@ -1138,6 +1136,36 @@ function loadMIDI(){
         showMessage("Song saved!",1,1500)
     }
 
+//----------------------------------------------------------------------------------------------//
+
+    function convertToNewFormat(songs) {
+    let convertedSongs = []
+    for (let i = 0; i < songs.length; i++) {
+        if(songs[i].bpm == undefined) songs[i].bpm = 220
+        if(songs[i].pitchLevel == undefined) songs[i].pitchLevel = 0
+        if(songs[i].isComposed == undefined) songs[i].isComposed = false
+
+        let newFormat = {
+            name: songs[i].name,
+            bpm: parseInt(songs[i].bpm),
+            bitsPerPage: 16,
+            pitchLevel: parseInt(songs[i].pitchLevel),
+            isComposed: songs[i].isComposed,
+            songNotes: []
+        }
+        if(songs[i].composedSong != undefined) newFormat.composedSong = songs[i].composedSong
+        for (let j = 0; j < songs[i].songNotes.length; j++) {
+            let keyObj = {
+                time: songs[i].songNotes[j].time,
+                key: "1" + songs[i].songNotes[j].key
+            }
+            if(!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
+            newFormat.songNotes.push(keyObj)
+        }
+        convertedSongs.push(newFormat)
+    }
+    return convertedSongs
+}
     //----------------------------------------------------------------------------------------------//
 
     let songContainer = document.getElementById("songContainer")

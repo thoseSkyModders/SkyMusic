@@ -799,7 +799,12 @@ html{
 #forgotLink {
 	text-align: right;
 }
-
+#lockScreen{
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	font-size: 0.7em;
+}
 #icon-bar {
 	border-right: solid 1.5px #dad8b3;
 	width: 30%;

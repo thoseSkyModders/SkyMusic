@@ -30,12 +30,12 @@
     <script src="/scripts/jquery.js"></script>
     <script src="/scripts/jqueryUI.js"></script>
     <script src="/scripts/jqueryPEP.js"></script>
-    <script src="https://browser.sentry-cdn.com/5.19.2/bundle.min.js" integrity="sha384-JpEWxJ7oLRn+baXBgcCKEv73uYWsgouzEResgJneOXvTjDZ+1crAXcNAKZoiL96Z" crossorigin="anonymous"></script>
+    <script src="/scripts/bodyLock.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
     <title>Sky Music</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="beta.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 
 <body style="touch-action: pan-x pan-y;">
@@ -244,12 +244,12 @@
         <button type="button" id="fluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/flute.png);"></button>
         <button type="button" id="xylophoneBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/xylophone.png);"></button>
         <button type="button" id="hornBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/horn.png);"></button>
+        <button type="button" id="winterPianoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/winterPiano.png);"></button>
         <button type="button" id="drumBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/drum.png);"></button>
         <button type="button" id="handPanBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/handPan.png);"></button>  
         <button type="button" id="bellBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bell.png);"></button>
         <!--
         <button type="button" id="contrabassBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/contrabass.png);"></button>
-        <button type="button" id="winterPiano" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/winterPiano.png);"/></button>
         <button type="button" id="banjoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/banjoBtn.png);"/></button> 
         <button type="button" id="panfluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/panflute.png);"/></button>  
         TO REMOVE ONCE NEW INSTRUMENTS ARE ADDED
@@ -307,7 +307,7 @@
             </p>
           </div>
         </div>
-        <div class="formatButton midiImport" onclick="redirectPage('/songComposerBeta.html?importMidi=true')">
+        <div class="formatButton midiImport" onclick="redirectPage('/songComposer.html?importMidi=true')">
           <p>
             MIDI
           </p>
@@ -337,14 +337,15 @@
             <input id="bpmImport" type="number" value="220">
           </div>
         </div>
-        <textarea id="abcTextarea" placeholder="paste song here"></textarea>
+        <textarea id="abcTextarea" placeholder="Paste song here, ex: A1 A2 A3 . A4 A5"></textarea>
         <button id="importAbc" onclick="importABC()">Import</button>
       </div>
       <div id="abcExport" class="format" style="display: none; height: 100%;">
-        <textarea id="abcTextareaExport" onclick="this.setSelectionRange(0, this.value.length)"></textarea>
+        <textarea id="abcTextareaExport" onclick="this.setSelectionRange(0, this.value.length)" readonly></textarea>
         <button id="exportAbc" onclick="downloadAbc()">Download</button>
       </div>
     </div>
+    <button class="skyButton" id="lockScreen" onclick="lockScreen()">Lock screen</button>
 </body>
 
  <!-- <input type="sleeping" placeholder="username" style="display: none"> Easter egg-->
