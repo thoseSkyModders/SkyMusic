@@ -48,10 +48,10 @@
         Press + and - to change how the page looks!<br>
         You can always change this in the settings<br>
         </div>
-        <button class="skyButton" style="width: 30px;" onclick="changeScale(-1)">-</button>
-        <div type="number" id="scaleNumber" >100</div>%
-        <button class="skyButton" style="width: 30px;" onclick="changeScale(1)">+</button><br>
-        <button class="skyButton" id="confirm-scale" onclick="confirmScale()" style="width: 90%;">CONFIRM</button>
+        <button class="skyButton" style="width: 30px; background: rgba(77,77,77,0.85);" onclick="changeScale(-1)">-</button>
+        <div type="number" id="scaleNumber" style="background: rgba(77,77,77,0.85);" >100</div>%
+        <button class="skyButton" style="width: 30px; background: rgba(77,77,77,0.85);" onclick="changeScale(1)">+</button><br>
+        <button class="skyButton" style="background: rgba(77,77,77,0.85); width: 90%;" id="confirm-scale" onclick="confirmScale()">CONFIRM</button>
         <div>For any issues, check the SETTINGS and the help page</div>
         <div>If the app blocks or you see a black screen, rotate your device</div>
     </div>
@@ -224,12 +224,16 @@
         <button class="skyButton_2" onclick='window.open("help.html")'><p id="help-text-menu"  class="texts">Need help?</p></button>
     </div>
     <div class="menuDiv">
-        <button class="skyButton" id="manageRecordingsBtn" onclick="toggleSavedSongs()">Manage Recordings</button>
-        <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
-        <button class="musicButton" id="toggleInstruments" onclick="toggleInstrumentList()"></button>
-        <button class="pitchButton" id="togglePitchList" onclick="togglePitchList()">Key</button>
-        <button class="pitchButton" id="toggleReverbBtn" style="font-size: 1.3em; background-image: url(./icons/reverb.png);" onclick="toggleReverb()"></button>
-        <button id="stopSong" onclick="stopSong()"></button>
+        <div class="subMenuDiv shift40px">
+          <button class="skyButton" id="manageRecordingsBtn" onclick="toggleSavedSongs()">Manage Recordings</button>
+          <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
+        </div>
+        <div  class="subMenuDiv shift40px2">
+          <button class="musicButton" id="toggleInstruments" onclick="toggleInstrumentList()"></button>
+          <button class="pitchButton" id="togglePitchList" onclick="togglePitchList()">Key</button>
+          <button class="pitchButton" id="toggleReverbBtn" style="font-size: 1.3em; background-image: url(./icons/reverb.png);" onclick="toggleReverb()"></button>
+          <button id="stopSong" onclick="stopSong()"></button>
+        </div>
     </div>
     <div id=touch>
         <div class="Row1" id="row1"></div>
@@ -247,8 +251,9 @@
         <button type="button" id="drumBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/drum.png);"></button>
         <button type="button" id="handPanBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/handPan.png);"></button>  
         <button type="button" id="bellBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bell.png);"></button>
-        <!--
         <button type="button" id="contrabassBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/contrabass.png);"></button>
+        
+        <!--
         <button type="button" id="banjoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/banjoBtn.png);"/></button> 
         <button type="button" id="panfluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/panflute.png);"/></button>  
         TO REMOVE ONCE NEW INSTRUMENTS ARE ADDED

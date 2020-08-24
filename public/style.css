@@ -42,7 +42,7 @@
 	right: 0;
 	margin-right: auto;
 	margin-left: auto;
-	height: 15%;
+	min-height: 15%;
 	top: 70%;
 	font-size: 1em;
 	text-align: center;
@@ -53,7 +53,6 @@
 	background-color: rgba(22, 22, 22, 0.95);
 	display: none;
 	z-index: 110;
-	/*border: solid 1px #dad8b3;*/
 	box-shadow: 0 0 5px 3px rgba(0,0,0,0.3);
 	border-radius: 0.8em;
 }
@@ -84,11 +83,14 @@
 	display: block;
 }
 #exitFullScreenBtn{
-	position: absolute;
+	position: fixed;
 	left:15px;
 	bottom:10px;
 	display: none;
 	width: 35px;
+}
+.grayBtn{
+	background: rgba(77,77,77,0.85);
 }
 @media only screen and (orientation:portrait) {
 	#exitFullScreenBtn{
@@ -568,7 +570,7 @@ button {
 	background-color: #414141;
 	color: #dad8b3;
 	border: solid #222 1px;
-	border-radius: 1.5em;
+	border-radius: 1rem;
 	display: none;
 	z-index: 10;
 	max-height: 90vh;
@@ -629,7 +631,11 @@ div.fakefile {
 .menuDiv {
 	width: 100%;
 	text-align: center;
-	height: 50px;
+	display: flex;
+	flex-direction: row;
+	margin-right: 40px;
+	justify-content: center;
+	align-content: center;
 }
 
 body {
@@ -800,7 +806,7 @@ html{
 	text-align: right;
 }
 #lockScreen{
-	position: absolute;
+	position: fixed;
 	right: 0;
 	bottom: 0;
 	font-size: 0.7em;
@@ -822,7 +828,7 @@ html{
 	background-color: transparent;
 	z-index: 100;
 	border: none;
-	position: absolute;
+	position: fixed;
 	background: rgba(22, 22, 22, 0);
 	background-image: url('./icons/menu.png');
 	background-size: 35px 35px;
@@ -832,7 +838,12 @@ html{
 	height: 45px;
 	padding: 30px;
 }
-
+.subMenuDiv{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
 #savedSongsDivWrapper{
 	margin: auto;
 	top: 0;
@@ -841,7 +852,30 @@ html{
 	right: 0;
 	overflow: hidden;
 }
+.shift40px{
+	margin-left: 0;
+}
+.shift40px2{
+	margin-left: 0;
+}
+@media only screen and (orientation:landscape){
+	.shift40px{
+		margin-left: 40px;
+	}
+}
 @media only screen and (orientation:portrait){
+	.shift40px2{
+		margin-left: 40px;
+	}
+	.menuDiv{
+		flex-direction: column;
+	}
+	.subMenuDiv{
+		justify-content: center;
+	}
+	#floatingMessage{
+		width: 80vw;
+	}
 	#savedSongsDivWrapper{
 		width: 90%;
 		height: 80%;

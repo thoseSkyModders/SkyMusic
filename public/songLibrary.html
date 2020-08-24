@@ -1,115 +1,315 @@
 <html>
 <style>
-    body {
-        padding: 1em;
-        background-color: rgba(22, 22, 22, 0.95);
-        color: #dad8b3;
+    * {
+        border: none;
         font-family: Arial;
     }
 
-    .floatingMessage {
+    .content {
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    body {
+        padding: 1vw;
+        background-color: #181a1b;
+        color: #dad8b3;
+    }
+
+    .listelement,
+    .listelement2 {
+        background-color: #272b2d;
+        align-self: center;
+        border-radius: 1vw;
+        width: calc(100% - 2rem);
+        padding: 0 1rem 0;
+        margin: 1.5rem 0 0 0;
+        cursor: pointer;
+
+    }
+
+    #floatingMessage {
         position: fixed;
         width: 60%;
         left: calc(20% - 16px);
-        height: 15vh;
-        top: 50%;
-        font-size: 25px;
+        min-height: 5vh;
+        bottom: 10vh;
+        font-size: 1.4rem;
         text-align: center;
         padding: 1em;
-        font-family: Arial;
         font-weight: bold;
-        color: #dad8b3;
-        background-color: rgba(22, 22, 22, 0.95);
+        background-color: rgba(218, 216, 179, 0.9);
+        color: rgba(22, 22, 22, 0.95);
         display: none;
         z-index: 110;
-        border: solid 2px #dad8b3;
-        border-radius: 1em;
+        border-radius: 1vw;
     }
 
     h1 {
         color: rgba(235, 0, 27, 1);
     }
-    span{
+
+    span {
         color: rgba(235, 0, 27, 1);
         text-decoration: none;
     }
+
     a {
         font-size: 1.5em;
-        font-family: Arial;
-    }
-    @media only screen and (orientation:portrait) {
-        li{
-            margin-bottom: 10px;
-        }
-    }
-    .skyButton {
-        color: #dad8b3;
-        font-size: 1.5em;
-        background-color: rgba(22, 22, 22, 0.95);
-        padding: 0.1em;
-        cursor: pointer;
-        margin: 0.5em;
-        outline: none;
     }
 
     .skyButton2 {
-        border: solid 2px #dad8b3;
-        font-size: 1em;
+        font-size: 1rem;
         text-decoration: none;
-        border-radius: 0.4em;
+        border-radius: 0.4rem;
         box-sizing: border-box;
-        background-color: rgba(22, 22, 22, 0.65);
-        color: #dad8b3;
+        color: #181a1b;
+        background-color: #dad8b3;
         font-weight: bold;
+        min-height: 3vh;
+        cursor: pointer;
     }
 
     .select {
-        border: solid 2px #dad8b3;
-        font-size: 1em;
+        padding: 0.3em;
+        font-size: 1rem;
+        font-weight: bold;
         text-decoration: none;
-        border-radius: 0.3em;
-        color: #dad8b3;
-        background-color: rgba(22, 22, 22, 0.65);
+        border-radius: 0.4em;
+        color: #181a1b;
+        background-color: #dad8b3;
         text-align-last: center;
-        padding: 0 10px 0 10px;
-        margin: 0 10px 0 10px;
+        margin-right: 5vw;
         display: block;
         max-width: 50%;
+        min-width: 30%;
+        text-align: center;
+        height: 5vh;
+        cursor: pointer;
     }
 
-    .downloadSong {
+    .select::placeholder {
+        font-size: 1rem;
+    }
+
+    .searchContainer {
+        border-left: solid 2px #dad8b3;
+    }
+
+    .dS {
         vertical-align: middle;
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
     }
 
     img {
         cursor: pointer;
     }
+
+    #x {
+        color: rgba(235, 0, 27, 1);
+        margin-left: auto;
+        min-width: 30px;
+        min-height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+
     skyButton {
-        color: #dad8b3;
-        border: solid #dad8b3 1.5px;
-        background-color: rgba(22, 22, 22, 0.65);
-        border-radius: 0.5em;
-        font-size: 1em;
-        padding: 0.4em;
+        background-color: #424242;
+        border-radius: 0.4em;
+        font-size: 1.2em;
+        padding: 0.6em;
         box-sizing: border-box;
         cursor: pointer;
-        margin: 0.5em;
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         outline: none;
+        margin: 0.3rem;
     }
-    c{
 
-        color: #dad8b3;
+    .expand {
+        background-image: url(./icons/expand.svg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 60px;
+        width: 40px;
+        margin-left: -5px;
+    }
+
+    .rotate90 {
+        transform: rotate(-90deg);
+        transition: 0.3s linear;
+    }
+
+    .rotate0 {
+        transform: rotate(0deg);
+        transition: 0.4s linear;
+    }
+
+    .floatingMenu {
+        position: fixed;
+        right: 1rem;
+        top: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .searchContainer {
+        align-self: center;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        padding: 0.5rem;
+    }
+
+    .sticker {
+        width: 15vw;
+    }
+
+    #searchResults {
+        display: none;
+        text-align: center;
+        font-size: 1.5rem;
+        margin-top: 3vh;
+        padding: 0 0.5rem 0 0.5rem;
+    }
+
+    #resultsWrapper {
+        overflow-y: auto;
+        padding: 0.5rem;
+        max-height: 60vh;
+    }
+
+    .buttonsContainer {
+        display: flex;
+        background-color: #272b2d;
+        padding: 0.8rem;
+        padding-top: 1.2rem;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 1vw;
+    }
+
+    .sendSongContainer {
+        display: flex;
+        flex-direction: row;
+        font-size: 1.5em;
+        padding: 0.5rem;
+    }
+
+    #instrumentSelection {
+        position: fixed;
+        top: calc(1vw + 8px);
+        right: calc(1vw + 8px);
+        color: #181a1b;
+
+        background-color: rgba(218, 216, 179, 0.8);
+        min-height: 4vh;
+    }
+
+    #resultsWrapper {
+        text-align: left;
+        margin-top: 0.8rem;
+    }
+
+    .skyMusicGithub {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .innerButtonsContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .searchInLibraryText {
+        font-size: 1rem;
+        text-align: center;
+        margin-bottom: 0.4rem;
+        margin-top: -1.4rem;
+    }
+
+    @media only screen and (orientation:portrait) {
+        skyButton {
+            margin: 0.1rem;
+        }
+
+        .innerButtonsContainer {
+            flex-direction: column;
+        }
+
+        .searchInLibraryText {
+            margin-top: 0rem;
+        }
+
+        .skyMusicGithub {
+            justify-content: center;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .sticker {
+            width: 28vw;
+        }
+
+        #floatingMessage {
+            border-radius: 3vw;
+        }
+
+        .select {
+            min-width: 50%;
+        }
+
+        .skyButton2 {
+            min-width: 30%;
+        }
+
+        .buttonsContainer {
+            flex-direction: column;
+            border-radius: 2vw;
+        }
+
+        .listelement,
+        .listelement2 {
+            border-radius: 3vw;
+        }
+
+        .sendSongContainer,
+        .searchContainer {
+            width: 95%;
+        }
+
+        .searchContainer,
+        .sendSongContainer {
+            border: none;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
     }
 </style>
 
 <head>
+    <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#2196F3">
     <meta name="description" content="Song library for Sky Music!">
     <meta name="keywords" content="Sky,Music,piano,harp,xylophone,drum,guitar,horn,bell,record,share,midi">
     <meta name="author" content="thoseSkyModders">
-    <meta name="mobile-web-app-capable" content="yes"> 
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Sky Music Library">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -120,7 +320,8 @@
     <meta property="og:title" content="Sky Music Library">
     <meta property="og:url" content="https://sky-music.herokuapp.com/">
     <meta property="og:description" content="Song library for Sky Music!">
-    <link rel="icon" type="image/png" href="/favicon.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <script src="/scripts/jquery.js"></script>
     <script src="/scripts/jqueryUI.js"></script>
     <link rel="shortcut icon" href="/favicon.png?v=2" type="image/x-icon" />
@@ -128,499 +329,709 @@
 </head>
 
 <body>
-    <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
+    <div id="floatingMessage"> placeholder text </div>
     <div id="notes"></div>
-    <a href="/" class=skyButton
-        style="border:solid 2px #dad8b3; text-decoration: none; border-radius: 0.3em; padding: 0.2em; position: fixed; right:0">GO
-        BACK</a>
-        <br><br>
-    <div style="font-size: 2em; font-family: Arial; display: flex; flex-direction: row;">
-        <div style="width: 600px; height: 60px; display: flex; flex-direction: row;">
+    <div style="display: flex; width: 100%; justify-content: flex-start; margin-bottom: 2vh;">
+        <button class="skyButton2" onclick="location.href = window.location.origin + '/'"
+            style="min-height: 4vh;font-size: 1.2rem;">
+            GO BACK
+        </button>
+    </div>
+    <select id="instrumentSelection" class="skyButton2">
+        <option>Piano</option>
+        <option>Harp</option>
+        <option>Guitar</option>
+        <option>Horn</option>
+        <option selected>Xylophone</option>
+        <option>Flute</option>
+        <option>Drum</option>
+        <option>Bell</option>
+        <option>ToyUkulele</option>
+        <option>HandPan</option>
+        <option>WinterPiano</option>
+        <option>Contrabass</option>
+    </select>
+    <div style="font-size: 2em; display: flex; flex-direction: row;">
+        <div
+            style="width: 100%;display: flex; flex-direction: row; justify-content: space-evenly; align-items: center;">
             <a href="https://play.google.com/store/apps/details?id=com.herokuapp.sky_music.twa">
-                <img style="height: 100%; margin: 10px;" src="/icons/gplay.png"></a>
-            <a href="./SkyMusic.apk"><img style="height: 100%; margin: 10px;" src="/icons/dapk.png"></a>
-            <a href="https://discord.gg/NFFRTed"><img style="height: 100%; margin: 10px;" src="/discord.png"></a>
-        
+                <img class="sticker" src="/icons/gplay.png"></a>
+            <a href="./SkyMusic.apk"><img class="sticker" src="/icons/dapk.png"></a>
+            <a href="https://discord.gg/NFFRTed"><img class="sticker" src="/discord.png"></a>
+
         </div>
     </div>
-    <div style="border-top: solid 2px #dad8b3; margin: 2em 0 2em 0; padding: 1em;">
-        Press a song to hear it (Wait for it to load), to download it press the <img class="downloadSong">
-        button.<br>
-        Once you download a song, you will be able to listen to it in the "manage recordings"
+    <div style="border-top: solid 2px #dad8b3; padding: 1em; margin-top: 1rem;">
+        Press a song to hear it, to download it press: <img class="dS" onclick="showMessage('Go download some songs!')"><br>
+        it will be saved in the main page (Go back)
     </div>
-    <div style="display: flex; flex-direction: row; font-size: 1.5em; align-items: center;">
-        Send us your song!
-        <select id="selectedSong" class="select">
-            <option selected disabled>Select song</option>
-        </select>
-        <button onclick="sendSong(this)" class="skyButton2">Send song</button>
-    </div>
-    <ul>
-        <h1><c>▼</c> Song Pack</h1>
+    <div class="buttonsContainer">
+        <div class="innerButtonsContainer">
+            <div class="sendSongContainer" style="display: flex; flex-direction: column;">
+                <div style="font-size: 1rem; margin-top: -1.4rem; text-align: center; margin-bottom: 0.4rem;">
+                    Send us your song!
+                </div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <select id="selectedSong" class="select">
+                        <option selected disabled>Select song</option>
+                    </select>
+                    <button onclick="sendSong(this)" class="skyButton2" style="padding:0.3em;">Send song</button>
+                </div>
+            </div>
 
-        <li><a>Song pack 1</a> <img class="downloadSong" onclick='downloadJSON("Song_pack_1")'><br></li>
-        <li><a>Song pack 2</a> <img class="downloadSong" onclick='downloadJSON("Song_pack_2")'><br></li>
-        <li><a>SCSM pack</a> <img class="downloadSong" onclick='downloadJSON("SCSM_pack")'><br></li>
-    </ul>
+            <div class="searchContainer" style="display: flex; flex-direction: column;">
+                <div class="searchInLibraryText">
+                    Search in the library
+                </div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <textarea id="search" class="select" placeholder="Search song"></textarea>
+                    <button onclick="search()" class="skyButton2">Search</button>
+                </div>
+            </div>
+        </div>
+        <div id="searchResults">
+            <div style="display: inline-flex; position: relative; width: 100%;">
+                Results
+                <div class="skyButton2" id="x" onclick="document.getElementById('resultsWrapper').innerHTML = '', searchResults.style.display = 'none'">
+                    x
+                </div>
+            </div>
+            <div id="resultsWrapper">
+
+            </div>
+        </div>
+    </div>
+    <div style="display: flex; flex-direction: column; justify-content: center; width: 100%;">
+        <ul class="listelement2">
+            <div style="display: inline-flex; width: 100%;"> 
+                <div class="expand rotate90"></div><h1>Song Pack</h1>
+            </div>
+    
+            <li><img class="dS" onclick='dwJS("Song_pack_1")'><a>Song pack 1</a><br></li>
+            <li><img class="dS" onclick='dwJS("Song_pack_2")'><a>Song pack 2</a> <br></li>
+            <li><img class="dS" onclick='dwJS("SCSM_pack")'><a>SCSM pack</a> <br></li>
+        </ul>
+        <ul class="listelement">
+            <div style="display: inline-flex; width: 100%;"> 
+                <div class="expand rotate0"></div><h1>Easy</h1>
+            </div>
+            <div style="overflow: auto;">
+                <li class="content"> <img class="dS" onclick='dwJS("You_are_my_Sunshine")'><skyButton onclick="playSong(this)">You are my Sunshine</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Ode_to_joy")'><skyButton onclick="playSong(this)">Ode to joy</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("The_lion_sleeps_tonight")'><skyButton onclick="playSong(this)">The lion sleeps tonight</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("undertale")'><skyButton onclick="playSong(this)">undertale</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Kum_Ba_Yah")'><skyButton onclick="playSong(this)">Kum Ba Yah</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Do-Re-Mi")'><skyButton onclick="playSong(this)">Do-Re-Mi</skyButton> <br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Binary_Sunset_Star_Wars")'><skyButton onclick="playSong(this)">Binary Sunset Star Wars</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("bad_romance_chorus")'><skyButton onclick="playSong(this)">bad romance chorus</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Tetris_Theme")'><skyButton onclick="playSong(this)">Tetris Theme</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Clementine")'><skyButton onclick="playSong(this)">Clementine</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Ive_Been_Working_on_the_Railroad")'><skyButton onclick="playSong(this)">Ive Been Working on the Railroad</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("la_Cucaracha")'><skyButton onclick="playSong(this)">la Cucaracha</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Lily_-_Alan_Walker")'><skyButton onclick="playSong(this)">Lily - Alan Walker</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Shatter_me")'><skyButton onclick="playSong(this)">Shatter me</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Ed_sheeran_perfect')"><skyButton onclick="playSong(this)">Ed sheeran perfect</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('lavender_Town')"><skyButton onclick="playSong(this)">lavender Town</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('San_Francisco')"><skyButton onclick="playSong(this)">San Francisco</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Scarborough_Fair')"><skyButton onclick="playSong(this)">Scarborough Fair</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Path_Of_The_Wind_-_My_Neighborhood_Is_Totoro_OST')"><skyButton onclick="playSong(this)">Path Of The Wind - My Neighborhood Is Totoro OST - SCSM</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Firefall_SC')"><skyButton onclick="playSong(this)">Firefall SC</skyButton><br></li>    
+                <li class="content"> <img class="dS" onclick="dwJS('Hora_dels_Adeus')"><skyButton onclick="playSong(this)">Hora dels Adeus</skyButton><br></li>    
+                <li class="content"> <img class="dS" onclick="dwJS('Cant_help_falling_in_love')"><skyButton onclick="playSong(this)">Can't help falling in love</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Kygo_-_Firestone')"><skyButton onclick="playSong(this)">Kygo - Firestone</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Mitsuhas_Theme_YOUR_NAME')"><skyButton onclick="playSong(this)">Mitsuha's Theme (YOUR NAME)</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Youre_in_Love_Howls_Moving_Castle')"><skyButton onclick="playSong(this)">You're in Love (Howl's Moving Castle)</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Song_Of_Storms')"><skyButton onclick="playSong(this)">Song Of Storms</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Little_Soldier_Boy_Leaves_From_The_Vine_-_Avatar')"><skyButton onclick="playSong(this)">Little Soldier Boy (Leaves From The Vine) - Avatar</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('FMA_-_Brothers')"><skyButton onclick="playSong(this)">FMA - Brothers</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Pokemon_Center')"><skyButton onclick="playSong(this)">Pokemon Center</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Coffin_song')"><skyButton onclick="playSong(this)">Coffin song</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('FrereJacques')"><skyButton onclick="playSong(this)">Frere Jacques </skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Marry_had_a_little_lamb')"><skyButton onclick="playSong(this)">Marry had a little lamb</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Bad_guy_by_Billie_Eilish')"><skyButton onclick="playSong(this)">Bad guy by Billie Eilish</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Twinkle_twinkle_little_star')"><skyButton onclick="playSong(this)">Twinkle twinkle little star</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Married_life_from_UP')"><skyButton onclick="playSong(this)">Married life (from UP)</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Still_DRE')"><skyButton onclick="playSong(this)">Still D.R.E. (Thug life)</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Renesmees_Lullaby')"><skyButton onclick="playSong(this)">Renesmee's Lullaby</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Avatars_Love')"><skyButton onclick="playSong(this)">Avatar's Love</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('MinecraftThemefor_Handpan_Key_E')"><skyButton onclick="playSong(this)">Minecraft Theme (for Handpan Key E)</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Log_drivers_walts')"><skyButton onclick="playSong(this)">Log driver's walts</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('O_Holy_Night')"><skyButton onclick="playSong(this)">O Holy Night</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Dearly_Beloved_-_Kingdom_Hearts_OST')"><skyButton onclick="playSong(this)">Dearly Beloved - Kingdom Hearts OST</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Funeral_March_-_Chopin')"><skyButton onclick="playSong(this)">Funeral March - Chopin</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Giornos_theme')"><skyButton onclick="playSong(this)">Giornos theme</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Kiss_the_rain')"><skyButton onclick="playSong(this)">Kiss the rain</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Log_Drivers_Waltz')"><skyButton onclick="playSong(this)">Log Drivers Waltz</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Memory_-_Undertale')"><skyButton onclick="playSong(this)">Memory - Undertale</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Merry_Christmas_Mr_Lawrence_Intro')"><skyButton onclick="playSong(this)">Merry Christmas Mr Lawrence Intro</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Naruto_Silhouette')"><skyButton onclick="playSong(this)">Naruto Silhouette</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Pure_Imagination')"><skyButton onclick="playSong(this)">Pure Imagination</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Crazy_Frog')"><skyButton onclick="playSong(this)">Crazy Frog</skyButton><br></li>
+                <li class="content"> <img class="dS" onclick="dwJS('under_the_sea_v3')"><skyButton onclick="playSong(this)">under the sea v3</skyButton><br></li>
+        
+            </div>
+                
+        </ul> 
+        <ul class="listelement">       
+            <div style="display: inline-flex; width: 100%;"> 
+                <div class="expand rotate0"></div><h1>Medium</h1>
+            </div>
+            <div style="overflow: auto;">
+            <li class="content"> <img class="dS" onclick='dwJS("Davy_Joness_Theme")'><skyButton onclick="playSong(this)">Davy Joness Theme</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Hedwigs_Theme_Harry_Potter")'><skyButton onclick="playSong(this)">Hedwigs Theme Harry Potter</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Flohwalzer")'><skyButton onclick="playSong(this)">Flohwalzer</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Oh_Susanna")'><skyButton onclick="playSong(this)">Oh Susanna</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Take_Me_to_church")'><skyButton onclick="playSong(this)">Take Me to church</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Carrying_You_Laputa')"><skyButton onclick="playSong(this)">Carrying You Laputa</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Gravity_Falls_Theme')"><skyButton onclick="playSong(this)">Gravity Falls Theme</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('If_You_Are_Happy')"><skyButton onclick="playSong(this)">If You Are Happy</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Lord_Of_The_Rings_CM')"><skyButton onclick="playSong(this)">Lord Of The Rings CM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Ode_to_Joy_-_Hard')"><skyButton onclick="playSong(this)">Ode to Joy - Hard</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Owl_City_Fireflies')"><skyButton onclick="playSong(this)">Owl City Fireflies</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Route_01_Pokemon')"><skyButton onclick="playSong(this)">Route 01 Pokemon</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Skyrim_theme')"><skyButton onclick="playSong(this)">Skyrim theme</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Hallelujah')"><skyButton onclick="playSong(this)">Hallelujah</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Ashikata_and_San_-_Princess_Mononoke_OST')"><skyButton onclick="playSong(this)">Ashikata and San - Princess Mononoke OST - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('em_đã_bỏ_thuốc_chưa')"><skyButton onclick="playSong(this)">em đã bỏ thuốc chưa - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('I_Love_You_3000')"><skyButton onclick="playSong(this)">I Love You 3000 - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Merry_Go_Round_of_Life_-_Howl_Moving_Castle_OST')"><skyButton onclick="playSong(this)">Merry Go Round of Life - Howl's Moving Castle OST - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Mononoke_Hime_Medley')"><skyButton onclick="playSong(this)">Mononoke Hime Medley - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('One_Summer_Day_-_Spirited_Away_OST')"><skyButton onclick="playSong(this)">One Summer Day - Spirited Away OST - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Play_Date')"><skyButton onclick="playSong(this)">Play Date - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Ponyo_on_the_Cliff_By_the_Sea_-_Ponyo_OST')"><skyButton onclick="playSong(this)">Ponyo on the Cliff By the Sea - Ponyo OST - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('SUMMERTIME')"><skyButton onclick="playSong(this)">SUMMERTIME - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Summer_-_Joe_Hisaishi')"><skyButton onclick="playSong(this)">Summer - Joe Hisaishi - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Kataware_Doki')"><skyButton onclick="playSong(this)">Kataware Doki</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('How_far_Ill_GoMoana')"><skyButton onclick="playSong(this)">How far I'll Go - Moana</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('穿越時空的思念')"><skyButton onclick="playSong(this)">穿越時空的思念 - Inuyasha </skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('The_Truth_Untold_Short_-_BTS')"><skyButton onclick="playSong(this)">The Truth Untold Short - BTS</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('WuJi_Unrestrained_-_The_Untamed')"><skyButton onclick="playSong(this)">WuJi Unrestrained - The Untamed</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('River_flows_in_you')"><skyButton onclick="playSong(this)">River flows in you</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('BTS_Jungkook_-_Euphoria')"><skyButton onclick="playSong(this)">BTS (Jungkook) - Euphoria</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Never_gonna_give_you_up_Easy')"><skyButton onclick="playSong(this)">Never gonna give you up (Easy)</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('River_flows_in_you_-_Yiruma')"><skyButton onclick="playSong(this)">River flows in you - Yiruma</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('FFVII_Tifas_Theme')"><skyButton onclick="playSong(this)">FFVII Tifas Theme</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Ill_find_you_sooner_than_the_stars_EASIER_Version_-_One_Punch_Man_Ending_Theme_Song')"><skyButton onclick="playSong(this)">Ill find you sooner than the stars EASIER Version - One Punch Man Ending Theme Song</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Lyras_Song')"><skyButton onclick="playSong(this)">Lyras Song</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Monody')"><skyButton onclick="playSong(this)">Monody</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Promise_-_BTS_Jimin')"><skyButton onclick="playSong(this)">Promise - BTS Jimin</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Someone_You_Loved')"><skyButton onclick="playSong(this)">Someone You Loved</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Astronomia')"><skyButton onclick="playSong(this)">Astronomia (Coffin song)</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Undertale_OST_012_Home_-_Toby_Fox')"><skyButton onclick="playSong(this)">Undertale OST 012 Home - Toby Fox</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('The_DeadSouth-_Act_of_Approach')"><skyButton onclick="playSong(this)">The Dead South - Act of Approach</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Higurashi_no_Naku_Koroni-_Dear_You')"><skyButton onclick="playSong(this)">Higurashi no Naku Koro ni - Dear You</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('NieR_Replicant-Song_of_the_Ancients')"><skyButton onclick="playSong(this)">NieR Replicant-Song of the Ancients</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('BTS_-_Friends')"><skyButton onclick="playSong(this)">BTS - Friends</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Grandpas_Theme_-_Stardew_Valley')"><skyButton onclick="playSong(this)">Grandpas Theme - Stardew Valley</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Main_Theme_-_AnimalCrossing__NewHorizon')"><skyButton onclick="playSong(this)">Main Theme - AnimalCrossing  NewHorizon</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Bigfish_and_Begonia')"><skyButton onclick="playSong(this)">Bigfish and Begonia</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Doraemon_-ukm')"><skyButton onclick="playSong(this)">Doraemon -ukm</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Futari_No_Kimochi_To_Loves_End')"><skyButton onclick="playSong(this)">Futari No Kimochi To Loves End</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Lacie_-_Pandora_Hearts_OST')"><skyButton onclick="playSong(this)">Lacie - Pandora Hearts OST</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Maria_-ukm')"><skyButton onclick="playSong(this)">Maria -ukm</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Melodia_up')"><skyButton onclick="playSong(this)">Melodia up</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Mia__Sebastians_ThemeEpilogue')"><skyButton onclick="playSong(this)">Mia  Sebastians ThemeEpilogue</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Miphas_theme_easy')"><skyButton onclick="playSong(this)">Miphas theme easy</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Mononoke_hime')"><skyButton onclick="playSong(this)">Mononoke hime</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('one_summers_day_sky_sheet')"><skyButton onclick="playSong(this)">one summers day sky sheet</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('orange_easy_ikina')"><skyButton onclick="playSong(this)">orange easy ikina</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('PLAY_DATE___MELANIE_MARTINEZ')"><skyButton onclick="playSong(this)">PLAY DATE   MELANIE MARTINEZ</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Raggs_Requiem')"><skyButton onclick="playSong(this)">Raggs Requiem</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Remember_me')"><skyButton onclick="playSong(this)">Remember me</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('See_You_Again_-_Wiz_Khalifa_ft_Charlie_Puth')"><skyButton onclick="playSong(this)">See You Again - Wiz Khalifa ft Charlie Puth</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Title_Theme-_Wind_Waker')"><skyButton onclick="playSong(this)">Title Theme- Wind Waker</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Tsuna_Awakening_-_Katekyo_Hitman_Reborn_OST')"><skyButton onclick="playSong(this)">Tsuna Awakening - Katekyo Hitman Reborn OST</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Undertale-Undertale')"><skyButton onclick="playSong(this)">Undertale-Undertale</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Wandersong_-_Sailing_with_the_Coffee_Pirates_Chorus')"><skyButton onclick="playSong(this)">Wandersong - Sailing with the Coffee Pirates Chorus</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Way_Back_home_-_Shaun___By__Alkis_112sec')"><skyButton onclick="playSong(this)">Way Back home - Shaun   By  Alkis 112sec</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('We_are_number_one')"><skyButton onclick="playSong(this)">We are number one</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Yume_to_Hazakura')"><skyButton onclick="playSong(this)">Yume to Hazakura</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('67020c634d0dff28')"><skyButton onclick="playSong(this)">ちいさな冒険者 - Chiisana Bokensha</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Binks_Sake')"><skyButton onclick="playSong(this)">Binks Sake</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Senbonzakura_-_Hatsune_Miku_Easier_Version')"><skyButton onclick="playSong(this)">Senbonzakura - Hatsune Miku Easier Version</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Your_Eyes_Tell_-_BTS')"><skyButton onclick="playSong(this)">Your Eyes Tell - BTS</skyButton><br></li>
+            </div>
+        </ul>
+        <ul class="listelement">  
+            <div style="display: inline-flex; width: 100%;"> 
+                <div class="expand rotate0"></div><h1>Hard</h1>
+            </div>
+            <div style="overflow: auto;">
+            <li class="content"> <img class="dS" onclick="dwJS('The_Myth_OST')"><skyButton onclick="playSong(this)">The Myth OST</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Music_sheet_8_Extended")'><skyButton onclick="playSong(this)">Music sheet 8 Extended</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Speak_Softly_Love_-_Godfather_Theme")'><skyButton onclick="playSong(this)">Speak Softly Love - Godfather Theme</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Rather_be")'><skyButton onclick="playSong(this)">Rather be</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Chuanyue_shikong_de_sinian')"><skyButton onclick="playSong(this)">Chuanyue shikong de sinian</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Có_Chắc_Yêu_Là_Đây_(Ballad Version)_by_Komo')"><skyButton onclick="playSong(this)">Có Chắc Yêu Là Đây (Ballad Version) by Komo - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Có_Chắc_Yêu_Là_Đây_-_Sơn_Tùng_MTP')"><skyButton onclick="playSong(this)">Có Chắc Yêu Là Đây - Sơn Tùng MTP - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Gravity_Fall_Opening_Theme_Song')"><skyButton onclick="playSong(this)">Gravity Fall Opening Theme Song (Hard) - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Renai_Circulation_-_Kana_Hanazawa_by_Komo_The_Bread')"><skyButton onclick="playSong(this)">Renai Circulation - Kana Hanazawa by Komo The Bread - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Tonari_no_Totoro_-_My_Neighborhood_Is_Totoro_OST')"><skyButton onclick="playSong(this)">Tonari no Totoro - My Neighborhood Is Totoro OST - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('He_is_a_pirate')"><skyButton onclick="playSong(this)">He's a pirate</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('He_is_a_pirate(slow)')"><skyButton onclick="playSong(this)">He's a pirate (slow)</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Evangelion_-_A_cruel_angel_thesis')"><skyButton onclick="playSong(this)">Evangelion - A cruel angel thesis</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Priscillas_song_-_Skyrim')"><skyButton onclick="playSong(this)">Priscilla's song - Skyrim</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Alone')"><skyButton onclick="playSong(this)">Alone</skyButton><br></li>    
+            <li class="content"> <img class="dS" onclick="dwJS('Rolling_girl_-_Hatsune_Miku')"><skyButton onclick="playSong(this)">Rolling girl - Hatsune Miku</skyButton><br></li>    
+            <li class="content"> <img class="dS" onclick="dwJS('Wintergatan_-_Marble_machine')"><skyButton onclick="playSong(this)">Wintergatan - Marble machine</skyButton><br></li>    
+            <li class="content"> <img class="dS" onclick="dwJS('em_đã_bỏ_thuốcchưa-_SCMS')"><skyButton onclick="playSong(this)">em đã bỏ thuốc chưa? - SCMS</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Moon_-_BTS_Jin')"><skyButton onclick="playSong(this)">Moon - 방탄소년단 (BTS), Jin</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('stuck_with_u')"><skyButton onclick="playSong(this)">Stuck with u </skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Clair_de_Lune_-_Debussy')"><skyButton onclick="playSong(this)">Clair de Lune - Debussy</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Lemon_Verse')"><skyButton onclick="playSong(this)">Lemon Verse</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Never_gonna_give_you_up')"><skyButton onclick="playSong(this)">Never gonna give you up</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Falling_-_Harry_Styles')"><skyButton onclick="playSong(this)">Falling - Harry Styles</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Flower_Dance')"><skyButton onclick="playSong(this)">Flower Dance</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Butterfly_LOO_Bb')"><skyButton onclick="playSong(this)">Butterfly (LOOΠ∆) (Bb)</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Ill_find_you_sooner_than_the_stars_-_One_Punch_Man_Ending_Theme_Song')"><skyButton onclick="playSong(this)">Ill find you sooner than the stars - One Punch Man Ending Theme Song</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('valder_fields')"><skyButton onclick="playSong(this)">valder fields</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('bad_apple')"><skyButton onclick="playSong(this)">bad apple</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Viva_la_Vida')"><skyButton onclick="playSong(this)">Viva la Vida 2</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Serendipity_-_BTS_Jimin')"><skyButton onclick="playSong(this)">Serendipity - BTS (Jimin)</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Nier_OST_Shadow_Lord')"><skyButton onclick="playSong(this)">Nier OST Shadow Lord</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('KaineSalvation')"><skyButton onclick="playSong(this)">Kaine(Salvation)</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Love4Eva')"><skyButton onclick="playSong(this)">Love4Eva</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Kawaranai_mono_-_Girl_Who_Leapt_Through_Time')"><skyButton onclick="playSong(this)">Kawaranai mono - Girl Who Leapt Through Time</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Top_-_Stray_Kids_Tower_of_God_OP')"><skyButton onclick="playSong(this)">Top - Stray Kids Tower of God OP</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Chiisana_Koi_no_Uta')"><skyButton onclick="playSong(this)">Chiisana Koi no Uta</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Faded_-_Alan_Walker_Hard')"><skyButton onclick="playSong(this)">Faded - Alan Walker Hard</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Interstellar_main_theme')"><skyButton onclick="playSong(this)">Interstellar main theme</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Omae_Wa_Mou_-_Sky_Children_Music_Studio')"><skyButton onclick="playSong(this)">Omae Wa Mou - SCSM</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Porter_Robson__Madeon_-_Shelter')"><skyButton onclick="playSong(this)">Porter Robson  Madeon - Shelter</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Proud_Of_You')"><skyButton onclick="playSong(this)">Proud Of You</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Sacred_Grove_-_Legend_of_Zelda_Twilight_Princess')"><skyButton onclick="playSong(this)">Sacred Grove - Legend of Zelda Twilight Princess</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('STAY_-_BLACKPINK_Db')"><skyButton onclick="playSong(this)">STAY - BLACKPINK Db</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('TWICE_-_Feel_Special_Ab')"><skyButton onclick="playSong(this)">TWICE - Feel Special Ab</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Sacred_Grove_-_Legend_of_Zelda_Twilight_Princess_Duet')"><skyButton onclick="playSong(this)">Sacred_Grove_-_Legend_of_Zelda_Twilight_Princess_Duet (Download for both parts)</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('coffee_pirates')"><skyButton onclick="playSong(this)">coffee pirates</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Fallin_Flower_-_Seventeen')"><skyButton onclick="playSong(this)">Fallin Flower - Seventeen</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Senbonzakura_-_Hatsune_Miku')"><skyButton onclick="playSong(this)">Senbonzakura - Hatsune Miku</skyButton><br></li>
+            </ul>
+    </div>
 
     <ul class="listelement">
-        <h1><c>▶</c> Easy</h1>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("You_are_my_Sunshine")'><skyButton onclick="playSong(this)">You are my Sunshine</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Ode_to_joy")'><skyButton onclick="playSong(this)">Ode to joy</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("The_lion_sleeps_tonight")'><skyButton onclick="playSong(this)">The lion sleeps tonight</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("undertale")'><skyButton onclick="playSong(this)">undertale</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Kum_Ba_Yah")'><skyButton onclick="playSong(this)">Kum Ba Yah</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Do-Re-Mi")'><skyButton onclick="playSong(this)">Do-Re-Mi</skyButton> <br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Binary_Sunset_Star_Wars")'><skyButton onclick="playSong(this)">Binary Sunset Star Wars</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("bad_romance_chorus")'><skyButton onclick="playSong(this)">bad romance chorus</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Tetris_Theme")'><skyButton onclick="playSong(this)">Tetris Theme</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Clementine")'><skyButton onclick="playSong(this)">Clementine</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Ive_Been_Working_on_the_Railroad")'><skyButton onclick="playSong(this)">Ive Been Working on the Railroad</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("la_Cucaracha")'><skyButton onclick="playSong(this)">la Cucaracha</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Lily_-_Alan_Walker")'><skyButton onclick="playSong(this)">Lily - Alan Walker</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Shatter_me")'><skyButton onclick="playSong(this)">Shatter me</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Ed_sheeran_perfect')"><skyButton onclick="playSong(this)">Ed sheeran perfect</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('lavender_Town')"><skyButton onclick="playSong(this)">lavender Town</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('San_Francisco')"><skyButton onclick="playSong(this)">San Francisco</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Scarborough_Fair')"><skyButton onclick="playSong(this)">Scarborough Fair</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Path_Of_The_Wind_-_My_Neighborhood_Is_Totoro_OST')"><skyButton onclick="playSong(this)">Path Of The Wind - My Neighborhood Is Totoro OST - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Firefall_SC')"><skyButton onclick="playSong(this)">Firefall SC</skyButton><br></li>    
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Hora_dels_Adeus')"><skyButton onclick="playSong(this)">Hora dels Adeus</skyButton><br></li>    
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Cant_help_falling_in_love')"><skyButton onclick="playSong(this)">Can't help falling in love</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Kygo_-_Firestone')"><skyButton onclick="playSong(this)">Kygo - Firestone</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Mitsuhas_Theme_YOUR_NAME')"><skyButton onclick="playSong(this)">Mitsuha's Theme (YOUR NAME)</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Youre_in_Love_Howls_Moving_Castle')"><skyButton onclick="playSong(this)">You're in Love (Howl's Moving Castle)</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Song_Of_Storms')"><skyButton onclick="playSong(this)">Song Of Storms</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Little_Soldier_Boy_Leaves_From_The_Vine_-_Avatar')"><skyButton onclick="playSong(this)">Little Soldier Boy (Leaves From The Vine) - Avatar</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('FMA_-_Brothers')"><skyButton onclick="playSong(this)">FMA - Brothers</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Pokemon_Center')"><skyButton onclick="playSong(this)">Pokemon Center</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Coffin_song')"><skyButton onclick="playSong(this)">Coffin song</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('FrereJacques')"><skyButton onclick="playSong(this)">Frere Jacques </skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Marry_had_a_little_lamb')"><skyButton onclick="playSong(this)">Marry had a little lamb</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Bad_guy_by_Billie_Eilish')"><skyButton onclick="playSong(this)">Bad guy by Billie Eilish</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Twinkle_twinkle_little_star')"><skyButton onclick="playSong(this)">Twinkle twinkle little star</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Married_life_from_UP')"><skyButton onclick="playSong(this)">Married life (from UP)</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Still_DRE')"><skyButton onclick="playSong(this)">Still D.R.E. (Thug life)</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Renesmees_Lullaby')"><skyButton onclick="playSong(this)">Renesmee's Lullaby</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Avatars_Love')"><skyButton onclick="playSong(this)">Avatar's Love</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('MinecraftThemefor_Handpan_Key_E')"><skyButton onclick="playSong(this)">Minecraft Theme (for Handpan Key E)</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Log_drivers_walts')"><skyButton onclick="playSong(this)">Log driver's walts</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('O_Holy_Night')"><skyButton onclick="playSong(this)">O Holy Night</skyButton><br></li>
-    
-    </ul> 
-    <ul class="listelement">       
-        <h1><c>▶</c> Medium</h1>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Davy_Joness_Theme")'><skyButton onclick="playSong(this)">Davy Joness Theme</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Hedwigs_Theme_Harry_Potter")'><skyButton onclick="playSong(this)">Hedwigs Theme Harry Potter</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Flohwalzer")'><skyButton onclick="playSong(this)">Flohwalzer</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Oh_Susanna")'><skyButton onclick="playSong(this)">Oh Susanna</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Take_Me_to_church")'><skyButton onclick="playSong(this)">Take Me to church</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Carrying_You_Laputa')"><skyButton onclick="playSong(this)">Carrying You Laputa</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Gravity_Falls_Theme')"><skyButton onclick="playSong(this)">Gravity Falls Theme</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('If_You_Are_Happy')"><skyButton onclick="playSong(this)">If You Are Happy</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Lord_Of_The_Rings_CM')"><skyButton onclick="playSong(this)">Lord Of The Rings CM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Ode_to_Joy_-_Hard')"><skyButton onclick="playSong(this)">Ode to Joy - Hard</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Owl_City_Fireflies')"><skyButton onclick="playSong(this)">Owl City Fireflies</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Route_01_Pokemon')"><skyButton onclick="playSong(this)">Route 01 Pokemon</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Skyrim_theme')"><skyButton onclick="playSong(this)">Skyrim theme</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Hallelujah')"><skyButton onclick="playSong(this)">Hallelujah</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Ashikata_and_San_-_Princess_Mononoke_OST')"><skyButton onclick="playSong(this)">Ashikata and San - Princess Mononoke OST - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('em_đã_bỏ_thuốc_chưa')"><skyButton onclick="playSong(this)">em đã bỏ thuốc chưa - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('I_Love_You_3000')"><skyButton onclick="playSong(this)">I Love You 3000 - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Merry_Go_Round_of_Life_-_Howl_Moving_Castle_OST')"><skyButton onclick="playSong(this)">Merry Go Round of Life - Howl's Moving Castle OST - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Mononoke_Hime_Medley')"><skyButton onclick="playSong(this)">Mononoke Hime Medley - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('One_Summer_Day_-_Spirited_Away_OST')"><skyButton onclick="playSong(this)">One Summer Day - Spirited Away OST - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Play_Date')"><skyButton onclick="playSong(this)">Play Date - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Ponyo_on_the_Cliff_By_the_Sea_-_Ponyo_OST')"><skyButton onclick="playSong(this)">Ponyo on the Cliff By the Sea - Ponyo OST - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('SUMMERTIME')"><skyButton onclick="playSong(this)">SUMMERTIME - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Summer_-_Joe_Hisaishi')"><skyButton onclick="playSong(this)">Summer - Joe Hisaishi - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Kataware_Doki')"><skyButton onclick="playSong(this)">Kataware Doki</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('How_far_Ill_GoMoana')"><skyButton onclick="playSong(this)">How far I'll Go - Moana</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('穿越時空的思念')"><skyButton onclick="playSong(this)">穿越時空的思念 - Inuyasha </skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('The_Truth_Untold_Short_-_BTS')"><skyButton onclick="playSong(this)">The Truth Untold Short - BTS</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('WuJi_Unrestrained_-_The_Untamed')"><skyButton onclick="playSong(this)">WuJi Unrestrained - The Untamed</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('River_flows_in_you')"><skyButton onclick="playSong(this)">River flows in you</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('BTS_Jungkook_-_Euphoria')"><skyButton onclick="playSong(this)">BTS (Jungkook) - Euphoria</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Never_gonna_give_you_up_Easy')"><skyButton onclick="playSong(this)">Never gonna give you up (Easy)</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('River_flows_in_you_-_Yiruma')"><skyButton onclick="playSong(this)">River flows in you - Yiruma</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('FFVII_Tifas_Theme')"><skyButton onclick="playSong(this)">FFVII Tifas Theme</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Ill_find_you_sooner_than_the_stars_EASIER_Version_-_One_Punch_Man_Ending_Theme_Song')"><skyButton onclick="playSong(this)">Ill find you sooner than the stars EASIER Version - One Punch Man Ending Theme Song</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Lyras_Song')"><skyButton onclick="playSong(this)">Lyras Song</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Monody')"><skyButton onclick="playSong(this)">Monody</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Promise_-_BTS_Jimin')"><skyButton onclick="playSong(this)">Promise - BTS Jimin</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Someone_You_Loved')"><skyButton onclick="playSong(this)">Someone You Loved</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Astronomia')"><skyButton onclick="playSong(this)">Astronomia (Coffin song)</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Undertale_OST_012_Home_-_Toby_Fox')"><skyButton onclick="playSong(this)">Undertale OST 012 Home - Toby Fox</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('The_DeadSouth-_Act_of_Approach')"><skyButton onclick="playSong(this)">The Dead South - Act of Approach</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Higurashi_no_Naku_Koroni-_Dear_You')"><skyButton onclick="playSong(this)">Higurashi no Naku Koro ni - Dear You</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('NieR_Replicant-Song_of_the_Ancients')"><skyButton onclick="playSong(this)">NieR Replicant-Song of the Ancients</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('BTS_-_Friends')"><skyButton onclick="playSong(this)">BTS - Friends</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Grandpas_Theme_-_Stardew_Valley')"><skyButton onclick="playSong(this)">Grandpas Theme - Stardew Valley</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Main_Theme_-_AnimalCrossing__NewHorizon')"><skyButton onclick="playSong(this)">Main Theme - AnimalCrossing  NewHorizon</skyButton><br></li>
+        <div style="display: inline-flex; width: 100%;">
+            <div class="expand rotate0"></div>
+            <h1>A - Z</h1>
+        </div>
+        <div style="overflow: auto;" id="AtoZ">
+        </div>
     </ul>
-    <ul class="listelement">  
-        <h1><c>▶</c> Hard</h1>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('The_Myth_OST')"><skyButton onclick="playSong(this)">The Myth OST</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Music_sheet_8_Extended")'><skyButton onclick="playSong(this)">Music sheet 8 Extended</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Speak_Softly_Love_-_Godfather_Theme")'><skyButton onclick="playSong(this)">Speak Softly Love - Godfather Theme</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick='downloadJSON("Rather_be")'><skyButton onclick="playSong(this)">Rather be</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Chuanyue_shikong_de_sinian')"><skyButton onclick="playSong(this)">Chuanyue shikong de sinian</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Có_Chắc_Yêu_Là_Đây_(Ballad Version)_by_Komo')"><skyButton onclick="playSong(this)">Có Chắc Yêu Là Đây (Ballad Version) by Komo - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Có_Chắc_Yêu_Là_Đây_-_Sơn_Tùng_MTP')"><skyButton onclick="playSong(this)">Có Chắc Yêu Là Đây - Sơn Tùng MTP - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Gravity_Fall_Opening_Theme_Song')"><skyButton onclick="playSong(this)">Gravity Fall Opening Theme Song (Hard) - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Renai_Circulation_-_Kana_Hanazawa_by_Komo_The_Bread')"><skyButton onclick="playSong(this)">Renai Circulation - Kana Hanazawa by Komo The Bread - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Tonari_no_Totoro_-_My_Neighborhood_Is_Totoro_OST')"><skyButton onclick="playSong(this)">Tonari no Totoro - My Neighborhood Is Totoro OST - SCSM</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('He_is_a_pirate')"><skyButton onclick="playSong(this)">He's a pirate</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('He_is_a_pirate(slow)')"><skyButton onclick="playSong(this)">He's a pirate (slow)</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Evangelion_-_A_cruel_angel_thesis')"><skyButton onclick="playSong(this)">Evangelion - A cruel angel thesis</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Priscillas_song_-_Skyrim')"><skyButton onclick="playSong(this)">Priscilla's song - Skyrim</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Alone')"><skyButton onclick="playSong(this)">Alone</skyButton><br></li>    
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Rolling_girl_-_Hatsune_Miku')"><skyButton onclick="playSong(this)">Rolling girl - Hatsune Miku</skyButton><br></li>    
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Wintergatan_-_Marble_machine')"><skyButton onclick="playSong(this)">Wintergatan - Marble machine</skyButton><br></li>    
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('em_đã_bỏ_thuốcchưa-_SCMS')"><skyButton onclick="playSong(this)">em đã bỏ thuốc chưa? - SCMS</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Moon_-_BTS_Jin')"><skyButton onclick="playSong(this)">Moon - 방탄소년단 (BTS), Jin</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('stuck_with_u')"><skyButton onclick="playSong(this)">Stuck with u </skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Clair_de_Lune_-_Debussy')"><skyButton onclick="playSong(this)">Clair de Lune - Debussy</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Lemon_Verse')"><skyButton onclick="playSong(this)">Lemon Verse</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Never_gonna_give_you_up')"><skyButton onclick="playSong(this)">Never gonna give you up</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Falling_-_Harry_Styles')"><skyButton onclick="playSong(this)">Falling - Harry Styles</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Flower_Dance')"><skyButton onclick="playSong(this)">Flower Dance</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Butterfly_LOO_Bb')"><skyButton onclick="playSong(this)">Butterfly (LOOΠ∆) (Bb)</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Ill_find_you_sooner_than_the_stars_-_One_Punch_Man_Ending_Theme_Song')"><skyButton onclick="playSong(this)">Ill find you sooner than the stars - One Punch Man Ending Theme Song</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('valder_fields')"><skyButton onclick="playSong(this)">valder fields</skyButton><br></li>
-        <li class="content"><img class="downloadSong" onclick="downloadJSON('bad_apple')"><skyButton onclick="playSong(this)">bad apple</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Viva_la_Vida')"><skyButton onclick="playSong(this)">Viva la Vida 2</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Serendipity_-_BTS_Jimin')"><skyButton onclick="playSong(this)">Serendipity - BTS (Jimin)</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Nier_OST_Shadow_Lord')"><skyButton onclick="playSong(this)">Nier OST Shadow Lord</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('KaineSalvation')"><skyButton onclick="playSong(this)">Kaine(Salvation)</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Love4Eva')"><skyButton onclick="playSong(this)">Love4Eva</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Kawaranai_mono_-_Girl_Who_Leapt_Through_Time')"><skyButton onclick="playSong(this)">Kawaranai mono - Girl Who Leapt Through Time</skyButton><br></li>
-        <li class="content"> <img class="downloadSong" onclick="downloadJSON('Top_-_Stray_Kids_Tower_of_God_OP')"><skyButton onclick="playSong(this)">Top - Stray Kids Tower of God OP</skyButton><br></li>
-
-    </ul>
-    <ul class="listelement" id="AtoZ">  
-        <h1><c>▶</c> A - Z</h1>
-    </ul>
+    </div>
     <br><br>
-    
 
-
-    <div style="display: flex; flex-direction: row;">
-        <a href="http://sky-music.github.io" style="margin-right: 0.5em;"><img src="/icons/skyLib.png"
-            width="135" height="95"></a> 
-            <a style="text-decoration: none; color: rgba(235, 0, 27, 1); margin-top: 20px;" href="http://sky-music.github.io">
-                For other sheets<br> Press here
-            </a>
+    <div class="skyMusicGithub">
+        <a href="http://sky-music.github.io" style="margin-right: 0.5em;"><img src="/icons/skyLib.png" width="135"
+                height="95"></a>
+        <a style="text-decoration: none; color: rgba(235, 0, 27, 1); margin-top: 20px;"
+            href="http://sky-music.github.io">
+            For other sheets<br> Press here
+        </a>
     </div>
     <br><br>
     <div style="text-align: center; font-size: 0.6em;">
-        <p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#" class="license-text"><a rel="cc:attributionURL" href="https://sky-music.herokuapp.com/"><span rel="dct:title">Sky Music</span></a> by <a rel="cc:attributionURL" href="https://sky-music.herokuapp.com/"><span rel="cc:attributionName">thoseSkyModders</span><br></a>CC BY-NC-SA 4.0<a href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" /><img  style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg" /><img  style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" /><img  style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" /></a></p>
-        </div>
-    </body>
+        <p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#" class="license-text"><a
+                rel="cc:attributionURL" href="https://sky-music.herokuapp.com/"><span rel="dct:title">Sky
+                    Music</span></a> by <a rel="cc:attributionURL" href="https://sky-music.herokuapp.com/"><span
+                    rel="cc:attributionName">thoseSkyModders</span><br></a>CC BY-NC-SA 4.0<a
+                href="https://creativecommons.org/licenses/by-nc-sa/4.0"><img
+                    style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;"
+                    src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" /><img
+                    style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;"
+                    src="https://mirrors.creativecommons.org/presskit/icons/by.svg" /><img
+                    style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;"
+                    src="https://mirrors.creativecommons.org/presskit/icons/nc.svg" /><img
+                    style="height:22px!important;margin-left: 3px;vertical-align:text-bottom;"
+                    src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" /></a></p>
+    </div>
+</body>
 <script>
-try {
-    Sentry.init({
-        dsn: 'https://b27ef52098ea4301a7faf960dca44f6f@o420766.ingest.sentry.io/5339520'
-    });
-} catch (e) {
-    console.log("nope")
-}
-
-let picker = document.getElementById("selectedSong");
-let lastSongSent = ""
-
-$('.content').hide();
-$('.listelement').children("h1").on('click', function() {
-    if(!($(this.parentElement).children('.content').is(':visible'))) {
-        $(this.parentElement).children('.content').show();
-    } else {
-        $('.content').hide();
-    }
-});
-
-
-function sendSong(btn) {
-    
-    var songName = picker.options[picker.selectedIndex].value.trim()
-    if(picker.selectedIndex == 0) {
-        showMessage("Select a song first!", 0, 1500)
-        return
-    }
-    if(lastSongSent == songName) {
-        showMessage("Please don't send the song twice!", 2, 3000)
-        return
-    }
-    if(btn.getAttribute("used") == "true") {
-        showMessage("Wait 10 seconds before sending another", 2, 3000)
-        return
-    }
-    let librarySongs = Array.prototype.slice.call(document.getElementsByTagName("skybutton"), 0);
-    if(librarySongs.find(e => e.innerHTML == songName)) {
-        showMessage("Don't send a song that is already in the library!", 2, 3000)
-        return
-    }
-    btn.setAttribute("used", true)
-    lastSongSent = songName
-    let storage = JSON.parse(localStorage.getItem("savedSongs"))
-    let song = ""
-    song = storage.find(s => s.name.trim() === songName)
-    let request = new XMLHttpRequest();
-    request.open("POST", "/sendSongToDiscord");
-    request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
-    request.onload = (res) => {
-        response = res.target.response;
-        showMessage(response, 1, 2500)
-        setTimeout(() => {
-            btn.setAttribute("used", false)
-        }, 10000);
-    };
-    request.onerror = () => {
-        showMessage("Error!", 0, 1500)
-        btn.setAttribute("used", false)
-    }
-    if(song.bpm == undefined) song.bpm = 220
-    if(song.pitchLevel == undefined) song.pitchLevel = 0
-    if(song.isComposed == undefined) song.isComposed = false
-    song.bitsPerPage = 16
-    let data = {
-        song: convertToNewFormat([song])[0]
-    }
-    request.send(JSON.stringify(data))
-}
-let localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
-if(localStorageSongs != null) {
-    for(let i = 0; i < localStorageSongs.length; i++) {
-        var option = document.createElement("option")
-        option.innerHTML = localStorageSongs[i].name
-        picker.appendChild(option)
-    }
-}
-var downloadButtons = document.getElementsByClassName("downloadSong")
-for(var i = 0; i < downloadButtons.length; i++) {
-    downloadButtons[i].src = "icons/download.png"
-}
-function convertToNewFormat(songs) {
-    if(isNaN(songs[0].songNotes[0].key[0])) {
-        let convertedSongs = []
-        for(let i = 0; i < songs.length; i++) {
-            if(songs[i].bpm == undefined) songs[i].bpm = 220
-            if(songs[i].pitchLevel == undefined) songs[i].pitchLevel = 0
-            if(songs[i].isComposed == undefined) songs[i].isComposed = false
-            let newFormat = {
-                name: songs[i].name,
-                bpm: parseInt(songs[i].bpm),
-                bitsPerPage: 16,
-                pitchLevel: parseInt(songs[i].pitchLevel),
-                isComposed: songs[i].isComposed,
-                songNotes: []
-            }
-            for(let j = 0; j < songs[i].songNotes.length; j++) {
-                let keyObj = {
-                    time: songs[i].songNotes[j].time,
-                    key: "1" + songs[i].songNotes[j].key
+    let searchResults = document.getElementById("searchResults")
+    function search() {
+        let searchWords = document.getElementById("search").value.toLowerCase().trim()
+        if (searchWords == "") {
+            showMessage("Write some keywords first!")
+            return
+        }
+        searchResults.style.display = "block"
+        let resultsWrapper = document.getElementById("resultsWrapper")
+        resultsWrapper.innerHTML = ""
+        searchWords = searchWords.split(" ")
+        if (typeof searchWords == "string") searchWords = [searchWords]
+        let librarySongs = Array.prototype.slice.call(document.getElementsByTagName("skybutton"), 0);
+        let foundElements = []
+        for (let i = 0; i < searchWords.length; i++) {
+            for (let j = 0; j < librarySongs.length; j++) {
+                let reg = new RegExp('\\b' + searchWords[i] + '\\b')
+                if (librarySongs[j].innerHTML.toLowerCase().match(reg)) {
+                    foundElements.push({
+                        name: librarySongs[j].innerHTML,
+                        song: librarySongs[j],
+                        matches: 0
+                    })
                 }
-                if(!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
-                newFormat.songNotes.push(keyObj)
             }
-            convertedSongs.push(newFormat)
         }
-        return convertedSongs
-    } else {
-        return songs
-    }
-}
+        for (let i = 0; i < foundElements.length; i++) {
+            for (let j = 0; j < foundElements.length; j++) {
+                if (foundElements[i].name == foundElements[j].name && i != j) {
+                    foundElements.splice(j, 1)
+                    foundElements[i].matches++
+                    j = 0
+                }
+            }
+        }
+        console.log(foundElements)
+        foundElements.sort(function (a, b) { return b.matches - a.matches });
+        foundElements.forEach(e => {
+            let node = e.song.parentElement.cloneNode(true)
+            node.style.display = "flex"
+            resultsWrapper.appendChild(node)
+        })
 
-function downloadJSON(song) {
-    let request = new XMLHttpRequest();
-    request.open('GET', "./librarySongs/" + song + ".txt");
-    request.responseType = 'text';
-    request.onload = function() {
-        var inArray = convertToOldFormat(JSON.parse(request.response))
-        var savedSongs = localStorage.getItem("savedSongs")
-        if(savedSongs != null) {
-            try {
-                savedSongs = JSON.parse(savedSongs)
-            } catch (e) {
-                savedSongs = []
+    }
+    let picker = document.getElementById("selectedSong");
+    let lastSongSent = ""
+
+    $('.content').hide();
+    let elements = document.getElementsByClassName("listelement")
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].getElementsByTagName("div")[0].addEventListener("click", function () {
+            let divs = this.parentElement.getElementsByTagName("div")
+            divs[1].classList.toggle("rotate90")
+            divs[1].classList.toggle("rotate0")
+            if (divs[2].style.maxHeight != "80vh") {
+                $(divs[2]).children('.content').show();
+                $(divs[2]).animate({ maxHeight: "80vh" }, 500)
+            } else {
+                $(divs[2]).animate({ maxHeight: "0vh" }, 500)
             }
-        } else {
-            savedSongs = []
+        })
+    }
+    document.getElementById("instrumentSelection").addEventListener("change", function () {
+        initializeKeyboard(this.options[this.selectedIndex].value, 1)
+    })
+
+    function sendSong(btn) {
+
+        var songName = picker.options[picker.selectedIndex].value.trim()
+        if (picker.selectedIndex == 0) {
+            showMessage("Select a song first!", 0, 1500)
+            return
         }
-        for(var i = 0; i < inArray.length; i++) {
-            var alreadyHasSong = false
-            for(var j = 0; j < savedSongs.length; j++) {
-                if(inArray[i].name == savedSongs[j].name) alreadyHasSong = true
+        if (lastSongSent == songName) {
+            showMessage("Please don't send the song twice!", 2, 3000)
+            return
+        }
+        if (btn.getAttribute("used") == "true") {
+            showMessage("Wait 10 seconds before sending another", 2, 3000)
+            return
+        }
+        let librarySongs = Array.prototype.slice.call(document.getElementsByTagName("skybutton"), 0);
+        if (librarySongs.find(e => e.innerHTML == songName)) {
+            showMessage("Don't send a song that is already in the library!", 2, 3000)
+            return
+        }
+        let storage = JSON.parse(localStorage.getItem("savedSongs"))
+        let song = ""
+        song = storage.find(s => s.name.trim() === songName)
+        if (song.fromLibrary == true) {
+            showMessage("Don't send a song that you downloaded from the gallery!", 2, 3000)
+            return
+        }
+        btn.setAttribute("used", true)
+        lastSongSent = songName
+        let request = new XMLHttpRequest();
+        request.open("POST", "/sendSongToDiscord");
+        request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
+        request.onload = (res) => {
+            response = res.target.response;
+            showMessage(response, 1, 2500)
+            setTimeout(() => {
+                btn.setAttribute("used", false)
+            }, 10000);
+        };
+        request.onerror = () => {
+            showMessage("Error!", 0, 1500)
+            btn.setAttribute("used", false)
+        }
+        if (song.bpm == undefined) song.bpm = 220
+        if (song.pitchLevel == undefined) song.pitchLevel = 0
+        if (song.isComposed == undefined) song.isComposed = false
+        song.bitsPerPage = 16
+        let data = {
+            song: convertToNewFormat([song])[0]
+        }
+        request.send(JSON.stringify(data))
+    }
+    let localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
+    if (localStorageSongs != null) {
+        for (let i = 0; i < localStorageSongs.length; i++) {
+            var option = document.createElement("option")
+            option.innerHTML = localStorageSongs[i].name
+            picker.appendChild(option)
+        }
+    }
+    var downloadButtons = document.getElementsByClassName("dS")
+    for (var i = 0; i < downloadButtons.length; i++) {
+        downloadButtons[i].src = "icons/download1.svg"
+    }
+    function convertToNewFormat(songs) {
+        if (isNaN(songs[0].songNotes[0].key[0])) {
+            let convertedSongs = []
+            for (let i = 0; i < songs.length; i++) {
+                if (songs[i].bpm == undefined) songs[i].bpm = 220
+                if (songs[i].pitchLevel == undefined) songs[i].pitchLevel = 0
+                if (songs[i].isComposed == undefined) songs[i].isComposed = false
+                let newFormat = {
+                    name: songs[i].name,
+                    bpm: parseInt(songs[i].bpm),
+                    bitsPerPage: 16,
+                    pitchLevel: parseInt(songs[i].pitchLevel),
+                    isComposed: songs[i].isComposed,
+                    songNotes: []
+                }
+                for (let j = 0; j < songs[i].songNotes.length; j++) {
+                    let keyObj = {
+                        time: songs[i].songNotes[j].time,
+                        key: "1" + songs[i].songNotes[j].key
+                    }
+                    if (!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
+                    newFormat.songNotes.push(keyObj)
+                }
+                convertedSongs.push(newFormat)
             }
-            if(inArray.length == 1) {
-                if(!alreadyHasSong) {
-                    savedSongs.push((inArray[i]))
-                    showMessage('Song "' + inArray[i].name + '" added to your songs!', 1, 2000)
-                } else {
-                    showMessage('Song "' + inArray[i].name + '" was already saved!', 0, 2000)
+            return convertedSongs
+        } else {
+            return songs
+        }
+    }
+
+    function dwJS(song) {
+        let request = new XMLHttpRequest();
+        request.open('GET', "./librarySongs/" + song + ".txt");
+        request.responseType = 'text';
+        request.onload = function () {
+            var inArray = convertToOldFormat(JSON.parse(request.response))
+            var savedSongs = localStorage.getItem("savedSongs")
+            if (savedSongs != null) {
+                try {
+                    savedSongs = JSON.parse(savedSongs)
+                } catch (e) {
+                    savedSongs = []
                 }
             } else {
-                if(!alreadyHasSong) {
-                    savedSongs.push((inArray[i]))
-                }
+                savedSongs = []
             }
-        }
-        if(inArray.length > 1) showMessage("Added song pack!", 1, 2000)
-        localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
-        console.log("done")
-        
-        return
-        //Old thing to download, i keep it in here
-        var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
-        var dlAnchorElem = document.createElement("a")
-        dlAnchorElem.setAttribute("href", dataStr);
-        dlAnchorElem.setAttribute("download", song + ".txt");
-        dlAnchorElem.click();
-        dlAnchorElem.remove()
-    };
-    request.send();
-}
-
-const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
-
-function preload(urls) {
-    const requests = urls.map(url => fetch('./Sounds/' + url)
-        .then(r => r.arrayBuffer()) // this time we request as ArrayBuffer
-        .then(b => {
-            return new Promise((resolve, reject) => {
-                a_ctx.decodeAudioData(b, resolve, reject)
-            })
-        })
-    )
-    return Promise.all(requests)
-}
-var notesHandler = document.getElementById("notes")
-let numOfKeys = 15
-
-function initializeKeyboard() {
-    urls = ["Xylophone/0.mp3", "Xylophone/1.mp3", "Xylophone/2.mp3", "Xylophone/3.mp3", "Xylophone/4.mp3", "Xylophone/5.mp3", "Xylophone/6.mp3", "Xylophone/7.mp3", "Xylophone/8.mp3", "Xylophone/9.mp3", "Xylophone/10.mp3", "Xylophone/11.mp3", "Xylophone/12.mp3", "Xylophone/13.mp3", "Xylophone/14.mp3"]
-    preload(urls)
-        .then(audioBuffers => {
-            audioBuffers.forEach((buf, i) => {
-                //Creates button and sets the buttons properties .
-                const btn = document.createElement('div')
-                btn.id = "Key" + i++
-                notesHandler.appendChild(btn)
-                btn.addEventListener("click", function(e) {
-                    buttonPressEvent(this)
-                    e.preventDefault()
-                })
-                
-                function buttonPressEvent(btn) {
-                    const source = a_ctx.createBufferSource()
-                    source.buffer = buf
-                    source.connect(a_ctx.destination)
-                    source.start(0)
+            for (var i = 0; i < inArray.length; i++) {
+                var alreadyHasSong = false
+                for (var j = 0; j < savedSongs.length; j++) {
+                    if (inArray[i].name == savedSongs[j].name) alreadyHasSong = true
                 }
-            })
-        })
-}
-let date = new Date
-let globalPlayTimestamp = date.getTime()
-async function playSong(songName) {
-    let song = songName.parentElement.children[0].getAttribute('onclick')
-    song = song.replace("downloadJSON('", "")
-    song = song.replace("')", "")
-    song = song.replace('downloadJSON("', "")
-    song = song.replace('")', "")
-    songName = song
-    let request = new XMLHttpRequest();
-    request.open('GET', "./librarySongs/" + songName + ".txt");
-    request.responseType = 'text';
-    request.onload = async function() {
-        song = convertToOldFormat(JSON.parse(request.response))[0].songNotes
-        let delayTime = 0
-        let previousTime = 0
-        date = new Date
-        let startSongTimestamp = date.getTime()
-        globalPlayTimestamp = startSongTimestamp
-        await delay(500)
-        for(let i = 0; i < song.length; i++) {
-            if (globalPlayTimestamp != startSongTimestamp){ ignoreStop = true; break}
-            var keyToPlay = song[i].key
-            delayTime = song[i].time - previousTime //how much time has to pass from one note to the other
-            previousTime = song[i].time
-            await delay(delayTime)
-            document.getElementById(keyToPlay).click()
-        }
-    }
-    request.send()
-}
-
-//-----------------------------------------------------------------------------------//
-function convertToOldFormat(songs) {
-    if(!isNaN(songs[0].songNotes[0].key[0])) {
-        let convertedSongs = []
-        for(let i = 0; i < songs.length; i++) {
-            if(songs[i].bpm == undefined) songs[i].bpm = 220
-            if(songs[i].pitchLevel == undefined) songs[i].pitchLevel = 0
-            if(songs[i].isComposed == undefined) songs[i].isComposed = false
-            let oldFormat = {
-                name: songs[i].name,
-                bpm: songs[i].bpm,
-                pitchLevel: songs[i].pitchLevel,
-                bitsPerPage: 16,
-                isComposed: songs[i].isComposed,
-                songNotes: []
-            }
-            
-            for(let j = 0; j < songs[i].songNotes.length; j++) {
-                let keyObj = {
-                    time: songs[i].songNotes[j].time,
-                    key: songs[i].songNotes[j].key.substr(1)
-                }
-                if(!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
-                oldFormat.songNotes.push(keyObj)
-            }
-            for(let k = 0; k < oldFormat.songNotes.length; k++) {
-                let max5 = 0
-                for(let x = k + 1; x < oldFormat.songNotes.length && max5 < 5; x++) {
-                    if(oldFormat.songNotes[k].time == oldFormat.songNotes[x].time && oldFormat.songNotes[k].key ==
-                        oldFormat.songNotes[x].key) {
-                        oldFormat.songNotes.splice(k, 1)
+                if (inArray.length == 1) {
+                    if (!alreadyHasSong) {
+                        savedSongs.push((inArray[i]))
+                        showMessage('Song "' + inArray[i].name + '" added to your songs!', 1, 2000)
+                    } else {
+                        showMessage('Song "' + inArray[i].name + '" was already saved!', 0, 2000)
                     }
-                    max5++
+                } else {
+                    if (!alreadyHasSong) {
+                        savedSongs.push((inArray[i]))
+                    }
                 }
             }
-            convertedSongs.push(oldFormat)
-        }
-        return convertedSongs
-    } else {
-        return songs
+            if (inArray.length > 1) showMessage("Added song pack!", 1, 2000)
+            localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
+            console.log("done")
+
+            return
+            //Old thing to download, i keep it in here
+            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
+            var dlAnchorElem = document.createElement("a")
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", song + ".txt");
+            dlAnchorElem.click();
+            dlAnchorElem.remove()
+        };
+        request.send();
     }
-}
-const delay = ms => new Promise(res => setTimeout(res, ms))
 
-function showMessage(msg, msgType, duration) {
-    if(duration == undefined) duration = 1500
-    floatingMessage = document.getElementById("floatingMessage")
-    floatingMessage.innerHTML = msg
-    let color
-    if(msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
-    if(msgType == 1) color = "lightgreen" //SUCCESS
-    if(msgType == 2) color = "#dad8b3" //MESSAGE
-    floatingMessage.style.color = color
-    $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
+    const a_ctx = new (window.AudioContext || window.webkitAudioContext)()
+
+    function preload(urls) {
+        const requests = urls.map(url => fetch('./Sounds/' + url)
+            .then(r => r.arrayBuffer()) // this time we request as ArrayBuffer
+            .then(b => {
+                return new Promise((resolve, reject) => {
+                    a_ctx.decodeAudioData(b, resolve, reject)
+                })
+            })
+        )
+        return Promise.all(requests)
+    }
+    var notesHandler = document.getElementById("notes")
+    let numOfKeys = 15
+    let pitchKey = 0
+    function initializeKeyboard(instrument) {
+        notesHandler.innerHTML = ""
+        let instrumentsNotes = {
+            Piano: ["Piano/0.mp3", "Piano/1.mp3", "Piano/2.mp3", "Piano/3.mp3", "Piano/4.mp3", "Piano/5.mp3", "Piano/6.mp3", "Piano/7.mp3", "Piano/8.mp3", "Piano/9.mp3", "Piano/10.mp3", "Piano/11.mp3", "Piano/12.mp3", "Piano/13.mp3", "Piano/14.mp3"],
+            Harp: ["Harp/0.mp3", "Harp/1.mp3", "Harp/2.mp3", "Harp/3.mp3", "Harp/4.mp3", "Harp/5.mp3", "Harp/6.mp3", "Harp/7.mp3", "Harp/8.mp3", "Harp/9.mp3", "Harp/10.mp3", "Harp/11.mp3", "Harp/12.mp3", "Harp/13.mp3", "Harp/14.mp3"],
+            Bell: ["Bells/0.mp3", "Bells/1.mp3", "Bells/2.mp3", "Bells/3.mp3", "Bells/4.mp3", "Bells/5.mp3", "Bells/6.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3"],
+            Guitar: ["Guitar/0.mp3", "Guitar/1.mp3", "Guitar/2.mp3", "Guitar/3.mp3", "Guitar/4.mp3", "Guitar/5.mp3", "Guitar/6.mp3", "Guitar/7.mp3", "Guitar/8.mp3", "Guitar/9.mp3", "Guitar/10.mp3", "Guitar/11.mp3", "Guitar/12.mp3", "Guitar/13.mp3", "Guitar/14.mp3"],
+            Flute: ["Flute/0.mp3", "Flute/1.mp3", "Flute/2.mp3", "Flute/3.mp3", "Flute/4.mp3", "Flute/5.mp3", "Flute/6.mp3", "Flute/7.mp3", "Flute/8.mp3", "Flute/9.mp3", "Flute/10.mp3", "Flute/11.mp3", "Flute/12.mp3", "Flute/13.mp3", "Flute/14.mp3"],
+            Xylophone: ["Xylophone/0.mp3", "Xylophone/1.mp3", "Xylophone/2.mp3", "Xylophone/3.mp3", "Xylophone/4.mp3", "Xylophone/5.mp3", "Xylophone/6.mp3", "Xylophone/7.mp3", "Xylophone/8.mp3", "Xylophone/9.mp3", "Xylophone/10.mp3", "Xylophone/11.mp3", "Xylophone/12.mp3", "Xylophone/13.mp3", "Xylophone/14.mp3"],
+            Drum: ["Drum/0.mp3", "Drum/1.mp3", "Drum/2.mp3", "Drum/3.mp3", "Drum/4.mp3", "Drum/5.mp3", "Drum/6.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3"],
+            Horn: ["Horn/0.mp3", "Horn/1.mp3", "Horn/2.mp3", "Horn/3.mp3", "Horn/4.mp3", "Horn/5.mp3", "Horn/6.mp3", "Horn/7.mp3", "Horn/8.mp3", "Horn/9.mp3", "Horn/10.mp3", "Horn/11.mp3", "Horn/12.mp3", "Horn/13.mp3", "Horn/14.mp3"],
+            ToyUkulele: ["ToyUkulele/0.mp3", "ToyUkulele/1.mp3", "ToyUkulele/2.mp3", "ToyUkulele/3.mp3", "ToyUkulele/4.mp3", "ToyUkulele/5.mp3", "ToyUkulele/6.mp3", "ToyUkulele/7.mp3", "ToyUkulele/8.mp3", "ToyUkulele/9.mp3", "ToyUkulele/10.mp3", "ToyUkulele/11.mp3", "ToyUkulele/12.mp3", "ToyUkulele/13.mp3", "ToyUkulele/14.mp3"],
+            HandPan: ["HandPan/0.mp3", "HandPan/1.mp3", "HandPan/2.mp3", "HandPan/3.mp3", "HandPan/4.mp3", "HandPan/5.mp3", "HandPan/6.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3"],
+            Contrabass: ["Contrabass/0.mp3", "Contrabass/1.mp3", "Contrabass/2.mp3", "Contrabass/3.mp3", "Contrabass/4.mp3", "Contrabass/5.mp3", "Contrabass/6.mp3", "Contrabass/7.mp3", "Contrabass/8.mp3", "Contrabass/9.mp3", "Contrabass/10.mp3", "Contrabass/11.mp3", "Contrabass/12.mp3", "Contrabass/13.mp3", "Contrabass/14.mp3"],
+            WinterPiano: ["WinterPiano/0.mp3", "WinterPiano/1.mp3", "WinterPiano/2.mp3", "WinterPiano/3.mp3", "WinterPiano/4.mp3", "WinterPiano/5.mp3", "WinterPiano/6.mp3", "WinterPiano/7.mp3", "WinterPiano/8.mp3", "WinterPiano/9.mp3", "WinterPiano/10.mp3", "WinterPiano/11.mp3", "WinterPiano/12.mp3", "WinterPiano/13.mp3", "WinterPiano/14.mp3"],
+        }
+        preload(instrumentsNotes[instrument])
+            .then(audioBuffers => {
+                audioBuffers.forEach((buf, i) => {
+                    //Creates button and sets the buttons properties .
+                    const btn = document.createElement('div')
+                    btn.id = "Key" + i++
+                    notesHandler.appendChild(btn)
+                    btn.addEventListener("click", function (e) {
+                        buttonPressEvent(this)
+                        e.preventDefault()
+                    })
+
+                    function buttonPressEvent(btn) {
+                        const source = a_ctx.createBufferSource()
+                        source.buffer = buf
+                        source.playbackRate.value = pitchKey
+                        source.connect(a_ctx.destination)
+                        source.start(0)
+                    }
+                })
+            })
+    }
+    let date = new Date
+    let globalPlayTimestamp = date.getTime()
+    async function playSong(songName) {
+        let song = songName.parentElement.children[0].getAttribute('onclick')
+        song = song.replace("dwJS('", "")
+        song = song.replace("')", "")
+        song = song.replace('dwJS("', "")
+        song = song.replace('")', "")
+        songName = song
+        let request = new XMLHttpRequest();
+        request.open('GET', "./librarySongs/" + songName + ".txt");
+        request.responseType = 'text';
+        request.onload = async function () {
+            song = convertToOldFormat(JSON.parse(request.response))[0]
+            let delayTime = 0
+            let previousTime = 0
+            if (isNaN(song.pitchLevel)) song.pitchLevel = 0
+            pitchKey = parseFloat(Math.pow(2, (song.pitchLevel) / 12).toFixed(2))
+            date = new Date
+            let startSongTimestamp = date.getTime()
+            globalPlayTimestamp = startSongTimestamp
+            song = song.songNotes
+            await delay(500)
+            for (let i = 0; i < song.length; i++) {
+                if (globalPlayTimestamp != startSongTimestamp) { ignoreStop = true; break }
+                var keyToPlay = song[i].key
+                delayTime = song[i].time - previousTime //how much time has to pass from one note to the other
+                previousTime = song[i].time
+                await delay(delayTime)
+                try {
+                    document.getElementById(keyToPlay).click()
+                } catch (e) {
+
+                }
+            }
+        }
+        request.send()
+    }
+
+    //-----------------------------------------------------------------------------------//
+    function convertToOldFormat(songs) {
+        if (!isNaN(songs[0].songNotes[0].key[0])) {
+            let convertedSongs = []
+            for (let i = 0; i < songs.length; i++) {
+                if (songs[i].bpm == undefined) songs[i].bpm = 220
+                if (songs[i].pitchLevel == undefined) songs[i].pitchLevel = 0
+                if (songs[i].isComposed == undefined) songs[i].isComposed = false
+                let oldFormat = {
+                    name: songs[i].name,
+                    bpm: songs[i].bpm,
+                    pitchLevel: songs[i].pitchLevel,
+                    bitsPerPage: 16,
+                    isComposed: songs[i].isComposed,
+                    songNotes: [],
+                    fromLibrary: true
+                }
+
+                for (let j = 0; j < songs[i].songNotes.length; j++) {
+                    let keyObj = {
+                        time: songs[i].songNotes[j].time,
+                        key: songs[i].songNotes[j].key.substr(1)
+                    }
+                    if (!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
+                    oldFormat.songNotes.push(keyObj)
+                }
+                for (let k = 0; k < oldFormat.songNotes.length; k++) {
+                    let max5 = 0
+                    for (let x = k + 1; x < oldFormat.songNotes.length && max5 < 5; x++) {
+                        if (oldFormat.songNotes[k].time == oldFormat.songNotes[x].time && oldFormat.songNotes[k].key ==
+                            oldFormat.songNotes[x].key) {
+                            oldFormat.songNotes.splice(k, 1)
+                        }
+                        max5++
+                    }
+                }
+                convertedSongs.push(oldFormat)
+            }
+            return convertedSongs
+        } else {
+            return songs
+        }
+    }
+    const delay = ms => new Promise(res => setTimeout(res, ms))
+
+    function showMessage(msg, msgType, duration) {
+        if (duration == undefined) duration = 1500
+        floatingMessage = document.getElementById("floatingMessage")
+        floatingMessage.innerHTML = msg
+        let color
+        if (msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
+        if (msgType == 1) color = "#181a1b" //SUCCESS
+        if (msgType == 2) color = "#181a1b" //MESSAGE
+        floatingMessage.style.color = color
+        $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
+    }
+
+    initializeKeyboard("Xylophone")
+
+    try {
+        let AtoZsongs = Array.prototype.slice.call(document.getElementsByTagName("skybutton"), 0);
+        AtoZsongs.sort(function (a, b) {
+            var textA = a.parentElement.children[1].innerHTML.toUpperCase();
+            var textB = b.parentElement.children[1].innerHTML.toUpperCase();
+            return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        })
+        let AtoZ = document.getElementById("AtoZ")
+        AtoZsongs.forEach(e => AtoZ.appendChild(e.parentElement.cloneNode(true)))
+    } catch (e) {
+        console.log(e)
+    }
+    if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+        .then((reg) => {
+          console.log('Service worker registered.', reg);
+        });
+  });
 }
 
-initializeKeyboard()
-
-try{
-    let AtoZsongs = Array.prototype.slice.call(document.getElementsByTagName("skybutton"), 0);
-    AtoZsongs.sort(function(a, b) {
-        var textA = a.parentElement.children[1].innerHTML.toUpperCase();
-        var textB = b.parentElement.children[1].innerHTML.toUpperCase();
-        return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-    })
-    let AtoZ = document.getElementById("AtoZ")
-    AtoZsongs.forEach(e =>AtoZ.appendChild(e.parentElement.cloneNode(true)))
-}catch(e){
-    console.log(e)
-}
 </script>
+<script type="text/javascript"> var infolinks_pid = 3281705; var infolinks_wsid = 0; </script>
+<script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
 
 </html>

@@ -9,7 +9,9 @@ body {
     padding: 0;
     height: 100%;
     min-height: 100vh;
+    overflow: hidden;
     text-align: center;
+    -ms-touch-action: none;
 }
 .floatingMessage {
 	position: absolute;
@@ -271,7 +273,7 @@ div.full {
 }
 
 .tempoContainer{
-    position: absolute;
+    position: fixed;
     bottom: 0.5em;
     right: 0.5em;
     display: flex;
@@ -503,7 +505,7 @@ input[type=number] {
     min-height: 4vh;
 }
 .rightContainer{
-    position: absolute;
+    position: fixed;
     left: 0.5em; 
     bottom: 0.5em; 
     display: flex;
