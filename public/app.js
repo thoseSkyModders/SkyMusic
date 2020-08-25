@@ -1478,7 +1478,7 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "4.1"
+let currentVersion = "4.2"
 let changelogMessage = "Song library Rework! Added 50 songs"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)

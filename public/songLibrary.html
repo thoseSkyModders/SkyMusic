@@ -31,7 +31,13 @@
         padding: 0 1rem 0;
         margin: 1.5rem 0 0 0;
         cursor: pointer;
-
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
     }
 
     #floatingMessage {
@@ -54,7 +60,6 @@
     h1 {
         color: rgba(235, 0, 27, 1);
     }
-
     span {
         color: rgba(235, 0, 27, 1);
         text-decoration: none;
@@ -136,8 +141,12 @@
         align-items: center;
         outline: none;
         margin: 0.3rem;
+        -webkit-tap-highlight-color: transparent;
     }
-
+    skyButton:active{
+        color: #424242;
+        background-color: #dad8b3;
+    }
     .expand {
         background-image: url(./icons/expand.svg);
         background-position: center;
@@ -148,12 +157,12 @@
     }
 
     .rotate90 {
-        transform: rotate(-90deg);
+        transform: rotate(0);
         transition: 0.3s linear;
     }
 
     .rotate0 {
-        transform: rotate(0deg);
+        transform: rotate(-90deg);
         transition: 0.4s linear;
     }
 
@@ -224,8 +233,13 @@
     }
 
     .skyMusicGithub {
+        background-color: #272b2d;
+        margin-top: 10vh;
+        padding:1rem;
         display: flex;
         flex-direction: row;
+        align-items: center;
+        border-radius: 1vw;
     }
 
     .innerButtonsContainer {
@@ -245,7 +259,9 @@
         skyButton {
             margin: 0.1rem;
         }
-
+        .skyMusicGithub{
+            border-radius: 3vw;
+        }
         .innerButtonsContainer {
             flex-direction: column;
         }
@@ -299,6 +315,17 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
+        }
+    }
+    @media only screen and (orientation:landscape) {
+        .select{
+            max-width: 25vw;
+        }
+        .sendSongContainer{
+            max-width: 50%;
+        }
+        .skyButton2, .select{
+            min-height: 8vh;
         }
     }
 </style>
@@ -407,68 +434,71 @@
                 <div class="expand rotate90"></div><h1>Song Pack</h1>
             </div>
     
-            <li><img class="dS" onclick='dwJS("Song_pack_1")'><a>Song pack 1</a><br></li>
-            <li><img class="dS" onclick='dwJS("Song_pack_2")'><a>Song pack 2</a> <br></li>
-            <li><img class="dS" onclick='dwJS("SCSM_pack")'><a>SCSM pack</a> <br></li>
+            <li><img class="dS" onclick='dwJS("Song_pack_1")'><a>Song pack 1</a></li>
+            <li><img class="dS" onclick='dwJS("Song_pack_2")'><a>Song pack 2</a> </li>
+            <li><img class="dS" onclick='dwJS("SCSM_pack")'><a>SCSM pack</a> </li>
         </ul>
         <ul class="listelement">
             <div style="display: inline-flex; width: 100%;"> 
                 <div class="expand rotate0"></div><h1>Easy</h1>
             </div>
             <div style="overflow: auto;">
-                <li class="content"> <img class="dS" onclick='dwJS("You_are_my_Sunshine")'><skyButton onclick="playSong(this)">You are my Sunshine</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("Ode_to_joy")'><skyButton onclick="playSong(this)">Ode to joy</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("The_lion_sleeps_tonight")'><skyButton onclick="playSong(this)">The lion sleeps tonight</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("undertale")'><skyButton onclick="playSong(this)">undertale</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("Kum_Ba_Yah")'><skyButton onclick="playSong(this)">Kum Ba Yah</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("Do-Re-Mi")'><skyButton onclick="playSong(this)">Do-Re-Mi</skyButton> <br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("Binary_Sunset_Star_Wars")'><skyButton onclick="playSong(this)">Binary Sunset Star Wars</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("bad_romance_chorus")'><skyButton onclick="playSong(this)">bad romance chorus</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("Tetris_Theme")'><skyButton onclick="playSong(this)">Tetris Theme</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("Clementine")'><skyButton onclick="playSong(this)">Clementine</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("Ive_Been_Working_on_the_Railroad")'><skyButton onclick="playSong(this)">Ive Been Working on the Railroad</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("la_Cucaracha")'><skyButton onclick="playSong(this)">la Cucaracha</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("Lily_-_Alan_Walker")'><skyButton onclick="playSong(this)">Lily - Alan Walker</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick='dwJS("Shatter_me")'><skyButton onclick="playSong(this)">Shatter me</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Ed_sheeran_perfect')"><skyButton onclick="playSong(this)">Ed sheeran perfect</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('lavender_Town')"><skyButton onclick="playSong(this)">lavender Town</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('San_Francisco')"><skyButton onclick="playSong(this)">San Francisco</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Scarborough_Fair')"><skyButton onclick="playSong(this)">Scarborough Fair</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Path_Of_The_Wind_-_My_Neighborhood_Is_Totoro_OST')"><skyButton onclick="playSong(this)">Path Of The Wind - My Neighborhood Is Totoro OST - SCSM</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Firefall_SC')"><skyButton onclick="playSong(this)">Firefall SC</skyButton><br></li>    
-                <li class="content"> <img class="dS" onclick="dwJS('Hora_dels_Adeus')"><skyButton onclick="playSong(this)">Hora dels Adeus</skyButton><br></li>    
-                <li class="content"> <img class="dS" onclick="dwJS('Cant_help_falling_in_love')"><skyButton onclick="playSong(this)">Can't help falling in love</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Kygo_-_Firestone')"><skyButton onclick="playSong(this)">Kygo - Firestone</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Mitsuhas_Theme_YOUR_NAME')"><skyButton onclick="playSong(this)">Mitsuha's Theme (YOUR NAME)</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Youre_in_Love_Howls_Moving_Castle')"><skyButton onclick="playSong(this)">You're in Love (Howl's Moving Castle)</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Song_Of_Storms')"><skyButton onclick="playSong(this)">Song Of Storms</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Little_Soldier_Boy_Leaves_From_The_Vine_-_Avatar')"><skyButton onclick="playSong(this)">Little Soldier Boy (Leaves From The Vine) - Avatar</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('FMA_-_Brothers')"><skyButton onclick="playSong(this)">FMA - Brothers</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Pokemon_Center')"><skyButton onclick="playSong(this)">Pokemon Center</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Coffin_song')"><skyButton onclick="playSong(this)">Coffin song</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('FrereJacques')"><skyButton onclick="playSong(this)">Frere Jacques </skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Marry_had_a_little_lamb')"><skyButton onclick="playSong(this)">Marry had a little lamb</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Bad_guy_by_Billie_Eilish')"><skyButton onclick="playSong(this)">Bad guy by Billie Eilish</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Twinkle_twinkle_little_star')"><skyButton onclick="playSong(this)">Twinkle twinkle little star</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Married_life_from_UP')"><skyButton onclick="playSong(this)">Married life (from UP)</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Still_DRE')"><skyButton onclick="playSong(this)">Still D.R.E. (Thug life)</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Renesmees_Lullaby')"><skyButton onclick="playSong(this)">Renesmee's Lullaby</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Avatars_Love')"><skyButton onclick="playSong(this)">Avatar's Love</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('MinecraftThemefor_Handpan_Key_E')"><skyButton onclick="playSong(this)">Minecraft Theme (for Handpan Key E)</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Log_drivers_walts')"><skyButton onclick="playSong(this)">Log driver's walts</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('O_Holy_Night')"><skyButton onclick="playSong(this)">O Holy Night</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Dearly_Beloved_-_Kingdom_Hearts_OST')"><skyButton onclick="playSong(this)">Dearly Beloved - Kingdom Hearts OST</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Funeral_March_-_Chopin')"><skyButton onclick="playSong(this)">Funeral March - Chopin</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Giornos_theme')"><skyButton onclick="playSong(this)">Giornos theme</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Kiss_the_rain')"><skyButton onclick="playSong(this)">Kiss the rain</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Log_Drivers_Waltz')"><skyButton onclick="playSong(this)">Log Drivers Waltz</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Memory_-_Undertale')"><skyButton onclick="playSong(this)">Memory - Undertale</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Merry_Christmas_Mr_Lawrence_Intro')"><skyButton onclick="playSong(this)">Merry Christmas Mr Lawrence Intro</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Naruto_Silhouette')"><skyButton onclick="playSong(this)">Naruto Silhouette</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Pure_Imagination')"><skyButton onclick="playSong(this)">Pure Imagination</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('Crazy_Frog')"><skyButton onclick="playSong(this)">Crazy Frog</skyButton><br></li>
-                <li class="content"> <img class="dS" onclick="dwJS('under_the_sea_v3')"><skyButton onclick="playSong(this)">under the sea v3</skyButton><br></li>
-        
+                <li class="content"> <img class="dS" onclick='dwJS("You_are_my_Sunshine")'><skyButton onclick="playSong(this)">You are my Sunshine</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Ode_to_joy")'><skyButton onclick="playSong(this)">Ode to joy</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("The_lion_sleeps_tonight")'><skyButton onclick="playSong(this)">The lion sleeps tonight</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("undertale")'><skyButton onclick="playSong(this)">undertale</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Kum_Ba_Yah")'><skyButton onclick="playSong(this)">Kum Ba Yah</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Do-Re-Mi")'><skyButton onclick="playSong(this)">Do-Re-Mi</skyButton> </li>
+                <li class="content"> <img class="dS" onclick='dwJS("Binary_Sunset_Star_Wars")'><skyButton onclick="playSong(this)">Binary Sunset Star Wars</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("bad_romance_chorus")'><skyButton onclick="playSong(this)">bad romance chorus</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Tetris_Theme")'><skyButton onclick="playSong(this)">Tetris Theme</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Clementine")'><skyButton onclick="playSong(this)">Clementine</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Ive_Been_Working_on_the_Railroad")'><skyButton onclick="playSong(this)">Ive Been Working on the Railroad</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("la_Cucaracha")'><skyButton onclick="playSong(this)">la Cucaracha</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Lily_-_Alan_Walker")'><skyButton onclick="playSong(this)">Lily - Alan Walker</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Shatter_me")'><skyButton onclick="playSong(this)">Shatter me</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Ed_sheeran_perfect')"><skyButton onclick="playSong(this)">Ed sheeran perfect</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('lavender_Town')"><skyButton onclick="playSong(this)">lavender Town</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('San_Francisco')"><skyButton onclick="playSong(this)">San Francisco</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Scarborough_Fair')"><skyButton onclick="playSong(this)">Scarborough Fair</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Path_Of_The_Wind_-_My_Neighborhood_Is_Totoro_OST')"><skyButton onclick="playSong(this)">Path Of The Wind - My Neighborhood Is Totoro OST - SCSM</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Firefall_SC')"><skyButton onclick="playSong(this)">Firefall SC</skyButton></li>    
+                <li class="content"> <img class="dS" onclick="dwJS('Hora_dels_Adeus')"><skyButton onclick="playSong(this)">Hora dels Adeus</skyButton></li>    
+                <li class="content"> <img class="dS" onclick="dwJS('Cant_help_falling_in_love')"><skyButton onclick="playSong(this)">Can't help falling in love</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Kygo_-_Firestone')"><skyButton onclick="playSong(this)">Kygo - Firestone</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Mitsuhas_Theme_YOUR_NAME')"><skyButton onclick="playSong(this)">Mitsuha's Theme (YOUR NAME)</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Youre_in_Love_Howls_Moving_Castle')"><skyButton onclick="playSong(this)">You're in Love (Howl's Moving Castle)</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Song_Of_Storms')"><skyButton onclick="playSong(this)">Song Of Storms</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Little_Soldier_Boy_Leaves_From_The_Vine_-_Avatar')"><skyButton onclick="playSong(this)">Little Soldier Boy (Leaves From The Vine) - Avatar</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('FMA_-_Brothers')"><skyButton onclick="playSong(this)">FMA - Brothers</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Pokemon_Center')"><skyButton onclick="playSong(this)">Pokemon Center</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Coffin_song')"><skyButton onclick="playSong(this)">Coffin song</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('FrereJacques')"><skyButton onclick="playSong(this)">Frere Jacques </skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Marry_had_a_little_lamb')"><skyButton onclick="playSong(this)">Marry had a little lamb</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Bad_guy_by_Billie_Eilish')"><skyButton onclick="playSong(this)">Bad guy by Billie Eilish</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Twinkle_twinkle_little_star')"><skyButton onclick="playSong(this)">Twinkle twinkle little star</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Married_life_from_UP')"><skyButton onclick="playSong(this)">Married life (from UP)</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Still_DRE')"><skyButton onclick="playSong(this)">Still D.R.E. (Thug life)</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Renesmees_Lullaby')"><skyButton onclick="playSong(this)">Renesmee's Lullaby</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Avatars_Love')"><skyButton onclick="playSong(this)">Avatar's Love</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('MinecraftThemefor_Handpan_Key_E')"><skyButton onclick="playSong(this)">Minecraft Theme (for Handpan Key E)</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Log_drivers_walts')"><skyButton onclick="playSong(this)">Log driver's walts</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('O_Holy_Night')"><skyButton onclick="playSong(this)">O Holy Night</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Dearly_Beloved_-_Kingdom_Hearts_OST')"><skyButton onclick="playSong(this)">Dearly Beloved - Kingdom Hearts OST</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Funeral_March_-_Chopin')"><skyButton onclick="playSong(this)">Funeral March - Chopin</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Giornos_theme')"><skyButton onclick="playSong(this)">Giornos theme</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Kiss_the_rain')"><skyButton onclick="playSong(this)">Kiss the rain</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Log_Drivers_Waltz')"><skyButton onclick="playSong(this)">Log Drivers Waltz</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Memory_-_Undertale')"><skyButton onclick="playSong(this)">Memory - Undertale</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Merry_Christmas_Mr_Lawrence_Intro')"><skyButton onclick="playSong(this)">Merry Christmas Mr Lawrence Intro</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Naruto_Silhouette')"><skyButton onclick="playSong(this)">Naruto Silhouette</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Pure_Imagination')"><skyButton onclick="playSong(this)">Pure Imagination</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Crazy_Frog')"><skyButton onclick="playSong(this)">Crazy Frog</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('under_the_sea_v3')"><skyButton onclick="playSong(this)">under the sea v3</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Bubblegum_KK')"><skyButton onclick="playSong(this)">Bubblegum KK</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Main_Theme_-_Legend_of_Zelda')"><skyButton onclick="playSong(this)">Main Theme - Legend of Zelda (short)</skyButton></li>
+                <li class="content"> <img class="dS" onclick="dwJS('Somewhere_over_the_rainbow')"><skyButton onclick="playSong(this)">Somewhere over the rainbow</skyButton></li>
+            
             </div>
                 
         </ul> 
@@ -477,138 +507,144 @@
                 <div class="expand rotate0"></div><h1>Medium</h1>
             </div>
             <div style="overflow: auto;">
-            <li class="content"> <img class="dS" onclick='dwJS("Davy_Joness_Theme")'><skyButton onclick="playSong(this)">Davy Joness Theme</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick='dwJS("Hedwigs_Theme_Harry_Potter")'><skyButton onclick="playSong(this)">Hedwigs Theme Harry Potter</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick='dwJS("Flohwalzer")'><skyButton onclick="playSong(this)">Flohwalzer</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick='dwJS("Oh_Susanna")'><skyButton onclick="playSong(this)">Oh Susanna</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick='dwJS("Take_Me_to_church")'><skyButton onclick="playSong(this)">Take Me to church</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Carrying_You_Laputa')"><skyButton onclick="playSong(this)">Carrying You Laputa</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Gravity_Falls_Theme')"><skyButton onclick="playSong(this)">Gravity Falls Theme</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('If_You_Are_Happy')"><skyButton onclick="playSong(this)">If You Are Happy</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Lord_Of_The_Rings_CM')"><skyButton onclick="playSong(this)">Lord Of The Rings CM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Ode_to_Joy_-_Hard')"><skyButton onclick="playSong(this)">Ode to Joy - Hard</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Owl_City_Fireflies')"><skyButton onclick="playSong(this)">Owl City Fireflies</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Route_01_Pokemon')"><skyButton onclick="playSong(this)">Route 01 Pokemon</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Skyrim_theme')"><skyButton onclick="playSong(this)">Skyrim theme</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Hallelujah')"><skyButton onclick="playSong(this)">Hallelujah</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Ashikata_and_San_-_Princess_Mononoke_OST')"><skyButton onclick="playSong(this)">Ashikata and San - Princess Mononoke OST - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('em_đã_bỏ_thuốc_chưa')"><skyButton onclick="playSong(this)">em đã bỏ thuốc chưa - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('I_Love_You_3000')"><skyButton onclick="playSong(this)">I Love You 3000 - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Merry_Go_Round_of_Life_-_Howl_Moving_Castle_OST')"><skyButton onclick="playSong(this)">Merry Go Round of Life - Howl's Moving Castle OST - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Mononoke_Hime_Medley')"><skyButton onclick="playSong(this)">Mononoke Hime Medley - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('One_Summer_Day_-_Spirited_Away_OST')"><skyButton onclick="playSong(this)">One Summer Day - Spirited Away OST - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Play_Date')"><skyButton onclick="playSong(this)">Play Date - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Ponyo_on_the_Cliff_By_the_Sea_-_Ponyo_OST')"><skyButton onclick="playSong(this)">Ponyo on the Cliff By the Sea - Ponyo OST - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('SUMMERTIME')"><skyButton onclick="playSong(this)">SUMMERTIME - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Summer_-_Joe_Hisaishi')"><skyButton onclick="playSong(this)">Summer - Joe Hisaishi - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Kataware_Doki')"><skyButton onclick="playSong(this)">Kataware Doki</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('How_far_Ill_GoMoana')"><skyButton onclick="playSong(this)">How far I'll Go - Moana</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('穿越時空的思念')"><skyButton onclick="playSong(this)">穿越時空的思念 - Inuyasha </skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('The_Truth_Untold_Short_-_BTS')"><skyButton onclick="playSong(this)">The Truth Untold Short - BTS</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('WuJi_Unrestrained_-_The_Untamed')"><skyButton onclick="playSong(this)">WuJi Unrestrained - The Untamed</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('River_flows_in_you')"><skyButton onclick="playSong(this)">River flows in you</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('BTS_Jungkook_-_Euphoria')"><skyButton onclick="playSong(this)">BTS (Jungkook) - Euphoria</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Never_gonna_give_you_up_Easy')"><skyButton onclick="playSong(this)">Never gonna give you up (Easy)</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('River_flows_in_you_-_Yiruma')"><skyButton onclick="playSong(this)">River flows in you - Yiruma</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('FFVII_Tifas_Theme')"><skyButton onclick="playSong(this)">FFVII Tifas Theme</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Ill_find_you_sooner_than_the_stars_EASIER_Version_-_One_Punch_Man_Ending_Theme_Song')"><skyButton onclick="playSong(this)">Ill find you sooner than the stars EASIER Version - One Punch Man Ending Theme Song</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Lyras_Song')"><skyButton onclick="playSong(this)">Lyras Song</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Monody')"><skyButton onclick="playSong(this)">Monody</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Promise_-_BTS_Jimin')"><skyButton onclick="playSong(this)">Promise - BTS Jimin</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Someone_You_Loved')"><skyButton onclick="playSong(this)">Someone You Loved</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Astronomia')"><skyButton onclick="playSong(this)">Astronomia (Coffin song)</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Undertale_OST_012_Home_-_Toby_Fox')"><skyButton onclick="playSong(this)">Undertale OST 012 Home - Toby Fox</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('The_DeadSouth-_Act_of_Approach')"><skyButton onclick="playSong(this)">The Dead South - Act of Approach</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Higurashi_no_Naku_Koroni-_Dear_You')"><skyButton onclick="playSong(this)">Higurashi no Naku Koro ni - Dear You</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('NieR_Replicant-Song_of_the_Ancients')"><skyButton onclick="playSong(this)">NieR Replicant-Song of the Ancients</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('BTS_-_Friends')"><skyButton onclick="playSong(this)">BTS - Friends</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Grandpas_Theme_-_Stardew_Valley')"><skyButton onclick="playSong(this)">Grandpas Theme - Stardew Valley</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Main_Theme_-_AnimalCrossing__NewHorizon')"><skyButton onclick="playSong(this)">Main Theme - AnimalCrossing  NewHorizon</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Bigfish_and_Begonia')"><skyButton onclick="playSong(this)">Bigfish and Begonia</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Doraemon_-ukm')"><skyButton onclick="playSong(this)">Doraemon -ukm</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Futari_No_Kimochi_To_Loves_End')"><skyButton onclick="playSong(this)">Futari No Kimochi To Loves End</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Lacie_-_Pandora_Hearts_OST')"><skyButton onclick="playSong(this)">Lacie - Pandora Hearts OST</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Maria_-ukm')"><skyButton onclick="playSong(this)">Maria -ukm</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Melodia_up')"><skyButton onclick="playSong(this)">Melodia up</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Mia__Sebastians_ThemeEpilogue')"><skyButton onclick="playSong(this)">Mia  Sebastians ThemeEpilogue</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Miphas_theme_easy')"><skyButton onclick="playSong(this)">Miphas theme easy</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Mononoke_hime')"><skyButton onclick="playSong(this)">Mononoke hime</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('one_summers_day_sky_sheet')"><skyButton onclick="playSong(this)">one summers day sky sheet</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('orange_easy_ikina')"><skyButton onclick="playSong(this)">orange easy ikina</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('PLAY_DATE___MELANIE_MARTINEZ')"><skyButton onclick="playSong(this)">PLAY DATE   MELANIE MARTINEZ</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Raggs_Requiem')"><skyButton onclick="playSong(this)">Raggs Requiem</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Remember_me')"><skyButton onclick="playSong(this)">Remember me</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('See_You_Again_-_Wiz_Khalifa_ft_Charlie_Puth')"><skyButton onclick="playSong(this)">See You Again - Wiz Khalifa ft Charlie Puth</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Title_Theme-_Wind_Waker')"><skyButton onclick="playSong(this)">Title Theme- Wind Waker</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Tsuna_Awakening_-_Katekyo_Hitman_Reborn_OST')"><skyButton onclick="playSong(this)">Tsuna Awakening - Katekyo Hitman Reborn OST</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Undertale-Undertale')"><skyButton onclick="playSong(this)">Undertale-Undertale</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Wandersong_-_Sailing_with_the_Coffee_Pirates_Chorus')"><skyButton onclick="playSong(this)">Wandersong - Sailing with the Coffee Pirates Chorus</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Way_Back_home_-_Shaun___By__Alkis_112sec')"><skyButton onclick="playSong(this)">Way Back home - Shaun   By  Alkis 112sec</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('We_are_number_one')"><skyButton onclick="playSong(this)">We are number one</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Yume_to_Hazakura')"><skyButton onclick="playSong(this)">Yume to Hazakura</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('67020c634d0dff28')"><skyButton onclick="playSong(this)">ちいさな冒険者 - Chiisana Bokensha</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Binks_Sake')"><skyButton onclick="playSong(this)">Binks Sake</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Senbonzakura_-_Hatsune_Miku_Easier_Version')"><skyButton onclick="playSong(this)">Senbonzakura - Hatsune Miku Easier Version</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Your_Eyes_Tell_-_BTS')"><skyButton onclick="playSong(this)">Your Eyes Tell - BTS</skyButton><br></li>
-            </div>
+            <li class="content"> <img class="dS" onclick='dwJS("Davy_Joness_Theme")'><skyButton onclick="playSong(this)">Davy Joness Theme</skyButton></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Hedwigs_Theme_Harry_Potter")'><skyButton onclick="playSong(this)">Hedwigs Theme Harry Potter</skyButton></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Flohwalzer")'><skyButton onclick="playSong(this)">Flohwalzer</skyButton></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Oh_Susanna")'><skyButton onclick="playSong(this)">Oh Susanna</skyButton></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Take_Me_to_church")'><skyButton onclick="playSong(this)">Take Me to church</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Carrying_You_Laputa')"><skyButton onclick="playSong(this)">Carrying You Laputa</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Gravity_Falls_Theme')"><skyButton onclick="playSong(this)">Gravity Falls Theme</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('If_You_Are_Happy')"><skyButton onclick="playSong(this)">If You Are Happy</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Lord_Of_The_Rings_CM')"><skyButton onclick="playSong(this)">Lord Of The Rings CM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Ode_to_Joy_-_Hard')"><skyButton onclick="playSong(this)">Ode to Joy - Hard</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Owl_City_Fireflies')"><skyButton onclick="playSong(this)">Owl City Fireflies</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Route_01_Pokemon')"><skyButton onclick="playSong(this)">Route 01 Pokemon</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Skyrim_theme')"><skyButton onclick="playSong(this)">Skyrim theme</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Hallelujah')"><skyButton onclick="playSong(this)">Hallelujah</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Ashikata_and_San_-_Princess_Mononoke_OST')"><skyButton onclick="playSong(this)">Ashikata and San - Princess Mononoke OST - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('em_đã_bỏ_thuốc_chưa')"><skyButton onclick="playSong(this)">em đã bỏ thuốc chưa - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('I_Love_You_3000')"><skyButton onclick="playSong(this)">I Love You 3000 - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Merry_Go_Round_of_Life_-_Howl_Moving_Castle_OST')"><skyButton onclick="playSong(this)">Merry Go Round of Life - Howl's Moving Castle OST - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Mononoke_Hime_Medley')"><skyButton onclick="playSong(this)">Mononoke Hime Medley - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('One_Summer_Day_-_Spirited_Away_OST')"><skyButton onclick="playSong(this)">One Summer Day - Spirited Away OST - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Play_Date')"><skyButton onclick="playSong(this)">Play Date - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Ponyo_on_the_Cliff_By_the_Sea_-_Ponyo_OST')"><skyButton onclick="playSong(this)">Ponyo on the Cliff By the Sea - Ponyo OST - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('SUMMERTIME')"><skyButton onclick="playSong(this)">SUMMERTIME - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Summer_-_Joe_Hisaishi')"><skyButton onclick="playSong(this)">Summer - Joe Hisaishi - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Kataware_Doki')"><skyButton onclick="playSong(this)">Kataware Doki</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('How_far_Ill_GoMoana')"><skyButton onclick="playSong(this)">How far I'll Go - Moana</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('穿越時空的思念')"><skyButton onclick="playSong(this)">穿越時空的思念 - Inuyasha </skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('The_Truth_Untold_Short_-_BTS')"><skyButton onclick="playSong(this)">The Truth Untold Short - BTS</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('WuJi_Unrestrained_-_The_Untamed')"><skyButton onclick="playSong(this)">WuJi Unrestrained - The Untamed</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('River_flows_in_you')"><skyButton onclick="playSong(this)">River flows in you</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('BTS_Jungkook_-_Euphoria')"><skyButton onclick="playSong(this)">BTS (Jungkook) - Euphoria</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Never_gonna_give_you_up_Easy')"><skyButton onclick="playSong(this)">Never gonna give you up (Easy)</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('River_flows_in_you_-_Yiruma')"><skyButton onclick="playSong(this)">River flows in you - Yiruma</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('FFVII_Tifas_Theme')"><skyButton onclick="playSong(this)">FFVII Tifas Theme</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Ill_find_you_sooner_than_the_stars_EASIER_Version_-_One_Punch_Man_Ending_Theme_Song')"><skyButton onclick="playSong(this)">Ill find you sooner than the stars EASIER Version - One Punch Man Ending Theme Song</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Lyras_Song')"><skyButton onclick="playSong(this)">Lyras Song</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Monody')"><skyButton onclick="playSong(this)">Monody</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Promise_-_BTS_Jimin')"><skyButton onclick="playSong(this)">Promise - BTS Jimin</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Someone_You_Loved')"><skyButton onclick="playSong(this)">Someone You Loved</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Astronomia')"><skyButton onclick="playSong(this)">Astronomia (Coffin song)</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Undertale_OST_012_Home_-_Toby_Fox')"><skyButton onclick="playSong(this)">Undertale OST 012 Home - Toby Fox</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('The_DeadSouth-_Act_of_Approach')"><skyButton onclick="playSong(this)">The Dead South - Act of Approach</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Higurashi_no_Naku_Koroni-_Dear_You')"><skyButton onclick="playSong(this)">Higurashi no Naku Koro ni - Dear You</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('NieR_Replicant-Song_of_the_Ancients')"><skyButton onclick="playSong(this)">NieR Replicant-Song of the Ancients</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('BTS_-_Friends')"><skyButton onclick="playSong(this)">BTS - Friends</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Grandpas_Theme_-_Stardew_Valley')"><skyButton onclick="playSong(this)">Grandpas Theme - Stardew Valley</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Main_Theme_-_AnimalCrossing__NewHorizon')"><skyButton onclick="playSong(this)">Main Theme - AnimalCrossing  NewHorizon</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Bigfish_and_Begonia')"><skyButton onclick="playSong(this)">Bigfish and Begonia</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Doraemon_-ukm')"><skyButton onclick="playSong(this)">Doraemon -ukm</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Futari_No_Kimochi_To_Loves_End')"><skyButton onclick="playSong(this)">Futari No Kimochi To Loves End</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Lacie_-_Pandora_Hearts_OST')"><skyButton onclick="playSong(this)">Lacie - Pandora Hearts OST</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Maria_-ukm')"><skyButton onclick="playSong(this)">Maria -ukm</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Melodia_up')"><skyButton onclick="playSong(this)">Melodia up</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Mia__Sebastians_ThemeEpilogue')"><skyButton onclick="playSong(this)">Mia  Sebastians ThemeEpilogue</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Miphas_theme_easy')"><skyButton onclick="playSong(this)">Miphas theme easy</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Mononoke_hime')"><skyButton onclick="playSong(this)">Mononoke hime</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('one_summers_day_sky_sheet')"><skyButton onclick="playSong(this)">one summers day sky sheet</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('orange_easy_ikina')"><skyButton onclick="playSong(this)">orange easy ikina</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('PLAY_DATE___MELANIE_MARTINEZ')"><skyButton onclick="playSong(this)">PLAY DATE   MELANIE MARTINEZ</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Raggs_Requiem')"><skyButton onclick="playSong(this)">Raggs Requiem</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Remember_me')"><skyButton onclick="playSong(this)">Remember me</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('See_You_Again_-_Wiz_Khalifa_ft_Charlie_Puth')"><skyButton onclick="playSong(this)">See You Again - Wiz Khalifa ft Charlie Puth</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Title_Theme-_Wind_Waker')"><skyButton onclick="playSong(this)">Title Theme- Wind Waker</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Tsuna_Awakening_-_Katekyo_Hitman_Reborn_OST')"><skyButton onclick="playSong(this)">Tsuna Awakening - Katekyo Hitman Reborn OST</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Undertale-Undertale')"><skyButton onclick="playSong(this)">Undertale-Undertale</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Wandersong_-_Sailing_with_the_Coffee_Pirates_Chorus')"><skyButton onclick="playSong(this)">Wandersong - Sailing with the Coffee Pirates Chorus</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Way_Back_home_-_Shaun___By__Alkis_112sec')"><skyButton onclick="playSong(this)">Way Back home - Shaun   By  Alkis 112sec</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('We_are_number_one')"><skyButton onclick="playSong(this)">We are number one</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Yume_to_Hazakura')"><skyButton onclick="playSong(this)">Yume to Hazakura</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('67020c634d0dff28')"><skyButton onclick="playSong(this)">ちいさな冒険者 - Chiisana Bokensha</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Binks_Sake')"><skyButton onclick="playSong(this)">Binks Sake</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Senbonzakura_-_Hatsune_Miku_Easier_Version')"><skyButton onclick="playSong(this)">Senbonzakura - Hatsune Miku Easier Version</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Your_Eyes_Tell_-_BTS')"><skyButton onclick="playSong(this)">Your Eyes Tell - BTS</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Minecraft-_Wet_Hands_-C412_-_Main')"><skyButton onclick="playSong(this)">Minecraft- Wet Hands -C412 - Main</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('We_Married_As_A_Job')"><skyButton onclick="playSong(this)">We Married As A Job</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Bluestone_Alley_by_Congfei_Wei')"><skyButton onclick="playSong(this)">Bluestone Alley by Congfei Wei</skyButton></li>
+            
+        
+        
+        </div>
         </ul>
         <ul class="listelement">  
             <div style="display: inline-flex; width: 100%;"> 
                 <div class="expand rotate0"></div><h1>Hard</h1>
             </div>
             <div style="overflow: auto;">
-            <li class="content"> <img class="dS" onclick="dwJS('The_Myth_OST')"><skyButton onclick="playSong(this)">The Myth OST</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick='dwJS("Music_sheet_8_Extended")'><skyButton onclick="playSong(this)">Music sheet 8 Extended</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick='dwJS("Speak_Softly_Love_-_Godfather_Theme")'><skyButton onclick="playSong(this)">Speak Softly Love - Godfather Theme</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick='dwJS("Rather_be")'><skyButton onclick="playSong(this)">Rather be</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Chuanyue_shikong_de_sinian')"><skyButton onclick="playSong(this)">Chuanyue shikong de sinian</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Có_Chắc_Yêu_Là_Đây_(Ballad Version)_by_Komo')"><skyButton onclick="playSong(this)">Có Chắc Yêu Là Đây (Ballad Version) by Komo - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Có_Chắc_Yêu_Là_Đây_-_Sơn_Tùng_MTP')"><skyButton onclick="playSong(this)">Có Chắc Yêu Là Đây - Sơn Tùng MTP - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Gravity_Fall_Opening_Theme_Song')"><skyButton onclick="playSong(this)">Gravity Fall Opening Theme Song (Hard) - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Renai_Circulation_-_Kana_Hanazawa_by_Komo_The_Bread')"><skyButton onclick="playSong(this)">Renai Circulation - Kana Hanazawa by Komo The Bread - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Tonari_no_Totoro_-_My_Neighborhood_Is_Totoro_OST')"><skyButton onclick="playSong(this)">Tonari no Totoro - My Neighborhood Is Totoro OST - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('He_is_a_pirate')"><skyButton onclick="playSong(this)">He's a pirate</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('He_is_a_pirate(slow)')"><skyButton onclick="playSong(this)">He's a pirate (slow)</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Evangelion_-_A_cruel_angel_thesis')"><skyButton onclick="playSong(this)">Evangelion - A cruel angel thesis</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Priscillas_song_-_Skyrim')"><skyButton onclick="playSong(this)">Priscilla's song - Skyrim</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Alone')"><skyButton onclick="playSong(this)">Alone</skyButton><br></li>    
-            <li class="content"> <img class="dS" onclick="dwJS('Rolling_girl_-_Hatsune_Miku')"><skyButton onclick="playSong(this)">Rolling girl - Hatsune Miku</skyButton><br></li>    
-            <li class="content"> <img class="dS" onclick="dwJS('Wintergatan_-_Marble_machine')"><skyButton onclick="playSong(this)">Wintergatan - Marble machine</skyButton><br></li>    
-            <li class="content"> <img class="dS" onclick="dwJS('em_đã_bỏ_thuốcchưa-_SCMS')"><skyButton onclick="playSong(this)">em đã bỏ thuốc chưa? - SCMS</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Moon_-_BTS_Jin')"><skyButton onclick="playSong(this)">Moon - 방탄소년단 (BTS), Jin</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('stuck_with_u')"><skyButton onclick="playSong(this)">Stuck with u </skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Clair_de_Lune_-_Debussy')"><skyButton onclick="playSong(this)">Clair de Lune - Debussy</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Lemon_Verse')"><skyButton onclick="playSong(this)">Lemon Verse</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Never_gonna_give_you_up')"><skyButton onclick="playSong(this)">Never gonna give you up</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Falling_-_Harry_Styles')"><skyButton onclick="playSong(this)">Falling - Harry Styles</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Flower_Dance')"><skyButton onclick="playSong(this)">Flower Dance</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Butterfly_LOO_Bb')"><skyButton onclick="playSong(this)">Butterfly (LOOΠ∆) (Bb)</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Ill_find_you_sooner_than_the_stars_-_One_Punch_Man_Ending_Theme_Song')"><skyButton onclick="playSong(this)">Ill find you sooner than the stars - One Punch Man Ending Theme Song</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('valder_fields')"><skyButton onclick="playSong(this)">valder fields</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('bad_apple')"><skyButton onclick="playSong(this)">bad apple</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Viva_la_Vida')"><skyButton onclick="playSong(this)">Viva la Vida 2</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Serendipity_-_BTS_Jimin')"><skyButton onclick="playSong(this)">Serendipity - BTS (Jimin)</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Nier_OST_Shadow_Lord')"><skyButton onclick="playSong(this)">Nier OST Shadow Lord</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('KaineSalvation')"><skyButton onclick="playSong(this)">Kaine(Salvation)</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Love4Eva')"><skyButton onclick="playSong(this)">Love4Eva</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Kawaranai_mono_-_Girl_Who_Leapt_Through_Time')"><skyButton onclick="playSong(this)">Kawaranai mono - Girl Who Leapt Through Time</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Top_-_Stray_Kids_Tower_of_God_OP')"><skyButton onclick="playSong(this)">Top - Stray Kids Tower of God OP</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Chiisana_Koi_no_Uta')"><skyButton onclick="playSong(this)">Chiisana Koi no Uta</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Faded_-_Alan_Walker_Hard')"><skyButton onclick="playSong(this)">Faded - Alan Walker Hard</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Interstellar_main_theme')"><skyButton onclick="playSong(this)">Interstellar main theme</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Omae_Wa_Mou_-_Sky_Children_Music_Studio')"><skyButton onclick="playSong(this)">Omae Wa Mou - SCSM</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Porter_Robson__Madeon_-_Shelter')"><skyButton onclick="playSong(this)">Porter Robson  Madeon - Shelter</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Proud_Of_You')"><skyButton onclick="playSong(this)">Proud Of You</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Sacred_Grove_-_Legend_of_Zelda_Twilight_Princess')"><skyButton onclick="playSong(this)">Sacred Grove - Legend of Zelda Twilight Princess</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('STAY_-_BLACKPINK_Db')"><skyButton onclick="playSong(this)">STAY - BLACKPINK Db</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('TWICE_-_Feel_Special_Ab')"><skyButton onclick="playSong(this)">TWICE - Feel Special Ab</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Sacred_Grove_-_Legend_of_Zelda_Twilight_Princess_Duet')"><skyButton onclick="playSong(this)">Sacred_Grove_-_Legend_of_Zelda_Twilight_Princess_Duet (Download for both parts)</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('coffee_pirates')"><skyButton onclick="playSong(this)">coffee pirates</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Fallin_Flower_-_Seventeen')"><skyButton onclick="playSong(this)">Fallin Flower - Seventeen</skyButton><br></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Senbonzakura_-_Hatsune_Miku')"><skyButton onclick="playSong(this)">Senbonzakura - Hatsune Miku</skyButton><br></li>
+            <li class="content"> <img class="dS" onclick="dwJS('The_Myth_OST')"><skyButton onclick="playSong(this)">The Myth OST</skyButton></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Music_sheet_8_Extended")'><skyButton onclick="playSong(this)">Music sheet 8 Extended</skyButton></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Speak_Softly_Love_-_Godfather_Theme")'><skyButton onclick="playSong(this)">Speak Softly Love - Godfather Theme</skyButton></li>
+            <li class="content"> <img class="dS" onclick='dwJS("Rather_be")'><skyButton onclick="playSong(this)">Rather be</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Chuanyue_shikong_de_sinian')"><skyButton onclick="playSong(this)">Chuanyue shikong de sinian</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Có_Chắc_Yêu_Là_Đây_(Ballad Version)_by_Komo')"><skyButton onclick="playSong(this)">Có Chắc Yêu Là Đây (Ballad Version) by Komo - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Có_Chắc_Yêu_Là_Đây_-_Sơn_Tùng_MTP')"><skyButton onclick="playSong(this)">Có Chắc Yêu Là Đây - Sơn Tùng MTP - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Gravity_Fall_Opening_Theme_Song')"><skyButton onclick="playSong(this)">Gravity Fall Opening Theme Song (Hard) - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Renai_Circulation_-_Kana_Hanazawa_by_Komo_The_Bread')"><skyButton onclick="playSong(this)">Renai Circulation - Kana Hanazawa by Komo The Bread - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Tonari_no_Totoro_-_My_Neighborhood_Is_Totoro_OST')"><skyButton onclick="playSong(this)">Tonari no Totoro - My Neighborhood Is Totoro OST - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('He_is_a_pirate')"><skyButton onclick="playSong(this)">He's a pirate</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('He_is_a_pirate(slow)')"><skyButton onclick="playSong(this)">He's a pirate (slow)</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Evangelion_-_A_cruel_angel_thesis')"><skyButton onclick="playSong(this)">Evangelion - A cruel angel thesis</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Priscillas_song_-_Skyrim')"><skyButton onclick="playSong(this)">Priscilla's song - Skyrim</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Alone')"><skyButton onclick="playSong(this)">Alone</skyButton></li>    
+            <li class="content"> <img class="dS" onclick="dwJS('Rolling_girl_-_Hatsune_Miku')"><skyButton onclick="playSong(this)">Rolling girl - Hatsune Miku</skyButton></li>    
+            <li class="content"> <img class="dS" onclick="dwJS('Wintergatan_-_Marble_machine')"><skyButton onclick="playSong(this)">Wintergatan - Marble machine</skyButton></li>    
+            <li class="content"> <img class="dS" onclick="dwJS('em_đã_bỏ_thuốcchưa-_SCMS')"><skyButton onclick="playSong(this)">em đã bỏ thuốc chưa? - SCMS</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Moon_-_BTS_Jin')"><skyButton onclick="playSong(this)">Moon - 방탄소년단 (BTS), Jin</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('stuck_with_u')"><skyButton onclick="playSong(this)">Stuck with u </skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Clair_de_Lune_-_Debussy')"><skyButton onclick="playSong(this)">Clair de Lune - Debussy</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Lemon_Verse')"><skyButton onclick="playSong(this)">Lemon Verse</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Never_gonna_give_you_up')"><skyButton onclick="playSong(this)">Never gonna give you up</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Falling_-_Harry_Styles')"><skyButton onclick="playSong(this)">Falling - Harry Styles</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Flower_Dance')"><skyButton onclick="playSong(this)">Flower Dance</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Butterfly_LOO_Bb')"><skyButton onclick="playSong(this)">Butterfly (LOOΠ∆) (Bb)</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Ill_find_you_sooner_than_the_stars_-_One_Punch_Man_Ending_Theme_Song')"><skyButton onclick="playSong(this)">Ill find you sooner than the stars - One Punch Man Ending Theme Song</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('valder_fields')"><skyButton onclick="playSong(this)">valder fields</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('bad_apple')"><skyButton onclick="playSong(this)">bad apple</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Viva_la_Vida')"><skyButton onclick="playSong(this)">Viva la Vida 2</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Serendipity_-_BTS_Jimin')"><skyButton onclick="playSong(this)">Serendipity - BTS (Jimin)</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Nier_OST_Shadow_Lord')"><skyButton onclick="playSong(this)">Nier OST Shadow Lord</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('KaineSalvation')"><skyButton onclick="playSong(this)">Kaine(Salvation)</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Love4Eva')"><skyButton onclick="playSong(this)">Love4Eva</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Kawaranai_mono_-_Girl_Who_Leapt_Through_Time')"><skyButton onclick="playSong(this)">Kawaranai mono - Girl Who Leapt Through Time</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Top_-_Stray_Kids_Tower_of_God_OP')"><skyButton onclick="playSong(this)">Top - Stray Kids Tower of God OP</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Chiisana_Koi_no_Uta')"><skyButton onclick="playSong(this)">Chiisana Koi no Uta</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Faded_-_Alan_Walker_Hard')"><skyButton onclick="playSong(this)">Faded - Alan Walker Hard</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Interstellar_main_theme')"><skyButton onclick="playSong(this)">Interstellar main theme</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Omae_Wa_Mou_-_Sky_Children_Music_Studio')"><skyButton onclick="playSong(this)">Omae Wa Mou - SCSM</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Porter_Robson__Madeon_-_Shelter')"><skyButton onclick="playSong(this)">Porter Robson  Madeon - Shelter</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Proud_Of_You')"><skyButton onclick="playSong(this)">Proud Of You</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Sacred_Grove_-_Legend_of_Zelda_Twilight_Princess')"><skyButton onclick="playSong(this)">Sacred Grove - Legend of Zelda Twilight Princess</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('STAY_-_BLACKPINK_Db')"><skyButton onclick="playSong(this)">STAY - BLACKPINK Db</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('TWICE_-_Feel_Special_Ab')"><skyButton onclick="playSong(this)">TWICE - Feel Special Ab</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Sacred_Grove_-_Legend_of_Zelda_Twilight_Princess_Duet')"><skyButton onclick="playSong(this)">Sacred Grove - Legend of Zelda Twilight Princess Duet (Download for both parts)</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('coffee_pirates')"><skyButton onclick="playSong(this)">coffee pirates</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Fallin_Flower_-_Seventeen')"><skyButton onclick="playSong(this)">Fallin Flower - Seventeen</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Senbonzakura_-_Hatsune_Miku')"><skyButton onclick="playSong(this)">Senbonzakura - Hatsune Miku</skyButton></li>
             </ul>
     </div>
-
+    
     <ul class="listelement">
         <div style="display: inline-flex; width: 100%;">
             <div class="expand rotate0"></div>
@@ -618,17 +654,25 @@
         </div>
     </ul>
     </div>
-    <br><br>
+    <ul class="listelement2" id="toUpload" style="display: none;">
+        <div style="display: inline-flex; width: 100%;"> 
+            <div class="expand rotate90"></div><h1>To Upload</h1>
+        </div>
+        <div style="overflow: auto;">
+            </div>
+    </ul>
+    
 
     <div class="skyMusicGithub">
-        <a href="http://sky-music.github.io" style="margin-right: 0.5em;"><img src="/icons/skyLib.png" width="135"
-                height="95"></a>
-        <a style="text-decoration: none; color: rgba(235, 0, 27, 1); margin-top: 20px;"
-            href="http://sky-music.github.io">
-            For other sheets<br> Press here
-        </a>
+        <div onclick="location.href ='http\://sky-music.github.io'">
+            <img src="/icons/skyLib.png" width="135"height="95">
+        </div>
+        <div style="text-decoration: none; color: rgba(235, 0, 27, 1); max-width: 40vw; font-size: 1.2rem; text-align: center;"
+            onclick="location.href ='http\://sky-music.github.io'">
+            For other sheets Press here
+        </div>
     </div>
-    <br><br>
+    
     <div style="text-align: center; font-size: 0.6em;">
         <p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#" class="license-text"><a
                 rel="cc:attributionURL" href="https://sky-music.herokuapp.com/"><span rel="dct:title">Sky
@@ -681,7 +725,6 @@
                 }
             }
         }
-        console.log(foundElements)
         foundElements.sort(function (a, b) { return b.matches - a.matches });
         foundElements.forEach(e => {
             let node = e.song.parentElement.cloneNode(true)
@@ -700,17 +743,17 @@
             let divs = this.parentElement.getElementsByTagName("div")
             divs[1].classList.toggle("rotate90")
             divs[1].classList.toggle("rotate0")
-            if (divs[2].style.maxHeight != "80vh") {
+            if (divs[2].style.maxHeight != "70vh") {
                 $(divs[2]).children('.content').show();
-                $(divs[2]).animate({ maxHeight: "80vh" }, 500)
+                $(divs[2]).animate({ maxHeight: "70vh" }, 500)
+                    $(document.body).animate({
+                        scrollTop: $(divs[1]).offset().top - 100
+                    }, 500);
             } else {
                 $(divs[2]).animate({ maxHeight: "0vh" }, 500)
             }
         })
     }
-    document.getElementById("instrumentSelection").addEventListener("change", function () {
-        initializeKeyboard(this.options[this.selectedIndex].value, 1)
-    })
 
     function sendSong(btn) {
 
@@ -923,8 +966,20 @@
         let request = new XMLHttpRequest();
         request.open('GET', "./librarySongs/" + songName + ".txt");
         request.responseType = 'text';
+        request.onerror = function(){
+            showMessage("Unavailable",0,2000)
+        }
+        request.onabort = function(){
+            showMessage("Unavailable",0,2000)
+        }
         request.onload = async function () {
-            song = convertToOldFormat(JSON.parse(request.response))[0]
+            let song
+            try{
+                song = convertToOldFormat(JSON.parse(request.response))[0]
+            }catch(e){
+                showMessage("Unavailable",0,2000)
+                return
+            }
             let delayTime = 0
             let previousTime = 0
             if (isNaN(song.pitchLevel)) song.pitchLevel = 0
@@ -1029,9 +1084,15 @@
         });
   });
 }
-
+let toUpload = document.getElementById("toUpload")
+    if(toUpload.style.display == "block"){
+        let divs = toUpload.getElementsByTagName("div")
+        console.log(divs[2])
+        $(divs[2]).children('.content').show();
+    }
+    document.getElementById("instrumentSelection").addEventListener("change", function () {
+        initializeKeyboard(this.options[this.selectedIndex].value, 1)
+})
 </script>
-<script type="text/javascript"> var infolinks_pid = 3281705; var infolinks_wsid = 0; </script>
-<script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
 
 </html>
