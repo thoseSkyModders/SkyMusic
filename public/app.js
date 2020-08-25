@@ -2120,6 +2120,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
     }
     //--------------------------------// Dinamically create the button to play the song
     let songContainer = document.createElement("div")
+    songContainer.className = "songWrapper"
     let songButton = document.createElement("button")
     songButton.setAttribute("songName", songName)
     songButton.addEventListener("click", function () {
@@ -2130,8 +2131,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         playSong(JSON.parse(songText.innerHTML),songText.getAttribute("pitchLevel"))
     })
     songButton.innerHTML = songName
-    songButton.className = "skyButton songButton"
-    songButton.style.width = "calc((100% - 70px) - 3em)"
+    songButton.className = "skyButton songButtonWide"
     //--------------------------------// This holds the text of the array of the song 
     let songText = document.createElement("div")
     songText.setAttribute("fromDb", false)
@@ -2146,10 +2146,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
     console.log("song added!")
 
     let deleteButton = document.createElement("button")
-    deleteButton.innerHTML = "<img src='icons/trash1.svg' alt='trash'  width='22px' style='vertical-align: bottom; margin:-0.5px;'\/>"
-    deleteButton.className = "skyButton"
-    deleteButton.style.width = "40px"
-    deleteButton.style.marginLeft = "0.1em"
+    deleteButton.className = "skyButton songButton deleteBtn"
     deleteButton.setAttribute("songName", songName)
     let saveToDb
     if (savingType == "2") { //if its a song coming from the database, put the delete button also to delete it from the db
@@ -2162,10 +2159,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
             }
         })
     var shareLink = document.createElement("button")
-        shareLink.innerHTML = "<img src='icons/share1.svg' alt='share'  width='25px' style='vertical-align: bottom; margin:-2.5px;'\/>"
-        shareLink.className = "skyButton"
-        shareLink.style.marginLeft = "0.1em"
-        shareLink.style.width = "40px"
+        shareLink.className = "skyButton songButton shareBtn"
         shareLink.setAttribute("songName", songName)
         shareLink.addEventListener("click", function () {
             generateShareLink(this.getAttribute("songName"))
@@ -2191,10 +2185,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         })
 
         saveToDb = document.createElement("button")
-        saveToDb.innerHTML = "<img src='icons/saveToDb2.svg' alt='share' width='25px' style='vertical-align: bottom; margin:-2.5px;'/>"
-        saveToDb.className = "skyButton"
-        saveToDb.style.marginLeft = "0.1em"
-        saveToDb.style.width = "40px"
+        saveToDb.className = "skyButton songButton toDbBtn"
         saveToDb.setAttribute("songName", songName)
         saveToDb.addEventListener("click", function () {
             let storedSongName = this.getAttribute("songName")
@@ -2213,10 +2204,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
     }
     //--------------------------------// Button to play this song in practice mode
     let trainSong = document.createElement("button")
-    trainSong.innerHTML = "<img src='icons/practice.svg' alt='share' width='25px' style='vertical-align: bottom; margin:-2.5px;'/>"
-    trainSong.className = "skyButton"
-    trainSong.style.marginLeft = "0.1em"
-    trainSong.style.width = "40px"
+    trainSong.className = "skyButton songButton practiceBtn"
     trainSong.setAttribute("songName", songName)
     trainSong.addEventListener("click", function () {
         savedSongsDivWrapper.style.display = "none"
@@ -2243,12 +2231,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
     })
     //--------------------------------// Button to share this song
     let shareButton = document.createElement("button")
-    shareButton.innerHTML = "<img src='icons/download1.svg' alt='share'  width='25px' style='vertical-align: bottom; margin:-2.5px;'\/>"
-    shareButton.style.color = "lightgreen"
-    shareButton.style.fontWeight = "bold"
-    shareButton.className = "skyButton"
-    shareButton.style.width = "40px"
-    shareButton.style.marginLeft = "0.1em"
+    shareButton.className = "skyButton songButton downloadBtn"
     shareButton.setAttribute("songName", songName)
     shareButton.addEventListener("click", function () {
         let storedSongName = this.getAttribute("songName")
@@ -2268,19 +2251,13 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         buttonsHolder.className = "buttonsHolder"
         buttonsHolder.appendChild(deleteButton)
     let expandButton = document.createElement("button")
-        expandButton.innerHTML = "<img src='icons/more.svg' alt='share'  width='30px' style='vertical-align: bottom; margin:-5px;'\/>"
-        expandButton.style.color = "lightgreen"
-        expandButton.style.fontWeight = "bold"
-        expandButton.className = "skyButton expandButton"
-        expandButton.style.width = "40px"
-        expandButton.style.marginLeft = "0.1em"
+        expandButton.className = "skyButton songButton moreBtn"
         expandButton.setAttribute("songName", songName)
         expandButton.addEventListener("click", function () {
             $(".buttonsHolder").css("display","none")
-            $(".expandButton").css("display","inline")
-            $(".songButton").css("width","calc((100% - 70px) - 3em)")
+            $(".moreBtn").css("display","flex")
             $(this.parentNode.children[0]).css({"width":"calc(100% - 136px - 5em)"})
-            this.parentNode.children[3].style.display = "inline"
+            this.parentNode.children[3].style.display = "flex"
             this.style.display = "none"
         })
     songContainer.appendChild(trainSong)

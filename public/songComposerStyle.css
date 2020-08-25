@@ -12,26 +12,29 @@ body {
     overflow: hidden;
     text-align: center;
     -ms-touch-action: none;
+    display: flex;
+    flex-direction: column;
 }
+
 .floatingMessage {
-	position: absolute;
-	width: 40%;
-	left: 0;
-	right: 0;
-	margin-right: auto;
-	margin-left: auto;
-	height: 15%;
-	top: 70%;
-	font-size: 1em;
-	text-align: center;
-	padding: 1em;
-	font-family: Arial;
-	font-weight: bold;
-	color: #dad8b3;
-	background-color: rgba(22, 22, 22, 0.95);
-	display: none;
-	z-index: 110;
-	border-radius: 0.8em;
+    position: absolute;
+    width: 40%;
+    left: 0;
+    right: 0;
+    margin-right: auto;
+    margin-left: auto;
+    height: 15%;
+    top: 70%;
+    font-size: 1em;
+    text-align: center;
+    padding: 1em;
+    font-family: Arial;
+    font-weight: bold;
+    color: #dad8b3;
+    background-color: rgba(22, 22, 22, 0.95);
+    display: none;
+    z-index: 110;
+    border-radius: 0.8em;
 }
 
 .notesWrapper {
@@ -44,7 +47,7 @@ body {
     box-sizing: border-box;
 }
 
-.numberPicker{
+.numberPicker {
     border: none;
     background-color: transparent;
     color: #dad8b3;
@@ -52,6 +55,7 @@ body {
     width: 45px;
     text-align: center;
 }
+
 #songContainer {
     height: 100%;
     border-radius: 10px;
@@ -67,20 +71,21 @@ body {
     margin: 0 0 0 5px;
 }
 
-.addPage{
+.addPage {
     height: 100%;
     min-width: 30px;
     border-radius: 5px;
     font-size: 1.2em;
     z-index: 10;
-    border:none;
+    border: none;
     background-color: #383838;
     color: #dad8b3;
     cursor: pointer;
-    -webkit-appearance:none;
+    -webkit-appearance: none;
     padding: 0;
     margin-left: 2px;
 }
+
 .toolsContainer {
     width: 14%;
     min-width: 150px;
@@ -109,11 +114,12 @@ body {
     color: #dad8b3;
     display: block;
 }
+
 .tool {
-    background-size:60%; 
-    background-repeat:no-repeat;
+    background-size: 60%;
+    background-repeat: no-repeat;
     background-position: center;
-    -webkit-background-origin:border;
+    -webkit-background-origin: border;
     width: 100%;
     height: 100%;
     font-size: 1em;
@@ -125,11 +131,11 @@ body {
     text-align: center;
     cursor: pointer;
     display: inline-block;
-    -webkit-appearance:none;
+    -webkit-appearance: none;
     padding: 0;
 }
 
-.mirrorX{
+.mirrorX {
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
     -webkit-transform: scaleX(-1);
@@ -137,6 +143,7 @@ body {
     filter: FlipH;
     -ms-filter: "FlipH";
 }
+
 .tool.half {
     width: 45%;
 }
@@ -156,6 +163,7 @@ div.full {
     padding-bottom: 0.1em;
     cursor: pointer;
 }
+
 .note {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -174,7 +182,7 @@ div.full {
 #bottom {
     display: flex;
     flex-direction: column;
-    height: 55vh;
+    flex-grow: 1;
     align-content: center;
 }
 
@@ -182,25 +190,29 @@ div.full {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: center;
+    align-content: center;
     flex-grow: 1;
     padding: 5px;
+    max-height: 55vh;
     box-sizing: border-box;
 }
 
 [id^=row] {
     display: flex;
     height: calc((100% + 1vh)/3);
-    max-height: calc(80px + 1vh);
-    align-content: start;
+    max-height: 80px;
+    align-items: center;
     justify-content: center;
+    margin-top: 1px;
 }
 
 [id^=Key] {
     display: inline-block;
     height: calc(100% - 1vh);
     width: calc((100% - 5vh)/5);
+    margin: 1px;
     max-width: 80px;
+    max-height: 80px;
     padding: 0.5vh;
     background: transparent;
     cursor: pointer;
@@ -208,13 +220,15 @@ div.full {
     object-fit: contain;
 }
 
-[id^=Key],button {
-	-webkit-user-select: none;
-	-moz-user-select: -moz-none;
-	-ms-user-select: none;
-	user-select: none;
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+[id^=Key],
+button {
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
 .btnBg {
     z-index: 0;
     border-radius: 0.8em;
@@ -241,7 +255,9 @@ div.full {
     display: block;
 }
 
-.skyButton, .tempoButton, .select {
+.skyButton,
+.tempoButton,
+.select {
     cursor: pointer;
     height: 30px;
     margin: 4px 2px 0 2px;
@@ -272,19 +288,20 @@ div.full {
     color: rgba(22, 22, 22, 0.65);
 }
 
-.tempoContainer{
+.tempoContainer {
     position: fixed;
     bottom: 0.5em;
     right: 0.5em;
     display: flex;
     flex-direction: column;
 }
+
 .select {
     -webkit-appearance: none;
     -webkit-border-radius: none;
     text-decoration: none;
     border-radius: 0.3em;
-    border:none;
+    border: none;
     color: #dad8b3;
     width: 10vw;
     background-color: #383838;
@@ -295,13 +312,27 @@ div.full {
     margin-left: 1vw;
 }
 
-.settingOption{
-    width: 80%; 
-    color:#dad8b3; 
-    display:inline-block;
-    vertical-align: middle;
-    line-height: 40px;
+.settingOption {
+    width: 100%;
+    color: #dad8b3;
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.3rem;
+    justify-content: space-between;
+    align-content: center;
 }
+
+.settingOption div {
+    display: flex;
+    align-items: center;
+}
+
+.settingOption button,
+.settingOption select,
+.settingOption input {
+    min-width: 30%;
+}
+
 .floatingBottomLeft {
     width: 100%;
     padding: 10px;
@@ -313,11 +344,12 @@ div.full {
     justify-content: space-between;
 }
 
-#bpm{
-    float:right;
+#bpm {
+    float: right;
     text-align: center;
     width: 10vw;
 }
+
 .btnText {
     font-family: Arial;
     color: #dad8b3;
@@ -328,102 +360,106 @@ div.full {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
-@keyframes click-key {
-	0% {
-		transform: scale(1, 1);
-	}
 
-    50% {
-		transform: scale(0, 1);
+@keyframes click-key {
+    0% {
+        transform: scale(1, 1);
     }
 
-	100% {
-		transform: scale(1, 1);
+    50% {
+        transform: scale(0, 1);
+    }
+
+    100% {
+        transform: scale(1, 1);
     }
 }
 
 @keyframes click-scale {
-	0% {
-		transform: scale(1);
-	}
-
-	50% {
-		transform: scale(0.9);
-	}
-
-	100% {
-		transform: scale(1);
-	}
-}
-@-webkit-keyframes click-key {
-	0% {
-		transform: scale(1, 1);
-	}
-
-    50% {
-		transform: scale(0, 1);
+    0% {
+        transform: scale(1);
     }
 
-	100% {
-		transform: scale(1, 1);
+    50% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@-webkit-keyframes click-key {
+    0% {
+        transform: scale(1, 1);
+    }
+
+    50% {
+        transform: scale(0, 1);
+    }
+
+    100% {
+        transform: scale(1, 1);
     }
 }
 
 @-webkit-keyframes click-scale {
-	0% {
-		transform: scale(1);
-	}
+    0% {
+        transform: scale(1);
+    }
 
-	50% {
-		transform: scale(0.9);
-	}
+    50% {
+        transform: scale(0.9);
+    }
 
-	100% {
-		transform: scale(1);
-	}
+    100% {
+        transform: scale(1);
+    }
 }
+
 .keyScale {
-	animation-name: click-scale;
-	animation-timing-function: linear;
-	animation-duration: 0.15s;
-	animation-iteration-count: initial;
-	animation-play-state: 1;
-	/* For Chrome & Safari */
+    animation-name: click-scale;
+    animation-timing-function: linear;
+    animation-duration: 0.15s;
+    animation-iteration-count: initial;
+    animation-play-state: 1;
+    /* For Chrome & Safari */
 
-	-webkit-animation-name: click-scale;
-	-webkit-animation-timing-function: linear;
-	-webkit-animation-duration: 0.15s;
-	-webkit-animation-iteration-count: initial;
-	-webkit-animation-play-state: 1;
-}
-
-.keyTurn {
-	animation-name: click-key;
-	animation-timing-function: linear;
-	animation-duration: 0.15s;
-	animation-iteration-count: initial;
-	animation-play-state: 1;
-	/* For Chrome & Safari */
-
-	-webkit-animation-name: click-key;
-	-webkit-animation-timing-function: linear;
-	-webkit-animation-duration: 0.15s;
-	-webkit-animation-iteration-count: initial;
+    -webkit-animation-name: click-scale;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-duration: 0.15s;
+    -webkit-animation-iteration-count: initial;
     -webkit-animation-play-state: 1;
 }
 
-#settingsDiv{
+.keyTurn {
+    animation-name: click-key;
+    animation-timing-function: linear;
+    animation-duration: 0.15s;
+    animation-iteration-count: initial;
+    animation-play-state: 1;
+    /* For Chrome & Safari */
+
+    -webkit-animation-name: click-key;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-duration: 0.15s;
+    -webkit-animation-iteration-count: initial;
+    -webkit-animation-play-state: 1;
+}
+
+#settingsDiv {
     position: absolute;
     border: 1.5px #676761 solid;
     border-radius: 10px;
@@ -435,13 +471,14 @@ input[type=number] {
     right: 0;
     margin-right: auto;
     margin-left: auto;
-    top:25%;
+    top: 25%;
     z-index: 100;
     text-align: left;
-    padding:1vw;
+    padding: 1vw;
     overflow-y: auto;
 }
-#importMIDIDiv{
+
+#importMIDIDiv {
     color: #dad8b3;
     position: absolute;
     border: 1.5px solid #383838;
@@ -454,10 +491,11 @@ input[type=number] {
     bottom: 0.5em;
     z-index: 100;
     text-align: left;
-    padding:1vw;
-    overflow-y: auto; 
+    padding: 1vw;
+    overflow-y: auto;
 }
-#toolsDiv{
+
+#toolsDiv {
     color: #dad8b3;
     position: absolute;
     border: 1.5px solid #383838;
@@ -467,18 +505,19 @@ input[type=number] {
     flex-direction: column;
     width: 50%;
     height: 47vh;
-	left: 0;
+    left: 0;
     right: 0;
     bottom: 0.5em;
-	margin-right: auto;
-	margin-left: auto;
+    margin-right: auto;
+    margin-left: auto;
     margin-left: auto;
     z-index: 100;
     text-align: left;
-    padding:1vw;
-    overflow-y: auto; 
+    padding: 1vw;
+    overflow-y: auto;
 }
-#finishedSelection{
+
+#finishedSelection {
     margin-left: 1em;
     width: 45px;
     min-width: 45px;
@@ -487,110 +526,235 @@ input[type=number] {
     font-size: 1.2em;
     flex: 1 1 0;
 }
-#copyLayerBtn{
-    border:solid 2px rgba(235, 0, 27, 0.7) ;
+
+#copyLayerBtn {
+    border: solid 2px rgba(235, 0, 27, 0.7);
 }
-#eraseLayerBtn{
-    border:solid 2px rgba(235, 0, 27, 0.7) ;
+
+#eraseLayerBtn {
+    border: solid 2px rgba(235, 0, 27, 0.7);
 }
-#endCopyBtn{
+
+#endCopyBtn {
     float: right;
     border: 1.5px solid transparent;
 }
-#startCopyBtn   {
+
+#startCopyBtn {
     float: right;
     border: 1.5px solid transparent;
 }
-.toolButton{
+
+.toolButton {
     min-height: 4vh;
 }
-.rightContainer{
+
+.rightContainer {
     position: fixed;
-    left: 0.5em; 
-    bottom: 0.5em; 
+    left: 0.5em;
+    bottom: 0.5em;
     display: flex;
     flex-direction: column;
 }
-.toolsContainerRight{
+
+.toolsContainerRight {
     width: 7%;
     min-width: 75px;
     margin-left: 5px;
 }
-#promptDiv{
-	z-index: 100;
+
+#promptDiv {
+    z-index: 100;
     display: none;
-	padding: 1em;
-	position: absolute;
-	text-align: center;
-	width: 40%;
-	left: 0;
-	right: 0;
-	margin-right: auto;
-	margin-left: auto;
-	top:5%;
-	color:#dad8b3;
+    padding: 1em;
+    position: absolute;
+    text-align: center;
+    width: 40%;
+    left: 0;
+    right: 0;
+    margin-right: auto;
+    margin-left: auto;
+    top: 5%;
+    color: #dad8b3;
     border: 2px #383838 solid;
-	border-radius: 0.8em;
-	background-color: rgba(15, 15, 15, 0.9);
+    border-radius: 0.8em;
+    background-color: rgba(15, 15, 15, 0.9);
 }
+
 #promptInput {
-	width: 100%;
-	text-align: center;
-	margin: 10px 0 5px;
-	height: 30px;
-	border-radius: 5px;
-	outline: 0;
-	background: rgba(100,100,100,0.9);
-	border: 0;
-	color: white;
+    width: 100%;
+    text-align: center;
+    margin: 10px 0 5px;
+    height: 30px;
+    border-radius: 5px;
+    outline: 0;
+    background: rgba(100, 100, 100, 0.9);
+    border: 0;
+    color: white;
 }
+
 #promptInput::placeholder {
     color: white;
     opacity: 0.7;
 }
-#promptOK, #promptCancel,#replaceSong,#choseAnotherName,#splitSong,#mergeSong {
+
+#promptOK,
+#promptCancel,
+#replaceSong,
+#choseAnotherName,
+#splitSong,
+#mergeSong {
     flex: 1 1 0;
     margin: 0;
-	background: rgba(75,75,75,0.9);
+    background: rgba(75, 75, 75, 0.9);
 }
-#promptCancel,#replaceSong,#mergeSong{
+
+#promptCancel,
+#replaceSong,
+#mergeSong {
     margin-right: 2%;
 }
+
+@media screen and (min-width: 1800px) {
+    div {
+        font-size: 2rem;
+    }
+
+    .note {
+        border: solid 4px transparent;
+        border-radius: 0.15em;
+    }
+
+    [id^=Key] {
+        max-height: 15vh;
+        max-width: 10vw;
+    }
+
+    [id^=row] {
+        max-height: 15vh;
+    }
+
+    .tool {
+        font-size: 2rem;
+        border-radius: 0.8rem;
+    }
+
+    .skyButton,
+    .tempoButton,
+    .select {
+        font-size: 2rem;
+        height: 6vh;
+        margin: 0.2rem;
+    }
+
+    .addPage {
+        min-width: 50px;
+    }
+
+    .toolsContainer div {
+        padding: 5px;
+    }
+
+    .skyButton {
+        font-size: 2rem;
+    }
+
+    .btnBg {
+        border-radius: 2rem;
+    }
+
+    .btnText {
+        font-size: 2rem;
+    }
+}
+
+@media screen and (min-width: 3500px) {
+    div {
+        font-size: 4rem;
+    }
+
+    .note {
+        border: solid 8px transparent;
+        border-radius: 0.15em;
+    }
+
+    .tool {
+        font-size: 4rem;
+        border-radius: 1.5rem;
+    }
+
+    .skyButton,
+    .tempoButton,
+    .select {
+        font-size: 3.5rem;
+        height: 6vh;
+        margin: 0.4rem;
+        border-radius: 1.5rem;
+    }
+
+    .addPage {
+        min-width: 100px;
+    }
+
+    .toolsContainer div {
+        padding: 10px;
+    }
+
+    .btnBg {
+        border-radius: 3.5rem;
+    }
+
+    .btnText {
+        font-size: 4rem;
+    }
+}
+
 @media only screen and (orientation:portrait) {
-	.tempoContainer{
+    .tempoContainer {
         flex-direction: row;
     }
-    .rightContainer{
+
+    .rightContainer {
         flex-direction: row;
     }
-    .tempoButton{
+
+    .tempoButton {
         width: 10vw;
     }
-    .rightContainer button{
+
+    .rightContainer button {
         min-width: 0px;
     }
-    #toolsDiv{
+
+    #toolsDiv {
         width: 90%;
         height: 40vh;
         bottom: 10vh;
     }
-    .cell{
+
+    .cell {
         min-width: 2.4vw;
         width: 2.4vw;
     }
-    .tool{
+
+    .tool {
         font-size: 0.8em;
     }
-    .toolsContainer{
+
+    .toolsContainer {
         min-width: 100px;
     }
-    .toolsContainerRight{
+
+    .toolsContainerRight {
         min-width: 50px;
     }
-    #settingsDiv{
+
+    #settingsDiv {
         width: 80%;
+        padding: 3vw;
     }
-    #promptDiv{
+
+    #promptDiv {
         width: 80%;
     }
 }

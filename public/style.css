@@ -17,13 +17,14 @@
 	font-family: arial;
 }
 
-#failedToLoad{
+#failedToLoad {
 	display: none;
 	height: 0;
 	width: 0;
 	position: absolute;
-	
+
 }
+
 .btnText {
 	color: transparent;
 	font-family: Arial;
@@ -53,7 +54,7 @@
 	background-color: rgba(22, 22, 22, 0.95);
 	display: none;
 	z-index: 110;
-	box-shadow: 0 0 5px 3px rgba(0,0,0,0.3);
+	box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.3);
 	border-radius: 0.8em;
 }
 
@@ -82,42 +83,46 @@
 	cursor: pointer;
 	display: block;
 }
-#exitFullScreenBtn{
+
+#exitFullScreenBtn {
 	position: fixed;
-	left:15px;
-	bottom:10px;
+	left: 15px;
+	bottom: 10px;
 	display: none;
 	width: 35px;
 }
-.grayBtn{
-	background: rgba(77,77,77,0.85);
+
+.grayBtn {
+	background: rgba(77, 77, 77, 0.85);
 }
+
 @media only screen and (orientation:portrait) {
-	#exitFullScreenBtn{
-		left:calc(100vw - 50px);
+	#exitFullScreenBtn {
+		left: calc(100vw - 50px);
 	}
 }
 
-#setScale{
-	padding:1em;
+#setScale {
+	padding: 1em;
 	display: none;
-	position:absolute;
+	position: absolute;
 	height: 70%;
 	width: 50%;
-	top:15%;
+	top: 15%;
 	left: 0;
 	right: 0;
 	margin-right: auto;
 	margin-left: auto;
 	background-color: rgba(22, 22, 22, 0.9);
+	border: 1.5px solid rgb(103, 103, 97);
 	border-radius: 1em;
-	border: solid 1px #222;
-	box-shadow: 0 0 3px 3px rgba(0,0,0,0.3);
+	box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.3);
 	z-index: 1000;
 	color: #dad8b3;
 	text-align: center;
 	overflow-y: auto;
 }
+
 .songRange {
 	z-index: 0;
 	display: none;
@@ -130,15 +135,17 @@
 	height: 50%;
 	user-select: none;
 }
-.songProgress{
+
+.songProgress {
 	border-radius: 0.5em;
 	z-index: -1;
 	position: absolute;
 	width: 100%;
 	background-color: rgba(235, 0, 27, 0.8);
-	bottom:0;
+	bottom: 0;
 }
-.songProgressWrapper{
+
+.songProgressWrapper {
 	left: 0;
 	right: 0;
 	z-index: -1;
@@ -147,13 +154,15 @@
 	position: absolute;
 	width: 30%;
 	height: 90%;
-	bottom:0;
+	bottom: 0;
 }
+
 @media only screen and (orientation:portrait) {
-	.songProgress{
+	.songProgress {
 		display: none;
 	}
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
@@ -176,11 +185,12 @@ input[type=number] {
 	outline: none;
 	user-select: none;
 }
-#scaleNumber{
+
+#scaleNumber {
 	display: inline-block;
 	font-family: Arial;
 	text-align: center;
-	border: 2px ;
+	border: 2px;
 	width: 30px;
 	color: #dad8b3;
 	background-color: rgba(22, 22, 22, 0.65);
@@ -189,6 +199,7 @@ input[type=number] {
 	outline: none;
 	user-select: none;
 }
+
 /*
 input[type=range][orient=vertical]{
     writing-mode: bt-lr;
@@ -238,25 +249,27 @@ input[type=range][orient=vertical]:hover {
 	opacity: 1;
 	/* Fully shown on mouse-over */
 }
-#rotateDevice{
-display: none;
+
+#rotateDevice {
+	display: none;
 }
 
-.bottom{
+.bottom {
 	margin-top: 30%;
 }
 
 @media only screen and (orientation:portrait) {
-	#rotateDevice{
+	#rotateDevice {
 		display: block;
 		text-align: center;
 		z-index: 1000;
 		background-color: rgba(235, 233, 202, 0.9);
-		position:absolute;
-		width:100%;
-		height:100%;
+		position: absolute;
+		width: 100%;
+		height: 100%;
 	}
 }
+
 @media only screen and (orientation:portrait) {
 	.songRange {
 		display: none;
@@ -364,7 +377,7 @@ display: none;
 #stopSong {
 	background-image: url(icons/stop.png);
 	background-color: rgba(22, 22, 22, 0.65);
-	box-shadow: 0 0 5px 3px rgba(0,0,0,0.3);
+	box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.3);
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
@@ -380,7 +393,7 @@ display: none;
 
 .musicButton {
 	background: rgba(22, 22, 22, 0.65);
-	box-shadow: 0 0 5px 3px rgba(0,0,0,0.3);
+	box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.3);
 	background-image: url('./images/piano.png');
 	background-size: 25px 25px;
 	background-repeat: no-repeat;
@@ -397,7 +410,7 @@ display: none;
 
 .pitchButton {
 	background: rgba(22, 22, 22, 0.65);
-	box-shadow: 0 0 5px 3px rgba(0,0,0,0.3);
+	box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.3);
 	background-size: 25px 25px;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -625,7 +638,7 @@ div.fakefile {
 	cursor: pointer;
 	margin: 0.5em;
 	outline: none;
-	box-shadow: 0 0 5px 1px rgba(0,0,0,0.3);
+	box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
 }
 
 .menuDiv {
@@ -645,10 +658,12 @@ body {
 	min-height: 100vh;
 	-ms-touch-action: none;
 }
-html{
+
+html {
 	-ms-touch-action: none;
 }
-#promptDiv{
+
+#promptDiv {
 	z-index: 100;
 	display: none;
 	padding: 1em;
@@ -659,12 +674,13 @@ html{
 	right: 0;
 	margin-right: auto;
 	margin-left: auto;
-	top:5%;
-	color:#dad8b3;
+	top: 5%;
+	color: #dad8b3;
 	border: solid 1px #111;
 	border-radius: 0.8em;
 	background-color: rgba(15, 15, 15, 0.85);
 }
+
 #promptInput {
 	width: 92%;
 	text-align: center;
@@ -672,15 +688,18 @@ html{
 	height: 30px;
 	border-radius: 5px;
 	outline: 0;
-	background: rgba(100,100,100,0.9);
+	background: rgba(100, 100, 100, 0.9);
 	border: 0;
 	color: white;
 }
-#promptOK, #promptCancel {
+
+#promptOK,
+#promptCancel {
 	width: 46%;
 	margin: 1%;
-	background: rgba(75,75,75,0.9);
+	background: rgba(75, 75, 75, 0.9);
 }
+
 #touch {
 	height: calc(100vh - 50px);
 	display: flex;
@@ -690,7 +709,7 @@ html{
 	margin: 0;
 }
 
-#language-selector{
+#language-selector {
 	display: block;
 	width: 100%;
 	border: 0;
@@ -703,6 +722,7 @@ html{
 	background: teal;
 	color: white;
 }
+
 #login,
 #register,
 #confirmRegistration,
@@ -723,14 +743,12 @@ html{
 #settingsContainer {
 	background: rgba(15, 15, 15, 0.85);
 	width: 100%;
-	max-height: 100%;
+	min-height: 100vh;
+	min-width: 100vw;
 	overflow: auto;
 	padding: 1.5em;
 	box-sizing: border-box;
 	color: white;
-	border-radius: 15px;
-	max-width: 500px;
-	margin: auto;
 }
 
 #loginContainer h1,
@@ -774,7 +792,7 @@ html{
 	border-radius: 5px;
 	cursor: pointer;
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 1rem;
 	background: teal;
 	color: white;
 }
@@ -795,6 +813,7 @@ html{
 #settingsContainer span {
 	font-weight: bold;
 	display: inline-block;
+	cursor: pointer;
 	width: 50%;
 }
 
@@ -805,12 +824,14 @@ html{
 #forgotLink {
 	text-align: right;
 }
-#lockScreen{
+
+#lockScreen {
 	position: fixed;
 	right: 0;
 	bottom: 0;
 	font-size: 0.7em;
 }
+
 #icon-bar {
 	border-right: solid 1.5px #dad8b3;
 	width: 30%;
@@ -821,7 +842,7 @@ html{
 	backdrop-filter: blur(20px);
 	display: none;
 	z-index: 99;
-	background: rgba(0,0,0,0.3);
+	background: rgba(0, 0, 0, 0.3);
 }
 
 #menu {
@@ -838,52 +859,64 @@ html{
 	height: 45px;
 	padding: 30px;
 }
-.subMenuDiv{
+
+.subMenuDiv {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
 }
-#savedSongsDivWrapper{
+
+#savedSongsDivWrapper {
 	margin: auto;
 	top: 0;
-	left: 0; 
-	bottom: 0; 
+	left: 0;
+	bottom: 0;
 	right: 0;
 	overflow: hidden;
 }
-.shift40px{
+
+.shift40px {
 	margin-left: 0;
 }
-.shift40px2{
+
+.shift40px2 {
 	margin-left: 0;
 }
-@media only screen and (orientation:landscape){
-	.shift40px{
+
+@media only screen and (orientation:landscape) {
+	.shift40px {
 		margin-left: 40px;
 	}
 }
-@media only screen and (orientation:portrait){
-	.shift40px2{
+
+@media only screen and (orientation:portrait) {
+	.shift40px2 {
 		margin-left: 40px;
 	}
-	.menuDiv{
+
+	.menuDiv {
 		flex-direction: column;
 	}
-	.subMenuDiv{
+
+	.subMenuDiv {
 		justify-content: center;
 	}
-	#floatingMessage{
+
+	#floatingMessage {
 		width: 80vw;
 	}
-	#savedSongsDivWrapper{
+
+	#savedSongsDivWrapper {
 		width: 90%;
 		height: 80%;
 	}
-	#menu{
+
+	#menu {
 		bottom: 0;
 	}
 }
+
 .secondPage {
 	display: none;
 	backdrop-filter: blur(10px);
@@ -913,35 +946,38 @@ html{
 	color: white;
 	opacity: 100%;
 }
-#formatChooser{
+
+#formatChooser {
 	display: none;
 	position: absolute;
 	left: 0;
 	right: 0;
 	margin-right: auto;
 	margin-left: auto;
-	top:30%;
+	top: 30%;
 	width: 50%;
 	height: 35%;
 	z-index: 10;
-	color:#dad8b3;
+	color: #dad8b3;
 	text-align: center;
 	background-color: rgba(22, 22, 22, 0.95);
-    border: 1.5px #676761 solid;
+	border: 1.5px #676761 solid;
 	border-radius: 0.8em;
 	padding: 1em;
 	padding-top: 0.5em;
 }
-.format{
+
+.format {
 	display: flex;
 	flex-direction: row;
 	width: 100%;
 	font-size: 20px;
 	height: 70%;
 	text-align: center;
-	
+
 }
-.formatButton{
+
+.formatButton {
 	color: #dad8b3;
 	background-color: rgba(44, 44, 44, 0.8);
 	border-radius: 0.5em;
@@ -951,7 +987,7 @@ html{
 	cursor: pointer;
 	outline: none;
 	flex: 1 1 0;
-	margin:5%;
+	margin: 5%;
 	margin-top: 0;
 	font-size: 1.5em;
 	height: 100%;
@@ -960,67 +996,142 @@ html{
 	justify-content: center;
 	vertical-align: middle
 }
-.buttonsHolder{
+
+.buttonsHolder {
 	display: none;
 }
-.songButton{
+
+.songButton {
+	width: 4vw;
+	margin-left: 0.1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+	min-height: 4vw;
 }
-.copyDiv{
+
+.songImg {
+	background-size: 10%;
+}
+
+.shareBtn,
+.deleteBtn,
+.practiceBtn,
+.moreBtn,
+.toDbBtn,
+.downloadBtn {
+	background-size: 80%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.downloadBtn {
+	background-image: url(./icons/download1.svg);
+}
+
+.shareBtn {
+	background-image: url(./icons/share.png);
+	background-size: 60%;
+}
+
+.deleteBtn {
+	background-image: url(./icons/trash.png);
+	background-size: 70%;
+}
+
+.practiceBtn {
+	background-image: url(./icons/practice.svg);
+}
+
+.moreBtn {
+	background-image: url(./icons/more.svg);
+}
+
+.toDbBtn {
+	background-image: url(./icons/saveToDb2.svg);
+	background-size: 70%;
+}
+
+.songButtonWide {
+	display: flex;
+	flex-grow: 1;
+	justify-content: center;
+}
+
+.songWrapper {
+	display: flex;
+}
+
+.copyDiv {
 	width: 90%;
 	height: 90%;
 	color: #dad8b3;
 	background-color: #dad8b3;
-	color: rgb(22,22,22);
+	color: rgb(22, 22, 22);
 	padding: 0.5em;
 }
-.copyDiv::selection{
-	background: rgba(235, 0, 27, 0.5);;
+
+.copyDiv::selection {
+	background: rgba(235, 0, 27, 0.5);
+	;
 }
-#abcTextarea, #abcTextareaExport{
+
+#abcTextarea,
+#abcTextareaExport {
 	color: #dad8b3;
-    border:none;
+	border: none;
 	background-color: rgba(44, 44, 44, 0.8);
 	width: 60%;
 	margin-right: 1%;
-	border-radius: 0.5em;	
+	border-radius: 0.5em;
 	text-align: center;
 	overflow-y: auto;
-    overflow-x: hidden;
-    resize: none;
+	overflow-x: hidden;
+	resize: none;
 }
-#abcTextareaExport{
+
+#abcTextareaExport {
 	width: 80%;
 }
-#abcTextarea::placeholder{
+
+#abcTextarea::placeholder {
 	color: #dad8b3;
 	opacity: 1;
 }
-#importAbc,#exportAbc{
-    color: #dad8b3;
-    border: none;
+
+#importAbc,
+#exportAbc {
+	color: #dad8b3;
+	border: none;
 	background-color: rgba(44, 44, 44, 0.8);
-	width:15%;
+	width: 15%;
 	border-radius: 0.5em;
 }
-#exportAbc{
+
+#exportAbc {
 	width: 20%;
 }
-#importAbcData{
+
+#importAbcData {
 	width: 20%;
 	margin-right: 1%;
 }
-.midiImport{
+
+.midiImport {
 	height: 20%;
 	margin-top: 1%;
 	border-radius: 0.2em;
 }
-#importAbcData input{
+
+#importAbcData input {
 	color: #dad8b3;
-    border: none;
+	border: none;
 	background-color: rgba(44, 44, 44, 0.8);
 	border-radius: 0.2em;
 	width: 90%;
 }
+
 @media only screen and (max-height: 450px) {
 
 	#login,
@@ -1049,11 +1160,12 @@ html{
 
 /* Style the tab */
 .tab {
-    border-bottom: 1px solid #222;
+	border-bottom: 1px solid #222;
 	background-color: #333;
 	filter: opacity(90%);
 	margin: 0;
 }
+
 /* Style the buttons inside the tab */
 .tab button {
 	background-color: inherit;
@@ -1076,25 +1188,163 @@ html{
 	background-color: #dad8b3;
 	color: black
 }
-@media only screen and (orientation:portrait){
+
+@media only screen and (orientation:portrait) {
+	.songButton {
+		min-width: 8vw;
+		min-height: 8vw;
+	}
+
 	.tab button {
 		padding: 12px 14px;
 		font-size: 14px;
 	}
-	#formatChooser{
+
+	#formatChooser {
+		width: 80%;
+	}
+
+	#setScale {
 		width: 80%;
 	}
 }
+
 #dbSongs {
 	display: none;
 }
+
 .tabcontent {
 	flex-direction: column;
 	overflow: auto;
 	flex-grow: 1;
 }
+
 #songsFlexWrapper {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
+}
+
+@media only screen and (min-width: 1800px) {
+	* {
+		font-size: 1.5rem;
+	}
+
+	.tab button {
+		font-size: 1.5rem;
+		padding: 1rem;
+	}
+
+	[id^=Key] {
+		max-height: 13vh;
+		max-width: 13vh;
+	}
+
+	.btnImg {
+		border-radius: 1rem;
+	}
+
+	[id^=row] {
+		max-height: 15vh;
+	}
+
+	#menu {
+		background-size: 60px 60px;
+		width: 70px;
+		height: 70px;
+		margin: 0.5em;
+	}
+
+	.musicButton,
+	.pitchButton,
+	#stopSong {
+		background-size: 40px 40px;
+		width: 65px;
+		height: 65px;
+	}
+
+	#stopSong {
+		background-size: 70px 70px;
+	}
+
+	#togglePitchList {
+		font-size: 1rem;
+	}
+
+	#startingNoteRange {
+		width: 60px;
+	}
+
+	#loginContainer button,
+	#resetContainer button,
+	#registerContainer button,
+	#confirmContainer button,
+	#settingsContainer button {
+		font-size: 1.5rem;
+	}
+
+	.btnBg {
+		border-radius: 0.8rem;
+		border: solid 6px transparent;
+	}
+}
+
+@media only screen and (min-width: 3500px) {
+
+	#loginContainer button,
+	#resetContainer button,
+	#registerContainer button,
+	#confirmContainer button,
+	#settingsContainer button {
+		font-size: 2rem;
+	}
+
+	* {
+		font-size: 2rem;
+	}
+
+	.tab button {
+		font-size: 2rem;
+		padding: 1.5rem;
+	}
+
+	.btnImg {
+		border-radius: 1.5rem;
+	}
+
+	#menu {
+		background-size: 120px 120px;
+		width: 140px;
+		height: 140px;
+		margin: 0.5em;
+	}
+
+	.musicButton,
+	.pitchButton,
+	#stopSong {
+		background-size: 80px 80px;
+		width: 120px;
+		height: 120px;
+	}
+
+	#savedSongsDivWrapper {
+		border-radius: 2rem;
+	}
+
+	#stopSong {
+		background-size: 120px 120px;
+	}
+
+	#togglePitchList {
+		font-size: 1.2rem;
+	}
+
+	#startingNoteRange {
+		width: 120px;
+	}
+
+	.btnBg {
+		border-radius: 1rem;
+		border: solid 10px transparent;
+	}
 }

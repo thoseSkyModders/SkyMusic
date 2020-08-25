@@ -148,15 +148,15 @@
     </div>
 
     <div id="settingsDiv">
-        <div class="settingOption full">
-            <input type="button" class="skyButton" style="float: right;" value="Close" onclick="toggleSettings()">
+        <div class="settingOption full" style="justify-content: flex-start;">
+            <input type="button" class="skyButton" value="Close" onclick="toggleSettings()">
         </div>
         <div class="settingOption">
-            <span>BPM</span>
+            <div>BPM</div>
             <input id="bpm" class="skyButton" type="number" value=220 placeholder="BPM">
         </div>
         <div class="settingOption">
-            <span>Main instrument</span>
+            <div>Main instrument</div>
             <select id="instrumentSelection" class="select">
                 <option selected>Piano</option>
                 <option>Harp</option>
@@ -173,7 +173,7 @@
             </select>
         </div>
         <div class="settingOption">
-            <span>Secondary instrument</span>
+            <div>Secondary instrument</div>
             <select id="instrumentLayer2Selection" class="select">
                 <option selected>Piano</option>
                 <option>Harp</option>
@@ -190,7 +190,7 @@
             </select>
         </div>
         <div class="settingOption">
-            <span>Pitch</span>
+            <div>Pitch</div>
             <select id="keySelection" class="select">
                 <option>C</option>
                 <option>D♭</option>
@@ -205,28 +205,34 @@
                 <option>B♭</option>
                 <option>B</option>
             </select>
-        </div><br>
+        </div>
         <div class="settingOption">
-            <span>Cave mode</span>
-            <button id="toggleReverbBtn" class="skyButton" style="float: right; width: 10vw;" onclick="toggleReverb()">OFF</button>
+            <div>Cave mode</div>
+            <button id="toggleReverbBtn" class="skyButton"   onclick="toggleReverb()">OFF</button>
         </div>
         <div class="settingOption" style="color: limegreen;">
-            <span >Import MIDI</span>
-            <button id="midiImportButton" class="skyButton" style="float: right; width: 10vw;" onclick="openMIDI()">Select file</button>
+            <div >Import MIDI</div>
+            <button id="midiImportButton" class="skyButton"  onclick="openMIDI()">Select file</button>
             <input type="file" style="display: none;" id="filePicker"/>
         </div>
         <div class="settingOption">
-            <span>Open saved song</span>
+            <div>Open saved song</div>
             <select id="loadSongSelect" class="select">
                 <option selected disabled>Song</option>
             </select>
         </div>
         <div class="settingOption">
-            <span>Download sheet</span>
-            <button class="skyButton" style="float: right; width: 10vw;" onclick="downloadSheet()">Download</button>
+            <div>Download sheet</div>
+            <button class="skyButton"  onclick="downloadSheet()">Download</button>
+        </div>
+        <div class="settingOption">
+            <div>Resize page</div>
+            <input type="range" id="changeScale" value="10" min="0" max="20" style="width: 50%; margin-top: 0.5rem;">
         </div>
         <input type="button" style="border: rgba(235, 0, 27, 1) solid 1px; color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
+
+
     <div id="importMIDIDiv" style="display: none; height: 50%; width: 40%; opacity: 0.95; font-size: 0.9em;">
         Find the best offset and layer by increasing or decreasing the value
         <div class="settingOption full"> 
@@ -285,6 +291,24 @@
 <script>
 let selectedLayer = 1
 let keyColor =  "rgba(44, 44, 44, 0.8)"
+
+let scalePicker = document.getElementById("changeScale")
+scalePicker.addEventListener("input",function(){
+    let scale = 1 + (this.value - 10)/30
+    this.scrollIntoView()
+    changeScale(scale.toFixed(2))
+    localStorage.setItem("pageZoomComposer",scale.toFixed(2))
+})
+let page = document.body
+function changeScale(value){
+    page.style.zoom = value
+}
+let pageZoom = localStorage.getItem("pageZoomComposer")
+if(!isNaN(pageZoom)){
+    changeScale(pageZoom)
+}else{
+    localStorage.setItem("pageZoomComposer",1)
+}
 function switchInstrumentLayer(btn){
     if(btn.style.backgroundColor.includes("rgba(235, 0, 27")){
         document.getElementById("copyLayerBtn").style.borderColor = "#9B59B6"
