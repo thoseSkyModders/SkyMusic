@@ -60,6 +60,7 @@
     h1 {
         color: rgba(235, 0, 27, 1);
     }
+
     span {
         color: rgba(235, 0, 27, 1);
         text-decoration: none;
@@ -143,10 +144,12 @@
         margin: 0.3rem;
         -webkit-tap-highlight-color: transparent;
     }
-    skyButton:active{
+
+    skyButton:active {
         color: #424242;
         background-color: #dad8b3;
     }
+
     .expand {
         background-image: url(./icons/expand.svg);
         background-position: center;
@@ -235,7 +238,7 @@
     .skyMusicGithub {
         background-color: #272b2d;
         margin-top: 10vh;
-        padding:1rem;
+        padding: 1rem;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -259,9 +262,11 @@
         skyButton {
             margin: 0.1rem;
         }
-        .skyMusicGithub{
+
+        .skyMusicGithub {
             border-radius: 3vw;
         }
+
         .innerButtonsContainer {
             flex-direction: column;
         }
@@ -317,14 +322,18 @@
             justify-content: space-between;
         }
     }
+
     @media only screen and (orientation:landscape) {
-        .select{
+        .select {
             max-width: 25vw;
         }
-        .sendSongContainer{
+
+        .sendSongContainer {
             max-width: 50%;
         }
-        .skyButton2, .select{
+
+        .skyButton2,
+        .select {
             min-height: 8vh;
         }
     }
@@ -389,7 +398,8 @@
         </div>
     </div>
     <div style="border-top: solid 2px #dad8b3; padding: 1em; margin-top: 1rem;">
-        Press a song to hear it, to download it press: <img class="dS" onclick="showMessage('Go download some songs!')"><br>
+        Press a song to hear it, to download it press: <img class="dS"
+            onclick="showMessage('Go download some songs!')"><br>
         it will be saved in the main page (Go back)
     </div>
     <div class="buttonsContainer">
@@ -419,7 +429,8 @@
         <div id="searchResults">
             <div style="display: inline-flex; position: relative; width: 100%;">
                 Results
-                <div class="skyButton2" id="x" onclick="document.getElementById('resultsWrapper').innerHTML = '', searchResults.style.display = 'none'">
+                <div class="skyButton2" id="x"
+                    onclick="document.getElementById('resultsWrapper').innerHTML = '', searchResults.style.display = 'none'">
                     x
                 </div>
             </div>
@@ -429,14 +440,16 @@
         </div>
     </div>
     <div style="display: flex; flex-direction: column; justify-content: center; width: 100%;">
-        <ul class="listelement2">
+        <ul class="listelement">
             <div style="display: inline-flex; width: 100%;"> 
-                <div class="expand rotate90"></div><h1>Song Pack</h1>
+                <div class="expand rotate0"></div><h1>Song Pack</h1>
             </div>
-    
-            <li><img class="dS" onclick='dwJS("Song_pack_1")'><a>Song pack 1</a></li>
-            <li><img class="dS" onclick='dwJS("Song_pack_2")'><a>Song pack 2</a> </li>
-            <li><img class="dS" onclick='dwJS("SCSM_pack")'><a>SCSM pack</a> </li>
+            <div style="overflow: auto;">
+                <li class="content"> <img class="dS" onclick='dwJS("Song_pack_1")'><skyButton onclick="playSong(this)">Song pack 1</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Song_pack_2")'><skyButton onclick="playSong(this)">Song pack 2</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("SCSM_pack")'><skyButton onclick="playSong(this)">SCSM pack</skyButton></li>
+                <li class="content"> <img class="dS" onclick='dwJS("Films_Pack")'><skyButton onclick="playSong(this)">FIlms pack</skyButton></li>
+            </div>
         </ul>
         <ul class="listelement">
             <div style="display: inline-flex; width: 100%;"> 
@@ -643,8 +656,9 @@
             <li class="content"> <img class="dS" onclick="dwJS('Fallin_Flower_-_Seventeen')"><skyButton onclick="playSong(this)">Fallin Flower - Seventeen</skyButton></li>
             <li class="content"> <img class="dS" onclick="dwJS('Senbonzakura_-_Hatsune_Miku')"><skyButton onclick="playSong(this)">Senbonzakura - Hatsune Miku</skyButton></li>
             </ul>
+
     </div>
-    
+
     <ul class="listelement">
         <div style="display: inline-flex; width: 100%;">
             <div class="expand rotate0"></div>
@@ -655,24 +669,25 @@
     </ul>
     </div>
     <ul class="listelement2" id="toUpload" style="display: none;">
-        <div style="display: inline-flex; width: 100%;"> 
-            <div class="expand rotate90"></div><h1>To Upload</h1>
+        <div style="display: inline-flex; width: 100%;">
+            <div class="expand rotate90"></div>
+            <h1>To Upload</h1>
         </div>
         <div style="overflow: auto;">
-            </div>
+        </div>
     </ul>
-    
+
 
     <div class="skyMusicGithub">
         <div onclick="location.href ='http\://sky-music.github.io'">
-            <img src="/icons/skyLib.png" width="135"height="95">
+            <img src="/icons/skyLib.png" width="135" height="95">
         </div>
-        <div style="text-decoration: none; color: rgba(235, 0, 27, 1); max-width: 40vw; font-size: 1.2rem; text-align: center;"
+        <div style="text-decoration: none; color: rgba(235, 0, 27, 1); max-width: 40vw; font-size: 1.2rem; text-align: center; margin-left: 3vw;"
             onclick="location.href ='http\://sky-music.github.io'">
             For other sheets Press here
         </div>
     </div>
-    
+
     <div style="text-align: center; font-size: 0.6em;">
         <p xmlns:dct="http://purl.org/dc/terms/" xmlns:cc="http://creativecommons.org/ns#" class="license-text"><a
                 rel="cc:attributionURL" href="https://sky-music.herokuapp.com/"><span rel="dct:title">Sky
@@ -691,10 +706,14 @@
 </body>
 <script>
     let searchResults = document.getElementById("searchResults")
-    function search() {
+    document.getElementById("search").addEventListener("input", () => {
+        search(true)
+    })
+
+    function search(ignore = false) {
         let searchWords = document.getElementById("search").value.toLowerCase().trim()
         if (searchWords == "") {
-            showMessage("Write some keywords first!")
+            if (ignore) showMessage("Write some keywords first!")
             return
         }
         searchResults.style.display = "block"
@@ -725,12 +744,15 @@
                 }
             }
         }
-        foundElements.sort(function (a, b) { return b.matches - a.matches });
+        foundElements.sort(function (a, b) {
+            return b.matches - a.matches
+        });
         foundElements.forEach(e => {
             let node = e.song.parentElement.cloneNode(true)
             node.style.display = "flex"
             resultsWrapper.appendChild(node)
         })
+
 
     }
     let picker = document.getElementById("selectedSong");
@@ -745,12 +767,16 @@
             divs[1].classList.toggle("rotate0")
             if (divs[2].style.maxHeight != "70vh") {
                 $(divs[2]).children('.content').show();
-                $(divs[2]).animate({ maxHeight: "70vh" }, 500)
-                    $(document.body).animate({
-                        scrollTop: $(divs[1]).offset().top - 100
-                    }, 500);
+                $(divs[2]).animate({
+                    maxHeight: "70vh"
+                }, 500)
+                $(document.body).animate({
+                    scrollTop: $(divs[1]).offset().top - 100
+                }, 500);
             } else {
-                $(divs[2]).animate({ maxHeight: "0vh" }, 500)
+                $(divs[2]).animate({
+                    maxHeight: "0vh"
+                }, 500)
             }
         })
     }
@@ -819,6 +845,7 @@
     for (var i = 0; i < downloadButtons.length; i++) {
         downloadButtons[i].src = "icons/download1.svg"
     }
+
     function convertToNewFormat(songs) {
         if (isNaN(songs[0].songNotes[0].key[0])) {
             let convertedSongs = []
@@ -916,21 +943,62 @@
     var notesHandler = document.getElementById("notes")
     let numOfKeys = 15
     let pitchKey = 0
+
     function initializeKeyboard(instrument) {
         notesHandler.innerHTML = ""
         let instrumentsNotes = {
-            Piano: ["Piano/0.mp3", "Piano/1.mp3", "Piano/2.mp3", "Piano/3.mp3", "Piano/4.mp3", "Piano/5.mp3", "Piano/6.mp3", "Piano/7.mp3", "Piano/8.mp3", "Piano/9.mp3", "Piano/10.mp3", "Piano/11.mp3", "Piano/12.mp3", "Piano/13.mp3", "Piano/14.mp3"],
-            Harp: ["Harp/0.mp3", "Harp/1.mp3", "Harp/2.mp3", "Harp/3.mp3", "Harp/4.mp3", "Harp/5.mp3", "Harp/6.mp3", "Harp/7.mp3", "Harp/8.mp3", "Harp/9.mp3", "Harp/10.mp3", "Harp/11.mp3", "Harp/12.mp3", "Harp/13.mp3", "Harp/14.mp3"],
-            Bell: ["Bells/0.mp3", "Bells/1.mp3", "Bells/2.mp3", "Bells/3.mp3", "Bells/4.mp3", "Bells/5.mp3", "Bells/6.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3"],
-            Guitar: ["Guitar/0.mp3", "Guitar/1.mp3", "Guitar/2.mp3", "Guitar/3.mp3", "Guitar/4.mp3", "Guitar/5.mp3", "Guitar/6.mp3", "Guitar/7.mp3", "Guitar/8.mp3", "Guitar/9.mp3", "Guitar/10.mp3", "Guitar/11.mp3", "Guitar/12.mp3", "Guitar/13.mp3", "Guitar/14.mp3"],
-            Flute: ["Flute/0.mp3", "Flute/1.mp3", "Flute/2.mp3", "Flute/3.mp3", "Flute/4.mp3", "Flute/5.mp3", "Flute/6.mp3", "Flute/7.mp3", "Flute/8.mp3", "Flute/9.mp3", "Flute/10.mp3", "Flute/11.mp3", "Flute/12.mp3", "Flute/13.mp3", "Flute/14.mp3"],
-            Xylophone: ["Xylophone/0.mp3", "Xylophone/1.mp3", "Xylophone/2.mp3", "Xylophone/3.mp3", "Xylophone/4.mp3", "Xylophone/5.mp3", "Xylophone/6.mp3", "Xylophone/7.mp3", "Xylophone/8.mp3", "Xylophone/9.mp3", "Xylophone/10.mp3", "Xylophone/11.mp3", "Xylophone/12.mp3", "Xylophone/13.mp3", "Xylophone/14.mp3"],
-            Drum: ["Drum/0.mp3", "Drum/1.mp3", "Drum/2.mp3", "Drum/3.mp3", "Drum/4.mp3", "Drum/5.mp3", "Drum/6.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3"],
-            Horn: ["Horn/0.mp3", "Horn/1.mp3", "Horn/2.mp3", "Horn/3.mp3", "Horn/4.mp3", "Horn/5.mp3", "Horn/6.mp3", "Horn/7.mp3", "Horn/8.mp3", "Horn/9.mp3", "Horn/10.mp3", "Horn/11.mp3", "Horn/12.mp3", "Horn/13.mp3", "Horn/14.mp3"],
-            ToyUkulele: ["ToyUkulele/0.mp3", "ToyUkulele/1.mp3", "ToyUkulele/2.mp3", "ToyUkulele/3.mp3", "ToyUkulele/4.mp3", "ToyUkulele/5.mp3", "ToyUkulele/6.mp3", "ToyUkulele/7.mp3", "ToyUkulele/8.mp3", "ToyUkulele/9.mp3", "ToyUkulele/10.mp3", "ToyUkulele/11.mp3", "ToyUkulele/12.mp3", "ToyUkulele/13.mp3", "ToyUkulele/14.mp3"],
-            HandPan: ["HandPan/0.mp3", "HandPan/1.mp3", "HandPan/2.mp3", "HandPan/3.mp3", "HandPan/4.mp3", "HandPan/5.mp3", "HandPan/6.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3"],
-            Contrabass: ["Contrabass/0.mp3", "Contrabass/1.mp3", "Contrabass/2.mp3", "Contrabass/3.mp3", "Contrabass/4.mp3", "Contrabass/5.mp3", "Contrabass/6.mp3", "Contrabass/7.mp3", "Contrabass/8.mp3", "Contrabass/9.mp3", "Contrabass/10.mp3", "Contrabass/11.mp3", "Contrabass/12.mp3", "Contrabass/13.mp3", "Contrabass/14.mp3"],
-            WinterPiano: ["WinterPiano/0.mp3", "WinterPiano/1.mp3", "WinterPiano/2.mp3", "WinterPiano/3.mp3", "WinterPiano/4.mp3", "WinterPiano/5.mp3", "WinterPiano/6.mp3", "WinterPiano/7.mp3", "WinterPiano/8.mp3", "WinterPiano/9.mp3", "WinterPiano/10.mp3", "WinterPiano/11.mp3", "WinterPiano/12.mp3", "WinterPiano/13.mp3", "WinterPiano/14.mp3"],
+            Piano: ["Piano/0.mp3", "Piano/1.mp3", "Piano/2.mp3", "Piano/3.mp3", "Piano/4.mp3", "Piano/5.mp3",
+                "Piano/6.mp3", "Piano/7.mp3", "Piano/8.mp3", "Piano/9.mp3", "Piano/10.mp3", "Piano/11.mp3",
+                "Piano/12.mp3", "Piano/13.mp3", "Piano/14.mp3"
+            ],
+            Harp: ["Harp/0.mp3", "Harp/1.mp3", "Harp/2.mp3", "Harp/3.mp3", "Harp/4.mp3", "Harp/5.mp3", "Harp/6.mp3",
+                "Harp/7.mp3", "Harp/8.mp3", "Harp/9.mp3", "Harp/10.mp3", "Harp/11.mp3", "Harp/12.mp3",
+                "Harp/13.mp3", "Harp/14.mp3"
+            ],
+            Bell: ["Bells/0.mp3", "Bells/1.mp3", "Bells/2.mp3", "Bells/3.mp3", "Bells/4.mp3", "Bells/5.mp3",
+                "Bells/6.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3",
+                "Bells/7.mp3", "Bells/7.mp3", "Bells/7.mp3"
+            ],
+            Guitar: ["Guitar/0.mp3", "Guitar/1.mp3", "Guitar/2.mp3", "Guitar/3.mp3", "Guitar/4.mp3", "Guitar/5.mp3",
+                "Guitar/6.mp3", "Guitar/7.mp3", "Guitar/8.mp3", "Guitar/9.mp3", "Guitar/10.mp3",
+                "Guitar/11.mp3", "Guitar/12.mp3", "Guitar/13.mp3", "Guitar/14.mp3"
+            ],
+            Flute: ["Flute/0.mp3", "Flute/1.mp3", "Flute/2.mp3", "Flute/3.mp3", "Flute/4.mp3", "Flute/5.mp3",
+                "Flute/6.mp3", "Flute/7.mp3", "Flute/8.mp3", "Flute/9.mp3", "Flute/10.mp3", "Flute/11.mp3",
+                "Flute/12.mp3", "Flute/13.mp3", "Flute/14.mp3"
+            ],
+            Xylophone: ["Xylophone/0.mp3", "Xylophone/1.mp3", "Xylophone/2.mp3", "Xylophone/3.mp3",
+                "Xylophone/4.mp3", "Xylophone/5.mp3", "Xylophone/6.mp3", "Xylophone/7.mp3", "Xylophone/8.mp3",
+                "Xylophone/9.mp3", "Xylophone/10.mp3", "Xylophone/11.mp3", "Xylophone/12.mp3",
+                "Xylophone/13.mp3", "Xylophone/14.mp3"
+            ],
+            Drum: ["Drum/0.mp3", "Drum/1.mp3", "Drum/2.mp3", "Drum/3.mp3", "Drum/4.mp3", "Drum/5.mp3", "Drum/6.mp3",
+                "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3", "Drum/7.mp3",
+                "Drum/7.mp3", "Drum/7.mp3"
+            ],
+            Horn: ["Horn/0.mp3", "Horn/1.mp3", "Horn/2.mp3", "Horn/3.mp3", "Horn/4.mp3", "Horn/5.mp3", "Horn/6.mp3",
+                "Horn/7.mp3", "Horn/8.mp3", "Horn/9.mp3", "Horn/10.mp3", "Horn/11.mp3", "Horn/12.mp3",
+                "Horn/13.mp3", "Horn/14.mp3"
+            ],
+            ToyUkulele: ["ToyUkulele/0.mp3", "ToyUkulele/1.mp3", "ToyUkulele/2.mp3", "ToyUkulele/3.mp3",
+                "ToyUkulele/4.mp3", "ToyUkulele/5.mp3", "ToyUkulele/6.mp3", "ToyUkulele/7.mp3",
+                "ToyUkulele/8.mp3", "ToyUkulele/9.mp3", "ToyUkulele/10.mp3", "ToyUkulele/11.mp3",
+                "ToyUkulele/12.mp3", "ToyUkulele/13.mp3", "ToyUkulele/14.mp3"
+            ],
+            HandPan: ["HandPan/0.mp3", "HandPan/1.mp3", "HandPan/2.mp3", "HandPan/3.mp3", "HandPan/4.mp3",
+                "HandPan/5.mp3", "HandPan/6.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3",
+                "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3"
+            ],
+            Contrabass: ["Contrabass/0.mp3", "Contrabass/1.mp3", "Contrabass/2.mp3", "Contrabass/3.mp3",
+                "Contrabass/4.mp3", "Contrabass/5.mp3", "Contrabass/6.mp3", "Contrabass/7.mp3",
+                "Contrabass/8.mp3", "Contrabass/9.mp3", "Contrabass/10.mp3", "Contrabass/11.mp3",
+                "Contrabass/12.mp3", "Contrabass/13.mp3", "Contrabass/14.mp3"
+            ],
+            WinterPiano: ["WinterPiano/0.mp3", "WinterPiano/1.mp3", "WinterPiano/2.mp3", "WinterPiano/3.mp3",
+                "WinterPiano/4.mp3", "WinterPiano/5.mp3", "WinterPiano/6.mp3", "WinterPiano/7.mp3",
+                "WinterPiano/8.mp3", "WinterPiano/9.mp3", "WinterPiano/10.mp3", "WinterPiano/11.mp3",
+                "WinterPiano/12.mp3", "WinterPiano/13.mp3", "WinterPiano/14.mp3"
+            ],
         }
         preload(instrumentsNotes[instrument])
             .then(audioBuffers => {
@@ -966,18 +1034,18 @@
         let request = new XMLHttpRequest();
         request.open('GET', "./librarySongs/" + songName + ".txt");
         request.responseType = 'text';
-        request.onerror = function(){
-            showMessage("Unavailable",0,2000)
+        request.onerror = function () {
+            showMessage("Unavailable", 0, 2000)
         }
-        request.onabort = function(){
-            showMessage("Unavailable",0,2000)
+        request.onabort = function () {
+            showMessage("Unavailable", 0, 2000)
         }
         request.onload = async function () {
             let song
-            try{
+            try {
                 song = convertToOldFormat(JSON.parse(request.response))[0]
-            }catch(e){
-                showMessage("Unavailable",0,2000)
+            } catch (e) {
+                showMessage("Unavailable", 0, 2000)
                 return
             }
             let delayTime = 0
@@ -990,9 +1058,13 @@
             song = song.songNotes
             await delay(500)
             for (let i = 0; i < song.length; i++) {
-                if (globalPlayTimestamp != startSongTimestamp) { ignoreStop = true; break }
+                if (globalPlayTimestamp != startSongTimestamp) {
+                    ignoreStop = true;
+                    break
+                }
                 var keyToPlay = song[i].key
-                delayTime = song[i].time - previousTime //how much time has to pass from one note to the other
+                delayTime = song[i].time -
+                    previousTime //how much time has to pass from one note to the other
                 previousTime = song[i].time
                 await delay(delayTime)
                 try {
@@ -1077,22 +1149,27 @@
         console.log(e)
     }
     if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-        .then((reg) => {
-          console.log('Service worker registered.', reg);
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then((reg) => {
+                    console.log('Service worker registered.', reg);
+                });
         });
-  });
-}
-let toUpload = document.getElementById("toUpload")
-    if(toUpload.style.display == "block"){
+    }
+    let toUpload = document.getElementById("toUpload")
+    if (toUpload.style.display == "block") {
         let divs = toUpload.getElementsByTagName("div")
         console.log(divs[2])
         $(divs[2]).children('.content').show();
     }
     document.getElementById("instrumentSelection").addEventListener("change", function () {
         initializeKeyboard(this.options[this.selectedIndex].value, 1)
-})
+    })
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('search') != null) {
+        document.getElementById("search").innerHTML = urlParams.get('search').replace("_", " ")
+        search(true)
+    }
 </script>
 
 </html>
