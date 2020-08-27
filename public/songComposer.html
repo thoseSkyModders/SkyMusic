@@ -792,6 +792,18 @@ function loadMIDI(){
         }
     }
     //----------------------------------------------------------------------------------------------//
+    let globalKeys = {}
+    function getKeys(){
+        let keys = {
+            layer1: [],
+            layer2: []
+        }
+        for(let i = 0; i < 15; i++){
+            keys.layer1.push(document.getElementById("Key"+i))
+            keys.layer2.push(document.getElementById("2Key"+i))
+        }
+        return keys
+    }
     let playBtn2 = document.getElementById("playBtn2")
     async function play() {
         if (playBtn.value == "Play" || playBtn2 .value == "Play") {
@@ -811,13 +823,14 @@ function loadMIDI(){
         stopPlaying = false
         let cells = Array.prototype.slice.call(document.getElementsByClassName("cell"), 0);
         let bpmToMs = 60000 / document.getElementById("bpm").value
+        let songData = getSongData()
         for (var i = startIndex; i < cells.length; i++) {
             cells[i].style.opacity = "1"
             selectedCell.style.opacity = "0.6"
             selectedCell = cells[i]
             scrollPage(selectedCell)
             bpmToMs = 60000 / document.getElementById("bpm").value
-            switch (selectedCell.style.backgroundColor) {
+            switch (songData[i].co) {
                 case "rgb(255, 114, 190)":
                     bpmToMs = bpmToMs / 8
                     break;
@@ -830,19 +843,31 @@ function loadMIDI(){
                 default:
                     bpmToMs = 60000 / document.getElementById("bpm").value
             }
-            for (var k = 0; k < 15; k++) {
-                document.getElementById("Key" + k).firstChild.style.backgroundColor = keyColor
-                document.getElementById("Key" + k).firstChild.style.borderColor = "transparent"
+            try{
+                for (var j = 0; j < 15; j++) {
+                    globalKeys.layer1[j].firstChild.style.backgroundColor = keyColor
+                    globalKeys.layer1[j].firstChild.style.borderColor = "transparent"
             }
-            for (var j = 0; j < 15; j++) {
-                if (cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
-                    document.getElementById("Key" + j).dispatchEvent(click)
-                    document.getElementById("Key" + j).firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+                for(let j = 0; j < songData[i].no.length; j++){
+                let data = songData[i].no[j]
+
+                if(data.l == 1){
+                    globalKeys.layer1[data.n].dispatchEvent(click)
+                    globalKeys.layer1[data.n].firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
                 }
-                if (cells[i].children[14 - j].style.borderColor == "darkslategray") {
-                document.getElementById("2Key" + j).dispatchEvent(click)
-                document.getElementById("Key" + j).firstChild.style.borderColor = "rgb(155, 89, 182)"
+                if(data.l == 2){
+                    globalKeys.layer2[data.n].dispatchEvent(click)
+                    globalKeys.layer1[data.n].firstChild.style.borderColor = "rgb(155, 89, 182)"
+                } 
+                if(data.l == 3){
+                    globalKeys.layer1[data.n].dispatchEvent(click)
+                    globalKeys.layer2[data.n].dispatchEvent(click)
+                    globalKeys.layer1[data.n].firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+                    globalKeys.layer1[data.n].firstChild.style.borderColor = "rgb(155, 89, 182)"
+                }
             }
+            }catch(e){
+                console .log("error playing note")
             }
             if (stopPlaying) break
             await delay(bpmToMs)
@@ -852,7 +877,6 @@ function loadMIDI(){
         stopPlaying = true
         isPlaying = false
     }
-
     //----------------------------------------------------------------------------------------------//
     let oldBpm = document.getElementById("bpm").value
     document.getElementById("bpm").addEventListener("focus", function () {
@@ -1234,17 +1258,17 @@ function loadMIDI(){
         selectedCell.style.opacity = "0.6"
         selectedCell = cell
         for (var i = 0; i < 15; i++) {
-            document.getElementById("Key" + i).firstChild.style.backgroundColor = keyColor
-            document.getElementById("Key" + i).firstChild.style.borderColor = "transparent"
+                globalKeys.layer1[i].firstChild.style.backgroundColor = keyColor
+                globalKeys.layer1[i].firstChild.style.borderColor = "transparent"
         }
         for (var j = 0; j < 15; j++) {
             if (cell.children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
-                document.getElementById("Key" + j).dispatchEvent(click)
-                document.getElementById("Key" + j).firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+                globalKeys.layer1[j].dispatchEvent(click)
+                globalKeys.layer1[j].firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
             }
             if (cell.children[14 - j].style.borderColor == "darkslategray") {
-                document.getElementById("2Key" + j).dispatchEvent(click)
-                document.getElementById("Key" + j).firstChild.style.borderColor = "rgb(155, 89, 182)"
+                globalKeys.layer2[j].dispatchEvent(click)
+                globalKeys.layer1[j].firstChild.style.borderColor = "rgb(155, 89, 182)"
             }
         }
     }
@@ -1364,10 +1388,19 @@ function loadMIDI(){
         localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
         let selectedIndex = this.selectedIndex
         if(selectedIndex == 0) return
+        if(!isNaN(pitchKey)){
+            pitchKey = Math.pow(2, (localStorageSongs[selectedIndex - 1].pitchLevel) / 12).toFixed(2)
+            localStorage.setItem("pitchKey",pitchKey)
+            document.getElementById("keySelection").selectedIndex = localStorageSongs[selectedIndex - 1].pitchLevel
+        }
         if(localStorageSongs[selectedIndex - 1].isComposed){
             localStorage.setItem("savedBpm",localStorageSongs[selectedIndex - 1].bpm)
-            if(localStorageSongs[selectedIndex - 1].composedSong != undefined){
-                parseComposerFormat(localStorageSongs[selectedIndex - 1].composedSong)
+            if(localStorageSongs[selectedIndex - 1].composedSong != undefined ){
+                try{
+                    parseComposerFormat(localStorageSongs[selectedIndex - 1].composedSong)
+                }catch{
+                    importSong(localStorageSongs[selectedIndex - 1],false,"new")
+                }
             }else{
                 importSong(localStorageSongs[selectedIndex - 1],false,"new")
             }
@@ -1719,7 +1752,7 @@ let keyNames = keyNamesAllInstruments
                             resetKeyClass(btn)
                             if ((btnBg.style.borderColor == "rgb(155, 89, 182)" || selectedLayer == 2)){
                                 try{
-                                    document.getElementById(2+btn.id).dispatchEvent(click)
+                                    globalKeys.layer2[2].dispatchEvent(click)
                                 }catch(e){
                                     return
                                 }
@@ -1748,6 +1781,7 @@ let keyNames = keyNamesAllInstruments
                 })
             }).then(function(){
                 set_up_reverb()
+                globalKeys = getKeys()
             })
             
     }

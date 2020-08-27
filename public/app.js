@@ -1190,7 +1190,6 @@ function changeInstrument(button) { //function to change the instrument
     let chosenInstrument = button.id.replace("Btn", "") //gets which instrument has been selected
     document.getElementById("toggleInstruments").style.backgroundImage = button.style.backgroundImage //changes the image of the menu to the one instrument chosen
     instrumentsWrapper.style.display = "none"
-    stopSong()
     changeInstrumentSound(chosenInstrument)
 }
 
@@ -1698,6 +1697,12 @@ function importSongs() {
             fr.onload = function () {
                 try {
                 let inputSongs = JSON.parse(fr.result)
+                if(inputSongs[0].isEncrypted == "true"){
+                    showMessage("This song is encrypted, please save it without encryption or ask for the non encrypted song!",2,5000)
+                    document.getElementById("formatChooser").style.display = "none"   
+                    filePicker.value = ""
+                    return
+                }
                 inputSongs = convertToOldFormat(inputSongs)
                 for (let i = 0; i < inputSongs.length && !isreading; i++) {
                     let element = document.getElementById("Song-" + inputSongs[i].name)
@@ -1705,7 +1710,8 @@ function importSongs() {
                         if(inputSongs[i].bpm == undefined) inputSongs[i].bpm = 220
                         if(inputSongs[i].pitchLevel == undefined) inputSongs[i].pitchLevel = 0
                         if(inputSongs[i].isComposed == undefined) inputSongs[i].isComposed = false
-                        saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed)
+                        if(inputSongs[i].composedSong == undefined) inputSongs[i].composedSong = false
+                        saveSong(inputSongs[i].name, inputSongs[i].songNotes, 1,inputSongs[i].pitchLevel,inputSongs[i].bpm,inputSongs[i].isComposed,inputSongs[i].composedSong )
                         showMessage(systemMessagesText[selectedLanguage][24],1,1500) //Done
                         $("#savedSongsDiv").animate({scrollTop:$("#savedSongsDiv")[0].scrollHeight}, 300);
                         document.getElementById("formatChooser").style.display = "none"   
@@ -1757,6 +1763,7 @@ function convertToNewFormat(songs) {
             isComposed: songs[i].isComposed,
             songNotes: []
         }
+        if(songs[i].composedSong != undefined) newFormat.composedSong = songs[i].composedSong
         for (let j = 0; j < songs[i].songNotes.length; j++) {
             let keyObj = {
                 time: songs[i].songNotes[j].time,
@@ -1786,6 +1793,7 @@ function convertToOldFormat(songs) {
                 isComposed: songs[i].isComposed,
                 songNotes: [],
             }
+            if(songs[i].composedSong != undefined) oldFormat.composedSong = songs[i].composedSong
             for (let j = 0; j < songs[i].songNotes.length; j++) {
                 let keyObj = {
                     time: songs[i].songNotes[j].time,
@@ -2056,7 +2064,6 @@ document.getElementById("touch").addEventListener("click", function () {
 })
 let selectedAbcTextarea = false
 document.getElementById("abcTextarea").addEventListener("focus",function(){
-    console.log(true)
     selectedAbcTextarea = true
 })
 document.getElementById("abcTextarea").addEventListener("blur",async function(){
@@ -2092,13 +2099,14 @@ if (preLoadSongs != null) {
         if(preLoadSongs[i].bpm == undefined) preLoadSongs[i].bpm = 220
         if(preLoadSongs[i].pitchLevel == undefined) preLoadSongs[i].pitchLevel = 0
         if(preLoadSongs[i].isComposed == undefined) preLoadSongs[i].isComposed = false
-        saveSong(preLoadSongs[i].name, preLoadSongs[i].songNotes, 0,preLoadSongs[i].pitchLevel,preLoadSongs[i].bpm,preLoadSongs[i].isComposed)
+        if(preLoadSongs[i].composedSong == undefined)  preLoadSongs[i].composedSong = false
+        saveSong(preLoadSongs[i].name, preLoadSongs[i].songNotes, 0,preLoadSongs[i].pitchLevel,preLoadSongs[i].bpm,preLoadSongs[i].isComposed, preLoadSongs[i].composedSong)
     }
 }
 
 //--------------------------------------------------------------------------------------------------------//
 
-function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = false) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
+function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = false,composedSong = false) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
     try {
         let songObj = {
             name: songName,
@@ -2107,6 +2115,8 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
             bpm: parseInt(bpm),
             isComposed: isComposed
         }
+        if(composedSong) songObj.composedSong = composedSong
+
     if (savingType == "1") { //doesnt save if it is preloading   
         let songStorage = localStorage.getItem("savedSongs")
         if (songStorage != null) {
@@ -2138,6 +2148,9 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
     songText.setAttribute("pitchLevel",songObj.pitchLevel)
     songText.setAttribute("bpm",songObj.bpm)
     songText.setAttribute("isComposed",songObj.isComposed)
+    if(songObj.composedSong != undefined){
+        songText.setAttribute("composedSong", JSON.stringify(songObj.composedSong))
+    }
     songText.style.display = "none"
     songText.id = "Song-" + songName
     songText.innerHTML = JSON.stringify(song)
@@ -2153,7 +2166,7 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
         songText.setAttribute("fromDb", true)
         dbSongsDiv.appendChild(songContainer)
         deleteButton.addEventListener("click", function () {
-            if (confirm("Delete song: " + this.getAttribute("songName") + " from database?")) {
+            if (confirm("Delete song: " + this.getAttribute("songName") + " from your account?")) {
                 this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)
                 deleteFromDB(globalCredentials, this.getAttribute("songName"))
             }
@@ -2242,6 +2255,12 @@ function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = fa
             bpm: parseInt(songText.getAttribute("bpm")),
             isComposed: songText.getAttribute("isComposed"),
             songNotes: JSON.parse(songText.innerHTML)
+        }
+        try{
+            let composedSong = songText.getAttribute("composedSong")
+            if(composedSong != null) songObj.composedSong = JSON.parse(composedSong)
+        }catch(e){
+            console.log(e)
         }
         let array = []
         array.push(songObj)

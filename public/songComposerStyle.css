@@ -616,6 +616,9 @@ input[type=number] {
 }
 
 @media screen and (min-width: 1800px) {
+    .floatingMessage{
+        font-size: 1.5rem;
+    }
     div {
         font-size: 2rem;
     }
@@ -666,9 +669,23 @@ input[type=number] {
     .btnText {
         font-size: 2rem;
     }
+    .toolsContainer {
+        min-width: 250px;
+    }
+
+    .toolsContainerRight {
+        min-width: 125px;
+    }
+    #promptInput{
+        height: 80px;
+        font-size: 2rem;
+    }
 }
 
 @media screen and (min-width: 3500px) {
+    .floatingMessage{
+        font-size: 3rem;
+    }
     div {
         font-size: 4rem;
     }
@@ -705,6 +722,17 @@ input[type=number] {
     }
 
     .btnText {
+        font-size: 4rem;
+    }
+    .toolsContainer {
+        min-width: 500px;
+    }
+
+    .toolsContainerRight {
+        min-width: 250px;
+    }
+    #promptInput{
+        height: 120px;
         font-size: 4rem;
     }
 }

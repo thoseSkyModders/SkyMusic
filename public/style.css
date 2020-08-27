@@ -191,7 +191,7 @@ input[type=number] {
 	font-family: Arial;
 	text-align: center;
 	border: 2px;
-	width: 30px;
+	min-width: 5vw;
 	color: #dad8b3;
 	background-color: rgba(22, 22, 22, 0.65);
 	padding: 2px 5px 2px 5px;
@@ -433,6 +433,7 @@ input[type=range][orient=vertical]:hover {
 	background-color: transparent;
 	margin-bottom: 5px;
 	font-size: 30px;
+
 	color: #dad8b3;
 	font-weight: bold;
 	cursor: pointer;
@@ -446,6 +447,7 @@ input[type=range][orient=vertical]:hover {
 	height: 40px;
 	width: 40px;
 	cursor: pointer;
+	background-repeat: no-repeat;
 	outline: none;
 }
 
@@ -454,7 +456,7 @@ input[type=range][orient=vertical]:hover {
 	border-radius: 1em;
 	background-color: rgba(22, 22, 22, 0.65);
 	display: none;
-	width: 60px;
+	max-width: 60px;
 	position: absolute;
 	overflow-y: auto;
 	max-height: 90%;
@@ -639,6 +641,7 @@ div.fakefile {
 	margin: 0.5em;
 	outline: none;
 	box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
+	min-width: 4vw;
 }
 
 .menuDiv {
@@ -891,6 +894,9 @@ html {
 }
 
 @media only screen and (orientation:portrait) {
+	.instrumentsWrapper{
+		top: 10%;
+	}
 	.shift40px2 {
 		margin-left: 40px;
 	}
@@ -1287,6 +1293,17 @@ html {
 		border-radius: 0.8rem;
 		border: solid 6px transparent;
 	}
+	.instrumentsWrapper{
+		max-width: 120px;
+	}
+	.instrumentButton, .pitchSelection{
+		width: 80px;
+		height: 80px;
+	}
+	.pitchSelection{
+		border-bottom: solid 4px #888;
+		font-size: 50px;
+	}
 }
 
 @media only screen and (min-width: 3500px) {
@@ -1346,5 +1363,16 @@ html {
 	.btnBg {
 		border-radius: 1rem;
 		border: solid 10px transparent;
+	}
+	.instrumentsWrapper{
+		max-width: 200px;
+	}
+	.instrumentButton, .pitchSelection{
+		width: 150px;
+		height: 150px;
+	}
+	.pitchSelection{
+		border-bottom: solid 4px #888;
+		font-size: 80px;
 	}
 }
