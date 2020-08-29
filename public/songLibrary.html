@@ -713,7 +713,7 @@
     function search(ignore = false) {
         let searchWords = document.getElementById("search").value.toLowerCase().trim()
         if (searchWords == "") {
-            if (ignore) showMessage("Write some keywords first!")
+            if (!ignore) showMessage("Write some keywords first!")
             return
         }
         searchResults.style.display = "block"

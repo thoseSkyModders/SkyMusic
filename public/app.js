@@ -145,6 +145,46 @@ function changeLanguage(language){
     }catch(e){console.log(e)}
 }
 
+function choseBackground(){
+    let backgroundPicker = document.createElement("input")
+    backgroundPicker.type = "file"
+    backgroundPicker.addEventListener("change",function () {
+        let fr = new FileReader()
+        fr.onload = function () {
+            changeBackground(fr.result)
+        }
+        fr.readAsDataURL(this.files[0])
+    })
+
+    backgroundPicker.click()
+}
+
+function changeBackground(image){
+    try{
+        if(image.length > 5000000){
+            showMessage("Image is too big, it must be smaller than 5MB!")
+            return
+        }
+        backgroundImage = image
+        document.getElementById("video1").style.display = "none"
+        document.getElementById("videoWrapper").style.filter = "blur(2px)"
+        document.getElementById("videoWrapper").style.backgroundImage = "url("+image+")"
+        document.getElementById("videoWrapper").style.display = "block"
+        localStorage.setItem("backgroundImage",image)
+    }catch(e){
+        console.log(e)
+    }
+}   
+function resetBackground(){
+    document.getElementById("video1").style.display = "block"
+    localStorage.removeItem("backgroundImage")
+    document.getElementById("videoWrapper").style = ""
+    if(darkModeToggled) document.getElementById("videoWrapper").style.display = "none"
+}
+let backgroundImage = localStorage.getItem("backgroundImage")
+if(backgroundImage!=null){
+    changeBackground(backgroundImage)
+}
 //--------------------------------------------------------------------------------------------------------//
 
 var savedLanguage = localStorage.getItem("language")
@@ -621,9 +661,10 @@ async function turnOnDarkMode(){
         5:"#272B2D",
         6:"#1C1E1F"
     }
-    document.getElementsByClassName("video")[0].style.display = "none"
+    document.getElementById("video1").style.display = "none"
+    if(backgroundImage == null) document.getElementById("videoWrapper").style.display = "none"
     $(".skyButton").css("background-color", layers[6])
-    $(".btnImg").css("background-color", "rgba(82, 82, 82, 0.4)")
+    $(".btnImg").css("background-color", "rgba(39, 43, 45, 0.7)")
     //$(".tab").css("background-color", layers[6])
     $(".pitchButton").css("background-color", layers[5])
     $(".musicButton").css("background-color", layers[5])

@@ -160,6 +160,8 @@
                     <button onclick = "changeSettings(this)" id="Disable-next-key-practice">Disable next key practice</button>
                     <button onclick = "changeSettings(this)" id="Hide-practice-note-animation">Hide practice note animation</button>
                     <button onclick = "changeSettings(this)" id="Display-Note-Names">Display Note Names</button>
+                    <button onclick = "choseBackground()" id="background-choser" >Change background image</button>
+                    <button onclick = "resetBackground()" id="background-reset" >Reset background image</button>
                     <button onclick = "checkMidiAccess()" id="check-midi-button" >Check MIDI support</button>
                     <button onclick = "resetLocalStorage()" id="reset-all-button" >Reset all songs and settings</button>
                     <button onclick = "togglecompatibilityMode()" id="change-button-input-mode" >Turn on compability mode</button>
@@ -200,7 +202,7 @@
           </div>
         </div>
     </div>
-    <div class="videoWrapper video">
+    <div class="videoWrapper video" id="videoWrapper">
         <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
         <video id="video1"preload="auto" playsinline="" muted autoplay loop data-vscid="jvm0gu2z7">
             <source src="./AnimatedBG/skygame-banner2.mp4" type="video/mp4;codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
