@@ -1730,6 +1730,7 @@ let keyNames = keyNamesAllInstruments
                     btn.addEventListener(inputMode, function (e) {
                         let layerType = 1
                         if(this.id.includes("2Key")) layerType = 2
+                        console.log(this.id)
                         buttonPressEvent(this, e.isTrusted,layerType)
                         e.preventDefault()
                     })
@@ -1752,7 +1753,7 @@ let keyNames = keyNamesAllInstruments
                             resetKeyClass(btn)
                             if ((btnBg.style.borderColor == "rgb(155, 89, 182)" || selectedLayer == 2)){
                                 try{
-                                    globalKeys.layer2[2].dispatchEvent(click)
+                                    globalKeys.layer2[btn.id.replace("Key", "")].dispatchEvent(click)
                                 }catch(e){
                                     return
                                 }
