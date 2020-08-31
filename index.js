@@ -396,7 +396,7 @@ if (!inLocalhost) {
         //----------------------------------------------------------------------------------------------//
         app.post("/saveSongs", async function (req, res) { //updated
             var value = req.body;
-            if (JSON.stringify(value).length > 80000) { //if it's longer than 80000 characters, to prevent too big files from being uploaded
+            if (JSON.stringify(value).length > 150000) { //if it's longer than 150000 characters, to prevent too big files from being uploaded
                 res.send("Song is too large, it can't be uploaded")
                 return;
             }

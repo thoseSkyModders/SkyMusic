@@ -5,30 +5,34 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166077524-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
         gtag('config', 'UA-166077524-1');
     </script>
-    <script src="https://browser.sentry-cdn.com/5.19.2/bundle.min.js" integrity="sha384-JpEWxJ7oLRn+baXBgcCKEv73uYWsgouzEResgJneOXvTjDZ+1crAXcNAKZoiL96Z" crossorigin="anonymous"></script>
-    
-          <meta name="theme-color" content="#2196F3">
-          <meta name="description" content="Compose songs for Sky Music">
-          <meta name="keywords" content="Sky,Music,piano,harp,xylophone,drum,guitar,horn,bell,record,share,midi,compose">
-          <meta name="author" content="thoseSkyModders">
-          <meta name="mobile-web-app-capable" content="yes"> 
-          <meta name="apple-mobile-web-app-capable" content="yes">
-          <meta name="apple-mobile-web-app-title" content="Sky Music Composer">
-          <meta name="apple-mobile-web-app-status-bar-style" content="default">
-          <link rel="apple-touch-icon" href="Sky.png"> 
-          <meta property="og:image" content="https://repository-images.githubusercontent.com/261796811/08f6ec80-9ce7-11ea-8bf1-800c977cfaf1">
-          <meta property="og:site_name" content="Sky Music">
-          <meta property="og:title" content="Sky Music App!">
-          <meta property="og:url" content="https://sky-music.herokuapp.com/songComposer.html">
-          <meta property="og:description" content="Compose songs for Sky Music">
-    <link rel="icon" type="image/png" href="/favicon.png"/>
+
+    <meta name="theme-color" content="#2196F3">
+    <meta name="description" content="Compose songs for Sky Music">
+    <meta name="keywords" content="Sky,Music,piano,harp,xylophone,drum,guitar,horn,bell,record,share,midi,compose">
+    <meta name="author" content="thoseSkyModders">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Sky Music Composer">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="Sky.png">
+    <meta property="og:image"
+        content="https://repository-images.githubusercontent.com/261796811/08f6ec80-9ce7-11ea-8bf1-800c977cfaf1">
+    <meta property="og:site_name" content="Sky Music">
+    <meta property="og:title" content="Sky Music App!">
+    <meta property="og:url" content="https://sky-music.herokuapp.com/songComposer.html">
+    <meta property="og:description" content="Compose songs for Sky Music">
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="shortcut icon" href="/favicon.png?v=2" type="image/x-icon" />
     <meta charset="UTF-8">
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+    <meta name="viewport"
+        content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
     <title>Sky Music Composer</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" href="songComposerStyle.css" type="text/css">
@@ -38,7 +42,6 @@
     <script src="/scripts/Midi.js"></script>
 
 </head>
-
 <body style="touch-action: pan-x pan-y;">
     <div class="notesWrapper">
         <div class="toolsContainer">
@@ -288,228 +291,334 @@
     </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
+
 <script>
-let selectedLayer = 1
-let keyColor =  "rgba(44, 44, 44, 0.8)"
+    let selectedLayer = 1
+    let keyColor = "rgba(44, 44, 44, 0.8)"
 
-let scalePicker = document.getElementById("changeScale")
-scalePicker.addEventListener("input",function(){
-    let scale = 1 + (this.value - 10)/30
-    this.scrollIntoView()
-    changeScale(scale.toFixed(2))
-    localStorage.setItem("pageZoomComposer",scale.toFixed(2))
-})
-let page = document.body
-function changeScale(value){
-    page.style.zoom = value
-}
-let pageZoom = localStorage.getItem("pageZoomComposer")
-if(!isNaN(pageZoom)){
-    changeScale(pageZoom)
-}else{
-    localStorage.setItem("pageZoomComposer",1)
-}
-function switchInstrumentLayer(btn){
-    if(btn.style.backgroundColor.includes("rgba(235, 0, 27")){
-        document.getElementById("copyLayerBtn").style.borderColor = "#9B59B6"
-        document.getElementById("eraseLayerBtn").style.borderColor = "#9B59B6"
-        btn.style.backgroundColor = "#9B59B6"
-        selectedLayer = 2
-    }else{
-        document.getElementById("copyLayerBtn").style.borderColor = "rgba(235, 0, 27, 0.7)"
-        document.getElementById("eraseLayerBtn").style.borderColor = "rgba(235, 0, 27, 0.7)"
-        btn.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
-        selectedLayer = 1
+    let scalePicker = document.getElementById("changeScale")
+    scalePicker.addEventListener("input", function () {
+        let scale = 1 + (this.value - 10) / 30
+        this.scrollIntoView()
+        changeScale(scale.toFixed(2))
+        localStorage.setItem("pageZoomComposer", scale.toFixed(2))
+    })
+
+    //--------------------------------------------------------------------------------------//
+
+    let page = document.body
+
+    function changeScale(value) {
+        page.style.zoom = value
     }
-}
-document.getElementsByTagName("body")[0].addEventListener('touchstart', (e) => {
 
-// is not near edge of view, exit
-if (e.pageX > 10 && e.pageX < window.innerWidth - 10) return;
+    //--------------------------------------------------------------------------------------//
 
-// prevent swipe to navigate gesture
-e.preventDefault();
-});
+    let pageZoom = localStorage.getItem("pageZoomComposer")
+    if (!isNaN(pageZoom)) {
+        changeScale(pageZoom)
+    } else {
+        localStorage.setItem("pageZoomComposer", 1)
+    }
 
-let floatingMessage
-function showMessage(msg, msgType, duration) {
-    if (duration == undefined) duration = 1500
-    floatingMessage = document.getElementById("floatingMessage")
-    if(floatingMessage.style.display == "block") return
-    floatingMessage.innerHTML = msg
-    let color
-    if (msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
-    if (msgType == 1) color = "lightgreen" //SUCCESS
-    if (msgType == 2) color = "#dad8b3" //MESSAGE
-    floatingMessage.style.color = color
-    $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
-}
+    //--------------------------------------------------------------------------------------//
 
-let offset = document.getElementById("offset")
-    offset.addEventListener("change",function(){
+    function switchInstrumentLayer(btn) {
+        if (btn.style.backgroundColor.includes("rgba(235, 0, 27")) {
+            document.getElementById("copyLayerBtn").style.borderColor = "#9B59B6"
+            document.getElementById("eraseLayerBtn").style.borderColor = "#9B59B6"
+            btn.style.backgroundColor = "#9B59B6"
+            selectedLayer = 2
+        } else {
+            document.getElementById("copyLayerBtn").style.borderColor = "rgba(235, 0, 27, 0.7)"
+            document.getElementById("eraseLayerBtn").style.borderColor = "rgba(235, 0, 27, 0.7)"
+            btn.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+            selectedLayer = 1
+        }
+    }
+    document.getElementsByTagName("body")[0].addEventListener('touchstart', (e) => {
+
+        // is not near edge of view, exit
+        if (e.pageX > 10 && e.pageX < window.innerWidth - 10) return;
+
+        // prevent swipe to navigate gesture
+        e.preventDefault();
+    });
+
+    //--------------------------------------------------------------------------------------//
+
+    let floatingMessage
+
+    function showMessage(msg, msgType, duration) {
+        if (duration == undefined) duration = 1500
+        floatingMessage = document.getElementById("floatingMessage")
+        if (floatingMessage.style.display == "block") return
+        floatingMessage.innerHTML = msg
+        let color
+        if (msgType == 0) color = "rgba(235, 0, 27, 0.8)" //ERROR
+        if (msgType == 1) color = "lightgreen" //SUCCESS
+        if (msgType == 2) color = "#dad8b3" //MESSAGE
+        floatingMessage.style.color = color
+        $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
+    }
+
+    let offset = document.getElementById("offset")
+    offset.addEventListener("change", function () {
         changeOffset(0)
     })
-function changeOffset(change){
-    offset.value = parseInt(offset.value) + change 
-    loadMIDI()
-    stopPlaying = true
-}
 
-let midiBPM = document.getElementById("midiBPM")
-midiBPM.addEventListener("input",function(){
-    document.getElementById("midiBPMText").value = this.value
-    document.getElementById("bpm").value = this.value
-})
-midiBPMText.addEventListener("change",function(){
-    document.getElementById("midiBPM").value = this.value
-    document.getElementById("bpm").value = this.value
-})
-let globalAlgorithmType = "old"
-function changeAlgorithmType(button){
-    if(button.style.backgroundColor == "rgb(235, 0, 27)"){
-        globalAlgorithmType = "old"
-        button.style.backgroundColor = "#383838"
-    }else{
-        globalAlgorithmType = "new"
-        button.style.backgroundColor = "rgb(235, 0, 27)"
-    }
-    loadMIDI()
-}
+    //--------------------------------------------------------------------------------------//
 
-let canScaleDown = false
-function scaleDownMIDI(button){
-    if(button.style.backgroundColor == "rgb(235, 0, 27)"){
-        button.style.backgroundColor = "#383838"
-        canScaleDown = false
-    }else{
-        button.style.backgroundColor = "rgb(235, 0, 27)"
-        canScaleDown = true
+    function changeOffset(change) {
+        offset.value = parseInt(offset.value) + change
+        loadMIDI()
+        stopPlaying = true
     }
-    loadMIDI()
-}
-let mergedMidi = []
-function selectAllLayers(){
-    let btn = document.getElementById("allLayers")
-    mergedMidi = []
-    if(btn.style.backgroundColor == "rgb(235, 0, 27)"){
-        btn.style.backgroundColor = "#383838"
-    }else{
-        btn.style.backgroundColor = "rgb(235, 0, 27)"
-        for(let i = 0; i<globalMidi.tracks.length;i++){
-            for(let j = 0;j<globalMidi.tracks[i].notes.length;j++){
-                let midiObj = {
-                    midi: globalMidi.tracks[i].notes[j].midi,
-                    time: globalMidi.tracks[i].notes[j].time
-                }
-                mergedMidi.push(midiObj)
-            }
-        }
-        mergedMidi = mergedMidi.sort(function(e1, e2){return e1.time - e2.time})
-    }
-    loadMIDI()
-}
 
-let globalMidi
-function openMIDI(){
-    importMIDIDiv.style.display = "none"
-    filePicker.addEventListener("change", function() {
-        if(filePicker.value == "") return
-        const reader = new FileReader()
-        reader.onload = function(e) {
-            globalAlgorithmType = "old"
-            document.getElementById("algorithmBtn").style.backgroundColor = "#383838"
-            const midi = new Midi(e.target.result)
-            globalMidi = midi
-            layerNumber = 0
-            document.getElementById("layerNumberText").value = layerNumber + 1
-            toggleSettings()
-            importMIDIDiv.style.display = "block"
-            document.getElementById("settingsDiv").style.display = "none"
-            document.getElementById("allLayers").style.backgroundColor = "#383838"
-            mergedMidi = []
-            loadMIDI()
-            filePicker.value = ""
-        }
-        reader.readAsArrayBuffer(this.files[0])
+    //--------------------------------------------------------------------------------------//
+
+    let midiBPM = document.getElementById("midiBPM")
+    midiBPM.addEventListener("input", function () {
+        document.getElementById("midiBPMText").value = this.value
+        document.getElementById("bpm").value = this.value
     })
-    filePicker.click()
-}
+    midiBPMText.addEventListener("change", function () {
+        document.getElementById("midiBPM").value = this.value
+        document.getElementById("bpm").value = this.value
+    })
 
-let layerNumber = 0
-function changeLayer(value){
-    let newLayerNumber = layerNumber + value
-    if(newLayerNumber < 0 || newLayerNumber > globalMidi.tracks.length - 1) return
+    //--------------------------------------------------------------------------------------//
+
+    let globalAlgorithmType = "old"
+
+    function changeAlgorithmType(button) {
+        if (button.style.backgroundColor == "rgb(235, 0, 27)") {
+            globalAlgorithmType = "old"
+            button.style.backgroundColor = "#383838"
+        } else {
+            globalAlgorithmType = "new"
+            button.style.backgroundColor = "rgb(235, 0, 27)"
+        }
+        loadMIDI()
+    }
+
+    //--------------------------------------------------------------------------------------//
+
+    let canScaleDown = false
+
+    function scaleDownMIDI(button) {
+        if (button.style.backgroundColor == "rgb(235, 0, 27)") {
+            button.style.backgroundColor = "#383838"
+            canScaleDown = false
+        } else {
+            button.style.backgroundColor = "rgb(235, 0, 27)"
+            canScaleDown = true
+        }
+        loadMIDI()
+    }
+
+    //--------------------------------------------------------------------------------------//
+
+    let mergedMidi = []
+
+    function selectAllLayers() {
+        let btn = document.getElementById("allLayers")
+        mergedMidi = []
+        if (btn.style.backgroundColor == "rgb(235, 0, 27)") {
+            btn.style.backgroundColor = "#383838"
+        } else {
+            btn.style.backgroundColor = "rgb(235, 0, 27)"
+            for (let i = 0; i < globalMidi.tracks.length; i++) {
+                for (let j = 0; j < globalMidi.tracks[i].notes.length; j++) {
+                    let midiObj = {
+                        midi: globalMidi.tracks[i].notes[j].midi,
+                        time: globalMidi.tracks[i].notes[j].time
+                    }
+                    mergedMidi.push(midiObj)
+                }
+            }
+            mergedMidi = mergedMidi.sort(function (e1, e2) {
+                return e1.time - e2.time
+            })
+        }
+        loadMIDI()
+    }
+
+    //--------------------------------------------------------------------------------------//
+
+    let globalMidi
+
+    function openMIDI() {
+        importMIDIDiv.style.display = "none"
+        filePicker.addEventListener("change", function () {
+            if (filePicker.value == "") return
+            const reader = new FileReader()
+            reader.onload = function (e) {
+                globalAlgorithmType = "old"
+                document.getElementById("algorithmBtn").style.backgroundColor = "#383838"
+                const midi = new Midi(e.target.result)
+                globalMidi = midi
+                layerNumber = 0
+                document.getElementById("layerNumberText").value = layerNumber + 1
+                toggleSettings()
+                importMIDIDiv.style.display = "block"
+                document.getElementById("settingsDiv").style.display = "none"
+                document.getElementById("allLayers").style.backgroundColor = "#383838"
+                mergedMidi = []
+                loadMIDI()
+                filePicker.value = ""
+            }
+            reader.readAsArrayBuffer(this.files[0])
+        })
+        filePicker.click()
+    }
+
+    //--------------------------------------------------------------------------------------//
+
+    let layerNumber = 0
+
+    function changeLayer(value) {
+        let newLayerNumber = layerNumber + value
+        if (newLayerNumber < 0 || newLayerNumber > globalMidi.tracks.length - 1) return
         layerNumber = newLayerNumber
         document.getElementById("layerNumberText").value = layerNumber + 1
         document.getElementById("allLayers").style.backgroundColor = "#383838"
         mergedMidi = []
         loadMIDI()
-}
-function loadMIDI(){
-    let midi = globalMidi
-    document.getElementById("numOfLayers").innerHTML = "Layer:("+midi.tracks.length+")"
-    let songNotes = midi.tracks[layerNumber].notes
-    if(mergedMidi.length > 0) songNotes = mergedMidi
-    let bpm = document.getElementById("bpm").value
-    let offsetValue = offset.value
-    let parsedSong = []
-    let numOfAccidentals = 0
-    for(let i = 0; i<songNotes.length;i++){
-        var noteToAdd = songNotes[i].midi - offsetValue
-        if(canScaleDown && noteToAdd > 60) noteToAdd-=12
+    }
+
+    //--------------------------------------------------------------------------------------//
+
+    function loadMIDI() {
+        let midi = globalMidi
+        document.getElementById("numOfLayers").innerHTML = "Layer:(" + midi.tracks.length + ")"
+        let songNotes = midi.tracks[layerNumber].notes
+        if (mergedMidi.length > 0) songNotes = mergedMidi
+        let bpm = document.getElementById("bpm").value
+        let offsetValue = offset.value
+        let parsedSong = []
+        let numOfAccidentals = 0
+        for (let i = 0; i < songNotes.length; i++) {
+            var noteToAdd = songNotes[i].midi - offsetValue
+            if (canScaleDown && noteToAdd > 60) noteToAdd -= 12
             switch (noteToAdd) {
-                case 36:noteToAdd = 0 ;break;
-                case 37:noteToAdd = 0 ; numOfAccidentals++;break;
-                case 38:noteToAdd = 1 ;break;
-                case 39:noteToAdd = 1 ; numOfAccidentals++;break;
-                case 40:noteToAdd = 2 ;break;
-                case 41:noteToAdd = 3 ;break;
-                case 42:noteToAdd = 3 ; numOfAccidentals++;break;
-                case 43:noteToAdd = 4 ;break;
-                case 44:noteToAdd = 4 ; numOfAccidentals++;break;
-                case 45:noteToAdd = 5 ;break;
-                case 46:noteToAdd = 5 ; numOfAccidentals++;break;
-                case 47:noteToAdd = 6 ;break;
-                case 48:noteToAdd = 7 ;break;
-                case 49:noteToAdd = 7 ; numOfAccidentals++;break;
-                case 50:noteToAdd = 8 ;break;
-                case 51:noteToAdd = 8 ; numOfAccidentals++;break;
-                case 52:noteToAdd = 9 ;break;
-                case 53:noteToAdd = 10 ;break;
-                case 54:noteToAdd = 10 ; numOfAccidentals++;break;
-                case 55:noteToAdd = 11 ;break;
-                case 56:noteToAdd = 11 ; numOfAccidentals++;break;
-                case 57:noteToAdd = 12 ;break;
-                case 58:noteToAdd = 12 ; numOfAccidentals++;break;
-                case 59:noteToAdd = 13 ;break;
-                case 60:noteToAdd = 14 ;break;
-                default:noteToAdd = null
+                case 36:
+                    noteToAdd = 0;
+                    break;
+                case 37:
+                    noteToAdd = 0;
+                    numOfAccidentals++;
+                    break;
+                case 38:
+                    noteToAdd = 1;
+                    break;
+                case 39:
+                    noteToAdd = 1;
+                    numOfAccidentals++;
+                    break;
+                case 40:
+                    noteToAdd = 2;
+                    break;
+                case 41:
+                    noteToAdd = 3;
+                    break;
+                case 42:
+                    noteToAdd = 3;
+                    numOfAccidentals++;
+                    break;
+                case 43:
+                    noteToAdd = 4;
+                    break;
+                case 44:
+                    noteToAdd = 4;
+                    numOfAccidentals++;
+                    break;
+                case 45:
+                    noteToAdd = 5;
+                    break;
+                case 46:
+                    noteToAdd = 5;
+                    numOfAccidentals++;
+                    break;
+                case 47:
+                    noteToAdd = 6;
+                    break;
+                case 48:
+                    noteToAdd = 7;
+                    break;
+                case 49:
+                    noteToAdd = 7;
+                    numOfAccidentals++;
+                    break;
+                case 50:
+                    noteToAdd = 8;
+                    break;
+                case 51:
+                    noteToAdd = 8;
+                    numOfAccidentals++;
+                    break;
+                case 52:
+                    noteToAdd = 9;
+                    break;
+                case 53:
+                    noteToAdd = 10;
+                    break;
+                case 54:
+                    noteToAdd = 10;
+                    numOfAccidentals++;
+                    break;
+                case 55:
+                    noteToAdd = 11;
+                    break;
+                case 56:
+                    noteToAdd = 11;
+                    numOfAccidentals++;
+                    break;
+                case 57:
+                    noteToAdd = 12;
+                    break;
+                case 58:
+                    noteToAdd = 12;
+                    numOfAccidentals++;
+                    break;
+                case 59:
+                    noteToAdd = 13;
+                    break;
+                case 60:
+                    noteToAdd = 14;
+                    break;
+                default:
+                    noteToAdd = null
             }
-            if(noteToAdd != null){
+            if (noteToAdd != null) {
                 let objKey = {
-                    key:"Key"+noteToAdd,
-                    time:Math.floor(songNotes[i].time * 500)
+                    key: "Key" + noteToAdd,
+                    time: Math.floor(songNotes[i].time * 500)
                 }
                 parsedSong.push(objKey)
             }
-    }
-    let successPercentageValue = Math.floor((parsedSong.length - numOfAccidentals) / songNotes.length * 100)
-    if(isNaN(successPercentageValue)) successPercentageValue = 0
-    document.getElementById("successPercentage").innerHTML = successPercentageValue +"%"
-    if(successPercentageValue < 50) document.getElementById("successColor").style.color = "#FE4C4C"
-    if(successPercentageValue > 50 && successPercentageValue < 70) document.getElementById("successColor").style.color = "orange"
-    if(successPercentageValue > 70) document.getElementById("successColor").style.color = "lightgreen"
-    if(parsedSong.length == 0 ) return
-    selectCell(getCell(0))
-    var song = {
+        }
+        let successPercentageValue = Math.floor((parsedSong.length - numOfAccidentals) / songNotes.length * 100)
+        if (isNaN(successPercentageValue)) successPercentageValue = 0
+        document.getElementById("successPercentage").innerHTML = successPercentageValue + "%"
+        if (successPercentageValue < 50) document.getElementById("successColor").style.color = "#FE4C4C"
+        if (successPercentageValue > 50 && successPercentageValue < 70) document.getElementById("successColor").style
+            .color = "orange"
+        if (successPercentageValue > 70) document.getElementById("successColor").style.color = "lightgreen"
+        if (parsedSong.length == 0) return
+        selectCell(getCell(0))
+        var song = {
             name: "",
             bpm: document.getElementById("bpm").value,
             pitchLevel: storedPitchKey,
             isComposed: true,
             songNotes: parsedSong
         }
-    importSong(song,true,globalAlgorithmType)
-}
+        importSong(song, true, globalAlgorithmType)
+    }
+
+    //--------------------------------------------------------------------------------------//
+
     var globalHistory = []
     var undoIndex = 0
 
@@ -523,6 +632,8 @@ function loadMIDI(){
         undoIndex = globalHistory.length
     }
 
+    //--------------------------------------------------------------------------------------//
+
     function undo() {
         undoIndex--
         if (undoIndex < 0) return
@@ -532,7 +643,9 @@ function loadMIDI(){
         selectCell(getCell(0))
     }
 
-    function toggleSettings(){
+    //--------------------------------------------------------------------------------------//
+
+    function toggleSettings() {
         let settingsDiv = document.getElementById("settingsDiv")
         if (settingsDiv.style.display != "block") {
             settingsDiv.style.display = "block"
@@ -540,12 +653,15 @@ function loadMIDI(){
             settingsDiv.style.display = "none"
         }
     }
+
+    //--------------------------------------------------------------------------------------//
+
     function toggleSelection() {
         let cells = document.getElementsByClassName("cell")
         resetCellBorders()
-        if(document.getElementById("toolsDiv").style.display != "block"){
+        if (document.getElementById("toolsDiv").style.display != "block") {
             $("#toolsDiv").fadeIn(150)
-        }else{
+        } else {
             $("#toolsDiv").fadeOut(150)
         }
         document.getElementById("startCopyBtn").style.borderColor = "transparent"
@@ -553,37 +669,44 @@ function loadMIDI(){
         document.getElementById("endCopyBtn").style.borderColor = "transparent"
         document.getElementById("endCopyBtn").style.color = "#dad8b3"
         for (var i = 0; i < cells.length; i++) {
-            cells[i].addEventListener("pointerdown", function () {
-            })
+            cells[i].addEventListener("pointerdown", function () {})
         }
 
     }
+
+    //--------------------------------------------------------------------------------------//
+
     let selectedCellsArray = []
-    function getSelectedCells(){
+
+    function getSelectedCells() {
         let cells = document.getElementsByClassName("cell")
         let hasStart = false
         let hasEnd = false
         let canAddCells = false
-            selectedCellsArray = []
+        selectedCellsArray = []
         for (var i = 0; i < cells.length; i++) {
-            if(canAddCells) selectedCellsArray.push(cells[i])
-            if(cells[i].style.borderColor == "rgb(235, 0, 27)" || cells[i].style.borderColor == "rgb(235, 0, 28)"){
+            if (canAddCells) selectedCellsArray.push(cells[i])
+            if (cells[i].style.borderColor == "rgb(235, 0, 27)" || cells[i].style.borderColor == "rgb(235, 0, 28)") {
                 canAddCells = !canAddCells
-                if(hasStart) hasEnd = true
+                if (hasStart) hasEnd = true
                 hasStart = true
-                if(canAddCells) selectedCellsArray.push(cells[i])
+                if (canAddCells) selectedCellsArray.push(cells[i])
             }
         }
-        if(hasStart && hasEnd){
+        if (hasStart && hasEnd) {
             resetCellBorders()
             toggleSelection()
-        }else{
-            showMessage("Missing start or end",0,2000)
+        } else {
+            showMessage("Missing start or end", 0, 2000)
             selectedCellsArray = []
         }
     }
+
+    //--------------------------------------------------------------------------------------//
+
     let copiedCells = []
-    function finishCopy(){
+
+    function finishCopy() {
         getSelectedCells()
         addToHistory()
         copiedCells = []
@@ -592,121 +715,142 @@ function loadMIDI(){
         }
 
     }
-    function erase(){
+
+    //--------------------------------------------------------------------------------------//
+
+    function erase() {
         getSelectedCells()
         addToHistory()
-        if(selectedCellsArray.length == 0) return
+        if (selectedCellsArray.length == 0) return
         let firstCellPosition = getCellPosition(selectedCellsArray[0])
         let eraseLength = selectedCellsArray.length
-        for(let i = 0; i<eraseLength;i++){
-                selectedCell = getCell(firstCellPosition+i)
-            for(let i = 0; i < 14; i++){
-                if(selectedLayer == 1){
+        for (let i = 0; i < eraseLength; i++) {
+            selectedCell = getCell(firstCellPosition + i)
+            for (let i = 0; i < 14; i++) {
+                if (selectedLayer == 1) {
                     deselectNote(i)
-                }else{
+                } else {
                     deselectNoteLayer2(i)
                 }
             }
         }
     }
+
+    //--------------------------------------------------------------------------------------//
+
     let copiedLayer = []
-    function copyLayer(){
+
+    function copyLayer() {
         getSelectedCells()
         addToHistory()
         copiedLayer = []
-        for(let i = 0; i < selectedCellsArray.length; i++){
+        for (let i = 0; i < selectedCellsArray.length; i++) {
             copiedLayer.push(selectedCellsArray[i].cloneNode(true))
-            for(let j = 0; j < copiedLayer[i].children.length; j++){
-                if(selectedLayer == 1){
+            for (let j = 0; j < copiedLayer[i].children.length; j++) {
+                if (selectedLayer == 1) {
                     copiedLayer[i].children[j].style.borderColor = "transparent"
-                }else{
+                } else {
                     copiedLayer[i].children[j].style.backgroundColor = "transparent"
                 }
             }
         }
     }
-    function pasteLayer(){
+
+    //--------------------------------------------------------------------------------------//
+
+    function pasteLayer() {
         addToHistory()
-        if(copiedLayer.length == 0) return
+        if (copiedLayer.length == 0) return
         let cellPostion = getCellPosition(selectedCell)
 
-        for(let i = 0; i<copiedLayer.length; i++){
-            let nextCell = getCell(cellPostion+i)
-            if(nextCell == null) addCell("end"), nextCell = getCell(cellPostion+i)
+        for (let i = 0; i < copiedLayer.length; i++) {
+            let nextCell = getCell(cellPostion + i)
+            if (nextCell == null) addCell("end"), nextCell = getCell(cellPostion + i)
             selectedCell = nextCell
-            for(let j = 0;j<15;j++){
-                if(selectedLayer == 1){
-                    if(copiedLayer[i].children[j].style.backgroundColor.includes("rgba(235, 0, 27")) selectNote(14-j)
-                }else{
-                    if(copiedLayer[i].children[j].style.borderColor.includes("darkslategray")) selectNoteLayer2(14-j)
+            for (let j = 0; j < 15; j++) {
+                if (selectedLayer == 1) {
+                    if (copiedLayer[i].children[j].style.backgroundColor.includes("rgba(235, 0, 27")) selectNote(14 - j)
+                } else {
+                    if (copiedLayer[i].children[j].style.borderColor.includes("darkslategray")) selectNoteLayer2(14 - j)
                 }
             }
         }
     }
-    function deleteMany(ignore = false){
-        if(!ignore)getSelectedCells()
+
+    //--------------------------------------------------------------------------------------//
+
+    function deleteMany(ignore = false) {
+        if (!ignore) getSelectedCells()
         addToHistory()
         for (var i = 0; i < selectedCellsArray.length; i++) {
             selectedCellsArray[i].remove()
         }
     }
+
+    //--------------------------------------------------------------------------------------//
+
     let releasedKey = true
-    document.addEventListener('keyup', function(event) {
+    document.addEventListener('keyup', function (event) {
         releasedKey = true
     })
-    document.addEventListener('keydown', function(event) {
+
+    //--------------------------------------------------------------------------------------//
+
+    document.addEventListener('keydown', function (event) {
         let tempoButtons = document.getElementsByClassName("tempoButton")
-        if(document.activeElement.type == "number") return
-        if(document.activeElement.type == "text") return
-        if(event.keyCode == 49) {
+        if (document.activeElement.type == "number") return
+        if (document.activeElement.type == "text") return
+        if (event.keyCode == 49) {
             document.activeElement.blur();
             changeTempo(tempoButtons[0])
         }
-        if(event.keyCode == 50) {
+        if (event.keyCode == 50) {
             document.activeElement.blur();
             changeTempo(tempoButtons[1])
         }
-        if(event.keyCode == 51) {
+        if (event.keyCode == 51) {
             document.activeElement.blur();
             changeTempo(tempoButtons[2])
         }
-        if(event.keyCode == 52) {
+        if (event.keyCode == 52) {
             document.activeElement.blur();
             changeTempo(tempoButtons[3])
         }
-        if(event.keyCode == 65) {
+        if (event.keyCode == 65) {
             document.activeElement.blur();
             before()
         }
-        if(event.keyCode == 68) {
+        if (event.keyCode == 68) {
             document.activeElement.blur();
             next()
         }
-        if(event.keyCode == 32) {
+        if (event.keyCode == 32) {
             document.activeElement.blur();
-            if(!releasedKey) return
+            if (!releasedKey) return
             releasedKey = false
             play()
         }
-        if(event.keyCode == 81) {
+        if (event.keyCode == 81) {
             document.activeElement.blur();
             removeCell()
         }
-        if(event.keyCode == 69) {
+        if (event.keyCode == 69) {
             document.activeElement.blur();
             appendCell()
         }
-        if(event.keyCode == 90) {
+        if (event.keyCode == 90) {
             document.activeElement.blur();
             undo()
         }
     });
 
-    function paste(){
+    //--------------------------------------------------------------------------------------//
+
+    function paste() {
         addToHistory()
-        if(copiedCells.length < 2) return
-        for(let i = 0; i<copiedCells.length; i++){
-            let cell = copiedCells[copiedCells.length-i-1].cloneNode(true)
+        if (copiedCells.length < 2) return
+        for (let i = 0; i < copiedCells.length; i++) {
+            let cell = copiedCells[copiedCells.length - i - 1].cloneNode(true)
             cell.style.border = ""
             cell.style.opacity = "0.6"
             cell.addEventListener("pointerdown", function () {
@@ -718,26 +862,34 @@ function loadMIDI(){
         }
         quickSave()
     }
+
+    //--------------------------------------------------------------------------------------//
+
     let copySelectionColor = "rgb(235, 0, 27)"
+
     function selectStartCopy() {
         copySelectionColor = "rgb(235, 0, 27)"
         document.getElementById("startCopyBtn").style.borderColor = copySelectionColor
         document.getElementById("startCopyBtn").style.color = copySelectionColor
         let cells = document.getElementsByClassName("cell")
         for (let i = 0; i < cells.length; i++) {
-            if(cells[i].style.borderColor == "rgb(235, 0, 27)") cells[i].style.border = ""
+            if (cells[i].style.borderColor == "rgb(235, 0, 27)") cells[i].style.border = ""
             cells[i].addEventListener("click", selectCopy)
         }
     }
 
+    //--------------------------------------------------------------------------------------//
+
     let selectCopy = function (event) {
         let path = event.path || (event.composedPath && event.composedPath())
-        path[1].style.border = "solid 2px "+copySelectionColor
+        path[1].style.border = "solid 2px " + copySelectionColor
         let cells1 = document.getElementsByClassName("cell")
         for (let j = 0; j < cells1.length; j++) {
             cells1[j].removeEventListener("click", selectCopy)
         }
     }
+
+    //--------------------------------------------------------------------------------------//
 
     function selectEndCopy() {
         copySelectionColor = "rgb(235, 0, 28)"
@@ -745,12 +897,14 @@ function loadMIDI(){
         document.getElementById("endCopyBtn").style.color = copySelectionColor
         let cells = document.getElementsByClassName("cell")
         for (let i = 0; i < cells.length; i++) {
-            if(cells[i].style.borderColor == "rgb(235, 0, 28)") cells[i].style.border = ""
+            if (cells[i].style.borderColor == "rgb(235, 0, 28)") cells[i].style.border = ""
             cells[i].addEventListener("click", selectCopy)
         }
     }
 
-    function finishedSelection(){
+    //--------------------------------------------------------------------------------------//
+
+    function finishedSelection() {
         $("#toolsDiv").fadeOut(150)
         resetCellBorders()
         let cells = document.getElementsByClassName("cell")
@@ -758,24 +912,33 @@ function loadMIDI(){
             cells[i].removeEventListener("click", selectCopy)
         }
     }
-    function resetCellBorders(){
+
+    //--------------------------------------------------------------------------------------//
+
+    function resetCellBorders() {
         let cells = document.getElementsByClassName("cell")
         for (let i = 0; i < cells.length; i++) {
             cells[i].style.border = ""
         }
     }
+
+    //--------------------------------------------------------------------------------------//
+
     let numOfCellsPerDiv = 8
-    function scrollPage(cell){
-        for(let i = 0; i < numOfCellsPerDiv/4; i++){
-            if(cell.nextSibling == null) break
-                cell = cell.nextSibling
-            }
+
+    function scrollPage(cell) {
+        for (let i = 0; i < numOfCellsPerDiv / 4; i++) {
+            if (cell.nextSibling == null) break
+            cell = cell.nextSibling
+        }
         cell.scrollIntoView()
     }
+
     //----------------------------------------------------------------------------------------------//
+
     var inputMode = localStorage.getItem("inputMode")
-    if(inputMode == null || !(inputMode=="touchstart" || inputMode == "pointerdown")){
-        localStorage.setItem("inputMode","pointerdown")
+    if (inputMode == null || !(inputMode == "touchstart" || inputMode == "pointerdown")) {
+        localStorage.setItem("inputMode", "pointerdown")
         inputMode = "pointerdown"
     }
     let click = new Event(inputMode)
@@ -785,29 +948,34 @@ function loadMIDI(){
     let playBtn = document.getElementById("playBtn")
 
 
-    function disableCells(isDisabled){
+    //--------------------------------------------------------------------------------------//
+
+    function disableCells(isDisabled) {
         let cells = Array.prototype.slice.call(document.getElementsByClassName("cell"), 0);
-        for(let i = 0; i<cells.length;i++){
+        for (let i = 0; i < cells.length; i++) {
             cells[i].style.pointerEvents = isDisabled
         }
     }
+
     //----------------------------------------------------------------------------------------------//
+
     let globalKeys = {}
-    function getKeys(){
+
+    function getKeys() {
         let keys = {
             layer1: [],
             layer2: []
         }
-        for(let i = 0; i < 15; i++){
-            keys.layer1.push(document.getElementById("Key"+i))
-            keys.layer2.push(document.getElementById("2Key"+i))
+        for (let i = 0; i < 15; i++) {
+            keys.layer1.push(document.getElementById("Key" + i))
+            keys.layer2.push(document.getElementById("2Key" + i))
         }
         return keys
     }
     let playBtn2 = document.getElementById("playBtn2")
     async function play() {
-        if (playBtn.value == "Play" || playBtn2 .value == "Play") {
-            playBtn2 .value = "Stop"
+        if (playBtn.value == "Play" || playBtn2.value == "Play") {
+            playBtn2.value = "Stop"
             playBtn.value = "Stop"
             disableCells("none")
         } else {
@@ -843,31 +1011,31 @@ function loadMIDI(){
                 default:
                     bpmToMs = 60000 / document.getElementById("bpm").value
             }
-            try{
+            try {
                 for (var j = 0; j < 15; j++) {
                     globalKeys.layer1[j].firstChild.style.backgroundColor = keyColor
                     globalKeys.layer1[j].firstChild.style.borderColor = "transparent"
-            }
-                for(let j = 0; j < songData[i].no.length; j++){
-                let data = songData[i].no[j]
+                }
+                for (let j = 0; j < songData[i].no.length; j++) {
+                    let data = songData[i].no[j]
 
-                if(data.l == 1){
-                    globalKeys.layer1[data.n].dispatchEvent(click)
-                    globalKeys.layer1[data.n].firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+                    if (data.l == 1) {
+                        globalKeys.layer1[data.n].dispatchEvent(click)
+                        globalKeys.layer1[data.n].firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+                    }
+                    if (data.l == 2) {
+                        globalKeys.layer2[data.n].dispatchEvent(click)
+                        globalKeys.layer1[data.n].firstChild.style.borderColor = "rgb(155, 89, 182)"
+                    }
+                    if (data.l == 3) {
+                        globalKeys.layer1[data.n].dispatchEvent(click)
+                        globalKeys.layer2[data.n].dispatchEvent(click)
+                        globalKeys.layer1[data.n].firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+                        globalKeys.layer1[data.n].firstChild.style.borderColor = "rgb(155, 89, 182)"
+                    }
                 }
-                if(data.l == 2){
-                    globalKeys.layer2[data.n].dispatchEvent(click)
-                    globalKeys.layer1[data.n].firstChild.style.borderColor = "rgb(155, 89, 182)"
-                } 
-                if(data.l == 3){
-                    globalKeys.layer1[data.n].dispatchEvent(click)
-                    globalKeys.layer2[data.n].dispatchEvent(click)
-                    globalKeys.layer1[data.n].firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
-                    globalKeys.layer1[data.n].firstChild.style.borderColor = "rgb(155, 89, 182)"
-                }
-            }
-            }catch(e){
-                console .log("error playing note")
+            } catch (e) {
+                console.log("error playing note")
             }
             if (stopPlaying) break
             await delay(bpmToMs)
@@ -878,62 +1046,89 @@ function loadMIDI(){
         isPlaying = false
     }
     //----------------------------------------------------------------------------------------------//
+
     let oldBpm = document.getElementById("bpm").value
     document.getElementById("bpm").addEventListener("focus", function () {
         oldBpm = document.getElementById("bpm").value
         this.value = ""
     })
-    if(localStorage.getItem("savedBpm") != null) bpm.value = localStorage.getItem("savedBpm")
+    if (localStorage.getItem("savedBpm") != null) bpm.value = localStorage.getItem("savedBpm")
     document.getElementById("bpm").addEventListener("focusout", function () {
-        if (this.value == "" || this.value < 0){
+        if (this.value == "" || this.value < 0) {
             this.value = oldBpm
+        } else {
+            localStorage.setItem("savedBpm", this.value)
         }
-        else{
-            localStorage.setItem("savedBpm",this.value)
-        }
     })
-    document.getElementById("instrumentSelection").addEventListener("change", function () {
-        changeInstrument(this.options[this.selectedIndex].value,1)
-        localStorage.setItem("savedInstrumentComposer",this.options[this.selectedIndex].value.toLowerCase())
-        localStorage.setItem("savedInstrumentIndex",this.selectedIndex)
-    })
-    document.getElementById("instrumentLayer2Selection").addEventListener("change", function () {
-        changeInstrument(this.options[this.selectedIndex].value,2)
-        localStorage.setItem("savedInstrumentComposerSecondLayer",this.options[this.selectedIndex].value.toLowerCase())
-        localStorage.setItem("savedInstrumentIndexSecondLayer",this.selectedIndex)
-    })
-    let pitchKey = 1
 
+    //--------------------------------------------------------------------------------------//
+
+    document.getElementById("instrumentSelection").addEventListener("change", function () {
+        changeInstrument(this.options[this.selectedIndex].value, 1)
+        localStorage.setItem("savedInstrumentComposer", this.options[this.selectedIndex].value.toLowerCase())
+        localStorage.setItem("savedInstrumentIndex", this.selectedIndex)
+    })
+
+    //--------------------------------------------------------------------------------------//
+
+    document.getElementById("instrumentLayer2Selection").addEventListener("change", function () {
+        changeInstrument(this.options[this.selectedIndex].value, 2)
+        localStorage.setItem("savedInstrumentComposerSecondLayer", this.options[this.selectedIndex].value
+            .toLowerCase())
+        localStorage.setItem("savedInstrumentIndexSecondLayer", this.selectedIndex)
+    })
+
+    //--------------------------------------------------------------------------------------//
+
+    let pitchKey = 1
     let storedPitchKey = localStorage.getItem("pitchKeyComposer")
-    if(storedPitchKey != null){
+    if (storedPitchKey != null) {
         document.getElementById("keySelection").selectedIndex = storedPitchKey
         pitchKey = Math.pow(2, (storedPitchKey) / 12).toFixed(2)
-    }else{
+    } else {
         storedPitchKey = 0
     }
+
+    //--------------------------------------------------------------------------------------//
+
     document.getElementById("keySelection").addEventListener("change", function () {
         pitchKey = Math.pow(2, (this.selectedIndex) / 12).toFixed(2)
         let keyBtnTxt = document.getElementsByClassName("btnText")
         for (let i = 0; i < keyBtnTxt.length; i++) {
             keyBtnTxt[i].innerHTML = keyNames[this.selectedIndex][i]
         }
-        localStorage.setItem("pitchKeyComposer",this.selectedIndex)
+        localStorage.setItem("pitchKeyComposer", this.selectedIndex)
         storedPitchKey = this.selectedIndex
     })
 
-    var keyboardBlocked = false
+
+    //--------------------------------------------------------------------------------------//
+
     function expandNotesContainer(btn) {
         if (btn.style.backgroundColor == "rgb(235, 0, 27)") {
             btn.style.backgroundColor = "#383838"
-            $(".toolsContainer").css({"display":"inline-flex"})
-            $("#smallToolContainer").css({"display":"none"})
+            $(".toolsContainer").css({
+                "display": "inline-flex"
+            })
+            $("#smallToolContainer").css({
+                "display": "none"
+            })
         } else {
             btn.style.backgroundColor = "rgb(235, 0, 27)"
-            $(".toolsContainer").css({"display":"none"})
-            $("#smallToolContainer").css({"display":"inline-flex"})
+            $(".toolsContainer").css({
+                "display": "none"
+            })
+            $("#smallToolContainer").css({
+                "display": "inline-flex"
+            })
         }
         numOfCellsPerDiv = Math.floor(document.getElementById("songContainer").offsetWidth / getCell(0).offsetWidth)
     }
+
+    //--------------------------------------------------------------------------------------//
+
+    let keyboardBlocked = false
+
     function blockKeyboard(btn) {
         if (btn.style.backgroundColor == "rgb(235, 0, 27)") {
             btn.style.backgroundColor = "#383838"
@@ -953,13 +1148,15 @@ function loadMIDI(){
                 document.getElementById("Key" + k).firstChild.style.backgroundColor = keyColor
             }
             songContainer.innerHTML = ""
-            
+
             addPage()
             quickSave(true)
             selectCell(getCell(0))
             toggleSettings()
         }
     }
+
+    //--------------------------------------------------------------------------------------//
 
     function appendCell() {
         addCell(getCellPosition(selectedCell) + 1)
@@ -981,7 +1178,7 @@ function loadMIDI(){
 
     function next() {
         let nextCell = parseInt(getCellPosition(selectedCell)) + 1
-        if (nextCell > document.getElementsByClassName("cell").length - 1){
+        if (nextCell > document.getElementsByClassName("cell").length - 1) {
             addCell(nextCell)
         }
         scrollPage(getCell(nextCell))
@@ -1021,7 +1218,7 @@ function loadMIDI(){
 
     //----------------------------------------------------------------------------------------------//
 
-    function askSongName(download = false){
+    function askSongName(download = false) {
         $("#promptDiv").fadeIn(200)
         document.getElementById("promptMessage").innerHTML = "Write song name"
         document.getElementById("saveSongConfirmDiv").style.display = "flex"
@@ -1029,75 +1226,102 @@ function loadMIDI(){
         document.getElementById("mergeSongDiv").style.display = "none"
         document.getElementById("promptInput").value = ""
         document.getElementById("promptInput").style.visibility = "visible"
-        if(download){
-            document.getElementById("promptOK").setAttribute("downloadSong",true)
+        if (download) {
+            document.getElementById("promptOK").setAttribute("downloadSong", true)
         }
     }
-    function checkIfSongExists(download = false,replace = false){
+
+    //--------------------------------------------------------------------------------------//
+
+    function checkIfSongExists(download = false, replace = false) {
         document.getElementById("promptInput").style.visibility = "hidden"
         let savedSongs = JSON.parse(localStorage.getItem("savedSongs"))
-            let alreadySaved = false
-            let name = document.getElementById("promptInput").value
-            if (name == null || name == "") {
-                document.getElementById("promptMessage").innerHTML = "Write a non empty name"
-                document.getElementById("promptInput").style.visibility = "visible"
-                return
+        let alreadySaved = false
+        let name = document.getElementById("promptInput").value
+        if (name == null || name == "") {
+            document.getElementById("promptMessage").innerHTML = "Write a non empty name"
+            document.getElementById("promptInput").style.visibility = "visible"
+            return
+        }
+        if (document.getElementById("promptOK").getAttribute("downloadSong") == "true") {
+            document.getElementById("promptOK").setAttribute("downloadSong", false)
+            checkIfMultiLayer(true, name, false)
+            return
+        }
+        if (savedSongs == null) savedSongs = []
+        for (var i = 0; i < savedSongs.length; i++) {
+            if (savedSongs[i].name == name) {
+                alreadySaved = true;
+                break
             }
-            if(document.getElementById("promptOK").getAttribute("downloadSong") == "true"){
-                document.getElementById("promptOK").setAttribute("downloadSong",false)
-                checkIfMultiLayer(true,name,false)
-                return
+            if (savedSongs[i].name == name + " - Main") {
+                alreadySaved = true;
+                break
             }
-            if (savedSongs == null) savedSongs = []
-            for (var i = 0; i < savedSongs.length; i++) {
-                if (savedSongs[i].name == name){ alreadySaved = true; break }
-                if (savedSongs[i].name == name + " - Main"){ alreadySaved = true; break }
-                if (savedSongs[i].name == name + "- Secondary"){ alreadySaved = true; break }
+            if (savedSongs[i].name == name + "- Secondary") {
+                alreadySaved = true;
+                break
             }
-            if(alreadySaved && !replace && !download){
-                document.getElementById("promptMessage").innerHTML = "A song with the name: "+name+" is already saved, do you want to replace it?"
-                document.getElementById("replaceSongDiv").style.display = "flex"
-                document.getElementById("saveSongConfirmDiv").style.display = "none"
-                return
-            }
-            checkIfMultiLayer(download,name,replace)
+        }
+        if (alreadySaved && !replace && !download) {
+            document.getElementById("promptMessage").innerHTML = "A song with the name: " + name +
+                " is already saved, do you want to replace it?"
+            document.getElementById("replaceSongDiv").style.display = "flex"
+            document.getElementById("saveSongConfirmDiv").style.display = "none"
+            return
+        }
+        checkIfMultiLayer(download, name, replace)
     }
+
+    //--------------------------------------------------------------------------------------//
+
     let globalSavingArgs = []
-    function checkIfMultiLayer(download,name,replace){
+
+    function checkIfMultiLayer(download, name, replace) {
         let isMultiLayer = false
         var cells = Array.prototype.slice.call(document.getElementsByClassName("cell"), 0);
-        for(let i = 0; i< cells.length;i++){//checks if there is a multi layer
-            for(let j = 0; j < 14;j++){
+        for (let i = 0; i < cells.length; i++) { //checks if there is a multi layer
+            for (let j = 0; j < 14; j++) {
                 if (cells[i].children[14 - j].style.borderColor == "darkslategray") {
                     isMultiLayer = true
                     break
                 }
-            if(isMultiLayer) break
+                if (isMultiLayer) break
             }
         }
         let splitLayers = false
-        if(isMultiLayer){
-            document.getElementById("promptMessage").innerHTML = 'The song has 2 layers, press "split" to make two separate sheets, "merge" to merge them in one'
+        if (isMultiLayer) {
+            document.getElementById("promptMessage").innerHTML =
+                'The song has 2 layers, press "split" to make two separate sheets, "merge" to merge them in one'
             document.getElementById("mergeSongDiv").style.display = "flex"
             document.getElementById("saveSongConfirmDiv").style.display = "none"
             document.getElementById("replaceSongDiv").style.display = "none"
-            globalSavingArgs = [download,name,splitLayers,replace]
-        }else{
-            save(download,name,splitLayers,replace)
+            globalSavingArgs = [download, name, splitLayers, replace]
+        } else {
+            save(download, name, splitLayers, replace)
         }
     }
-    function splitSong(){
+
+    //--------------------------------------------------------------------------------------//
+
+    function splitSong() {
         globalSavingArgs[2] = true
         save(...globalSavingArgs)
     }
-    function mergeSong(){
+
+    //--------------------------------------------------------------------------------------//
+
+    function mergeSong() {
         globalSavingArgs[2] = false
-        save(...globalSavingArgs) 
+        save(...globalSavingArgs)
     }
-    function save(download,name,splitLayers,replace) {
+
+    //--------------------------------------------------------------------------------------//
+
+    function save(download, name, splitLayers, replace) {
         $("#promptDiv").fadeOut(200)
         let savedSongs = JSON.parse(localStorage.getItem("savedSongs"))
-        if(savedSongs == null) savedSongs = []
+        if (savedSongs == null) savedSongs = []
         let song = {
             name: name,
             bpm: document.getElementById("bpm").value,
@@ -1125,18 +1349,18 @@ function loadMIDI(){
                     bpmToMs = 60000 / document.getElementById("bpm").value
             }
             for (var j = 0; j < 15; j++) {
-                if (cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27") 
-                || (!splitLayers && cells[i].children[14 - j].style.borderColor == "darkslategray")) {
+                if (cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27") ||
+                    (!splitLayers && cells[i].children[14 - j].style.borderColor == "darkslategray")) {
                     let keyObj = {
                         time: timeStamp,
                         key: "Key" + j
                     }
-                    if(cells[i].children[14 - j].style.borderColor == "darkslategray") keyObj.l = 2
-                    if(cells[i].children[14 - j].style.borderColor == "darkslategray" 
-                    && cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) keyObj.l = 3
+                    if (cells[i].children[14 - j].style.borderColor == "darkslategray") keyObj.l = 2
+                    if (cells[i].children[14 - j].style.borderColor == "darkslategray" &&
+                        cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) keyObj.l = 3
                     song.songNotes.push(keyObj)
                 }
-                if(splitLayers && cells[i].children[14 - j].style.borderColor == "darkslategray"){
+                if (splitLayers && cells[i].children[14 - j].style.borderColor == "darkslategray") {
                     let keyObj = {
                         time: timeStamp,
                         key: "Key" + j
@@ -1147,79 +1371,85 @@ function loadMIDI(){
             timeStamp += Math.floor(bpmToMs)
         }
 
-        if(!splitLayers) song.composedSong = getSongData()
-        if(splitSong.songNotes.length > 0){
+        if (!splitLayers) song.composedSong = getSongData()
+        if (splitSong.songNotes.length > 0) {
             song.name += " - Main"
             splitSong.name += " - Secondary"
         }
-        if(download){
+        if (download) {
             let songToDownload = []
             let filename = song.name
             songToDownload.push(song)
-            if(splitSong.songNotes.length > 0){
+            if (splitSong.songNotes.length > 0) {
                 songToDownload.push(splitSong)
             }
-            downloadJSON(convertToNewFormat(songToDownload),filename)
-            showMessage("Song downloaded!",1,1500)
+            downloadJSON(convertToNewFormat(songToDownload), filename)
+            showMessage("Song downloaded!", 1, 1500)
             return
         }
-        if(replace){
+        if (replace) {
             let alreadySavedSong = false
-            savedSongs.forEach((savedSong, i) =>{
-                if(savedSong.name == song.name){savedSongs[i] = song; alreadySavedSong = true}
+            savedSongs.forEach((savedSong, i) => {
+                if (savedSong.name == song.name) {
+                    savedSongs[i] = song;
+                    alreadySavedSong = true
+                }
             })
-            if(!alreadySavedSong) savedSongs.push(song)
+            if (!alreadySavedSong) savedSongs.push(song)
             alreadySavedSong = false
-            if(splitSong.songNotes.length > 0){
-                savedSongs.forEach((savedSong, i) =>{
-                    if(savedSong.name == splitSong.name){savedSongs[i] = splitSong; alreadySavedSong = true}
+            if (splitSong.songNotes.length > 0) {
+                savedSongs.forEach((savedSong, i) => {
+                    if (savedSong.name == splitSong.name) {
+                        savedSongs[i] = splitSong;
+                        alreadySavedSong = true
+                    }
                 })
-                if(!alreadySavedSong) savedSongs.push(splitSong)
+                if (!alreadySavedSong) savedSongs.push(splitSong)
             }
-        }else{
-            if(splitSong.songNotes.length > 0){
+        } else {
+            if (splitSong.songNotes.length > 0) {
                 savedSongs.push(splitSong)
             }
             savedSongs.push(song)
         }
         localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
-        showMessage("Song saved!",1,1500)
+        showMessage("Song saved!", 1, 1500)
     }
 
-//----------------------------------------------------------------------------------------------//
+    //----------------------------------------------------------------------------------------------//
 
     function convertToNewFormat(songs) {
-    let convertedSongs = []
-    for (let i = 0; i < songs.length; i++) {
-        if(songs[i].bpm == undefined) songs[i].bpm = 220
-        if(songs[i].pitchLevel == undefined) songs[i].pitchLevel = 0
-        if(songs[i].isComposed == undefined) songs[i].isComposed = false
+        let convertedSongs = []
+        for (let i = 0; i < songs.length; i++) {
+            if (songs[i].bpm == undefined) songs[i].bpm = 220
+            if (songs[i].pitchLevel == undefined) songs[i].pitchLevel = 0
+            if (songs[i].isComposed == undefined) songs[i].isComposed = false
 
-        let newFormat = {
-            name: songs[i].name,
-            bpm: parseInt(songs[i].bpm),
-            bitsPerPage: 16,
-            pitchLevel: parseInt(songs[i].pitchLevel),
-            isComposed: songs[i].isComposed,
-            songNotes: []
-        }
-        if(songs[i].composedSong != undefined) newFormat.composedSong = songs[i].composedSong
-        for (let j = 0; j < songs[i].songNotes.length; j++) {
-            let keyObj = {
-                time: songs[i].songNotes[j].time,
-                key: "1" + songs[i].songNotes[j].key
+            let newFormat = {
+                name: songs[i].name,
+                bpm: parseInt(songs[i].bpm),
+                bitsPerPage: 16,
+                pitchLevel: parseInt(songs[i].pitchLevel),
+                isComposed: songs[i].isComposed,
+                songNotes: []
             }
-            if(!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
-            newFormat.songNotes.push(keyObj)
+            if (songs[i].composedSong != undefined) newFormat.composedSong = songs[i].composedSong
+            for (let j = 0; j < songs[i].songNotes.length; j++) {
+                let keyObj = {
+                    time: songs[i].songNotes[j].time,
+                    key: "1" + songs[i].songNotes[j].key
+                }
+                if (!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
+                newFormat.songNotes.push(keyObj)
+            }
+            convertedSongs.push(newFormat)
         }
-        convertedSongs.push(newFormat)
+        return convertedSongs
     }
-    return convertedSongs
-}
     //----------------------------------------------------------------------------------------------//
 
     let songContainer = document.getElementById("songContainer")
-    var selectedCell = getCell(0)
+    let selectedCell = getCell(0)
 
     function addCell(appendIndex) {
         let cell = document.createElement("div")
@@ -1240,7 +1470,7 @@ function loadMIDI(){
             songContainer.insertBefore(cell, getCell(appendIndex));
             selectCell(cell)
         }
-        
+
     }
 
     //----------------------------------------------------------------------------------------------//
@@ -1258,8 +1488,8 @@ function loadMIDI(){
         selectedCell.style.opacity = "0.6"
         selectedCell = cell
         for (var i = 0; i < 15; i++) {
-                globalKeys.layer1[i].firstChild.style.backgroundColor = keyColor
-                globalKeys.layer1[i].firstChild.style.borderColor = "transparent"
+            globalKeys.layer1[i].firstChild.style.backgroundColor = keyColor
+            globalKeys.layer1[i].firstChild.style.borderColor = "transparent"
         }
         for (var j = 0; j < 15; j++) {
             if (cell.children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
@@ -1275,7 +1505,6 @@ function loadMIDI(){
 
     //----------------------------------------------------------------------------------------------//
 
-
     function selectNote(n) {
         selectedCell.children[14 - n].style.backgroundColor = "rgba(235, 0, 27, 0.8)"
     }
@@ -1286,57 +1515,83 @@ function loadMIDI(){
         selectedCell.children[14 - n].style.backgroundColor = "transparent"
     }
 
+    //--------------------------------------------------------------------------------------//
 
     function selectNoteLayer2(n) {
         selectedCell.children[14 - n].style.borderColor = "darkslategray"
     }
+
+    //--------------------------------------------------------------------------------------//
+
     function deselectNoteLayer2(n) {
         selectedCell.children[14 - n].style.borderColor = "transparent"
     }
 
 
-    window.addEventListener("beforeunload", function(event) {
+    //--------------------------------------------------------------------------------------//
+
+    window.addEventListener("beforeunload", function (event) {
         quickSave(true)
     });
 
-    $(window).blur(function(){
+    //--------------------------------------------------------------------------------------//
+
+    $(window).blur(function () {
         quickSave(true)
     });
-    function getSongData(){
+
+    //--------------------------------------------------------------------------------------//
+
+    function getSongData() {
         let songData = []
-            let cells = document.getElementsByClassName("cell")
-            for(let i = 0; i<cells.length;i++){
-                let cellObj = {
-                    no: [],
-                    co: cells[i].style.backgroundColor
-                }
-                if(cellObj.co == "") cellObj.co = "#dad8b3"
-                for(let j = 0; j<cells[i].children.length;j++){
-                    let noteObj = {
-                        n:j,
-                        l: 1
-                    }
-                    let canAdd = false
-                    if(cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")){ noteObj.l = 1; canAdd = true}
-                    if(cells[i].children[14 - j].style.borderColor == "darkslategray"){ noteObj.l = 2; canAdd = true}
-                    if(cells[i].children[14 - j].style.borderColor == "darkslategray" 
-                    && cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")){ noteObj.l = 3; canAdd = true}
-                    if(canAdd) cellObj.no.push(noteObj)
-                }
-                songData.push(cellObj)
+        let cells = document.getElementsByClassName("cell")
+        for (let i = 0; i < cells.length; i++) {
+            let cellObj = {
+                no: [],
+                co: cells[i].style.backgroundColor
             }
-            return songData
+            if (cellObj.co == "") cellObj.co = "#dad8b3"
+            for (let j = 0; j < cells[i].children.length; j++) {
+                let noteObj = {
+                    n: j,
+                    l: 1
+                }
+                let canAdd = false
+                if (cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
+                    noteObj.l = 1;
+                    canAdd = true
+                }
+                if (cells[i].children[14 - j].style.borderColor == "darkslategray") {
+                    noteObj.l = 2;
+                    canAdd = true
+                }
+                if (cells[i].children[14 - j].style.borderColor == "darkslategray" &&
+                    cells[i].children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
+                    noteObj.l = 3;
+                    canAdd = true
+                }
+                if (canAdd) cellObj.no.push(noteObj)
+            }
+            songData.push(cellObj)
+        }
+        return songData
     }
+
+    //--------------------------------------------------------------------------------------//
+
     let every5 = 0
+
     function quickSave(skip = false) {
-        every5 ++
-        if(every5 > 5 || skip){
+        every5++
+        if (every5 > 5 || skip) {
             localStorage.removeItem("quickStorage")
-            localStorage.setItem("quickStorageNew",JSON.stringify(getSongData()))
+            localStorage.setItem("quickStorageNew", JSON.stringify(getSongData()))
             console.log("quick save")
             every5 = 0
         }
     }
+
+    //--------------------------------------------------------------------------------------//
 
     var quickSavedSong = localStorage.getItem("quickStorage")
     if (quickSavedSong != null) {
@@ -1348,7 +1603,7 @@ function loadMIDI(){
                 quickSave()
             })
         }
-    }else{
+    } else {
         var quickSavedSongNew = localStorage.getItem("quickStorageNew")
         if (quickSavedSongNew != null) {
             localStorage.removeItem("quickStorage")
@@ -1358,138 +1613,148 @@ function loadMIDI(){
             addPage()
         }
     }
-    function parseComposerFormat(song){
+
+    //--------------------------------------------------------------------------------------//
+
+    function parseComposerFormat(song) {
         console.log("newFormat")
         songContainer.innerHTML = ""
-        song.forEach((cellData,i) => {
+        song.forEach((cellData, i) => {
             addCell("end")
             let cell = getCell(i)
             cell.style.backgroundColor = cellData.co
             selectedCell = cell
             cellData.no.forEach(note => {
-                if(note.l == 1) selectNote(note.n)
-                if(note.l == 2) selectNoteLayer2(note.n)
-                if(note.l == 3) selectNoteLayer2(note.n), selectNote(note.n)
+                if (note.l == 1) selectNote(note.n)
+                if (note.l == 2) selectNoteLayer2(note.n)
+                if (note.l == 3) selectNoteLayer2(note.n), selectNote(note.n)
             })
 
         })
-       
+        selectedCell = getCell(0)
+        selectedCell.style.opacity = "1"
     }
     let localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
     let loadSongSelect = document.getElementById("loadSongSelect")
-    if(localStorageSongs != null){
-        for(let i = 0; i<localStorageSongs.length;i++){
+    if (localStorageSongs != null) {
+        for (let i = 0; i < localStorageSongs.length; i++) {
             var option = document.createElement("option")
             option.innerHTML = localStorageSongs[i].name
             loadSongSelect.appendChild(option)
         }
     }
-    loadSongSelect.addEventListener("change",function(){
+
+    //--------------------------------------------------------------------------------------//
+
+    loadSongSelect.addEventListener("change", function () {
         localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
         let selectedIndex = this.selectedIndex
-        if(selectedIndex == 0) return
-        if(!isNaN(pitchKey)){
+        if (selectedIndex == 0) return
+        if (!isNaN(pitchKey)) {
             pitchKey = Math.pow(2, (localStorageSongs[selectedIndex - 1].pitchLevel) / 12).toFixed(2)
-            localStorage.setItem("pitchKey",pitchKey)
-            document.getElementById("keySelection").selectedIndex = localStorageSongs[selectedIndex - 1].pitchLevel
+            localStorage.setItem("pitchKey", pitchKey)
+            document.getElementById("keySelection").selectedIndex = localStorageSongs[selectedIndex - 1]
+                .pitchLevel
         }
-        if(localStorageSongs[selectedIndex - 1].isComposed){
-            localStorage.setItem("savedBpm",localStorageSongs[selectedIndex - 1].bpm)
-            if(localStorageSongs[selectedIndex - 1].composedSong != undefined ){
-                try{
+        if (localStorageSongs[selectedIndex - 1].isComposed) {
+            localStorage.setItem("savedBpm", localStorageSongs[selectedIndex - 1].bpm)
+            if (localStorageSongs[selectedIndex - 1].composedSong != undefined) {
+                try {
                     parseComposerFormat(localStorageSongs[selectedIndex - 1].composedSong)
-                }catch{
-                    importSong(localStorageSongs[selectedIndex - 1],false,"new")
+                } catch {
+                    importSong(localStorageSongs[selectedIndex - 1], false, "new")
                 }
-            }else{
-                importSong(localStorageSongs[selectedIndex - 1],false,"new")
+            } else {
+                importSong(localStorageSongs[selectedIndex - 1], false, "new")
             }
-        }else{
-            importSong(localStorageSongs[selectedIndex - 1],false,"old")
+        } else {
+            importSong(localStorageSongs[selectedIndex - 1], false, "old")
         }
     })
 
+    //--------------------------------------------------------------------------------------//
 
-    function importSong(song,ignoreSettings,algorithmType){
+    function importSong(song, ignoreSettings, algorithmType) {
         console.log("oldFormat")
         addToHistory()
         let importBpm = 220
-        if(song.isComposed == undefined) song.isComposed = false
-        if(song.bpm != undefined) importBpm = song.bpm
+        if (song.isComposed == undefined) song.isComposed = false
+        if (song.bpm != undefined) importBpm = song.bpm
         document.getElementById("bpm").value = importBpm
         let pauseThreshold = Math.floor(60000 / importBpm)
         let threshold = 80
-        if(song.isComposed == "true" || song.isComposed === true) threshold = 10
+        if (song.isComposed == "true" || song.isComposed === true) threshold = 10
         let parsedSong = []
         songContainer.innerHTML = ""
         song = song.songNotes
-        while(true){
+        while (true) {
             let keysToPress = []
             let hasPause = false
             for (let j = 0; j < song.length; j++) {
-                if ((song[j].time - song[0].time) < threshold) { //if the time between the next keys is lower than the threshold then it appends to the keys to be played
+                if ((song[j].time - song[0].time) <
+                    threshold) { //if the time between the next keys is lower than the threshold then it appends to the keys to be played
                     keysToPress.push(song[j])
                 }
             }
             song.splice(0, keysToPress.length)
             parsedSong.push(keysToPress)
 
-            if(song.length == 0 )break
-            let lastNoteTime = keysToPress[keysToPress.length-1].time
+            if (song.length == 0) break
+            let lastNoteTime = keysToPress[keysToPress.length - 1].time
             let pauseTime = song[0].time - lastNoteTime
-            if(algorithmType == "new"){
+            if (algorithmType == "new") {
                 let pauseArgs = [
-                        pauseThreshold,
-                        pauseThreshold/2-5,
-                        pauseThreshold/4-5,
-                        pauseThreshold/8-5
-                    ]
-                while(true){
-                    if(pauseTime > pauseThreshold){
+                    pauseThreshold,
+                    pauseThreshold / 2 - 5,
+                    pauseThreshold / 4 - 5,
+                    pauseThreshold / 8 - 5
+                ]
+                while (true) {
+                    if (pauseTime > pauseThreshold) {
                         parsedSong.push([2])
-                    }else{
-                        if(pauseTime == pauseArgs[0]) break
-                        if(pauseTime < pauseArgs[1]){
-                            if(pauseTime < pauseArgs[2]){
-                                if(pauseTime < pauseArgs[3]){
+                    } else {
+                        if (pauseTime == pauseArgs[0]) break
+                        if (pauseTime < pauseArgs[1]) {
+                            if (pauseTime < pauseArgs[2]) {
+                                if (pauseTime < pauseArgs[3]) {
                                     break
-                                }else{
-                                    parsedSong.push([1,"rgb(255, 114, 190)"])
+                                } else {
+                                    parsedSong.push([1, "rgb(255, 114, 190)"])
                                 }
-                            }else{
-                                parsedSong.push([1,"deepskyblue"])  
+                            } else {
+                                parsedSong.push([1, "deepskyblue"])
                             }
-                        }else{
-                            parsedSong.push([1,"limegreen"])  
+                        } else {
+                            parsedSong.push([1, "limegreen"])
                         }
                     }
-                    pauseTime-= pauseThreshold
+                    pauseTime -= pauseThreshold
                 }
-            }else{
-                if(song[0].time - lastNoteTime > pauseThreshold){
+            } else {
+                if (song[0].time - lastNoteTime > pauseThreshold) {
                     pauseTime = song[0].time - lastNoteTime
                     let pauseArgs = [
                         pauseThreshold,
-                        pauseThreshold/2,
-                        pauseThreshold/4,
-                        pauseThreshold/8
+                        pauseThreshold / 2,
+                        pauseThreshold / 4,
+                        pauseThreshold / 8
                     ]
-                    while(true){
-                        if(pauseTime <= pauseArgs[0]){
-                            if(pauseTime <= pauseArgs[1]){
-                                if(pauseTime <= pauseArgs[2]){
-                                    if(pauseTime <= pauseArgs[3]){
+                    while (true) {
+                        if (pauseTime <= pauseArgs[0]) {
+                            if (pauseTime <= pauseArgs[1]) {
+                                if (pauseTime <= pauseArgs[2]) {
+                                    if (pauseTime <= pauseArgs[3]) {
                                         break
-                                    }else{
+                                    } else {
                                         parsedSong.push([4])
                                     }
-                                }else{
+                                } else {
                                     parsedSong.push([3])
                                 }
-                            }else{
+                            } else {
                                 parsedSong.push([2])
                             }
-                        }else{
+                        } else {
                             parsedSong.push([1])
                         }
                         pauseTime -= pauseThreshold
@@ -1499,25 +1764,27 @@ function loadMIDI(){
             }
 
         }
-        if(algorithmType == "new"){
-            for(var i = 0;i<parsedSong.length;i++){
-            addCell()
-            for(let j = 0; j<parsedSong[i].length;j++){
-                switch(parsedSong[i][0]){
-                    case 1: {
-                        if(j == 0) songContainer.lastChild.remove()
-                        songContainer.lastChild.style.backgroundColor = parsedSong[i][1]
-                    } break
-                    case 2: break
+        if (algorithmType == "new") {
+            for (var i = 0; i < parsedSong.length; i++) {
+                addCell()
+                for (let j = 0; j < parsedSong[i].length; j++) {
+                    switch (parsedSong[i][0]) {
+                        case 1: {
+                            if (j == 0) songContainer.lastChild.remove()
+                            songContainer.lastChild.style.backgroundColor = parsedSong[i][1]
+                        }
+                        break
+                    case 2:
+                        break
                     default: {
-                        let key = parsedSong[i][j].key.replace("Key","")
+                        let key = parsedSong[i][j].key.replace("Key", "")
                         selectedCell = songContainer.lastChild
-                        switch(parsedSong[i][j].l){
-                            case 2:{
+                        switch (parsedSong[i][j].l) {
+                            case 2: {
                                 selectNoteLayer2(key)
                                 break
                             }
-                            case 3:{
+                            case 3: {
                                 selectNote(key)
                                 selectNoteLayer2(key)
                                 break
@@ -1527,29 +1794,36 @@ function loadMIDI(){
                                 break
                             }
                         }
-                    } 
+                    }
+                    }
                 }
             }
-        }
-        }else{
-            for(var i = 0;i<parsedSong.length;i++){
+        } else {
+            for (var i = 0; i < parsedSong.length; i++) {
                 addCell()
-                for(let j = 0; j<parsedSong[i].length;j++){
-                    switch(parsedSong[i][0]){
-                        case 1: break
-                        case 2: getCell(i).style.backgroundColor = "limegreen"; break
-                        case 3: getCell(i).style.backgroundColor = "deepskyblue"; break
-                        case 4: getCell(i).style.backgroundColor = "rgb(255, 114, 190)"; break
+                for (let j = 0; j < parsedSong[i].length; j++) {
+                    switch (parsedSong[i][0]) {
+                        case 1:
+                            break
+                        case 2:
+                            getCell(i).style.backgroundColor = "limegreen";
+                            break
+                        case 3:
+                            getCell(i).style.backgroundColor = "deepskyblue";
+                            break
+                        case 4:
+                            getCell(i).style.backgroundColor = "rgb(255, 114, 190)";
+                            break
                         default: {
-                            let key = parsedSong[i][j].key.replace("Key","")
+                            let key = parsedSong[i][j].key.replace("Key", "")
                             selectedCell = getCell(i)
-                            
-                            switch(parsedSong[i][j].l){
-                                case 2:{
+
+                            switch (parsedSong[i][j].l) {
+                                case 2: {
                                     selectNoteLayer2(key)
                                     break
                                 }
-                                case 3:{
+                                case 3: {
                                     selectNote(key)
                                     selectNoteLayer2(key)
                                     break
@@ -1565,18 +1839,23 @@ function loadMIDI(){
             }
         }
         quickSave(true)
-        selectCell(getCell(0))
-        if(!ignoreSettings)toggleSettings()
+        selectedCell = getCell(0)
+        if (!ignoreSettings) toggleSettings()
     }
     //----------------------------------------------------------------------------------------------//
     const a_ctx = new(window.AudioContext || window.webkitAudioContext)()
     let a_reverb_destination = a_ctx.destination // replaced by reverb path when loaded
 
+    //--------------------------------------------------------------------------------------//
+
     a_ctx.onstatechange = () => {
-    if (a_ctx.state === "suspended") {
-        a_ctx.resume()
+        if (a_ctx.state === "suspended") {
+            a_ctx.resume()
+        }
     }
-}
+
+    //--------------------------------------------------------------------------------------//
+
     const db_url = './Sounds/'
     let instrumentsNotes = {
         piano: ["Piano/0.mp3", "Piano/1.mp3", "Piano/2.mp3", "Piano/3.mp3", "Piano/4.mp3", "Piano/5.mp3",
@@ -1615,72 +1894,84 @@ function loadMIDI(){
             "Horn/7.mp3", "Horn/8.mp3", "Horn/9.mp3", "Horn/10.mp3", "Horn/11.mp3", "Horn/12.mp3",
             "Horn/13.mp3", "Horn/14.mp3"
         ],
-        toyukulele: ["ToyUkulele/0.mp3", "ToyUkulele/1.mp3", "ToyUkulele/2.mp3", "ToyUkulele/3.mp3", "ToyUkulele/4.mp3",
-         "ToyUkulele/5.mp3", "ToyUkulele/6.mp3", "ToyUkulele/7.mp3", "ToyUkulele/8.mp3", "ToyUkulele/9.mp3",
-          "ToyUkulele/10.mp3", "ToyUkulele/11.mp3", "ToyUkulele/12.mp3", "ToyUkulele/13.mp3", "ToyUkulele/14.mp3"],
-        handpan: ["HandPan/0.mp3", "HandPan/1.mp3", "HandPan/2.mp3", "HandPan/3.mp3", "HandPan/4.mp3", "HandPan/5.mp3", 
-        "HandPan/6.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3","HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3",
-         "HandPan/7.mp3", "HandPan/7.mp3"],
-        winterpiano: ["WinterPiano/0.mp3", "WinterPiano/1.mp3", "WinterPiano/2.mp3", "WinterPiano/3.mp3", "WinterPiano/4.mp3", "WinterPiano/5.mp3",
-            "WinterPiano/6.mp3", "WinterPiano/7.mp3", "WinterPiano/8.mp3", "WinterPiano/9.mp3", "WinterPiano/10.mp3", "WinterPiano/11.mp3",
+        toyukulele: ["ToyUkulele/0.mp3", "ToyUkulele/1.mp3", "ToyUkulele/2.mp3", "ToyUkulele/3.mp3",
+            "ToyUkulele/4.mp3",
+            "ToyUkulele/5.mp3", "ToyUkulele/6.mp3", "ToyUkulele/7.mp3", "ToyUkulele/8.mp3", "ToyUkulele/9.mp3",
+            "ToyUkulele/10.mp3", "ToyUkulele/11.mp3", "ToyUkulele/12.mp3", "ToyUkulele/13.mp3",
+            "ToyUkulele/14.mp3"
+        ],
+        handpan: ["HandPan/0.mp3", "HandPan/1.mp3", "HandPan/2.mp3", "HandPan/3.mp3", "HandPan/4.mp3",
+            "HandPan/5.mp3",
+            "HandPan/6.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3", "HandPan/7.mp3",
+            "HandPan/7.mp3", "HandPan/7.mp3",
+            "HandPan/7.mp3", "HandPan/7.mp3"
+        ],
+        winterpiano: ["WinterPiano/0.mp3", "WinterPiano/1.mp3", "WinterPiano/2.mp3", "WinterPiano/3.mp3",
+            "WinterPiano/4.mp3", "WinterPiano/5.mp3",
+            "WinterPiano/6.mp3", "WinterPiano/7.mp3", "WinterPiano/8.mp3", "WinterPiano/9.mp3",
+            "WinterPiano/10.mp3", "WinterPiano/11.mp3",
             "WinterPiano/12.mp3", "WinterPiano/13.mp3", "WinterPiano/14.mp3"
         ],
-        contrabass: ["Contrabass/0.mp3", "Contrabass/1.mp3", "Contrabass/2.mp3", "Contrabass/3.mp3", "Contrabass/4.mp3", "Contrabass/5.mp3",
-         "Contrabass/6.mp3", "Contrabass/7.mp3", "Contrabass/8.mp3", "Contrabass/9.mp3", "Contrabass/10.mp3", "Contrabass/11.mp3",
-          "Contrabass/12.mp3", "Contrabass/13.mp3", "Contrabass/14.mp3"],
-        
+        contrabass: ["Contrabass/0.mp3", "Contrabass/1.mp3", "Contrabass/2.mp3", "Contrabass/3.mp3",
+            "Contrabass/4.mp3", "Contrabass/5.mp3",
+            "Contrabass/6.mp3", "Contrabass/7.mp3", "Contrabass/8.mp3", "Contrabass/9.mp3", "Contrabass/10.mp3",
+            "Contrabass/11.mp3",
+            "Contrabass/12.mp3", "Contrabass/13.mp3", "Contrabass/14.mp3"
+        ],
+
 
     }
     let keyNamesAllInstruments = {
-    0: ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C"],
-    1: ["Db", "Eb", "F", "Gb", "Ab", "Bb", "C", "Db", "Eb", "F", "Gb", "Ab", "Bb", "C", "Db"],
-    2: ["D", "E", "F#", "G", "A", "B", "C#", "D", "E", "F#", "G", "A", "B", "C#", "D"],
-    3: ["Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb"],
-    4: ["E", "F#", "G#", "A", "B", "C#", "D#", "E", "F#", "G#", "A", "B", "C#", "D#", "E"],
-    5: ["F", "G", "A", "Bb", "C", "D", "E", "F", "G", "A", "Bb", "C", "D", "E", "F"],
-    6: ["Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F", "Gb"],
-    7: ["G", "A", "B", "C", "D", "E", "F#", "G", "A", "B", "C", "D", "E", "F#", "G"],
-    8: ["Ab", "Bb", "C", "Db", "Eb", "F", "G", "Ab", "Bb", "C", "Db", "Eb", "F", "G", "Ab"],
-    9: ["A", "B", "C#", "D", "E", "F#", "G#", "A", "B", "C#", "D", "E", "F#", "G#", "A"],
-    10: ["Bb", "C", "D", "Eb", "F", "G", "A", "Bb", "C", "D", "Eb", "F", "G", "A", "Bb"],
-    11: ["B", "C#", "D#", "E", "F#", "G#", "A#", "B", "C#", "D#", "E", "F#", "G#", "A#", "B"]
-}
-let keyNamesBell = {
-    0: ["C", "D", "G", "A", "C", "D", "G", "A","","","","","","",""],
-    1: ["Db", "Eb", "Ab", "Bb", "Db", "Eb", "Ab", "Bb","","","","","","",""],
-    2: ["D", "E", "A", "B", "D", "E", "A", "B","","","","","","",""],
-    3: ["Eb", "F", "Bb", "C", "Eb", "F", "Bb", "C","","","","","","",""],
-    4: ["E", "F#", "B", "C#", "E", "F#", "B", "C#","","","","","","",""],
-    5: ["F", "G", "C", "D", "F", "G", "C", "D","","","","","","",""],
-    6: ["Gb", "Ab", "Db", "Eb", "Gb", "Ab", "Db", "Eb","","","","","","",""],
-    7: ["G", "A", "D", "E", "G", "A", "D", "E","","","","","","",""],
-    8: ["Ab", "Bb", "Eb", "F", "Ab", "Bb", "Eb", "F","","","","","","",""],
-    9: ["A", "B", "E", "F#", "A", "B", "E", "F#","","","","","","",""],
-    10: ["Bb", "C", "F", "G", "Bb", "C", "F", "G","","","","","","",""],
-    11: ["B", "C#", "F#", "G#", "B", "C#", "F#", "G#","","","","","","",""]
-}
-let keyNamesHandPan = {
-    0: ["D", "A", "C", "D", "F", "G", "A", "C","","","","","","",""],
-    1: ["Eb", "Bb", "Db", "Eb", "Gb", "Ab", "Bb", "Db","","","","","","",""],
-    2: ["E", "B", "D", "E", "G", "A", "B", "D","","","","","","",""],
-    3: ["F", "C", "Eb", "F", "Ab", "Bb", "C", "Eb","","","","","","",""],
-    4: ["F#", "C#", "E", "F#", "A", "B", "C#", "E","","","","","","",""],
-    5: ["G", "D", "F", "G", "Bb", "C", "D", "F","","","","","","",""],
-    6: ["Ab", "Eb", "Gb", "Ab", "Cb", "Db", "Eb", "Gb","","","","","","",""],
-    7: ["A", "E", "G", "A", "C", "D", "E", "G","","","","","","",""],
-    8: ["Bb", "F", "Ab", "Bb", "Db", "Eb", "F", "Ab","","","","","","",""],
-    9: ["B", "F#", "A", "B", "D", "E", "F#", "A","","","","","","",""],
-    10: ["C", "G", "Bb", "C", "Eb", "F", "G", "Bb","","","","","","",""],
-    11: ["C#", "G#", "B", "C#", "E", "F#", "G#", "B","","","","","","",""]
-}
-let keyNames = keyNamesAllInstruments
+        0: ["C", "D", "E", "F", "G", "A", "B", "C", "D", "E", "F", "G", "A", "B", "C"],
+        1: ["Db", "Eb", "F", "Gb", "Ab", "Bb", "C", "Db", "Eb", "F", "Gb", "Ab", "Bb", "C", "Db"],
+        2: ["D", "E", "F#", "G", "A", "B", "C#", "D", "E", "F#", "G", "A", "B", "C#", "D"],
+        3: ["Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb", "F", "G", "Ab", "Bb", "C", "D", "Eb"],
+        4: ["E", "F#", "G#", "A", "B", "C#", "D#", "E", "F#", "G#", "A", "B", "C#", "D#", "E"],
+        5: ["F", "G", "A", "Bb", "C", "D", "E", "F", "G", "A", "Bb", "C", "D", "E", "F"],
+        6: ["Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F", "Gb", "Ab", "Bb", "Cb", "Db", "Eb", "F", "Gb"],
+        7: ["G", "A", "B", "C", "D", "E", "F#", "G", "A", "B", "C", "D", "E", "F#", "G"],
+        8: ["Ab", "Bb", "C", "Db", "Eb", "F", "G", "Ab", "Bb", "C", "Db", "Eb", "F", "G", "Ab"],
+        9: ["A", "B", "C#", "D", "E", "F#", "G#", "A", "B", "C#", "D", "E", "F#", "G#", "A"],
+        10: ["Bb", "C", "D", "Eb", "F", "G", "A", "Bb", "C", "D", "Eb", "F", "G", "A", "Bb"],
+        11: ["B", "C#", "D#", "E", "F#", "G#", "A#", "B", "C#", "D#", "E", "F#", "G#", "A#", "B"]
+    }
+    let keyNamesBell = {
+        0: ["C", "D", "G", "A", "C", "D", "G", "A", "", "", "", "", "", "", ""],
+        1: ["Db", "Eb", "Ab", "Bb", "Db", "Eb", "Ab", "Bb", "", "", "", "", "", "", ""],
+        2: ["D", "E", "A", "B", "D", "E", "A", "B", "", "", "", "", "", "", ""],
+        3: ["Eb", "F", "Bb", "C", "Eb", "F", "Bb", "C", "", "", "", "", "", "", ""],
+        4: ["E", "F#", "B", "C#", "E", "F#", "B", "C#", "", "", "", "", "", "", ""],
+        5: ["F", "G", "C", "D", "F", "G", "C", "D", "", "", "", "", "", "", ""],
+        6: ["Gb", "Ab", "Db", "Eb", "Gb", "Ab", "Db", "Eb", "", "", "", "", "", "", ""],
+        7: ["G", "A", "D", "E", "G", "A", "D", "E", "", "", "", "", "", "", ""],
+        8: ["Ab", "Bb", "Eb", "F", "Ab", "Bb", "Eb", "F", "", "", "", "", "", "", ""],
+        9: ["A", "B", "E", "F#", "A", "B", "E", "F#", "", "", "", "", "", "", ""],
+        10: ["Bb", "C", "F", "G", "Bb", "C", "F", "G", "", "", "", "", "", "", ""],
+        11: ["B", "C#", "F#", "G#", "B", "C#", "F#", "G#", "", "", "", "", "", "", ""]
+    }
+    let keyNamesHandPan = {
+        0: ["D", "A", "C", "D", "F", "G", "A", "C", "", "", "", "", "", "", ""],
+        1: ["Eb", "Bb", "Db", "Eb", "Gb", "Ab", "Bb", "Db", "", "", "", "", "", "", ""],
+        2: ["E", "B", "D", "E", "G", "A", "B", "D", "", "", "", "", "", "", ""],
+        3: ["F", "C", "Eb", "F", "Ab", "Bb", "C", "Eb", "", "", "", "", "", "", ""],
+        4: ["F#", "C#", "E", "F#", "A", "B", "C#", "E", "", "", "", "", "", "", ""],
+        5: ["G", "D", "F", "G", "Bb", "C", "D", "F", "", "", "", "", "", "", ""],
+        6: ["Ab", "Eb", "Gb", "Ab", "Cb", "Db", "Eb", "Gb", "", "", "", "", "", "", ""],
+        7: ["A", "E", "G", "A", "C", "D", "E", "G", "", "", "", "", "", "", ""],
+        8: ["Bb", "F", "Ab", "Bb", "Db", "Eb", "F", "Ab", "", "", "", "", "", "", ""],
+        9: ["B", "F#", "A", "B", "D", "E", "F#", "A", "", "", "", "", "", "", ""],
+        10: ["C", "G", "Bb", "C", "Eb", "F", "G", "Bb", "", "", "", "", "", "", ""],
+        11: ["C#", "G#", "B", "C#", "E", "F#", "G#", "B", "", "", "", "", "", "", ""]
+    }
+    let keyNames = keyNamesAllInstruments
     let newRowBreak = [6, 11]
 
-    function changeInstrument(instrument,keyboardLayer = 1) {
+    function changeInstrument(instrument, keyboardLayer = 1) {
         instrument = instrument.toLowerCase()
         let numOfKeysLeft = 15
         let numOfKeys = 15
-        let buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond", "diamondCircle",
+        let buttonImages = ["diamondCircle", "Diamond", "Circle", "Diamond", "Circle", "Circle", "Diamond",
+            "diamondCircle",
             "Diamond", "Circle", "Circle", "Diamond", "Circle", "Diamond", "diamondCircle",
         ]
         let newRowBreak = [6, 11]
@@ -1689,18 +1980,19 @@ let keyNames = keyNamesAllInstruments
             newRowBreak = [5, 9]
             numOfKeysLeft = 8
             numOfKeys = 8
-            buttonImages = ["Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle",
+            buttonImages = ["Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle", "Diamond",
+                "Circle",
                 "Diamond", "Circle", "Diamond", "Circle", "Diamond", "Circle"
             ]
-            if(instrument == "bell") keyNames = keyNamesBell
-            if(instrument == "handpan") keyNames = keyNamesHandPan
+            if (instrument == "bell") keyNames = keyNamesBell
+            if (instrument == "handpan") keyNames = keyNamesHandPan
         }
         urls = instrumentsNotes[instrument]
-        if(keyboardLayer == 2){
+        if (keyboardLayer == 2) {
             document.getElementById("touchLayer2").innerHTML = ""
-        }else{
+        } else {
             document.getElementById("touch").innerHTML =
-            '<div class="Row1" id="row1"></div><div class="Row2" id="row2"></div><div class="Row3" id="row3"></div>'
+                '<div class="Row1" id="row1"></div><div class="Row2" id="row2"></div><div class="Row3" id="row3"></div>'
         }
         preload(urls)
             .then(audioBuffers => {
@@ -1714,10 +2006,10 @@ let keyNames = keyNamesAllInstruments
                     btn.id = "Key" + i++
                     if (i == newRowBreak[0]) j = 2
                     if (i == newRowBreak[1]) j = 3
-                    if(keyboardLayer == 1){
-                        document.getElementById("row" + j).appendChild(btn)  
-                    }else{
-                        document.getElementById("touchLayer2").appendChild(btn)   
+                    if (keyboardLayer == 1) {
+                        document.getElementById("row" + j).appendChild(btn)
+                    } else {
+                        document.getElementById("touchLayer2").appendChild(btn)
                         btn.id = 2 + btn.id
                     }
                     numOfKeysLeft--
@@ -1729,13 +2021,12 @@ let keyNames = keyNamesAllInstruments
 
                     btn.addEventListener(inputMode, function (e) {
                         let layerType = 1
-                        if(this.id.includes("2Key")) layerType = 2
-                        console.log(this.id)
-                        buttonPressEvent(this, e.isTrusted,layerType)
+                        if (this.id.includes("2Key")) layerType = 2
+                        buttonPressEvent(this, e.isTrusted, layerType)
                         e.preventDefault()
                     })
 
-                    function buttonPressEvent(btn, isTrusted,layerType) {
+                    function buttonPressEvent(btn, isTrusted, layerType) {
                         const source = a_ctx.createBufferSource()
                         source.buffer = buf
                         source.playbackRate.value = pitchKey;
@@ -1745,22 +2036,22 @@ let keyNames = keyNamesAllInstruments
                             source.connect(a_ctx.destination)
                         }
                         source.start(0)
-                        if(layerType != 2){
+                        if (layerType != 2) {
                             let btnBg = btn.firstChild
                             let btnImg = btn.childNodes[1]
                             btnImg.classList.toggle("keyTurn")
                             btn.classList.toggle("keyScale")
                             resetKeyClass(btn)
-                            if ((btnBg.style.borderColor == "rgb(155, 89, 182)" || selectedLayer == 2)){
-                                try{
+                            if ((btnBg.style.borderColor == "rgb(155, 89, 182)" || selectedLayer == 2)) {
+                                try {
                                     globalKeys.layer2[btn.id.replace("Key", "")].dispatchEvent(click)
-                                }catch(e){
+                                } catch (e) {
                                     return
                                 }
                             }
                             if (isPlaying || keyboardBlocked) return;
                             if (isTrusted) addToHistory()
-                            if (selectedLayer == 1){
+                            if (selectedLayer == 1) {
                                 if (btnBg.style.backgroundColor.includes("rgba(235, 0, 27")) {
                                     deselectNote(btn.id.replace("Key", ""))
                                     btnBg.style.backgroundColor = keyColor
@@ -1768,7 +2059,7 @@ let keyNames = keyNamesAllInstruments
                                     btnBg.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
                                     selectNote(btn.id.replace("Key", ""))
                                 }
-                            }else{
+                            } else {
                                 if (btnBg.style.borderColor != "rgb(155, 89, 182)") {
                                     selectNoteLayer2(btn.id.replace("Key", ""))
                                     btnBg.style.borderColor = "rgb(155, 89, 182)"
@@ -1780,12 +2071,14 @@ let keyNames = keyNamesAllInstruments
                         }
                     }
                 })
-            }).then(function(){
+            }).then(function () {
                 set_up_reverb()
                 globalKeys = getKeys()
             })
-            
+
     }
+
+    //--------------------------------------------------------------------------------------//
 
     function resetKeyClass(element) {
         setTimeout(() => {
@@ -1811,95 +2104,116 @@ let keyNames = keyNamesAllInstruments
 
     //----------------------------------------------------------------------------------------------//
     let savedInstrumentComposer = localStorage.getItem("savedInstrumentComposer")
-    if(savedInstrumentComposer != null){
-        changeInstrument(savedInstrumentComposer,1)
+    if (savedInstrumentComposer != null) {
+        changeInstrument(savedInstrumentComposer, 1)
         document.getElementById("instrumentSelection").selectedIndex = localStorage.getItem("savedInstrumentIndex")
-    }else{
-        changeInstrument("piano",1)
-    } 
-    let savedInstrumentComposerSecondLayer = localStorage.getItem("savedInstrumentComposerSecondLayer")
-    if(savedInstrumentComposerSecondLayer != null){
-        changeInstrument(savedInstrumentComposerSecondLayer,2)
-        document.getElementById("instrumentLayer2Selection").selectedIndex = localStorage.getItem("savedInstrumentIndexSecondLayer")
-    }else{
-        changeInstrument("guitar",2)
-        document.getElementById("instrumentLayer2Selection").selectedIndex = 2
-    } 
-    selectedCell = getCell(0)
-    selectedCell.style.opacity = "1"
-
-function set_up_reverb() {
-        fetch("reverb4.wav")
-        .then(r => r.arrayBuffer().catch(function(){console.log("Catched error ")}))
-        .then(b => a_ctx.decodeAudioData(b, (impulse_response) => { 
-            let convolver = a_ctx.createConvolver()
-            let gainNode = a_ctx.createGain()
-            gainNode.gain.value = 2.5
-            convolver.buffer = impulse_response
-            convolver.connect(gainNode)
-            gainNode.connect(a_ctx.destination)
-            a_reverb_destination = convolver
-        })).catch(function(){
-            console.log("Catched error ")
-        })
-}
-
-
-let reverbToggled = false
-function toggleReverb() {
-    let toggleReverbBtn = document.getElementById("toggleReverbBtn")
-    if (reverbToggled) {
-        toggleReverbBtn.style.backgroundColor = "#383838"
-        toggleReverbBtn.innerHTML = "OFF"
-        reverbToggled = false
     } else {
-        toggleReverbBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
-        toggleReverbBtn.innerHTML = "ON"
-        reverbToggled = true
+        changeInstrument("piano", 1)
     }
-}
-
-function downloadSheet(){
-    askSongName(true)
-}
-
-function downloadJSON(inArray, fileName) {
-    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
-    let dlAnchorElem = document.createElement("a")
-    dlAnchorElem.setAttribute("href", dataStr);
-    dlAnchorElem.setAttribute("download", fileName + ".txt");
-    dlAnchorElem.click();
-    dlAnchorElem.remove()
-}
-try{
-    const queryString = window.location.search
-    const urlParams = new URLSearchParams(queryString);
-    if(urlParams.has("importMidi")){
-        toggleSettings()
-        flashMidi()
+    let savedInstrumentComposerSecondLayer = localStorage.getItem("savedInstrumentComposerSecondLayer")
+    if (savedInstrumentComposerSecondLayer != null) {
+        changeInstrument(savedInstrumentComposerSecondLayer, 2)
+        document.getElementById("instrumentLayer2Selection").selectedIndex = localStorage.getItem(
+            "savedInstrumentIndexSecondLayer")
+    } else {
+        changeInstrument("guitar", 2)
+        document.getElementById("instrumentLayer2Selection").selectedIndex = 2
     }
-}catch(e){
-    console.log(e)
-}
-async function flashMidi(){
+    selectedCell = getCell(0)
+
+    //--------------------------------------------------------------------------------------//
+
+    function set_up_reverb() {
+        fetch("reverb4.wav")
+            .then(r => r.arrayBuffer().catch(function () {
+                console.log("Catched error ")
+            }))
+            .then(b => a_ctx.decodeAudioData(b, (impulse_response) => {
+                let convolver = a_ctx.createConvolver()
+                let gainNode = a_ctx.createGain()
+                gainNode.gain.value = 2.5
+                convolver.buffer = impulse_response
+                convolver.connect(gainNode)
+                gainNode.connect(a_ctx.destination)
+                a_reverb_destination = convolver
+            })).catch(function () {
+                console.log("Catched error ")
+            })
+    }
+
+    //--------------------------------------------------------------------------------------//
+
+    let reverbToggled = false
+
+    function toggleReverb() {
+        let toggleReverbBtn = document.getElementById("toggleReverbBtn")
+        if (reverbToggled) {
+            toggleReverbBtn.style.backgroundColor = "#383838"
+            toggleReverbBtn.innerHTML = "OFF"
+            reverbToggled = false
+        } else {
+            toggleReverbBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+            toggleReverbBtn.innerHTML = "ON"
+            reverbToggled = true
+        }
+    }
+
+    //--------------------------------------------------------------------------------------//
+
+    function downloadSheet() {
+        askSongName(true)
+    }
+
+    //--------------------------------------------------------------------------------------//
+
+    function downloadJSON(inArray, fileName) {
+        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
+        let dlAnchorElem = document.createElement("a")
+        dlAnchorElem.setAttribute("href", dataStr);
+        dlAnchorElem.setAttribute("download", fileName + ".txt");
+        dlAnchorElem.click();
+        dlAnchorElem.remove()
+    }
+
+    //--------------------------------------------------------------------------------------//
+
+    try {
+        const queryString = window.location.search
+        const urlParams = new URLSearchParams(queryString);
+        if (urlParams.has("importMidi")) {
+            toggleSettings()
+            flashMidi()
+        }
+    } catch (e) {
+        console.log(e)
+    }
+
+    //--------------------------------------------------------------------------------------//
+
+    async function flashMidi() {
         document.getElementById("midiImportButton").scrollIntoView()
-        for(let i = 0;i<5;i++){
-            $("#midiImportButton").animate({ backgroundColor: "rgba(235, 0, 27, 0.7)"}, 500);
+        for (let i = 0; i < 5; i++) {
+            $("#midiImportButton").animate({
+                backgroundColor: "rgba(235, 0, 27, 0.7)"
+            }, 500);
             await delay(800)
-            $("#midiImportButton").animate({ backgroundColor: "#383838"}, 500);
+            $("#midiImportButton").animate({
+                backgroundColor: "#383838"
+            }, 500);
             await delay(800)
         }
     }
 
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-        .then((reg) => {
-          console.log('Service worker registered.', reg);
-        });
-  });
-}
+    //--------------------------------------------------------------------------------------//
 
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then((reg) => {
+                    console.log('Service worker registered.', reg);
+                });
+        });
+    }
 </script>
 
 </html>

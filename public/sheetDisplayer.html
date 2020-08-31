@@ -1,30 +1,35 @@
 <html>
 
 <head>
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=0.8, minimum-scale=0.8, maximum-scale=1.0"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=0.8, maximum-scale=1.0"/>
     <style>
         body {
-            background: rgb(115,181,210);
-            background: linear-gradient(190deg, rgba(115,181,210,1) 0%, rgba(108,160,114,1) 63%);
+            background: #181a1b;
             padding:0;
-            text-align: center;
         }
 
         * {
-            text-align: center;
-            font-size: 30px;
+
+            font-size: 1rem;
             font-family: Arial;
             font-weight: bold;
-            color: rgba(22, 22, 22, 0.9)
         }
 
         .tabs {
-            border: solid 2px black;
-            zoom: 0.45;
-            border-radius: 10px;
-            margin: 10px;
+            background-color: #454545;
+            width: 6vw;
+            border-radius: 0.6vw;
+            margin: 0.5vw;
+            padding: 0.5vw;
         }
-
+        #tabsHolder{
+            width: 100%;
+            display: flex;
+            align-content: flex-start;
+            flex-wrap: wrap;
+            padding-left:1vw;
+            margin-top: 5vh;
+        }
         .generateBtn {
             color: white;
             cursor: pointer;
@@ -39,48 +44,131 @@
             user-select: none;
             margin-bottom: 5%;
         }
-
         .skyButton {
-            color: #dad8b3;
-            border: solid #dad8b3 1.5px;
-            background-color: rgba(22, 22, 22, 0.65);
-            border-radius: 0.5em;
-            font-size: 1em;
-            padding: 0.4em;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 0.4rem;
             box-sizing: border-box;
+            color: #181a1b;
+            background-color: #dad8b3;
+            font-weight: bold;
+            min-height: 4vh;
             cursor: pointer;
-            margin: 0.5em;
-            outline: none;
         }
         #textFormat{
-            border: solid 2px black;
+            background-color: #454545;
+            color: #dad8b3;
             border-radius:1em ;
             width: 90%;
             overflow: auto;
-            height: 30%;
-            display: none;
+            height: 25vh;
             margin-left:5%;
             font-size: 0.8em;
             margin-top: 20px;
             padding: 1em;
         }
+        .card{
+            background-color: #272b2d;
+            align-self: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 1vw;
+            padding-bottom: 1rem;
+            margin: 1.5rem 0 0 0;
+            cursor: pointer;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        #textFormatWrapper{
+            display: none;
+        }
+        .skyMusicGithub {
+            background-color: #272b2d;
+            margin-top: 50vh;
+            padding: 1rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            border-radius: 1vw;
+        }
+        .pickerWrapper{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 1.5rem;
+            align-items: center;
+            color: #dad8b3;
+            font-size: 1.2rem;
+        }
+        .break{
+            width: 95vw;
+            height: 0.3vh;
+            margin:0.5vh;
+            background-color: #dad8b3;
+        }
+        @media only screen and (orientation:portrait) {
+            .card{
+                border-radius: 3vw;
+            }
+            #tabsHolder{
+                padding-left: 4vw;
+            }
+            .break{
+                width: 85vw;
+            }
+
+            .tabs {
+            width: 18vw;
+            border-radius: 1.2vw;
+            margin: 1vw;
+            padding: 1vw;
+        }
+            .skyButton{
+                max-width: 40vw;
+            }
+            .skyMusicGithub {
+            border-radius: 3vw;
+            justify-content: center;
+        }
+        }
     </style>
 </head>
 
 <body>
-    <a href="/"class=skyButton style="border:solid 2px #dad8b3; text-decoration: none; border-radius: 0.3em; padding: 0.2em; float: left; margin-bottom: 2vh;">GO BACK</a>
-    <div style="display: inline-block; width: 100%;">
-        <select id="loadSongSelect" class="skyButton" style="width: 50%;">
-            <option selected disabled>Select Song</option>
-        </select>
+    <button onclick="location.href = window.location.origin + '/'" class=skyButton >
+        GO BACK
+    </button>
+    <div class="card">
+        <div class="pickerWrapper">
+            Select song
+            <select id="loadSongSelect" class="skyButton">
+                <option selected disabled>Song</option>
+            </select>
+        </div>
+        <div id="tabsHolder"></div>
     </div>
-    For other visual sheets visit <a href="https://sky-music.github.io/">this website</a>
-    <div id="tabsHolder" style="text-align:left;"></div>
-    <textarea spellcheck="false" id="textFormat" onclick="this.setSelectionRange(0, this.value.length)" ></textarea>
+    <div class="card" id="textFormatWrapper">
+        <textarea spellcheck="false" id="textFormat" onclick="this.setSelectionRange(0, this.value.length)" ></textarea>
+    </div>
+    <div class="skyMusicGithub" id="skyMusicGithub">
+        <div onclick="location.href ='http\://sky-music.github.io'">
+            <img src="/icons/skyLib.png" width="135" height="95">
+        </div>
+        <div style="text-decoration: none; color: rgba(235, 0, 27, 1); max-width: 40vw; font-size: 1.2rem; text-align: center; margin-left: 3vw;"
+            onclick="location.href ='http\://sky-music.github.io'">
+            For other sheets Press here
+        </div>
+    </div>
 </body>
 <script>
-    const TAB_WIDTH = "150"
-    const TAB_HEIGHT = "100"
+    const TAB_WIDTH = 500
+    const TAB_HEIGHT = 250
     var tabsHolder = document.getElementById("tabsHolder")
     var tabColors = { //array that contains all the colors of the different cubes, can be changed individually
         0: ["limegreen", "limegreen", "limegreen", "limegreen", "limegreen", "limegreen", ],
@@ -177,7 +265,7 @@
         tabsHolder.innerHTML = "" //resets the table that holds all the tabs
         var input = convertedSong //this contains all the notes that will be played
         document.getElementById("textFormat").value = input
-        document.getElementById("textFormat").style.display = "block"
+        document.getElementById("textFormatWrapper").style.display = "block"
         input = input.split("\n").join("\n ") //adds a space to the new line
             .split(".").join("") //removes the dots, this will create a null array later on that we will use to ignore the drawing of the canvas
             .split("-").join("") //for now removes the - 
@@ -202,51 +290,49 @@
         var allTabs = document.getElementsByClassName("tabs")
         for (var i = 0; i < indexes.length; i++) { //adds a line break
             var lineBreak = document.createElement("div")
-            lineBreak.style.borderTop = "solid 2px black"
-            lineBreak.style.margin = "1vh"
-            lineBreak.style.width = "100%"
+                lineBreak.className = "break"
             tabsHolder.insertBefore(lineBreak, allTabs[indexes[i]]);
         }
+        document.getElementById("skyMusicGithub").style.marginTop = "10vh"
     }
 
     //--------------------------------------------------//
     //adds the desired notes to the tab
     function addTab(notesToAdd) {
         var tab = document.createElement("canvas") //creates the canvas
-        tab.style.backgroundColor = "white"
-        tab.style.height = TAB_HEIGHT + "px"
-        tab.style.width = TAB_WIDTH + "px"
+        tab.height = TAB_HEIGHT
+        tab.width = TAB_WIDTH
         tab.className = "tabs"
         var tabContext = tab.getContext("2d")
         tabsHolder.appendChild(tab) //appends the canvas to the tab holder
         if (notesToAdd == null) {
             return;
         }
+        let pos = [0,-10,-5,-2,3,4]
+        for (var y = 1; y < 5; y++) { //this creates the vertical lines
+                tabContext.beginPath();
+                tabContext.moveTo((TAB_WIDTH/5) * y + pos[y], 0); //moves to the top 
+                tabContext.strokeStyle = '#8c8c8c';
+                tabContext.lineWidth = TAB_HEIGHT*0.03;
+                tabContext.lineTo((TAB_WIDTH/5) * y + pos[y], TAB_HEIGHT * 2); //draws to the bottom
+                tabContext.stroke()
+            }
+            for (var x = 1; x < 3; x++) { //this creates the horizontal lines
+                tabContext.beginPath();
+                tabContext.moveTo(0, (TAB_HEIGHT/3)*x); //moves to the left
+                tabContext.strokeStyle = '#8c8c8c';
+                tabContext.lineWidth = TAB_HEIGHT*0.03;
+                tabContext.lineTo(TAB_WIDTH * 2, (TAB_HEIGHT/3)*x); //draws a line to the right
+                tabContext.stroke()
+            }
         for (var i = 0; i < notesToAdd.length; i++) {
-            for (var y = 1; y < 5; y++) { //this creates the vertical lines
-                tabContext.beginPath();
-                tabContext.moveTo(60 * y, 0); //moves to the top 
-                tabContext.strokeStyle = '#cccccc';
-                tabContext.lineWidth = 4;
-                tabContext.lineTo(60 * y, TAB_HEIGHT * 2); //draws to the bottom
-                tabContext.stroke()
-            }
-            for (var x = 1; x < 5; x++) { //this creates the horizontal lines
-                tabContext.beginPath();
-                tabContext.moveTo(0, 50 * x); //moves to the left
-                tabContext.strokeStyle = '#cccccc';
-                tabContext.lineWidth = 4;
-                tabContext.lineTo(TAB_WIDTH * 2, 50 * x); //draws a line to the right
-                tabContext.stroke()
-            }
             try {
                 var offsetX = parseInt(notesToAdd[i].charAt(1) -
                     1) //gets the number of the note. this will be the key to be drawn from the left to the right
                 var offsetY = parseInt(notesToAdd[i].charCodeAt(0) -
                     65) //gets the number of the note from the top to the bottom, A=0 B=1 C=2
                 tabContext.fillStyle = tabColors[offsetY][offsetX] //selects the color of the cube from the color table
-                roundRect(tabContext, offsetX * 60 + 5, offsetY * 50 + 5, 50, 40,
-                    10) //draws the square //x,y,size,size,radious
+                roundRect(tabContext, offsetX * (TAB_WIDTH/5 + 4), offsetY * (TAB_HEIGHT/3 + 10), TAB_WIDTH/6.5, TAB_HEIGHT/3.5-10,15)
             } catch { //if there was an error it says that the current tab has a letter error
                 tabContext.font = "100px Arial"
                 tabContext.fillStyle = "red"

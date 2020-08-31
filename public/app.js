@@ -167,7 +167,7 @@ function changeBackground(image){
         }
         backgroundImage = image
         document.getElementById("video1").style.display = "none"
-        document.getElementById("videoWrapper").style.filter = "blur(2px)"
+        document.getElementById("videoWrapper").style.filter = "blur(1px)"
         document.getElementById("videoWrapper").style.backgroundImage = "url("+image+")"
         document.getElementById("videoWrapper").style.display = "block"
         localStorage.setItem("backgroundImage",image)
@@ -1104,7 +1104,7 @@ function saveSongsToDB(credentials, songsToSend) { //saves a song to the databas
     request.onerror = function (e) {
         alert(systemMessagesText[selectedLanguage][27]) //error trying ot save songs
     };
-    if (JSON.stringify(objToSend).length > 80000) {
+    if (JSON.stringify(objToSend).length > 150000) {
         showMessage(systemMessagesText[selectedLanguage][28], 2) //song is too big
         return;
     }
