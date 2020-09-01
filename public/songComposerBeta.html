@@ -409,7 +409,7 @@
         floatingMessage.style.color = color
         $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
     }
-    showMessage("test3")
+    showMessage("test4 if this doesn't work i cry")
     let offset = document.getElementById("offset")
     offset.addEventListener("change", function () {
         changeOffset(0)
@@ -1515,7 +1515,6 @@
         }
         cell.addEventListener(inputMode, function (e) {
             e.preventDefault()
-            e.stopImmediatePropagation()
             if (getCellPosition(selectedCell) == getCellPosition(this)) return
             selectCell(this)
             quickSave()
@@ -1656,7 +1655,6 @@
         for (let i = 0; i < songContainer.childElementCount; i++) {
             songContainer.children[i].addEventListener(inputMode, function (e) {
                 e.preventDefault()
-                e.stopImmediatePropagation()
                 if (getCellPosition(selectedCell) == getCellPosition(this)) return
                 selectCell(this)
                 quickSave()
