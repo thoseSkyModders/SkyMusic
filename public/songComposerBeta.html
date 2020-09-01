@@ -409,7 +409,7 @@
         floatingMessage.style.color = color
         $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
     }
-    showMessage("test2")
+    showMessage("test3")
     let offset = document.getElementById("offset")
     offset.addEventListener("change", function () {
         changeOffset(0)
@@ -1514,11 +1514,11 @@
             cell.insertBefore(note, cell.firstChild);
         }
         cell.addEventListener(inputMode, function (e) {
+            e.preventDefault()
+            e.stopImmediatePropagation()
             if (getCellPosition(selectedCell) == getCellPosition(this)) return
             selectCell(this)
             quickSave()
-            e.preventDefault()
-            e.stopImmediatePropagation()
         })
         if (appendIndex == "end") {
             songContainer.appendChild(cell)
@@ -1655,11 +1655,11 @@
         songContainer.innerHTML = quickSavedSong.replace("opacity: 1;", "opacity: 0.6;")
         for (let i = 0; i < songContainer.childElementCount; i++) {
             songContainer.children[i].addEventListener(inputMode, function (e) {
+                e.preventDefault()
+                e.stopImmediatePropagation()
                 if (getCellPosition(selectedCell) == getCellPosition(this)) return
                 selectCell(this)
                 quickSave()
-                e.preventDefault()
-                e.stopImmediatePropagation()
             })
         }
     } else {
