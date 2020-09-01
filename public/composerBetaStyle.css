@@ -68,6 +68,7 @@ body {
     box-sizing: border-box;
     border: 2px #383838 solid !important;
     flex-grow: 1;
+    touch-action: none;
     margin: 0 0 0 5px;
 }
 
@@ -161,6 +162,11 @@ div.full {
     opacity: 0.6;
     padding-bottom: 0.1em;
     cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .note {
