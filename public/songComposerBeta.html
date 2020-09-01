@@ -380,15 +380,15 @@
         selectedDivisions = divisions
         let cells = Array.prototype.slice.call(document.getElementsByClassName("cell"))
         let width = 0.3
-        if(selectedDivisions == 1) width = 0.1
         try{
             for(let i = 2; i< cells.length; i++){
-                cells[i].style.borderRightWidth = "0.15vw"
-            if((i+1) % selectedDivisions == 0){
-                cells[i].style.borderRightWidth = width+"vw"
+                cells[i].classList.remove("beatStop")
+            if((i+1) % selectedDivisions == 0 && selectedDivisions !=1){
+                cells[i].classList.add("beatStop")
             }
         }
         }catch(e){
+            console.log(e)
             console.log("error with beatmarkers")
         }
     }
@@ -409,7 +409,7 @@
         floatingMessage.style.color = color
         $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
     }
-    showMessage("test1")
+    showMessage("test2")
     let offset = document.getElementById("offset")
     offset.addEventListener("change", function () {
         changeOffset(0)
@@ -1518,6 +1518,7 @@
             selectCell(this)
             quickSave()
             e.preventDefault()
+            e.stopImmediatePropagation()
         })
         if (appendIndex == "end") {
             songContainer.appendChild(cell)
@@ -1658,6 +1659,7 @@
                 selectCell(this)
                 quickSave()
                 e.preventDefault()
+                e.stopImmediatePropagation()
             })
         }
     } else {

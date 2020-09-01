@@ -7,7 +7,7 @@
 body {
     background-color: #0E0E0E;
     padding: 0;
-    height: 100%;
+    height: 105vh;
     min-height: 100vh;
     overflow: hidden;
     text-align: center;
@@ -68,7 +68,6 @@ body {
     box-sizing: border-box;
     border: 2px #383838 solid !important;
     flex-grow: 1;
-    touch-action: none;
     margin: 0 0 0 5px;
 }
 
@@ -157,18 +156,16 @@ div.full {
     display: inline-block;
     min-width: 1.6vw;
     height: 100%;
-    border-right: 0.1vw solid #1E1E1E;
+    border-right: 0.15vw solid #1E1E1E;
     background-color: #dad8b3;
     opacity: 0.6;
     padding-bottom: 0.1em;
     cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: -moz-none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    touch-action: pan-x pan-y;
 }
-
+.beatStop{
+    border-right-width: 0.3vw;
+}
 .note {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -743,6 +740,12 @@ input[type=number] {
 }
 
 @media only screen and (orientation:portrait) {
+    .cell{
+        border-right-width: 0.3vw;
+    }
+    .beatStop{
+        border-right-width: 0.6vw;
+    }
     .tempoContainer {
         flex-direction: row;
     }
