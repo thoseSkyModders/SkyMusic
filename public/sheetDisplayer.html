@@ -1,11 +1,12 @@
 <html>
 
 <head>
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=0.8, maximum-scale=1.0"/>
+    <meta name="viewport"
+        content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=0.8, maximum-scale=1.0" />
     <style>
         body {
             background: #181a1b;
-            padding:0;
+            padding: 0;
         }
 
         * {
@@ -22,14 +23,16 @@
             margin: 0.5vw;
             padding: 0.5vw;
         }
-        #tabsHolder{
+
+        #tabsHolder {
             width: 100%;
             display: flex;
             align-content: flex-start;
             flex-wrap: wrap;
-            padding-left:1vw;
+            padding-left: 1vw;
             margin-top: 5vh;
         }
+
         .generateBtn {
             color: white;
             cursor: pointer;
@@ -44,6 +47,7 @@
             user-select: none;
             margin-bottom: 5%;
         }
+
         .skyButton {
             font-size: 1rem;
             text-decoration: none;
@@ -55,19 +59,21 @@
             min-height: 4vh;
             cursor: pointer;
         }
-        #textFormat{
+
+        #textFormat {
             background-color: #454545;
             color: #dad8b3;
-            border-radius:1em ;
+            border-radius: 1em;
             width: 90%;
             overflow: auto;
             height: 25vh;
-            margin-left:5%;
+            margin-left: 5%;
             font-size: 0.8em;
             margin-top: 20px;
             padding: 1em;
         }
-        .card{
+
+        .card {
             background-color: #272b2d;
             align-self: center;
             display: flex;
@@ -85,9 +91,11 @@
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
-        #textFormatWrapper{
+
+        #textFormatWrapper {
             display: none;
         }
+
         .skyMusicGithub {
             background-color: #272b2d;
             margin-top: 50vh;
@@ -97,7 +105,8 @@
             align-items: center;
             border-radius: 1vw;
         }
-        .pickerWrapper{
+
+        .pickerWrapper {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -106,42 +115,48 @@
             color: #dad8b3;
             font-size: 1.2rem;
         }
-        .break{
+
+        .break {
             width: 95vw;
             height: 0.3vh;
-            margin:0.5vh;
+            margin: 0.5vh;
             background-color: #dad8b3;
         }
+
         @media only screen and (orientation:portrait) {
-            .card{
+            .card {
                 border-radius: 3vw;
             }
-            #tabsHolder{
+
+            #tabsHolder {
                 padding-left: 4vw;
             }
-            .break{
-                width: 85vw;
+
+            .break {
+                width: 88vw;
             }
 
             .tabs {
-            width: 18vw;
-            border-radius: 1.2vw;
-            margin: 1vw;
-            padding: 1vw;
-        }
-            .skyButton{
+                width: 14vw;
+                border-radius: 1.2vw;
+                margin: 1vw;
+                padding: 1vw;
+            }
+
+            .skyButton {
                 max-width: 40vw;
             }
+
             .skyMusicGithub {
-            border-radius: 3vw;
-            justify-content: center;
-        }
+                border-radius: 3vw;
+                justify-content: center;
+            }
         }
     </style>
 </head>
 
 <body>
-    <button onclick="location.href = window.location.origin + '/'" class=skyButton >
+    <button onclick="location.href = window.location.origin + '/'" class=skyButton>
         GO BACK
     </button>
     <div class="card">
@@ -154,7 +169,7 @@
         <div id="tabsHolder"></div>
     </div>
     <div class="card" id="textFormatWrapper">
-        <textarea spellcheck="false" id="textFormat" onclick="this.setSelectionRange(0, this.value.length)" ></textarea>
+        <textarea spellcheck="false" id="textFormat" onclick="this.setSelectionRange(0, this.value.length)"></textarea>
     </div>
     <div class="skyMusicGithub" id="skyMusicGithub">
         <div onclick="location.href ='http\://sky-music.github.io'">
@@ -162,7 +177,7 @@
         </div>
         <div style="text-decoration: none; color: rgba(235, 0, 27, 1); max-width: 40vw; font-size: 1.2rem; text-align: center; margin-left: 3vw;"
             onclick="location.href ='http\://sky-music.github.io'">
-            For other sheets Press here
+            For other visual sheets Press here
         </div>
     </div>
 </body>
@@ -179,17 +194,17 @@
 
     let localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
     let loadSongSelect = document.getElementById("loadSongSelect")
-    if(localStorageSongs != null){
-        for(let i = 0; i<localStorageSongs.length;i++){
+    if (localStorageSongs != null) {
+        for (let i = 0; i < localStorageSongs.length; i++) {
             var option = document.createElement("option")
             option.innerHTML = localStorageSongs[i].name
             loadSongSelect.appendChild(option)
         }
     }
-    loadSongSelect.addEventListener("change",function(){
+    loadSongSelect.addEventListener("change", function () {
         localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
         let selectedIndex = this.selectedIndex
-        if(selectedIndex == 0) return
+        if (selectedIndex == 0) return
         generate(localStorageSongs[selectedIndex - 1])
     })
     //--------------------------------------------------//
@@ -199,7 +214,7 @@
         song = song.songNotes
         var convertedSong = ""
         for (var i = 0; i < song.length; i++) {
-            if(song[i].key[0] != "K") song[i].key = song[i].key.substr(1)
+            if (song[i].key[0] != "K") song[i].key = song[i].key.substr(1)
             var key = parseInt(song[i].key.replace("Key", ""))
             switch (key) {
                 case 0:
@@ -248,16 +263,16 @@
                     key = "C5"
             }
             convertedSong += key
-            if(i == song.length-1){
+            if (i == song.length - 1) {
                 break
             }
-            if ((song[i+1].time - song[i].time) > 80) {
+            if ((song[i + 1].time - song[i].time) > 80) {
                 convertedSong += " "
             }
-            if ((song[i+1].time - song[i].time) > 500) {
+            if ((song[i + 1].time - song[i].time) > 500) {
                 convertedSong += ". "
             }
-            if ((song[i+1].time - song[i].time) > 1500) {
+            if ((song[i + 1].time - song[i].time) > 1500) {
                 convertedSong += "\n"
             }
         }
@@ -267,7 +282,8 @@
         document.getElementById("textFormat").value = input
         document.getElementById("textFormatWrapper").style.display = "block"
         input = input.split("\n").join("\n ") //adds a space to the new line
-            .split(".").join("") //removes the dots, this will create a null array later on that we will use to ignore the drawing of the canvas
+            .split(".").join(
+            "") //removes the dots, this will create a null array later on that we will use to ignore the drawing of the canvas
             .split("-").join("") //for now removes the - 
 
         if (input.length < 2) { //warns the user if they haven't put any notes 
@@ -279,7 +295,8 @@
         for (var i = 0; i < parsedInput.length; i++) {
             numOfTabs++
             if (parsedInput[i].includes(
-                "\n")) { //if there is a new line, it removes the new line and saves at what number there is the new line break 
+                    "\n"
+                    )) { //if there is a new line, it removes the new line and saves at what number there is the new line break 
                 indexes.push(numOfTabs)
                 parsedInput[i] = parsedInput[i].replace("\n", "")
             }
@@ -290,7 +307,7 @@
         var allTabs = document.getElementsByClassName("tabs")
         for (var i = 0; i < indexes.length; i++) { //adds a line break
             var lineBreak = document.createElement("div")
-                lineBreak.className = "break"
+            lineBreak.className = "break"
             tabsHolder.insertBefore(lineBreak, allTabs[indexes[i]]);
         }
         document.getElementById("skyMusicGithub").style.marginTop = "10vh"
@@ -308,23 +325,23 @@
         if (notesToAdd == null) {
             return;
         }
-        let pos = [0,-10,-5,-2,3,4]
+        let pos = [0, -10, -5, -2, 3, 4]
         for (var y = 1; y < 5; y++) { //this creates the vertical lines
-                tabContext.beginPath();
-                tabContext.moveTo((TAB_WIDTH/5) * y + pos[y], 0); //moves to the top 
-                tabContext.strokeStyle = '#8c8c8c';
-                tabContext.lineWidth = TAB_HEIGHT*0.03;
-                tabContext.lineTo((TAB_WIDTH/5) * y + pos[y], TAB_HEIGHT * 2); //draws to the bottom
-                tabContext.stroke()
-            }
-            for (var x = 1; x < 3; x++) { //this creates the horizontal lines
-                tabContext.beginPath();
-                tabContext.moveTo(0, (TAB_HEIGHT/3)*x); //moves to the left
-                tabContext.strokeStyle = '#8c8c8c';
-                tabContext.lineWidth = TAB_HEIGHT*0.03;
-                tabContext.lineTo(TAB_WIDTH * 2, (TAB_HEIGHT/3)*x); //draws a line to the right
-                tabContext.stroke()
-            }
+            tabContext.beginPath();
+            tabContext.moveTo((TAB_WIDTH / 5) * y + pos[y], 0); //moves to the top 
+            tabContext.strokeStyle = '#8c8c8c';
+            tabContext.lineWidth = TAB_HEIGHT * 0.03;
+            tabContext.lineTo((TAB_WIDTH / 5) * y + pos[y], TAB_HEIGHT * 2); //draws to the bottom
+            tabContext.stroke()
+        }
+        for (var x = 1; x < 3; x++) { //this creates the horizontal lines
+            tabContext.beginPath();
+            tabContext.moveTo(0, (TAB_HEIGHT / 3) * x); //moves to the left
+            tabContext.strokeStyle = '#8c8c8c';
+            tabContext.lineWidth = TAB_HEIGHT * 0.03;
+            tabContext.lineTo(TAB_WIDTH * 2, (TAB_HEIGHT / 3) * x); //draws a line to the right
+            tabContext.stroke()
+        }
         for (var i = 0; i < notesToAdd.length; i++) {
             try {
                 var offsetX = parseInt(notesToAdd[i].charAt(1) -
@@ -332,7 +349,8 @@
                 var offsetY = parseInt(notesToAdd[i].charCodeAt(0) -
                     65) //gets the number of the note from the top to the bottom, A=0 B=1 C=2
                 tabContext.fillStyle = tabColors[offsetY][offsetX] //selects the color of the cube from the color table
-                roundRect(tabContext, offsetX * (TAB_WIDTH/5 + 4), offsetY * (TAB_HEIGHT/3 + 10), TAB_WIDTH/6.5, TAB_HEIGHT/3.5-10,15)
+                roundRect(tabContext, offsetX * (TAB_WIDTH / 5 + 4), offsetY * (TAB_HEIGHT / 3 + 10), TAB_WIDTH / 6.5,
+                    TAB_HEIGHT / 3.5 - 10, 15)
             } catch { //if there was an error it says that the current tab has a letter error
                 tabContext.font = "100px Arial"
                 tabContext.fillStyle = "red"
@@ -345,7 +363,7 @@
     //--------------------------------------------------//
 
     function roundRect(ctx, x, y, width, height,
-    radius) { //i copied this from a stack overflow post, it's to make a rounded square
+        radius) { //i copied this from a stack overflow post, it's to make a rounded square
         radius = {
             tl: radius,
             tr: radius,
