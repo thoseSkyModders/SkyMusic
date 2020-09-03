@@ -1,4 +1,4 @@
-const CACHE = "V5.5";
+const CACHE = "V5.6";
 
 const FILES_TO_CACHE = [
     'manifest.json',
@@ -201,6 +201,8 @@ const FILES_TO_CACHE = [
     '/icons/practice.svg',
     '/icons/trash1.svg',
     '/icons/menu.png',
+    '/icons/addCell.svg',
+    '/icons/removeCell.svg',
     '/images/piano.png',
     '/images/handPan.png',
     '/images/harp.png',

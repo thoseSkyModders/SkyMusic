@@ -1745,7 +1745,6 @@
         if (this.selectedIndex == 0) return
         if (!isNaN(pitchKey)) {
             pitchKey = Math.pow(2, (song.pitchLevel) / 12).toFixed(2)
-            console.log(pitchKey)
             localStorage.setItem("pitchKeyComposer", song.pitchLevel)
             document.getElementById("keySelection").selectedIndex = song.pitchLevel
         }
