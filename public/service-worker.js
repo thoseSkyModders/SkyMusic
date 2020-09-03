@@ -1,4 +1,4 @@
-const CACHE = "V5.6";
+const CACHE = "V5.7";
 
 const FILES_TO_CACHE = [
     'manifest.json',
