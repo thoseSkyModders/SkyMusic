@@ -99,7 +99,31 @@
         height: 5vh;
         cursor: pointer;
     }
-
+        /* width */
+        ::-webkit-scrollbar {
+            width: 2vh;
+            border-radius: 3px;
+        }
+        .smallScrollBar::-webkit-scrollbar{
+            width:0.5vh;
+        }
+        
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: rgba(44, 44, 44, 0.8);
+            border-radius: 3px;
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #dad8b3;
+            border-radius: 3px;
+        }
+        
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            opacity:0.6;
+        }
     .select::placeholder {
         font-size: 1rem;
     }

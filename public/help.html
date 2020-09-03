@@ -1,37 +1,77 @@
 <html>
     <style>
         body{
-            padding: 1em;
+            padding: 0.5rem;
             font-size: 1.2em;
-            background-color: rgba(22, 22, 22, 0.95);
+            background: #181a1b;
             color: #dad8b3;
             font-family: Arial;
             text-align: center;
         }
         .skyButton {
-            border:solid 2px #dad8b3;
-             text-decoration: none; 
-             border-radius: 0.3em; 
-             padding: 0.2em;
-	        color: #dad8b3;
-            font-size: 1.5em;
-            background-color: rgba(22, 22, 22, 0.95);
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 0.4rem;
+            box-sizing: border-box;
+            color: #181a1b;
+            background-color: #dad8b3;
+            font-weight: bold;
+            min-height: 4vh;
             cursor: pointer;
-            margin: 0.5em;
-            outline: none;
+            border: none;
+        }
+                /* width */
+        ::-webkit-scrollbar {
+            width: 2vh;
+            border-radius: 3px;
+        }
+        .smallScrollBar::-webkit-scrollbar{
+            width:0.5vh;
+        }
+        
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: rgba(44, 44, 44, 0.8);
+            border-radius: 3px;
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #dad8b3;
+            border-radius: 3px;
+        }
+        
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            opacity:0.6;
+        }
+        ul{
+            padding: 1rem;
         }
         li{
-            margin-bottom: 3em;
+            padding: 1.5em 0 1.5em;
+            border-bottom: solid 2px #575757;
         }
         a{
             color: rgba(235, 0, 27, 1);
-            text-decoration-color: rgba(235, 0, 27, 0.8);
+            text-decoration: none
         }
         q1{
             font-size: 1.2em;
         }
         b{
             color: rgba(235, 0, 27, 0.8);
+        }
+        .card {
+            background-color: #272b2d;
+            text-align: left;
+            align-self: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 1vw;
+            padding: 1rem;
+            margin: 1.5rem 0 0 0;
         }
     </style>
     <head>
@@ -49,16 +89,30 @@
         <link rel="icon" type="image/png" href="/favicon.png"/>
     </head>
     <body>
-        <a href="/"class=skyButton style="position: absolute; left:0;">GO BACK</a><br><br>
-        <h1>Contact Us</h1>
-        <div align=left>
-            If for any reason you need to contact us, you can email us at:
-            <a href="mailto: thoseSkyModders@gmail.com"style="color: rgba(235, 0, 27, 0.8); font-size: 1.2em;">thoseSkyModders@gmail.com</a><br>
-            or join our <a href="https://discord.gg/NFFRTed">Discord server</a><br><br>
-            Below you can find the <a href="#faq">FAQ</a> and a <a href="#buttonsDescription">description of what each button does</a>.<br>
-            If you wish to contribute to the project, you can find the <a href="https://github.com/thoseSkyModders/SkyMusic">Github repo here</a>
+        <div style="display: flex;">
+            <button onclick="location.href = window.location.origin + '/'" class=skyButton>
+                GO BACK
+            </button>
         </div>
-        </q1><br><br>
+
+        <div class="card">
+            <h1>Contact Us</h1>
+            <div align=left>
+                If for any reason you need to contact us, you can email us at:
+                <a href="mailto: thoseSkyModders@gmail.com"style="color: rgba(235, 0, 27, 0.8); font-size: 1.2em;">thoseSkyModders@gmail.com</a><br>
+                or join our <a href="https://discord.gg/NFFRTed">Discord server</a><br><br>
+                If you wish to contribute to the project, you can find the <a href="https://github.com/thoseSkyModders/SkyMusic">Github repo here</a><br><br>
+    
+                <div style="font-size: 1.6rem;">
+                    Go to: <a href="#faq">FAQ</a> <br>
+                    Go to: <a href="#mainPageTutorial">Main page tutorial</a> <br>
+                    Go to: <a href="#composerTutorial">Composer tutorial</a> <br>
+                </div>
+    
+            </div>
+        </div>
+
+        <div class="card">
         <h1 id="faq">FAQ</h1>
         <ul align=left>
             <li><b>Q: </b><q1>How do i record a song?</q1><br>
@@ -146,43 +200,104 @@
 
             <li><b>Q: </b><q1>Nothing plays on the website!    </q1><br>
                 <b>A: </b>If you are on iOS, if you go to another website or go to the home then come back to the website, you have to 
-                refresh, it's an iOS problem and we are trying to find a fix for it
+                refresh, it's an iOS problem and we are trying to find a fix for it, You can enable "auto refresh" in the settings to temporarely fix it. 
             </li>
 
             <li><b>Q: </b><q1>I'm on phone, the browser search bar blocks the website     </q1><br>
                 <b>A: </b>whenever you press a note, the website should become full screen, if it doesn't, scroll down untill you can't see it anymore
             </li>
 
-            <li><b>Q: </b><q1>I can't exit fullscreen     </q1><br>
+            <li><b>Q: </b><q1>How can i exit exit fullscreen?   </q1><br>
                 <b>A: </b>There is a button on the bottom left to exit the full screen, alternatively you can just "go back" on your phone
             </li>
         </ul>
-
-        <h1 id="buttonsDescription">Buttons descriptions</h1>
-        <div align=left>
+    </div>
+        <h1>Buttons descriptions</h1>
+        <div class="card">
+        <h2 id="mainPageTutorial">Main page</h2>
             <img src="tutorial/1.png" width="100%"> <br> <br>
             1: Keyboard. <br>
-            2: To play/practice the songs you recorded. <br>
+            2: Where all your songs are stored <br>
             3: To start and stop recording a song. <br>
             4: Instrument selection. <br>
             5: Pitch selection. <br>
             6: Cave mode (reverb). <br>
             7: Menu.  <br> <br>
+        </div>
+        <div class="card">
             <img src="tutorial/2.png" width="100%"> <br> <br>
-            8: Play the song.  <br>
-            9: Delete the song.  <br>
-            10: Practice the song.  <br>
-            11: Save the song to your account.  <br>
-            12: Download the song.  <br>
-            13: Import a song file. <br>
-            14: Download all the songs you saved. <br>
-            15: Locally saved songs. <br>
-            16: Songs saved in the account. <br> <br>
+            7: Play the song.  <br>
+            8: Shows more buttons for the song.  <br>
+            9: Practice the song.  <br>
+            10: Save the song to your account.  <br>
+            11: Download the song.  <br>
+            12: Delete the song. <br>
+            13: Songs saved locally <br>
+            14: Songs saved into your account <br>
+            15: Open the song composer <br>
+            16: Import songs as ABC1-5 format, .txt or midi <br> <br>
+        </div>
+        <div class="card">
             <img src="tutorial/3.png" width="100%"> <br> <br>
-            17: Note to press for the practice. <br>
+            17: Note to press now. <br>
             18: Note to press after the red note.  <br>
-            19: Slider to retry the songs.<br>
+            19: Slider to retry the song, select which note to restart from.<br>
             20: Stop practice/playing song.
+        </div>
+        
+            <div class="card">
+                <h2 id="composerTutorial">Composer</h2>
+                <img src="tutorial/4.png" width="100%"> <br> <br>
+                1: Keyboard. <br>
+                2: Tempo changers for 1, 1/2, 1/4, 1/8th time <br>
+                3: Cells (the columns) that contain first layer notes<br>
+                4: Cells (the columns) that contain second layer notes <br>
+                5: Adds a page (24 columns) <br>
+                6: Add or remove cells (from where you selected) <br>
+                7: Opens the tools menu.  <br>
+                8: Opens the settings. <br>
+                9: Saves the song. <br>
+                10: Switches layer. <br>
+                11: Moves to the next/previous cell <br>
+                12: Removes most of the upper buttons to make more cells fit <br>
+                13: Disables the keyboard so that you can play freely. <br>
+                14: Goes back to the main page. <br> <br>
+            </div>
+            <div class="card">
+                <img src="tutorial/5.png" width="100%"> <br> <br>
+                1: Selects the instrument for the first layer. <br>
+                3: Selects the instrument for the second layer.  <br>
+                3: Change volume of the instrument. <br>
+                4: Change the pitch.  <br>
+                5: Toggle the "cave mode"(reverb).  <br>
+                6: Import a midi file. <br>
+                7: Opens the songs that you saved. <br>
+                8: Adds beatmarks to the compositon (divisions for each 3-4 notes). <br>
+                9: Downloads the songs as .txt <br> <br>
+            </div>
+            <div class="card">
+                <img src="tutorial/6.png" width="100%"> <br> <br>
+                1: Import midi Menu. <br>
+                2: Pushes up/down all the notes to select the correct range of notes. <br>
+                3: Selects the midi track layer, the (12) is the number of tracks that are in a song.
+                Usually different tracks mean different instruments, you can select which track to import. <br>
+                4: Selects all tracks/layers. <br>
+                5: Changes the bpm of the song, higher bpm could lead to higher import precision. <br>
+                6: Might make the import more accurate or make it worse, try if it's better with or without.<br>
+                7: If there are notes above the note range, it scales them down by 8 notes to try and make them sound correct. <br> <br>
+            </div>
+            <div class="card">
+                <img src="tutorial/7.png" width="100%"> <br> <br>
+                1: Tools menu. <br>
+                2: Buttons to select the starting and ending cells. <br>
+                3: Close the menu. <br>
+                4: Copy Both layers. <br>
+                5: Paste both layers. <br>
+                6: Copy only selected layer (you can change which layer by pressing the "layer button"). <br>
+                7: Paste only one layer. <br>
+                8: Erase only selected layer. <br>
+                9: Deletes all selected cells 
+            </div>
         </div>
             <br>
             If you wish to read our policy you can find it <a href="policy.html">here</a>

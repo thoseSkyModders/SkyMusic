@@ -7,6 +7,7 @@
         body {
             background: #181a1b;
             padding: 0;
+            overflow-x: hidden;
         }
 
         * {
@@ -47,7 +48,30 @@
             user-select: none;
             margin-bottom: 5%;
         }
-
+        /* width */
+        ::-webkit-scrollbar {
+            border-radius: 3px;
+        }
+        .smallScrollBar::-webkit-scrollbar{
+            width:0.5vh;
+        }
+        
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: rgba(44, 44, 44, 0.8);
+            border-radius: 3px;
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #dad8b3;
+            border-radius: 3px;
+        }
+        
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            opacity:0.6;
+        }
         .skyButton {
             font-size: 1rem;
             text-decoration: none;

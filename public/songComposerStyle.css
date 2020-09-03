@@ -7,7 +7,7 @@
 body {
     background-color: #0E0E0E;
     padding: 0;
-    height: 100%;
+    height: 100vh;
     min-height: 100vh;
     overflow: hidden;
     text-align: center;
@@ -60,13 +60,13 @@ body {
     height: 100%;
     border-radius: 10px;
     background-color: #1E1E1E;
-    padding: 5px;
+    padding-bottom: 2px;
     text-align: left;
     display: flex;
     overflow-x: auto;
     overflow-y: hidden;
     box-sizing: border-box;
-    border: 2px #383838 solid;
+    border: 2px #383838 solid !important;
     flex-grow: 1;
     margin: 0 0 0 5px;
 }
@@ -153,17 +153,21 @@ div.full {
 }
 
 .cell {
-    display: inline-block;
     min-width: 1.6vw;
-    width: 1.6vw;
     height: 100%;
-    border-right: 0.2em solid #1E1E1E;
+    border-right: 0.15vw solid #1E1E1E;
     background-color: #dad8b3;
     opacity: 0.6;
-    padding-bottom: 0.1em;
     cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-
+.beatStop{
+    border-right-width: 0.3vw;
+}
 .note {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -176,7 +180,6 @@ div.full {
     border-radius: 0.1em;
     outline: none !important;
     background-color: transparent;
-    text-align: center;
 }
 
 #bottom {
@@ -192,7 +195,7 @@ div.full {
     justify-content: center;
     align-content: center;
     flex-grow: 1;
-    padding: 5px;
+    padding: 2px;
     max-height: 55vh;
     box-sizing: border-box;
 }
@@ -262,6 +265,11 @@ button {
     height: 30px;
     margin: 4px 2px 0 2px;
     min-width: 80px;
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .skyButton {
@@ -330,7 +338,7 @@ button {
 .settingOption button,
 .settingOption select,
 .settingOption input {
-    min-width: 30%;
+    min-width: 25%;
 }
 
 .floatingBottomLeft {
@@ -458,15 +466,23 @@ input[type=number] {
     -webkit-animation-iteration-count: initial;
     -webkit-animation-play-state: 1;
 }
-
+.instrumentPickerWrapper{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+}
+.volumePicker{
+    margin-left: auto;
+    min-width: 35% !important;
+}
 #settingsDiv {
     position: absolute;
     border: 1.5px #676761 solid;
     border-radius: 10px;
     background-color: rgba(22, 22, 22, 1);
     display: none;
-    width: 49%;
-    height: 49%;
+    width: 70%;
+    height: 60%;
     left: 0;
     right: 0;
     margin-right: auto;
@@ -485,19 +501,38 @@ input[type=number] {
     border-radius: 10px;
     background-color: rgba(22, 22, 22, 1);
     display: none;
-    width: 30%;
-    height: 35%;
     right: 0.5em;
     bottom: 0.5em;
     z-index: 100;
     text-align: left;
     padding: 1vw;
     overflow-y: auto;
+    height: 50%;
+    width: 40%;
+    opacity: 0.95;
+    font-size: 0.9em;
 }
-
+.midiImportSetting{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 1vh;
+}
+#successColor{
+    margin-top: 1vh;
+}
+.MIDIButton{
+    min-width: 15%;
+    width: 6vw;
+    text-align: center;
+}
+.MIDIButtonsWrapper{
+    flex:1;
+    display: flex;
+}
 #toolsDiv {
     color: #dad8b3;
-    position: absolute;
+    position: fixed;
     border: 1.5px solid #383838;
     border-radius: 10px;
     background-color: rgba(22, 22, 22, 1);
@@ -736,8 +771,66 @@ input[type=number] {
         font-size: 4rem;
     }
 }
-
+/* width */
+::-webkit-scrollbar {
+    border-radius: 3px;
+    height:1.5vh;
+}
+.smallScrollBar::-webkit-scrollbar{
+    height:0.5vh;
+}
+  
+  /* Track */
+::-webkit-scrollbar-track {
+    background: rgba(44, 44, 44, 0.8);
+    border-radius: 3px;
+  }
+  
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: #dad8b3;
+    border-radius: 3px;
+  }
+  
+  /* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    opacity:0.6;
+  }
+  .tool:hover, .skyButton:hover, .select:hover{
+    background-color: #484740;
+}
+  .tool:active{
+    background-color: #636150;
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
 @media only screen and (orientation:portrait) {
+    .instrumentTitle{
+        width: min-content;
+    }
+    #importMIDIDiv{
+        width: 80%;
+        right: 0;
+        left: 0;
+        margin-right: auto;
+        margin-left: auto;
+        padding: 1vh;
+    }
+    .cell{
+        border-right-width: 0.3vw;
+    }
+    .beatStop{
+        border-right-width: 0.6vw;
+    }
     .tempoContainer {
         flex-direction: row;
     }

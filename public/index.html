@@ -52,8 +52,9 @@
         <div type="number" id="scaleNumber" style="background: rgba(77,77,77,0.85);" >100</div>%
         <button class="skyButton" style="width: 30px; background: rgba(77,77,77,0.85);" onclick="changeScale(1)">+</button><br>
         <button class="skyButton" style="background: rgba(77,77,77,0.85); width: 90%;" id="confirm-scale" onclick="confirmScale()">CONFIRM</button>
-        <div>For any issues, check the SETTINGS and the help page</div>
-        <div>If the app blocks or you see a black screen, rotate your device</div>
+        <div>For any issues, check the SETTINGS and the help page.</div>
+        <div>If the app blocks or you see a black screen, rotate your device.</div>
+        <div>By pressing confirm you accept our <a style="text-decoration: underline;" onclick="redirectPage('/policy.html')">Policy</a></div>
     </div>
     <!--https://www.flaticon.com/free-icon/rotate-smartphone_81564?term=rotate%20phone&page=1&position=22-->
     <div id="rotateDevice" onclick="this.style.display = 'none'">
@@ -223,7 +224,7 @@
         <button class="skyButton_2" onclick='redirectPage("/songLibrary.html")'><p id="library-text-menu" class="texts">Song Library</p></button>
         <button class="skyButton_2" onclick='redirectPage("/sheetDisplayer.html")'><p id="sheet-displayer-text-menu"  class="texts">Sheet displayer</p></button>
         <button class="skyButton_2" onclick="toggleLogin()"><p id="account-text-menu" class="texts">Account</p></button>
-        <button class="skyButton_2" onclick='window.open("help.html")'><p id="help-text-menu"  class="texts">Need help?</p></button>
+        <button class="skyButton_2" onclick='redirectPage("/help.html")'><p id="help-text-menu"  class="texts">Need help?</p></button>
     </div>
     <div class="menuDiv">
         <div class="subMenuDiv shift40px">

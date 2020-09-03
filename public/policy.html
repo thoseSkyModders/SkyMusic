@@ -1,33 +1,31 @@
 <html>
     <style>
         body {
-            background: rgb(115,181,210);
-            background: linear-gradient(190deg, rgba(115,181,210,1) 0%, rgba(108,160,114,1) 63%);
+            background: #181a1b;
         }
 
         * {
             font-size: 1em;
             font-family: Arial;
             font-weight: bold;
-            color: rgba(22, 22, 22, 0.9)
+            color: #dad8b3
         }
         p{
-            color:#121212;
+            color:#dad8b3;
         }
         h1,h2,h3{
-            color: rgba(235, 0, 27, 0.8);
+            color: rgb(235, 0, 27);
         }
         .skyButton {
-            border:solid 2px #dad8b3;
-             text-decoration: none; 
-             border-radius: 0.3em; 
-             padding: 0.2em;
-	        color: #dad8b3;
-            font-size: 1.5em;
-            background-color: rgba(22, 22, 22, 0.95);
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 0.4rem;
+            box-sizing: border-box;
+            color: #181a1b;
+            background-color: #dad8b3;
+            font-weight: bold;
+            min-height: 3vh;
             cursor: pointer;
-            margin: 0.5em;
-            outline: none;
         }
     </style>
     <head>
@@ -48,7 +46,10 @@
         <link rel="shortcut icon" href="/favicon.ico?v=2" type="image/x-icon" />
     </head>
     <body>
-        <a href="/"class=skyButton style="position: absolute; left:0;">GO BACK</a><br><br><br>
+        <button class="skyButton" onclick="location.href = window.location.origin + '/'"
+            style="min-height: 4vh;font-size: 1.2rem;">
+            GO BACK
+        </button>
         <h1>Welcome to our Privacy Policy</h1>
         <h3>Your privacy is critically important to us.</h3>
         
