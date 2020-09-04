@@ -35,7 +35,7 @@
         content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
     <title>Sky Music Composer</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="composerBetaStyle.css" type="text/css">
+    <link rel="stylesheet" href="songComposerStyle.css" type="text/css">
     <script src="/scripts/jquery.js"></script>
     <script src="/scripts/jqueryUI.js"></script>
     <script src="/scripts/jqueryPEP.js"></script>
@@ -44,6 +44,9 @@
 </head>
 <body style="touch-action: pan-x pan-y;">
     <div class="notesWrapper">
+        <div id="playIndicator">
+            
+        </div>
         <div class="toolsContainer">
             <div> 
                 <input id="before" class="tool" type="button" style="background-image: url('./icons/next_back_arrows.svg');" onclick="before()">
@@ -124,11 +127,11 @@
         <div style="display: flex; flex-direction: row; margin-bottom: 1vh; justify-content: space-between; margin-bottom: auto;">
             <div style="background-color: #232323; border-radius: 0.5em; padding: 0.3em; width: 100%;">
                 <div class="settingOption full"> 
-                    <span>Select start</span>
+                    <div>Select start</div>
                     <input id="startCopyBtn" class="skyButton" type="button" value="Start" onclick="selectStartCopy()">
                 </div>
                 <div class="settingOption full">
-                    <span>Select end</span>
+                    <div>Select end</div>
                     <input id="endCopyBtn" class="skyButton" type="button" value="End" onclick="selectEndCopy()">
                 </div>
             </div>
@@ -239,9 +242,9 @@
             <button class="skyButton"  onclick="downloadSheet()">Download</button>
         </div>
         <br>
-        <div class="settingOption">
+        <div class="settingOption" style=" margin-top: 1rem;">
             <div>Resize page</div>
-            <input type="range" id="changeScale" value="10" min="0" max="20" style="width: 50%; margin-top: 0.5rem;">
+            <input type="range" id="changeScale" value="10" min="0" max="20" style="width: 50%;">
         </div>
         <input type="button" style="border: rgba(235, 0, 27, 1) solid 1px; color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
@@ -296,11 +299,6 @@
         </div>
     </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <div>
-            This is centered
-        </div>
-    </div>
 </body>
 
 <script>
@@ -1064,6 +1062,7 @@
         return keys
     }
     let playBtn2 = document.getElementById("playBtn2")
+    let playIndicator = document.getElementById("playIndicator")
     async function play() {
         if (playBtn.value == "Play" || playBtn2.value == "Play") {
             playBtn2.value = "Stop"
@@ -1083,10 +1082,27 @@
         let cells = Array.prototype.slice.call(document.getElementsByClassName("cell"), 0);
         let bpmToMs = 60000 / document.getElementById("bpm").value
         let songData = getSongData()
-        for (var i = startIndex; i < cells.length; i++) {
-            cells[i].style.opacity = "1"
-            selectedCell.style.opacity = "0.6"
-            selectedCell = cells[i]
+        let calculatedTime = 0
+        let actulTime = Date.now()
+        selectedCell.style.opacity = "0.6"
+        playIndicator.style.display = "block"
+        
+        let ignoreNewPosition = false
+        let positions = selectedCell.getBoundingClientRect()
+        playIndicator.style.height = positions.height
+        let oldXPos = 10000
+        for (var i = startIndex; i < songData.length; i++) {
+            let startLag = Date.now()
+            //cells[i].style.opacity = "1"
+            //selectedCell.style.opacity = "0.6"
+            selectedCell =  cells[i]
+            if(!ignoreNewPosition) positions = selectedCell.getBoundingClientRect()
+            let yPos = positions.y
+            let xPos = positions.x 
+            if(parseInt(xPos) == parseInt(oldXPos)) ignoreNewPosition = true
+            oldXPos = xPos
+            playIndicator.style.top = yPos
+            playIndicator.style.left = xPos
             scrollPage(selectedCell)
             bpmToMs = 60000 / document.getElementById("bpm").value
             switch (songData[i].co) {
@@ -1129,8 +1145,13 @@
                 console.log("error playing note")
             }
             if (stopPlaying) break
-            await delay(bpmToMs)
+            calculatedTime+=bpmToMs
+            await delay(Math.floor(bpmToMs+(startLag - Date.now())))
         }
+        selectedCell.style.opacity = "1"
+        playIndicator.style.display = "none"
+        console.log("Expected time: "+parseInt(calculatedTime))
+        console.log("Actual time: "+(Date.now() - actulTime))
         playBtn.value = "Play"
         disableCells("auto")
         stopPlaying = true
@@ -1571,7 +1592,7 @@
     //----------------------------------------------------------------------------------------------//
 
     function addPage() {
-        for (var i = 0; i < 16; i++) {
+        for (var i = 0; i < 24; i++) {
             addCell("end")
         }
         addBeatMarkers(selectedDivisions)
@@ -1746,28 +1767,27 @@
 
     loadSongSelect.addEventListener("change", function () {
         localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
-        let selectedIndex = this.selectedIndex
-        if (selectedIndex == 0) return
+        let song = localStorageSongs[this.selectedIndex - 1]
+        if (this.selectedIndex == 0) return
         if (!isNaN(pitchKey)) {
-            pitchKey = Math.pow(2, (localStorageSongs[selectedIndex - 1].pitchLevel) / 12).toFixed(2)
-            localStorage.setItem("pitchKey", pitchKey)
-            document.getElementById("keySelection").selectedIndex = localStorageSongs[selectedIndex - 1]
-                .pitchLevel
+            pitchKey = Math.pow(2, (song.pitchLevel) / 12).toFixed(2)
+            localStorage.setItem("pitchKeyComposer", song.pitchLevel)
+            document.getElementById("keySelection").selectedIndex = song.pitchLevel
         }
-        if (localStorageSongs[selectedIndex - 1].isComposed) {
-            localStorage.setItem("savedBpm", localStorageSongs[selectedIndex - 1].bpm)
-            if (localStorageSongs[selectedIndex - 1].composedSong != undefined) {
+        if (song.isComposed) {
+            localStorage.setItem("savedBpm", song.bpm)
+            if (song.composedSong != undefined) {
                 try {
-                    document.getElementById("bpm").value = localStorageSongs[selectedIndex - 1].bpm
-                    parseComposerFormat(localStorageSongs[selectedIndex - 1].composedSong)
+                    document.getElementById("bpm").value = song.bpm
+                    parseComposerFormat(song.composedSong)
                 } catch {
-                    importSong(localStorageSongs[selectedIndex - 1], false, "new")
+                    importSong(song, false, "new")
                 }
             } else {
-                importSong(localStorageSongs[selectedIndex - 1], false, "new")
+                importSong(song, false, "new")
             }
         } else {
-            importSong(localStorageSongs[selectedIndex - 1], false, "old")
+            importSong(song, false, "old")
         }
     })
 

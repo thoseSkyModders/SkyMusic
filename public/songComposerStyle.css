@@ -199,7 +199,14 @@ div.full {
     max-height: 55vh;
     box-sizing: border-box;
 }
-
+#playIndicator{
+    position: absolute;
+    display: none;
+    width: 1.6vw;
+    height: 2vh;
+    background-color: rgba(235, 0, 27, 0.2);
+    z-index: 5;
+}
 [id^=row] {
     display: flex;
     height: calc((100% + 1vh)/3);
