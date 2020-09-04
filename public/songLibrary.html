@@ -39,11 +39,23 @@
         user-select: none;
         -webkit-tap-highlight-color: transparent;
     }
+    .copyDiv {
+        width: 100%;
+        color: #dad8b3;
+        font-size: 1.3rem;
+        background-color: #272b2d;
+        padding: 0.5em;
+        border-radius: 1vw;
+        resize: none;
+    }
 
     #floatingMessage {
         position: fixed;
         width: 60%;
-        left: calc(20% - 16px);
+        left: 0%;
+        right: 0%;
+        margin-right: auto;
+        margin-left: auto;
         min-height: 5vh;
         bottom: 10vh;
         font-size: 1.4rem;
@@ -142,17 +154,6 @@
         cursor: pointer;
     }
 
-    #x {
-        color: rgba(235, 0, 27, 1);
-        margin-left: auto;
-        min-width: 30px;
-        min-height: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-    }
-
     skyButton {
         background-color: #424242;
         border-radius: 0.4em;
@@ -223,8 +224,12 @@
 
     #resultsWrapper {
         overflow-y: auto;
-        padding: 0.5rem;
+        padding-right: 0.5rem;
+        margin-right: -0.8rem;
         max-height: 60vh;
+        margin-left: -0.8rem;
+        text-align: left;
+        margin-top: 0.8rem;
     }
 
     .buttonsContainer {
@@ -254,14 +259,10 @@
         min-height: 4vh;
     }
 
-    #resultsWrapper {
-        text-align: left;
-        margin-top: 0.8rem;
-    }
 
     .skyMusicGithub {
         background-color: #272b2d;
-        margin-top: 10vh;
+        margin-top: 1.5rem;
         padding: 1rem;
         display: flex;
         flex-direction: row;
@@ -282,7 +283,19 @@
         margin-top: -1.4rem;
     }
 
+    .searchButtonImage{
+        background-size: contain;
+        background-color: transparent;
+        min-width: 5vw;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .selectedMethod{
+         background: rgba(235, 0, 27, 0.8);
+         color: #dad8b3
+    }
     @media only screen and (orientation:portrait) {
+
         skyButton {
             margin: 0.1rem;
         }
@@ -310,6 +323,7 @@
 
         #floatingMessage {
             border-radius: 3vw;
+            width: 80vw;
         }
 
         .select {
@@ -318,6 +332,7 @@
 
         .skyButton2 {
             min-width: 30%;
+            min-height: 4vh;
         }
 
         .buttonsContainer {
@@ -342,6 +357,10 @@
             flex-direction: row;
             justify-content: space-between;
         }
+        .searchButtonImage{
+            min-width: 6vh;
+            min-height: 4vh;
+        }
     }
 
     @media only screen and (orientation:landscape) {
@@ -358,6 +377,7 @@
             min-height: 8vh;
         }
     }
+
 </style>
 
 <head>
@@ -442,17 +462,22 @@
                     Search in the library
                 </div>
                 <div style="display: flex; flex-direction: row; justify-content: space-between;">
-                    <textarea id="search" class="select" placeholder="Search song"></textarea>
+                    <input type="text" id="search" class="select" placeholder="Search song">
                     <button onclick="search()" class="skyButton2">Search</button>
                 </div>
             </div>
         </div>
         <div id="searchResults">
-            <div style="display: inline-flex; position: relative; width: 100%;">
-                Results
-                <div class="skyButton2" id="x"
-                    onclick="document.getElementById('resultsWrapper').innerHTML = '', searchResults.style.display = 'none'">
-                    x
+            <div style="display: inline-flex; position: relative; width: 100%; align-content: center;">
+                <div style="display: flex; align-items: center;">Results</div>
+                <div style="display: inline-flex; margin-left: auto;">
+                    <div class="skyButton2 searchButtonImage" onclick="shareSongURL()" style="background-image: url(./icons/share1.svg);"
+                        onclick="">
+                    </div>
+                    <div class="skyButton2 searchButtonImage" id="x" style="background-image: url(./icons/trash1.svg);"
+                        onclick="clearSearch()">
+                        
+                    </div>
                 </div>
             </div>
             <div id="resultsWrapper">
@@ -705,7 +730,16 @@
             <li class="content"> <img class="dS" onclick="dwJS('Crypt_of_the_NecroDancer_-_Mausoleum_Mash')"><skyButton onclick="playSong(this)">Crypt of the NecroDancer: Mausoleum Mash</skyButton></li>
         </ul>
     </div>
+    <ul class="listelement" style="display: none;">
+        <div style="display: inline-flex; width: 100%;">
+            <div class="expand rotate0"></div>
+            <h1>Composer only</h1>
+        </div>
+        <div style="overflow: auto;">
+            <!--Put songs to upload here, change the style display from none to block -->
 
+        </div>
+    </ul>
     <ul class="listelement">
         <div style="display: inline-flex; width: 100%;">
             <div class="expand rotate0"></div>
@@ -721,10 +755,21 @@
             <h1>To Upload</h1>
         </div>
         <div style="overflow: auto;">   
-           
+           <!--Put songs to test before uploading here, change the style display from none to block -->
+
         </div>
     </ul>
 
+
+    <ul class="listelement2" style="padding: 1rem; margin-top: 10vh;">
+        <div>
+            Import method
+        </div>
+        <div style="display:flex; justify-content:space-between; padding-top:1rem">
+            <button class="skyButton2" id="downloadMethod" onclick="changeImportMethod('download')">Download file</button>
+            <button class="skyButton2 selectedMethod" id="importMethod" onclick="changeImportMethod('import')">Import into Sky Music</button>
+        </div>
+    </ul>
 
     <div class="skyMusicGithub">
         <div onclick="location.href ='http\://sky-music.github.io'">
@@ -758,23 +803,52 @@
         search(true)
     })
 
+    let importMethod = "import"
+    function changeImportMethod(method){
+        let downloadBtn = document.getElementById("downloadMethod")
+        let importBtn = document.getElementById("importMethod")
+        if(method == "download"){
+            downloadBtn.classList.add("selectedMethod")
+            importBtn.classList.remove("selectedMethod")
+        }else{
+            downloadBtn.classList.remove("selectedMethod")
+            importBtn.classList.add("selectedMethod")
+        }
+        importMethod = method
+        console.log(importMethod)
+    }
+    function clearSearch(){
+        resultsWrapper.innerHTML = ''
+        searchResults.style.display = 'none'
+        document.getElementById("search").value = ""
+    }
+    function shareSongURL(){
+        const el = document.createElement('textarea')
+            el.className = "copyDiv"
+            el.readOnly = true
+            let searchWords = document.getElementById("search").value.toLowerCase().trim()
+            el.value = location.origin + location.pathname + "?search=" + searchWords.split(" ").join("_")
+            showMessage("",2,6000)
+            document.getElementById("floatingMessage").appendChild(el)
+            el.select();
+    }
+    let resultsWrapper = document.getElementById("resultsWrapper")
     function search(ignore = false) {
         let searchWords = document.getElementById("search").value.toLowerCase().trim()
+        resultsWrapper.innerHTML = ""
         if (searchWords == "") {
             if (!ignore) showMessage("Write some keywords first!")
+            searchResults.style.display = "none"
             return
         }
         searchResults.style.display = "block"
-        let resultsWrapper = document.getElementById("resultsWrapper")
-        resultsWrapper.innerHTML = ""
         searchWords = searchWords.split(" ")
         if (typeof searchWords == "string") searchWords = [searchWords]
         let librarySongs = Array.prototype.slice.call(document.getElementsByTagName("skybutton"), 0);
         let foundElements = []
         for (let i = 0; i < searchWords.length; i++) {
             for (let j = 0; j < librarySongs.length; j++) {
-                let reg = new RegExp('\\b' + searchWords[i] + '\\b')
-                if (librarySongs[j].innerHTML.toLowerCase().match(reg)) {
+                if (librarySongs[j].innerHTML.toLowerCase().includes(searchWords[i])) {
                     foundElements.push({
                         name: librarySongs[j].innerHTML,
                         song: librarySongs[j],
@@ -797,8 +871,16 @@
         });
         foundElements.forEach(e => {
             let node = e.song.parentElement.cloneNode(true)
-            node.style.display = "flex"
-            resultsWrapper.appendChild(node)
+            let difficulty = e.song.parentElement.parentElement.parentElement.children[0].innerText[0]
+            console.log(difficulty)
+            let div = document.createElement("div")
+            node.style = "display:flex; flex:1;"
+            div.appendChild(node)
+            div.style = "display: flex; align-items: center;"
+            let text = document.createElement("div")
+            text.innerText = difficulty
+            div.appendChild(text)
+            resultsWrapper.appendChild(div)
         })
 
 
@@ -931,6 +1013,16 @@
         request.responseType = 'text';
         request.onload = function () {
             var inArray = convertToOldFormat(JSON.parse(request.response))
+            if(importMethod == "download"){
+                var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
+                var dlAnchorElem = document.createElement("a")
+                dlAnchorElem.setAttribute("href", dataStr);
+                dlAnchorElem.setAttribute("download", song + ".txt");
+                dlAnchorElem.click();
+                dlAnchorElem.remove()
+                showMessage('Song "' + inArray[0].name + '"downloaded!', 1, 2000)
+                return
+            }
             var savedSongs = localStorage.getItem("savedSongs")
             if (savedSongs != null) {
                 try {
@@ -962,15 +1054,6 @@
             if (inArray.length > 1) showMessage("Added song pack!", 1, 2000)
             localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
             console.log("done")
-
-            return
-            //Old thing to download, i keep it in here
-            var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
-            var dlAnchorElem = document.createElement("a")
-            dlAnchorElem.setAttribute("href", dataStr);
-            dlAnchorElem.setAttribute("download", song + ".txt");
-            dlAnchorElem.click();
-            dlAnchorElem.remove()
         };
         request.send();
     }
@@ -1215,7 +1298,7 @@
     })
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('search') != null) {
-        document.getElementById("search").innerHTML = urlParams.get('search').replace("_", " ")
+        document.getElementById("search").innerHTML = urlParams.get('search').split("_").join(" ")
         search(true)
     }
 </script>
