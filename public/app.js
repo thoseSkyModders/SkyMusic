@@ -1518,8 +1518,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "4.6"
-let changelogMessage = "Version:"+currentVersion+"<br> Added volume control to composer, UI tweaks, added beat markers, redid sheet displayer, redid help page"
+let currentVersion = "4.7"
+let changelogMessage = "Version:"+currentVersion+"<br> Added volume control to composer, UI tweaks, added beat markers, redid sheet displayer, redid help page, increased performance"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)
