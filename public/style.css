@@ -894,6 +894,9 @@ html {
 }
 
 @media only screen and (orientation:portrait) {
+	#icon-bar{
+		width: 40%;
+	}
 	.instrumentsWrapper{
 		top: 10%;
 	}
