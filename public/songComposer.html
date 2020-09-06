@@ -1132,6 +1132,7 @@
             disableCells("none")
         } else {
             stopPlaying = true
+            isPlaying = false
             playBtn2.value = "Play"
             playBtn.value = "Play"
             disableCells("auto")
@@ -1214,12 +1215,12 @@
         }
         selectedCell.style.opacity = "1"
         playIndicator.style.display = "none"
-        console.log("Expected time: "+parseInt(calculatedTime))
-        console.log("Actual time: "+(Date.now() - actulTime))
         playBtn.value = "Play"
         disableCells("auto")
         stopPlaying = true
         isPlaying = false
+        console.log("Expected time: "+parseInt(calculatedTime))
+        console.log("Actual time: "+(Date.now() - actulTime))
     }
     //----------------------------------------------------------------------------------------------//
 

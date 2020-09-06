@@ -89,8 +89,8 @@ body {
 }
 
 .toolsContainer {
-    width: 16vw;
     min-width: 120px;
+    width: 120px;
     height: 100%;
     border-radius: 10px;
     background-color: #1E1E1E;
@@ -595,6 +595,7 @@ input[type=number] {
 
 .toolsContainerRight {
     min-width: 60px;
+    width: 60px;
     margin-left: 5px;
 }
 
@@ -650,12 +651,12 @@ input[type=number] {
     margin-right: 2%;
 }
 #smallToolContainer2{
-    width: unset;
+    width: 35px;
     min-width: 35px;
     display: none;
 }
 #smallToolContainer{
-    width: unset;
+    width: 60px;
     display: none;
     min-width: 60px;
 }
@@ -666,9 +667,11 @@ input[type=number] {
 @media screen and (min-width: 1800px) {
     #smallToolContainer2{
         min-width: 80px;
+        width: 80px;
     }
     #smallToolContainer{
         min-width: 120px;
+        width: 120px;
     }
     .floatingMessage{
         font-size: 1.5rem;
