@@ -1,3 +1,13 @@
+try{
+    if(window.location.hostname != "localhost"){
+        Sentry.init({dsn: 'https://4230bd5710b44f3d859b2dfd012a7cbd@o422858.ingest.sentry.io/5419306'});
+        console.log("setup sentry")
+    }else{
+        console.log("In localhost")
+    }
+}catch(e){
+    console.log(e)
+}
 /*
   _    _ _____ 
  | |  | |_   _|

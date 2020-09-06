@@ -1126,7 +1126,6 @@
     let playBtn2 = document.getElementById("playBtn2")
     let playIndicator = document.getElementById("playIndicator")
     async function play() {
-        try{
         if (playBtn.value == "Play" || playBtn2.value == "Play") {
             playBtn2.value = "Stop"
             playBtn.value = "Stop"
@@ -1223,9 +1222,6 @@
         isPlaying = false
         console.log("Expected time: "+parseInt(calculatedTime))
         console.log("Actual time: "+(Date.now() - actulTime))
-    }catch(e){
-            showMessage(e,2,10000)
-        }
     }
     //----------------------------------------------------------------------------------------------//
 

@@ -39,7 +39,11 @@
     <script src="/scripts/jqueryUI.js"></script>
     <script src="/scripts/jqueryPEP.js"></script>
     <script src="/scripts/Midi.js"></script>
-
+    <script
+        src="https://browser.sentry-cdn.com/5.22.3/bundle.tracing.min.js"
+        integrity="sha384-HfEJlGrJtFM0B01Wt4sGzTbxWqLMcMeGAXCbyQyB+iK9BhnDmNAtIGovhekIQOa2"
+        crossorigin="anonymous"
+    ></script>
 </head>
 <body style="touch-action: pan-x pan-y;">
     <div class="notesWrapper">
@@ -227,6 +231,14 @@
             <div>Cave mode</div>
             <button id="toggleReverbBtn" class="skyButton"   onclick="toggleReverb()">OFF</button>
         </div>
+        <div class="settingOption">
+            <div>Beat marks</div>
+            <select id="beatMarkerPicker" class="select">
+                <option>None</option>
+                <option>3/4</option>
+                <option>4/4</option>
+            </select>
+        </div><br>
         <div class="settingOption" style="color: limegreen;">
             <div >Import MIDI</div>
             <button id="midiImportButton" class="skyButton"  onclick="openMIDI()">Select file</button>
@@ -237,15 +249,7 @@
             <select id="loadSongSelect" class="select">
                 <option selected disabled>Song</option>
             </select>
-        </div>
-        <div class="settingOption">
-            <div>Beat marks</div>
-            <select id="beatMarkerPicker" class="select">
-                <option>None</option>
-                <option>3/4</option>
-                <option>4/4</option>
-            </select>
-        </div>
+        </div><br>
         <div class="settingOption">
             <div>Download sheet</div>
             <button class="skyButton"  onclick="downloadSheet()">Download</button>
@@ -255,18 +259,23 @@
             <button class="skyButton" onclick="record()">
                 Record
             </button>
+        </div><br>
+        <div class="settingOption">
+            <div>Auto reload page when switching app/tab</div>
+            <button id="autoReloadBtn" class="skyButton" onclick="toggleAutoReload()">
+                OFF
+            </button>
         </div>
-        <br>
         <div class="settingOption">
             <div>Performance mode</div>
             <button id="togglePerformanceBtn" class="skyButton" onclick="togglePerformanceMode()">
                 OFF
             </button>
-        </div>
+        </div><br>
         <div class="settingOption" style=" margin-top: 1rem;">
             <div>Resize page</div>
             <input type="range" id="changeScale" value="10" min="0" max="20" style="width: 50%;">
-        </div>
+        </div><br><br>
         <input type="button" style="border: rgba(235, 0, 27, 1) solid 1px; color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
 
@@ -323,7 +332,18 @@
 </body>
 
 <script>
+    try{
+        if(window.location.hostname != "localhost"){
+            Sentry.init({dsn: 'https://4230bd5710b44f3d859b2dfd012a7cbd@o422858.ingest.sentry.io/5419306'});
+            console.log("setup sentry")
+        }else{
+            console.log("In localhost")
+        }   
+    }catch(e){
+        console.log(e)
+    }
     let performanceMode = localStorage.getItem("performanceMode")
+    let autoReload = localStorage.getItem("autoReloadComposer")
     if(performanceMode != null){
         try{
             performanceMode = JSON.parse(performanceMode)
@@ -335,10 +355,38 @@
         performanceMode = false
     }
     if(performanceMode){
-            let performanceBtn = document.getElementById("togglePerformanceBtn")
-            performanceBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
-            performanceBtn.innerHTML = "ON"
+        let performanceBtn = document.getElementById("togglePerformanceBtn")
+        performanceBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+        performanceBtn.innerHTML = "ON"
+    }
+    if(autoReload != null){
+        try{
+            autoReload = JSON.parse(autoReload)
+        }catch(e){
+            autoReload = false
         }
+    }else{
+        autoReload = false
+    }
+    if(autoReload){
+        let autoReloadBtn = document.getElementById("autoReloadBtn")
+        autoReloadBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+        autoReloadBtn.innerHTML = "ON"
+    }
+
+    function toggleAutoReload(){
+        let autoReloadBtn = document.getElementById("autoReloadBtn")
+        autoReload = !autoReload
+        if(autoReload){
+            autoReloadBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+            autoReloadBtn.innerHTML = "ON"
+            localStorage.setItem("autoReloadComposer",true)
+        }else{
+            autoReloadBtn.style.backgroundColor = "#383838"
+            autoReloadBtn.innerHTML = "OFF"
+            localStorage.setItem("autoReloadComposer",false)
+        }
+    }
     function togglePerformanceMode(){
         let performanceBtn = document.getElementById("togglePerformanceBtn")
         let playIndicator = document.getElementById("playIndicator")
@@ -1732,11 +1780,14 @@
     });
 
     //--------------------------------------------------------------------------------------//
-
+    let exitedPage = false
     $(window).blur(function () {
         quickSave(true)
+        exitedPage = true
     });
-
+    $(window).focus(function (){
+        if(exitedPage && autoReload) location.reload()
+    })
     //--------------------------------------------------------------------------------------//
 
     function getSongData() {
