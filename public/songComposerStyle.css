@@ -23,10 +23,12 @@ body {
     right: 0;
     margin-right: auto;
     margin-left: auto;
-    height: 15%;
+    min-height: 15%;
     top: 70%;
+    border:1.5px #676761 solid;
     font-size: 1em;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
     padding: 1em;
     font-family: Arial;
     font-weight: bold;
@@ -862,7 +864,10 @@ button:focus {
         min-width: 2.4vw;
         width: 2.4vw;
     }
-
+    #playIndicator{
+        min-width: 2.4vw;
+        width: 2.4vw;
+    }
     .tool {
         font-size: 0.8em;
     }
