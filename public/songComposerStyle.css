@@ -161,10 +161,6 @@ div.full {
     background-color: #dad8b3;
     opacity: 0.6;
     cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: -moz-none;
-    -ms-user-select: none;
-    user-select: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 .beatStop{
@@ -234,7 +230,6 @@ div.full {
 
 [id^=Key],
 button {
-    -webkit-user-select: none;
     -moz-user-select: -moz-none;
     -ms-user-select: none;
     user-select: none;
@@ -273,7 +268,6 @@ button {
     cursor: pointer;
     height: 30px;
     margin: 4px 2px 0 2px;
-    -webkit-user-select: none;
     -moz-user-select: -moz-none;
     -ms-user-select: none;
     user-select: none;
@@ -808,7 +802,6 @@ input[type=number] {
 }
   .tool:active{
     background-color: #636150;
-    -webkit-user-select: none;
     -moz-user-select: -moz-none;
     -ms-user-select: none;
     user-select: none;
