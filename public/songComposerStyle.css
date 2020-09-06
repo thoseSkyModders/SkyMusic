@@ -594,7 +594,6 @@ input[type=number] {
 }
 
 .toolsContainerRight {
-    width: 8vw;
     min-width: 60px;
     margin-left: 5px;
 }
@@ -651,10 +650,12 @@ input[type=number] {
     margin-right: 2%;
 }
 #smallToolContainer2{
-    min-width: 40px;
+    width: unset;
+    min-width: 35px;
     display: none;
 }
 #smallToolContainer{
+    width: unset;
     display: none;
     min-width: 60px;
 }
