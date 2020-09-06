@@ -69,7 +69,7 @@
                 <input id="playBtn" class="tool" type="button" value="Play" onclick="play()">
             </div>
         </div>
-        <div class="toolsContainer" id="smallToolContainer" style="width: 7%; min-width: 75px; display:none;">
+        <div class="toolsContainer" id="smallToolContainer">
             <div class="full">
                 <input id="next2" class="tool mirrorX" type="button" style="background-image: url('./icons/next_back_arrows.svg');" onclick="next()">
             </div>
@@ -88,10 +88,10 @@
         <input class="addPage" type="button" value="+" onclick="addPage()">
         <div class="toolsContainer toolsContainerRight">
             <div class="full">
-                <input id="+C" class="tool" type="button" style="background-image: url('./icons/addCell.svg');  background-size: 32%;" onclick="appendCell()">
+                <input id="+C" class="tool addRemoveCell" type="button" style="background-image: url('./icons/addCell.svg');" onclick="appendCell()">
             </div>
             <div class="full">
-                <input id="-C" class="tool" type="button" style="background-image: url('./icons/removeCell.svg'); background-size: 32%;" onclick="removeCell()">
+                <input id="-C" class="tool addRemoveCell" type="button" style="background-image: url('./icons/removeCell.svg');" onclick="removeCell()">
             </div>
             <div class="full">
                 <input class="tool " type="button" value="Tools" onclick="toggleSelection()">
@@ -100,11 +100,11 @@
                 <input class="tool " type="button" value="Paste" onclick="paste()">
             </div>
         </div>
-        <div class="toolsContainer" id="smallToolContainer2" style="min-width: unset; display:none; ">
-            <div class="full" style="height:50%; width: 4vw; min-width: 4vh;">
+        <div class="toolsContainer" id="smallToolContainer2">
+            <div class="full" style="height:50%;">
                 <input class="tool" type="button" style="background-image: url('./icons/addCell.svg');  background-size: 80%;" onclick="appendCell()">
             </div>
-            <div class="full" style="height:50%;  width: 4vw; min-width: 4vh;">
+            <div class="full" style="height:50%;">
                 <input class="tool" type="button" style="background-image: url('./icons/removeCell.svg'); background-size: 80%;" onclick="removeCell()">
             </div>
         </div>
