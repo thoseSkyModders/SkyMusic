@@ -1126,12 +1126,14 @@
     let playBtn2 = document.getElementById("playBtn2")
     let playIndicator = document.getElementById("playIndicator")
     async function play() {
+        try{
         if (playBtn.value == "Play" || playBtn2.value == "Play") {
             playBtn2.value = "Stop"
             playBtn.value = "Stop"
             disableCells("none")
         } else {
             stopPlaying = true
+            isPlaying = false
             playBtn2.value = "Play"
             playBtn.value = "Play"
             disableCells("auto")
@@ -1206,6 +1208,7 @@
                 }
             } catch (e) {
                 console.log("error playing note")
+                showMessage(e)
             }
             if (stopPlaying) break
             calculatedTime+=bpmToMs
@@ -1214,12 +1217,15 @@
         }
         selectedCell.style.opacity = "1"
         playIndicator.style.display = "none"
-        console.log("Expected time: "+parseInt(calculatedTime))
-        console.log("Actual time: "+(Date.now() - actulTime))
         playBtn.value = "Play"
         disableCells("auto")
         stopPlaying = true
         isPlaying = false
+        console.log("Expected time: "+parseInt(calculatedTime))
+        console.log("Actual time: "+(Date.now() - actulTime))
+    }catch(e){
+            showMessage(e,2,10000)
+        }
     }
     //----------------------------------------------------------------------------------------------//
 
@@ -2505,39 +2511,7 @@
         a.click()
         a.remove()
     }
-    (function( win ){
-	var doc = win.document;
-	
-	// If there's a hash, or addEventListener is undefined, stop here
-	if( !location.hash && win.addEventListener ){
-		
-		//scroll to 1
-		window.scrollTo( 0, 1 );
-		var scrollTop = 1,
-			getScrollTop = function(){
-				return win.pageYOffset || doc.compatMode === "CSS1Compat" && doc.documentElement.scrollTop || doc.body.scrollTop || 0;
-			},
-		
-			//reset to 0 on bodyready, if needed
-			bodycheck = setInterval(function(){
-				if( doc.body ){
-					clearInterval( bodycheck );
-					scrollTop = getScrollTop();
-					win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
-				}	
-			}, 15 );
-		
-		win.addEventListener( "load", function(){
-			setTimeout(function(){
-				//at load, if user hasn't scrolled more than 20 or so...
-				if( getScrollTop() < 20 ){
-					//reset to hide addr bar at onload
-					win.scrollTo( 0, scrollTop === 1 ? 0 : 1 );
-				}
-			}, 0);
-		} );
-	}
-})( this );
+
 </script>
 
 </html>
