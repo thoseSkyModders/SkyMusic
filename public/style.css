@@ -965,7 +965,7 @@ html {
 	margin-left: auto;
 	top: 30%;
 	width: 50%;
-	height: 35%;
+	height: 48%;
 	z-index: 10;
 	color: #dad8b3;
 	text-align: center;
@@ -989,7 +989,7 @@ html {
 .formatButton {
 	color: #dad8b3;
 	background-color: rgba(44, 44, 44, 0.8);
-	border-radius: 0.5em;
+	border-radius: 0.5rem;
 	font-size: 1em;
 	padding: 0.4em;
 	box-sizing: border-box;
@@ -1129,11 +1129,13 @@ html {
 }
 
 .midiImport {
-	height: 20%;
+	height: 25%;
 	margin-top: 1%;
-	border-radius: 0.2em;
+	border-radius: 0.4rem;
 }
-
+#importText{
+	margin-bottom: 1%;
+}
 #importAbcData input {
 	color: #dad8b3;
 	border: none;

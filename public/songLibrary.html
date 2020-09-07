@@ -1323,7 +1323,7 @@
     })
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('search') != null) {
-        document.getElementById("search").innerHTML = urlParams.get('search').split("_").join(" ")
+        document.getElementById("search").value = urlParams.get('search').split("_").join(" ")
         search(true)
     }
 </script>

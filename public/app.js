@@ -1588,6 +1588,26 @@ function importABC(){
     let textarea = document.getElementById("abcTextarea")
     let songText = textarea.value.toUpperCase()
     try{
+        let songToImport = getSongFromABC(songText,bpm)
+        let song = {
+            name: name,
+            isComposed: true,
+            bpm:bpm,
+            pitchLevel: 0,
+            bitsPerPage: 16,
+            songNotes: songToImport
+        }
+        saveSong(song.name, song.songNotes, 1,song.pitchLevel,song.bpm,song.isComposed)
+        showMessage(systemMessagesText[selectedLanguage][24],1,1500)
+        $(formatChooser).fadeOut(200)
+        $("#savedSongsDiv").animate({scrollTop:$("#savedSongsDiv")[0].scrollHeight}, 300);
+    }catch(e){
+        console.log(e)
+        showMessage(systemMessagesText[selectedLanguage][10],0,1500)
+    }
+}
+
+function getSongFromABC(songText,bpm,pauseTimeDivision = 3){
     let songArray = songText.split(".").join(" ").split(" ")
         songArray = songArray.map(element => {
             if(element == "") return []
@@ -1615,10 +1635,10 @@ function importABC(){
 
         let tempo = 0
         let ms = Math.floor(60000/bpm)
-        let songToImport = []
+        let song = []
         parsedSong.forEach(element => {
             if(element.length == 0){
-                tempo +=Math.floor(ms/3)
+                tempo +=Math.floor(ms/pauseTimeDivision)
                 return
             }else{
                 tempo += ms
@@ -1628,24 +1648,10 @@ function importABC(){
                     time:tempo,
                     key:e
                 }
-                songToImport.push(objKey)
+                song.push(objKey)
            })
         })
-        let song = {
-            name: name,
-            isComposed: true,
-            bpm:bpm,
-            pitchLevel: 0,
-            bitsPerPage: 16,
-            songNotes: songToImport
-        }
-        saveSong(song.name, song.songNotes, 1,song.pitchLevel,song.bpm,song.isComposed)
-        showMessage(systemMessagesText[selectedLanguage][24],1,1500)
-        $(formatChooser).fadeOut(200)
-        $("#savedSongsDiv").animate({scrollTop:$("#savedSongsDiv")[0].scrollHeight}, 300);
-    }catch{
-        showMessage(systemMessagesText[selectedLanguage][10],0,1500)
-    }
+        return song
 }
 document.getElementById("abcTextarea").addEventListener("focus",function(){
     isTyping = true
@@ -1670,7 +1676,7 @@ function toggleABCExport(){
     document.getElementById("importText").style.display = "none"
     document.getElementById("abcExport").style.display = "flex"
     let song = songToDownload[0][0].songNotes
-    let convertedSong = ""
+    let convertedSong = "<DontCopyThisLine> "+songToDownload[0][0].bpm+" "+songToDownload[0][0].pitchLevel+" 16 skyMusic skyMusic\n"
     for (var i = 0; i < song.length; i++) {
         var key = parseInt(song[i].key.replace("Key", ""))
         switch (key) {
@@ -1729,9 +1735,6 @@ function toggleABCExport(){
         if ((song[i+1].time - song[i].time) > 500) {
             convertedSong += ". "
         }
-        if ((song[i+1].time - song[i].time) > 1500) {
-            convertedSong += "\n"
-        }
     }
     document.getElementById("abcTextareaExport").value = convertedSong
 }
@@ -1739,14 +1742,52 @@ function toggleABCExport(){
 function downloadAbc(){
     downloadJSON(document.getElementById("abcTextareaExport").value,songToDownload[1],true)
 }
+
+function importSkyStudioABC(text,name){
+    let args = text.split("\n")
+    let data = args[0].split(" ")
+    let song = args[1]
+    let bpm = parseInt(data[1])
+    let artistName = data[3]
+    console.log(artistName)
+    let pitchLevel = parseInt(data[2])
+    let songObj = {
+        name: name.replace(".txt","").split("_").join(""),
+        isComposed: true,
+        bpm: bpm,
+        pitchLevel: pitchLevel,
+        bitsPerPage: 16,
+        songNotes: getSongFromABC(song,bpm,4)
+    }   
+    if(artistName == "skuMusic"){
+        songObj.songNotes = getSongFromABC(song,bpm,2)
+    }
+    let alredyExists = (document.getElementById("Song-" + songObj.name) == null)
+    if(!alredyExists){
+        showMessage(systemMessagesText[selectedLanguage][9] + " "+songObj.name,2,2000)
+        return
+    }
+    try{
+        saveSong(songObj.name, songObj.songNotes, 1,songObj.pitchLevel,songObj.bpm,songObj.isComposed)
+    }catch{
+
+    }
+    showMessage(systemMessagesText[selectedLanguage][24],1,1500) //Done
+    $("#savedSongsDiv").animate({scrollTop:$("#savedSongsDiv")[0].scrollHeight}, 300);
+    document.getElementById("formatChooser").style.display = "none"  
+}
 let filePicker = document.getElementById("filePicker")
 let formatImport = document.getElementById("formatImport")
 function importSongs() {
     let isreading = false
     filePicker.addEventListener("change", function () { //once file is picked it reads the content
             let fr = new FileReader()
-            fr.onload = function () {
+            fr.onload = function (evt) {
                 try {
+                    if(fr.result.toLowerCase().includes("<dontcopythisline>")){
+                        importSkyStudioABC(fr.result, evt.target.fileName)
+                        return
+                    }
                 let inputSongs = JSON.parse(fr.result)
                 if(inputSongs[0].isEncrypted == "true"){
                     showMessage("This song is encrypted, please save it without encryption or ask for the non encrypted song!",2,5000)
@@ -1781,6 +1822,7 @@ function importSongs() {
             fr.onerror = function(){
                 showMessage(systemMessagesText[selectedLanguage][10],0,1000) 
             }
+            fr.fileName = this.files[0].name
             fr.readAsText(this.files[0])
     })
     filePicker.click()
@@ -1820,7 +1862,10 @@ function convertToNewFormat(songs) {
                 time: songs[i].songNotes[j].time,
                 key: "1" + songs[i].songNotes[j].key
             }
-            if(!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
+            if (!isNaN(songs[i].songNotes[j].l)){
+                keyObj.l = songs[i].songNotes[j].l
+                keyObj.key = songs[i].songNotes[j].l + songs[i].songNotes[j].key
+            }
             newFormat.songNotes.push(keyObj)
         }
         convertedSongs.push(newFormat)
@@ -1848,9 +1893,13 @@ function convertToOldFormat(songs) {
             for (let j = 0; j < songs[i].songNotes.length; j++) {
                 let keyObj = {
                     time: songs[i].songNotes[j].time,
-                    key: songs[i].songNotes[j].key.substr(1)
+                    key: songs[i].songNotes[j].key.substr(1),
                 }
-                if(!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
+                if(!isNaN(songs[i].songNotes[j].l)){
+                    keyObj.l = songs[i].songNotes[j].l
+                }else{
+                    keyObj.l = parseInt(songs[i].songNotes[j].key[0])
+                }
                 oldFormat.songNotes.push(keyObj)
             }
             for(let k = 0;k < oldFormat.songNotes.length;k++){
@@ -2157,7 +2206,7 @@ if (preLoadSongs != null) {
 
 //--------------------------------------------------------------------------------------------------------//
 
-function saveSong(songName, song, savingType,pitch = 0,bpm = 200,isComposed = false,composedSong = false) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
+function saveSong(songName = "Error", song, savingType,pitch = 0,bpm = 200,isComposed = false,composedSong = false) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
     try {
         let songObj = {
             name: songName,

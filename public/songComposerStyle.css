@@ -539,7 +539,7 @@ input[type=number] {
     background-color: rgba(22, 22, 22, 1);
     display: none;
     flex-direction: column;
-    width: 50%;
+    width: 60%;
     height: 47vh;
     left: 0;
     right: 0;
@@ -555,20 +555,17 @@ input[type=number] {
 
 #finishedSelection {
     margin-left: 1em;
-    width: 45px;
-    min-width: 45px;
-    height: 45px;
+    width: 4vw;
+    min-width: 4vw;
+    height: 4vw;
     margin-top: 0;
     font-size: 1.2em;
+    border-radius: 0.3rem;
     flex: 1 1 0;
 }
 
-#copyLayerBtn {
-    border: solid 2px rgba(235, 0, 27, 0.7);
-}
-
-#eraseLayerBtn {
-    border: solid 2px rgba(235, 0, 27, 0.7);
+#copyLayerBtn,#invertLayerBtn,#eraseLayerBtn  {
+    background:rgba(235, 0, 27, 0.7);
 }
 
 #endCopyBtn {
@@ -580,11 +577,25 @@ input[type=number] {
     float: right;
     border: 1.5px solid transparent;
 }
-
+.division{
+    border: solid 1px #dad8b3;
+    background-color: #dad8b3;
+    margin: 0 1vw;
+    max-height: 6vh;
+    height: 6vh;
+}
 .toolButton {
     min-height: 4vh;
+    min-width: 5vw;
+    flex:1;
+    margin-top: unset;
 }
-
+.settingRow{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.3rem;
+}
 .rightContainer {
     position: fixed;
     left: 0.5em;
@@ -647,7 +658,7 @@ input[type=number] {
 
 #promptCancel,
 #replaceSong,
-#mergeSong {
+#splitSong {
     margin-right: 2%;
 }
 #smallToolContainer2{
@@ -740,6 +751,7 @@ input[type=number] {
 }
 
 @media screen and (min-width: 3500px) {
+
     .floatingMessage{
         font-size: 3rem;
     }
@@ -836,6 +848,11 @@ button:focus {
 }
 
 @media only screen and (orientation:portrait) {
+    #finishedSelection{
+        height: 5vh;
+        width: 5vh;
+        min-width: 5vh;
+    }
     .addPage {
         min-width: 6vw;
     }

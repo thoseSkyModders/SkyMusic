@@ -139,30 +139,38 @@
     <div id="toolsDiv">
         <div style="display: flex; flex-direction: row; margin-bottom: 1vh; justify-content: space-between; margin-bottom: auto;">
             <div style="background-color: #232323; border-radius: 0.5em; padding: 0.3em; width: 100%;">
-                <div class="settingOption full"> 
-                    <div>Select start</div>
+                <div class="settingOption full" style="margin-top: unset;"> 
+                    <div>Select starting point</div>
                     <input id="startCopyBtn" class="skyButton" type="button" value="Start" onclick="selectStartCopy()">
                 </div>
-                <div class="settingOption full">
-                    <div>Select end</div>
+                <div class="settingOption full" style="margin-top: unset;">
+                    <div>Select ending point</div>
                     <input id="endCopyBtn" class="skyButton" type="button" value="End" onclick="selectEndCopy()">
                 </div>
             </div>
             <input class="skyButton" id="finishedSelection" type="button" value="X" onclick="finishedSelection()">
         </div>
-        <div style="display:flex; justify-content: space-between;">
-            <div class="settingOption full"  style="display: flex; flex-direction: column; margin-right: 5%;">
-                <input class="skyButton toolButton" type="button" value="Copy" onclick="finishCopy()">   
-                <input class="skyButton toolButton" type="button" value="Paste" onclick="paste()"> 
+        <div class="settingRow">
+            <div class="settingOption full"  style="display: inline-flex; width: 50%;  margin-top: unset;">
+                <input class="skyButton toolButton" type="button" value="Copy all" onclick="finishCopy()">
+                <input class="skyButton toolButton" type="button" value="Paste all" onclick="paste()"> 
             </div>
-            <div class="settingOption full"  style="display: flex; flex-direction: column; margin-right: 5%;">
+            <div class="division"></div>
+            <div class="settingOption full"  style="display: inline-flex;width: 50%; margin-top: unset;">
                 <input class="skyButton toolButton" id="copyLayerBtn" type="button" value="Copy layer" onclick="copyLayer()">
-                <input class="skyButton toolButton" type="button" value="Paste layer" onclick="pasteLayer()"> 
+                <input class="skyButton toolButton" type="button" value="Paste layer" onclick="pasteLayer()">
             </div>
-            <div class="settingOption full"  style="display: flex; flex-direction: column;">
-                <input class="skyButton toolButton" id="eraseLayerBtn" type="button" value="Erase layer" onclick="erase()">  
-                <input class="skyButton toolButton" type="button" value="Delete" onclick="deleteMany()">       
-            </div>
+        </div>
+        <div class="settingRow">
+            <div style="display:flex; justify-content: space-between; width: 100%;">
+                <div class="settingOption full"  style="display: inline-flex;">
+                    <input class="skyButton toolButton" id="eraseLayerBtn" type="button" value="Erase layer" onclick="erase()">       
+                    <input class="skyButton toolButton" id="invertLayerBtn" type="button" value="Change to other layer" onclick="invertLayer()"> 
+                </div>
+            </div> 
+        </div>
+        <div class="settingOption full"  style="display: inline-flex; margin-top: 0.5rem;">
+            <input class="skyButton toolButton" type="button" value="Delete all" onclick="deleteMany()"> 
         </div>
     </div>
 
@@ -324,8 +332,8 @@
             <input class="skyButton" id="choseAnotherName" type="button" value="Ignore" onclick="promptDiv.style.display = 'none'">
         </div>
         <div id="mergeSongDiv" style="display: none; flex-direction: row; ">
-            <input class="skyButton" id="mergeSong" type="button" value="Merge" onclick="mergeSong()">
             <input class="skyButton" id="splitSong" type="button" value="Split" onclick="splitSong()">
+            <input class="skyButton" id="mergeSong" type="button" value="Merge" onclick="mergeSong()">
         </div>
     </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
@@ -438,6 +446,7 @@
 
     function changeScale(value) {
         page.style.zoom = value
+        document.getElementById("touch").style.zoom = value
     }
 
     //--------------------------------------------------------------------------------------//
@@ -479,13 +488,15 @@
     }
     function switchInstrumentLayer(btn) {
         if (btn.style.backgroundColor.includes("rgba(235, 0, 27")) {
-            document.getElementById("copyLayerBtn").style.borderColor = "#9B59B6"
-            document.getElementById("eraseLayerBtn").style.borderColor = "#9B59B6"
+            document.getElementById("invertLayerBtn").style.background = "#9B59B6"
+            document.getElementById("copyLayerBtn").style.background = "#9B59B6"
+            document.getElementById("eraseLayerBtn").style.background = "#9B59B6"
             btn.style.backgroundColor = "#9B59B6"
             selectedLayer = 2
         } else {
-            document.getElementById("copyLayerBtn").style.borderColor = "rgba(235, 0, 27, 0.7)"
-            document.getElementById("eraseLayerBtn").style.borderColor = "rgba(235, 0, 27, 0.7)"
+            document.getElementById("invertLayerBtn").style.background = "rgba(235, 0, 27, 0.7)"
+            document.getElementById("copyLayerBtn").style.background = "rgba(235, 0, 27, 0.7)"
+            document.getElementById("eraseLayerBtn").style.background = "rgba(235, 0, 27, 0.7)"
             btn.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
             selectedLayer = 1
         }
@@ -892,6 +903,27 @@
         }
     }
 
+
+    function invertLayer(){
+        getSelectedCells()
+        addToHistory()
+        for(let i = 0; i<selectedCellsArray.length;i++){
+            selectedCell = selectedCellsArray[i]
+            for (let j = 0; j < 15; j++) {
+                if (selectedLayer == 1) {
+                    if(selectedCell.children[j].style.backgroundColor.includes("rgba(235, 0, 27")){
+                        deselectNote(14-j)
+                        selectNoteLayer2(14-j)
+                    }
+                } else {
+                    if(selectedCell.children[j].style.borderColor == "darkslategray"){
+                        deselectNoteLayer2(14-j)
+                        selectNote(14-j)
+                    }
+                }
+            }
+        }
+    }
     //--------------------------------------------------------------------------------------//
 
     let copiedCells = []
@@ -912,18 +944,19 @@
         getSelectedCells()
         addToHistory()
         if (selectedCellsArray.length == 0) return
-        let firstCellPosition = getCellPosition(selectedCellsArray[0])
+        let cellPostion = getCellPosition(selectedCellsArray[0])
         let eraseLength = selectedCellsArray.length
         for (let i = 0; i < eraseLength; i++) {
-            selectedCell = getCell(firstCellPosition + i)
-            for (let i = 0; i < 14; i++) {
+            selectedCell = getCell(cellPostion + i)
+            for (let j = 0; j < 15; j++) {
                 if (selectedLayer == 1) {
-                    deselectNote(i)
+                    deselectNote(j)
                 } else {
-                    deselectNoteLayer2(i)
+                    deselectNoteLayer2(j)
                 }
             }
         }
+        selectCell(getCell(cellPostion))
     }
 
     //--------------------------------------------------------------------------------------//
@@ -952,7 +985,6 @@
         addToHistory()
         if (copiedLayer.length == 0) return
         let cellPostion = getCellPosition(selectedCell)
-
         for (let i = 0; i < copiedLayer.length; i++) {
             let nextCell = getCell(cellPostion + i)
             if (nextCell == null) addCell("end"), nextCell = getCell(cellPostion + i)
@@ -965,6 +997,7 @@
                 }
             }
         }
+        selectedCell = getCell(cellPostion)
         addBeatMarkers(selectedDivisions)
     }
 
@@ -1062,17 +1095,23 @@
 
     function selectStartCopy() {
         copySelectionColor = "rgb(235, 0, 27)"
-        document.getElementById("startCopyBtn").style.borderColor = copySelectionColor
         document.getElementById("startCopyBtn").style.color = copySelectionColor
         let cells = document.getElementsByClassName("cell")
         for (let i = 0; i < cells.length; i++) {
             if (cells[i].style.borderColor == "rgb(235, 0, 27)") cells[i].style.border = ""
-            cells[i].addEventListener("click", selectCopy)
+            //cells[i].addEventListener("click", selectCopy)
         }
+        selectedCell.style.border = "solid 2px " + copySelectionColor
+        $(selectedCell).animate({
+                opacity: 0.5
+            }, 200).delay(100).animate({
+                opacity: 1
+            }, 200);
     }
 
     //--------------------------------------------------------------------------------------//
 
+    //old method
     let selectCopy = function (event) {
         let path = event.path || (event.composedPath && event.composedPath())
         path[1].style.border = "solid 2px " + copySelectionColor
@@ -1086,13 +1125,18 @@
 
     function selectEndCopy() {
         copySelectionColor = "rgb(235, 0, 28)"
-        document.getElementById("endCopyBtn").style.borderColor = copySelectionColor
         document.getElementById("endCopyBtn").style.color = copySelectionColor
         let cells = document.getElementsByClassName("cell")
         for (let i = 0; i < cells.length; i++) {
             if (cells[i].style.borderColor == "rgb(235, 0, 28)") cells[i].style.border = ""
-            cells[i].addEventListener("click", selectCopy)
+            //cells[i].addEventListener("click", selectCopy)
         }
+        selectedCell.style.border = "solid 2px " + copySelectionColor
+        $(selectedCell).animate({
+                opacity: 0.5
+            }, 200).delay(100).animate({
+                opacity: 1
+            }, 200);
     }
 
     //--------------------------------------------------------------------------------------//
@@ -1522,7 +1566,7 @@
         let isMultiLayer = false
         var cells = Array.prototype.slice.call(document.getElementsByClassName("cell"), 0);
         for (let i = 0; i < cells.length; i++) { //checks if there is a multi layer
-            for (let j = 0; j < 14; j++) {
+            for (let j = 0; j < 15; j++) {
                 if (cells[i].children[14 - j].style.borderColor == "darkslategray") {
                     isMultiLayer = true
                     break
@@ -1682,7 +1726,10 @@
                     time: songs[i].songNotes[j].time,
                     key: "1" + songs[i].songNotes[j].key
                 }
-                if (!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
+                if (!isNaN(songs[i].songNotes[j].l)){
+                    keyObj.l = songs[i].songNotes[j].l
+                    keyObj.key = songs[i].songNotes[j].l + songs[i].songNotes[j].key
+                }
                 newFormat.songNotes.push(keyObj)
             }
             convertedSongs.push(newFormat)
