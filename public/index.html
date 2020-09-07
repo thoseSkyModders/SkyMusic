@@ -30,6 +30,11 @@
     <script src="/scripts/jquery.js"></script>
     <script src="/scripts/jqueryUI.js"></script>
     <script src="/scripts/jqueryPEP.js"></script>
+    <script
+      src="https://browser.sentry-cdn.com/5.22.3/bundle.tracing.min.js"
+      integrity="sha384-HfEJlGrJtFM0B01Wt4sGzTbxWqLMcMeGAXCbyQyB+iK9BhnDmNAtIGovhekIQOa2"
+      crossorigin="anonymous"
+    ></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
     <title>Sky Music</title>
@@ -189,7 +194,7 @@
             <div class = "bottomSavedSongsDiv">
                 <button id="import-button" class="skyButton" onclick="toggleImportSong()">Import songs</button>
                 <button id="download-songs-button" class="skyButton" onclick="downloadSongs()">Download songs</button>
-                <input type=file style="display:none;" id="filePicker">
+                <input type=file style="display:none;" id="filePicker" accept=".txt,.json">
             </div>
           </div>
         <!--Database Songs-->

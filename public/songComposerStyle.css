@@ -23,10 +23,12 @@ body {
     right: 0;
     margin-right: auto;
     margin-left: auto;
-    height: 15%;
+    min-height: 15%;
     top: 70%;
+    border:1.5px #676761 solid;
     font-size: 1em;
-    text-align: center;
+    justify-content: center;
+    align-items: center;
     padding: 1em;
     font-family: Arial;
     font-weight: bold;
@@ -73,7 +75,7 @@ body {
 
 .addPage {
     height: 100%;
-    min-width: 30px;
+    min-width: 25px;
     border-radius: 5px;
     font-size: 1.2em;
     z-index: 10;
@@ -87,8 +89,8 @@ body {
 }
 
 .toolsContainer {
-    width: 14%;
-    min-width: 150px;
+    min-width: 120px;
+    width: 120px;
     height: 100%;
     border-radius: 10px;
     background-color: #1E1E1E;
@@ -124,7 +126,7 @@ body {
     height: 100%;
     font-size: 1em;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     border-bottom: 2px solid transparent;
     background-color: #383838;
     color: #dad8b3;
@@ -159,10 +161,6 @@ div.full {
     background-color: #dad8b3;
     opacity: 0.6;
     cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: -moz-none;
-    -ms-user-select: none;
-    user-select: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 .beatStop{
@@ -199,7 +197,14 @@ div.full {
     max-height: 55vh;
     box-sizing: border-box;
 }
-
+#playIndicator{
+    position: absolute;
+    display: none;
+    width: 1.6vw;
+    height: 55vh;
+    background-color: rgba(235, 0, 27, 0.2);
+    z-index: 5;
+}
 [id^=row] {
     display: flex;
     height: calc((100% + 1vh)/3);
@@ -225,7 +230,6 @@ div.full {
 
 [id^=Key],
 button {
-    -webkit-user-select: none;
     -moz-user-select: -moz-none;
     -ms-user-select: none;
     user-select: none;
@@ -264,14 +268,11 @@ button {
     cursor: pointer;
     height: 30px;
     margin: 4px 2px 0 2px;
-    min-width: 80px;
-    -webkit-user-select: none;
     -moz-user-select: -moz-none;
     -ms-user-select: none;
     user-select: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-
 .skyButton {
     -webkit-appearance: none;
     -webkit-border-radius: none;
@@ -593,8 +594,8 @@ input[type=number] {
 }
 
 .toolsContainerRight {
-    width: 7%;
-    min-width: 75px;
+    min-width: 60px;
+    width: 60px;
     margin-left: 5px;
 }
 
@@ -649,8 +650,29 @@ input[type=number] {
 #mergeSong {
     margin-right: 2%;
 }
+#smallToolContainer2{
+    width: 35px;
+    min-width: 35px;
+    display: none;
+}
+#smallToolContainer{
+    width: 60px;
+    display: none;
+    min-width: 60px;
+}
+.addRemoveCell{
+    background-size: 32% !important;
 
+}
 @media screen and (min-width: 1800px) {
+    #smallToolContainer2{
+        min-width: 80px;
+        width: 80px;
+    }
+    #smallToolContainer{
+        min-width: 120px;
+        width: 120px;
+    }
     .floatingMessage{
         font-size: 1.5rem;
     }
@@ -801,7 +823,6 @@ input[type=number] {
 }
   .tool:active{
     background-color: #636150;
-    -webkit-user-select: none;
     -moz-user-select: -moz-none;
     -ms-user-select: none;
     user-select: none;
@@ -813,7 +834,20 @@ textarea:focus,
 button:focus {
     outline: none;
 }
+
 @media only screen and (orientation:portrait) {
+    .addPage {
+        min-width: 6vw;
+    }
+    .addRemoveCell{
+        background-size: 70% !important;
+    }
+    #smallToolContainer{
+        min-width: 12vw;
+    }
+    #smallToolContainer2{
+        min-width: 4vh;
+    }
     .instrumentTitle{
         width: min-content;
     }
@@ -836,7 +870,7 @@ button:focus {
     }
 
     .rightContainer {
-        flex-direction: row;
+        flex-direction: row-reverse;
     }
 
     .tempoButton {
@@ -857,9 +891,13 @@ button:focus {
         min-width: 2.4vw;
         width: 2.4vw;
     }
-
+    #playIndicator{
+        min-width: 2.4vw;
+        width: 2.4vw;
+    }
     .tool {
         font-size: 0.8em;
+        background-size: 100%;
     }
 
     .toolsContainer {

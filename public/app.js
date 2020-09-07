@@ -1,3 +1,13 @@
+try{
+    if(window.location.hostname != "localhost"){
+        Sentry.init({dsn: 'https://4230bd5710b44f3d859b2dfd012a7cbd@o422858.ingest.sentry.io/5419306'});
+        console.log("setup sentry")
+    }else{
+        console.log("In localhost")
+    }
+}catch(e){
+    console.log(e)
+}
 /*
   _    _ _____ 
  | |  | |_   _|
@@ -1518,8 +1528,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "4.6"
-let changelogMessage = "Version:"+currentVersion+"<br> Added volume control to composer, UI tweaks, added beat markers, redid sheet displayer, redid help page"
+let currentVersion = "4.7"
+let changelogMessage = "Version:"+currentVersion+"<br> Added volume control to composer, UI tweaks, added beat markers, redid sheet displayer, redid help page, increased performance"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     showMessage(changelogMessage, 2, 8000)
