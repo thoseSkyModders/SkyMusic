@@ -17,6 +17,19 @@ try{
   \____/|_____|     
 
  */
+try{
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then((reg) => {
+              console.log('Service worker registered.', reg);
+            });
+      });
+    }
+}catch(e){
+    console.log("Error setting up service worker")
+    console.log(e)
+}
 let floatingMessage
 function showMessage(msg, msgType, duration) {
     if (duration == undefined) duration = 1500
@@ -171,30 +184,25 @@ function choseBackground(){
 
 function changeBackground(image){
     try{
-        if(image.length > 5000000){
-            showMessage("Image is too big, it must be smaller than 5MB!")
-            return
-        }
         backgroundImage = image
+        saveImageToDb(image)
         document.getElementById("video1").style.display = "none"
         document.getElementById("videoWrapper").style.filter = "blur(1px)"
         document.getElementById("videoWrapper").style.backgroundImage = "url("+image+")"
         document.getElementById("videoWrapper").style.display = "block"
-        localStorage.setItem("backgroundImage",image)
+        localStorage.removeItem("backgroundImage")
     }catch(e){
         console.log(e)
     }
 }   
 function resetBackground(){
     document.getElementById("video1").style.display = "block"
-    localStorage.removeItem("backgroundImage")
+    let transaction = db.transaction(['cachedImage'], 'readwrite');
+    transaction.objectStore('cachedImage').delete("image");
     document.getElementById("videoWrapper").style = ""
     if(darkModeToggled) document.getElementById("videoWrapper").style.display = "none"
 }
-let backgroundImage = localStorage.getItem("backgroundImage")
-if(backgroundImage!=null){
-    changeBackground(backgroundImage)
-}
+let backgroundImage = undefined
 //--------------------------------------------------------------------------------------------------------//
 
 var savedLanguage = localStorage.getItem("language")
@@ -672,7 +680,7 @@ async function turnOnDarkMode(){
         6:"#1C1E1F"
     }
     document.getElementById("video1").style.display = "none"
-    if(backgroundImage == null) document.getElementById("videoWrapper").style.display = "none"
+    if(backgroundImage == undefined) document.getElementById("videoWrapper").style.display = "none"
     $(".skyButton").css("background-color", layers[6])
     $(".btnImg").css("background-color", "rgba(39, 43, 45, 0.7)")
     //$(".tab").css("background-color", layers[6])
@@ -1528,10 +1536,11 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "4.7"
-let changelogMessage = "Version:"+currentVersion+"<br> Added volume control to composer, UI tweaks, added beat markers, redid sheet displayer, redid help page, increased performance"
+let currentVersion = "4.8"
+let changelogMessage = "Version:"+currentVersion+"<br>Removed background image size limit and added how much storage left, other fixes."
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
+    localStorage.removeItem("backgroundImage")
     showMessage(changelogMessage, 2, 8000)
 }
 
@@ -1677,6 +1686,7 @@ function toggleABCExport(){
     document.getElementById("abcExport").style.display = "flex"
     let song = songToDownload[0][0].songNotes
     let convertedSong = "<DontCopyThisLine> "+songToDownload[0][0].bpm+" "+songToDownload[0][0].pitchLevel+" 16 skyMusic skyMusic\n"
+    let bpmToMs = 60000/ songToDownload[0][0].bpm
     for (var i = 0; i < song.length; i++) {
         var key = parseInt(song[i].key.replace("Key", ""))
         switch (key) {
@@ -1729,11 +1739,20 @@ function toggleABCExport(){
         if(i == song.length-1){
             break
         }
-        if ((song[i+1].time - song[i].time) > 80) {
+        let pauseTime = song[i+1].time - song[i].time
+        if (pauseTime > 80) {
             convertedSong += " "
         }
-        if ((song[i+1].time - song[i].time) > 500) {
-            convertedSong += ". "
+        if(songToDownload[0][0].isComposed == "true"){
+            while(true){
+                pauseTime-=bpmToMs
+                if(pauseTime < 0) break
+                convertedSong += " . "
+            }
+        }else{
+            if (pauseTime > 250) {
+                convertedSong += ". "
+            }
         }
     }
     document.getElementById("abcTextareaExport").value = convertedSong
@@ -1748,8 +1767,7 @@ function importSkyStudioABC(text,name){
     let data = args[0].split(" ")
     let song = args[1]
     let bpm = parseInt(data[1])
-    let artistName = data[3]
-    console.log(artistName)
+    let artistName = data[4]
     let pitchLevel = parseInt(data[2])
     let songObj = {
         name: name.replace(".txt","").split("_").join(""),
@@ -1759,8 +1777,8 @@ function importSkyStudioABC(text,name){
         bitsPerPage: 16,
         songNotes: getSongFromABC(song,bpm,4)
     }   
-    if(artistName == "skuMusic"){
-        songObj.songNotes = getSongFromABC(song,bpm,2)
+    if(artistName == "skyMusic"){
+        songObj.songNotes = getSongFromABC(song,bpm,3)
     }
     let alredyExists = (document.getElementById("Song-" + songObj.name) == null)
     if(!alredyExists){
@@ -1922,10 +1940,13 @@ function convertToOldFormat(songs) {
 //--------------------------------------------------------------------------------------------------------//
 
 function downloadJSON(inArray, fileName, isText = false) {
+    let dataStr = "data:text/json;charset=utf-8,"
     if(!isText){
         inArray = convertToNewFormat(inArray)
+        dataStr += encodeURIComponent(JSON.stringify(inArray));
+    }else{
+        dataStr += encodeURIComponent(inArray)
     }
-    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(inArray));
     let dlAnchorElem = document.createElement("a")
     dlAnchorElem.setAttribute("href", dataStr);
     dlAnchorElem.setAttribute("download", fileName + ".txt");
@@ -2227,6 +2248,7 @@ function saveSong(songName = "Error", song, savingType,pitch = 0,bpm = 200,isCom
             songStorage = [songObj]
             localStorage.setItem("savedSongs", JSON.stringify(songStorage))
         }
+        checkLocalStorageSize()
     }
     //--------------------------------// Dinamically create the button to play the song
     let songContainer = document.createElement("div")
@@ -2293,6 +2315,7 @@ function saveSong(songName = "Error", song, savingType,pitch = 0,bpm = 200,isCom
                         }
                     }
                     localStorage.setItem("savedSongs", JSON.stringify(savedSongs))
+                    checkLocalStorageSize()
                 }
             }
         })
@@ -2391,6 +2414,7 @@ function saveSong(songName = "Error", song, savingType,pitch = 0,bpm = 200,isCom
     
     } catch(e){
         showMessage(systemMessagesText[selectedLanguage][10],0,1500) //error importing song
+        console.log(e)
     }
 }
 
@@ -2566,7 +2590,18 @@ let retrySong
 let pressedRetry = false
 
 //--------------------------------------------------------------------------------------------------------//
-
+let localStorageProgressBar = document.getElementById("progressBar")
+function checkLocalStorageSize(){
+    let total = 0;
+    for (let x in localStorage) {
+        let amount = (localStorage[x].length * 2) / 1024 / 1024
+        if (!isNaN(amount) && localStorage.hasOwnProperty(x)) {
+            total += amount;
+        }
+    }
+    localStorageProgressBar.style.width = total/10 * 100 +"%"
+    document.getElementById("percentageStorage").innerHTML = Math.floor(total/10 * 100) +"%"
+}
 function retry() {
     let startPoint = parseInt(startingNoteRange.value)
     retrySong = currentSong.slice(startPoint, currentSong.length)
@@ -2574,15 +2609,59 @@ function retry() {
     practice(retrySong)
 
 }
+let db = undefined
+let dbVersion = 1
+async function initDb() {
+    let request = indexedDB.open('database', dbVersion);
+
+    request.onerror = function(e) {
+        console.error('Unable to open database.');
+    }
+
+    request.onsuccess = async function(e) {
+        db = e.target.result;
+        console.log('Db opened');
+        backgroundImage = await getImageFromDb()
+        if(backgroundImage != undefined){
+            changeBackground(backgroundImage)   
+        }
+    }
+
+    request.onupgradeneeded = function(e) {
+        let db = e.target.result;
+        db.createObjectStore('cachedImage');
+    }
+}
+function saveImageToDb(image) {
+    let transaction = db.transaction(['cachedImage'], 'readwrite');
+    let request = transaction.objectStore('cachedImage').put(image,"image");
+    request.onerror = function(e) {
+        console.log('Error saving file');
+        console.error(e);
+    }
+
+    transaction.oncomplete = function(e) {
+        console.log('Image saved');
+    }
+}
+function getImageFromDb(){
+    return new Promise(resolve =>{
+        let transaction = db.transaction(['cachedImage'], 'readonly');
+        let req = transaction.objectStore('cachedImage').get("image");
+        req.onsuccess = function(e) {
+            let record = e.target.result;
+            if(record == undefined) return
+            resolve(record)
+        }
+    })
+}
 //delay function
 const delay = ms => new Promise(res => setTimeout(res, ms))
 initializeKeyboard()
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-        .then((reg) => {
-          console.log('Service worker registered.', reg);
-        });
-  });
+try{
+    initDb()
+}catch(e){
+    console.log("Error init DB")
+    console.log(e)
 }
+checkLocalStorageSize()

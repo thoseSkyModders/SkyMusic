@@ -62,7 +62,7 @@ body {
     height: 100%;
     border-radius: 10px;
     background-color: #1E1E1E;
-    padding-bottom: 2px;
+    padding-bottom: 1px;
     text-align: left;
     display: flex;
     overflow-x: auto;

@@ -952,10 +952,33 @@ html {
 	font-size: 1.2em;
 	font-family: Arial;
 	margin: 0;
-	color: white;
+	color: #dbd9c2;
 	opacity: 100%;
+	text-align: center;
 }
-
+#progressBarWrapper{
+	margin-top: 0.3rem;
+	width: 80%;
+	height: 30%;
+	border-radius: 0.3rem;
+	overflow: hidden;
+	background-color: rgb(218, 206, 179);
+}
+#progressBar{
+	min-width: 0.5%;
+	height: 100%;
+	background-color: rgba(235, 0, 27, 0.8);
+}
+#storageWrapper{
+	align-items:center;
+	height: 15vh;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+#percentageStorage{
+	margin-left: 0.5rem;
+}
 #formatChooser {
 	display: none;
 	position: absolute;

@@ -1,9 +1,11 @@
-const CACHE = "V6.1";
+const CACHE = "V6.2";
 
 const FILES_TO_CACHE = [
     'manifest.json',
     '/scripts/jquery.js',
     '/scripts/jqueryUI.js',
+    '/scripts/jqueryPEP.js',
+    '/scripts/Midi.js',
     '/',
     '/index.html',
     '/AnimatedBG/skygame-banner2.mp4',
@@ -219,8 +221,7 @@ const FILES_TO_CACHE = [
     '/KeyImages/diamondCircle.png',
     '/KeyImages/Circle.svg',
     '/KeyImages/Diamond.svg',
-    '/KeyImages/diamondCircle.svg',
-    '/scripts/Midi.js'
+    '/KeyImages/diamondCircle.svg'
     ];
     
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.0.0/workbox-sw.js');

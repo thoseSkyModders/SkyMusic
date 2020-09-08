@@ -171,6 +171,7 @@
         </div>
         <div class="settingOption full"  style="display: inline-flex; margin-top: 0.5rem;">
             <input class="skyButton toolButton" type="button" value="Delete all" onclick="deleteMany()"> 
+            <input class="skyButton toolButton" type="button" value="Simplify song (beta)" onclick="simplifySong()"> 
         </div>
     </div>
 
@@ -844,6 +845,7 @@
         parseComposerFormat(globalHistory[undoIndex])
         quickSave()
         selectCell(getCell(0))
+        if(lastBPM != undefined) document.getElementById("bpm").value = lastBPM, lastBPM = undefined
     }
 
     //--------------------------------------------------------------------------------------//
@@ -1011,7 +1013,22 @@
         }
         addBeatMarkers(selectedDivisions)
     }
-
+    let lastBPM
+    function simplifySong(){
+        let confirm = prompt("This function will try to simplify the song by reducing the bpm and using more tempo changers, THIS MIGHT RUIN THE SONG, USE IT AT YOUR OWN RISK, YOU CAN UNDO THE CHANGES. Write 'SIMPLIFY' to confirm")
+        if(confirm == "SIMPLIFY"){
+            let song = save(2, "placeholder", false, false)
+            let contains8ths = song.composedSong.some(e => e.co == "rgb(255, 114, 190)")
+            if(contains8ths){
+                showMessage("This song contains 1/8 cells, please remove them before simplifying as they cannot be made smaller",2,4000)
+                return
+            }
+            delete song.composedSong
+            lastBPM = song.bpm
+            song.bpm = Math.floor(song.bpm/2)
+            importSong(song, true, "new")
+        }
+    }
     //--------------------------------------------------------------------------------------//
 
     let releasedKey = true
@@ -1320,7 +1337,7 @@
     document.getElementById("bpm").addEventListener("focus", function () {
         oldBpm = document.getElementById("bpm").value
         this.value = ""
-        stopPlaying = true  
+        stopPlaying = true
     })
     if (localStorage.getItem("savedBpm") != null) bpm.value = localStorage.getItem("savedBpm")
     document.getElementById("bpm").addEventListener("focusout", function () {
@@ -1495,7 +1512,7 @@
 
     function getCellPosition(cell) {
         var i = 0;
-        while ((cell = cell.previousSibling) != null) {
+        while ((cell = cell.previousElementSibling) != null) {
             i++;
         }
         return i
@@ -1603,7 +1620,8 @@
 
     //--------------------------------------------------------------------------------------//
 
-    function save(download, name, splitLayers, replace) {
+    function save(method = 0, name, splitLayers, replace) {
+        if(method == true) method = 1 //if the song is to be downloaded
         $("#promptDiv").fadeOut(200)
         let savedSongs = JSON.parse(localStorage.getItem("savedSongs"))
         if (savedSongs == null) savedSongs = []
@@ -1663,7 +1681,10 @@
             song.name += " - Main"
             splitSong.name += " - Secondary"
         }
-        if (download) {
+        if (method == 2){ //if the only thing needed is the song data
+            return song
+        }
+        if (method == 1) {
             let songToDownload = []
             let filename = song.name.replace(" - Main","")
             songToDownload.push(song)
