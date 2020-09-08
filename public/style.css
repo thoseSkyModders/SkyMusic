@@ -456,14 +456,15 @@ input[type=range][orient=vertical]:hover {
 	border-radius: 1em;
 	background-color: rgba(22, 22, 22, 0.65);
 	display: none;
-	max-width: 60px;
+	max-width: 70px;
 	position: absolute;
 	overflow-y: auto;
+	overflow-x: hidden;
 	max-height: 90%;
 	right: 5%;
 	top: 5%;
 	z-index: 1;
-	padding: 10px;
+	padding: 5px;
 	box-sizing: border-box;
 }
 
@@ -979,6 +980,28 @@ html {
 #percentageStorage{
 	margin-left: 0.5rem;
 }
+::-webkit-scrollbar{
+	width: 1vw;
+}
+  
+  /* Track */
+::-webkit-scrollbar-track {
+    background: rgba(44, 44, 44, 0.8);
+	border-radius: 3px;
+	overflow: hidden;
+  }
+  
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: #dad8b3;
+	border-radius: 3px;
+	overflow: hidden;
+  }
+  
+  /* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    opacity:0.6;
+  }
 #formatChooser {
 	display: none;
 	position: absolute;
