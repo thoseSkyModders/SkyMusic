@@ -660,7 +660,15 @@
             reader.onload = function (e) {
                 globalAlgorithmType = "old"
                 document.getElementById("algorithmBtn").style.backgroundColor = "#383838"
-                const midi = new Midi(e.target.result)
+                let midi 
+                try{
+                    midi = new Midi(e.target.result)
+                }catch(e){
+                    console.log("Error loading midi")
+                    showMessage("Error loading MIDI",0,3000)
+                    console.log(e)
+                    return
+                }
                 globalMidi = midi
                 layerNumber = 0
                 document.getElementById("layerNumberText").value = layerNumber + 1
@@ -1800,19 +1808,24 @@
         cell.style.opacity = "1"
         selectedCell.style.opacity = "0.6"
         selectedCell = cell
-        for (var i = 0; i < 15; i++) {
-            globalKeys.layer1[i].firstChild.style.backgroundColor = keyColor
-            globalKeys.layer1[i].firstChild.style.borderColor = "transparent"
-        }
-        for (var j = 0; j < 15; j++) {
-            if (cell.children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
-                globalKeys.layer1[j].dispatchEvent(click)
-                globalKeys.layer1[j].firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+        try{
+            for (var i = 0; i < 15; i++) {
+                globalKeys.layer1[i].firstChild.style.backgroundColor = keyColor
+                globalKeys.layer1[i].firstChild.style.borderColor = "transparent"
             }
-            if (cell.children[14 - j].style.borderColor == "darkslategray") {
-                globalKeys.layer2[j].dispatchEvent(click)
-                globalKeys.layer1[j].firstChild.style.borderColor = "rgb(155, 89, 182)"
+            for (var j = 0; j < 15; j++) {
+                if (cell.children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
+                    globalKeys.layer1[j].dispatchEvent(click)
+                    globalKeys.layer1[j].firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+                }
+                if (cell.children[14 - j].style.borderColor == "darkslategray") {
+                    globalKeys.layer2[j].dispatchEvent(click)
+                    globalKeys.layer1[j].firstChild.style.borderColor = "rgb(155, 89, 182)"
+                }
             }
+        }catch(e){
+            console.log("Error selecting cell")
+            console.log(e)
         }
     }
 
@@ -1949,8 +1962,12 @@
 
         })
         addBeatMarkers(selectedDivisions)
-        selectedCell = getCell(0)
-        selectedCell.style.opacity = "1"
+        try{
+            selectedCell = getCell(0)
+            selectedCell.style.opacity = "1"
+        }catch(e){
+            console.log(e)
+        }
     }
     let localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
     let loadSongSelect = document.getElementById("loadSongSelect")
@@ -2586,7 +2603,13 @@
         setTimeout(function(){
             play()
         },1000)
-        recorder = new MediaRecorder(stream)
+        try{
+            recorder = new MediaRecorder(stream)
+        }catch(e){
+            console.log(e)
+            showMessage("Media recorder not supported!",0,3000)
+            return
+        }
         const chunks = []
         recorder.ondataavailable = e => chunks.push(e.data)
         recorder.onstop = e => {

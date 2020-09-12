@@ -807,7 +807,7 @@ input[type=number] {
 }
 /* width */
 ::-webkit-scrollbar {
-    border-radius: 3px;
+    border-radius: 2px;
     height:1.5vh;
 }
 .smallScrollBar::-webkit-scrollbar{
@@ -817,13 +817,13 @@ input[type=number] {
   /* Track */
 ::-webkit-scrollbar-track {
     background: rgba(44, 44, 44, 0.8);
-    border-radius: 3px;
+    border-radius: 2px;
   }
   
   /* Handle */
 ::-webkit-scrollbar-thumb {
     background: #dad8b3;
-    border-radius: 3px;
+    border-radius: 2px;
   }
   
   /* Handle on hover */

@@ -1543,7 +1543,7 @@ if (webVersion != currentVersion) {
     localStorage.removeItem("backgroundImage")
     showMessage(changelogMessage, 2, 8000)
 }
-
+console.log(currentVersion)
 //--------------------------------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------------------------------//
 /*
@@ -1840,8 +1840,13 @@ function importSongs() {
             fr.onerror = function(){
                 showMessage(systemMessagesText[selectedLanguage][10],0,1000) 
             }
-            fr.fileName = this.files[0].name
-            fr.readAsText(this.files[0])
+            try{
+                fr.fileName = this.files[0].name
+                fr.readAsText(this.files[0])
+            }catch(e){
+                console.log(e)
+                showMessage("Error opening file!")
+            }
     })
     filePicker.click()
 }
