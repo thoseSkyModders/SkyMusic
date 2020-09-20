@@ -839,7 +839,6 @@
             importBtn.classList.add("selectedMethod")
         }
         importMethod = method
-        console.log(importMethod)
     }
     function clearSearch(){
         resultsWrapper.innerHTML = ''
@@ -896,7 +895,6 @@
         foundElements.forEach(e => {
             let node = e.song.parentElement.cloneNode(true)
             let difficulty = e.song.parentElement.parentElement.parentElement.children[0].innerText[0]
-            console.log(difficulty)
             let div = document.createElement("div")
             node.style = "display:flex; flex:1;"
             div.appendChild(node)
@@ -988,7 +986,6 @@
             console.log(e)
         }
         song.bitsPerPage = 16
-        console.log(song)
         let data = {
             song: convertToNewFormat([song])[0]
         }
@@ -1321,7 +1318,6 @@
     let toUpload = document.getElementById("toUpload")
     if (toUpload.style.display == "block") {
         let divs = toUpload.getElementsByTagName("div")
-        console.log(divs[2])
         $(divs[2]).children('.content').show();
     }
     document.getElementById("instrumentSelection").addEventListener("change", function () {
