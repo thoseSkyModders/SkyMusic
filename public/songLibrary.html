@@ -400,7 +400,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <script src="/scripts/jquery.js"></script>
-    <script src="/scripts/jqueryUI.js"></script>
     <link rel="shortcut icon" href="/favicon.png?v=2" type="image/x-icon" />
     <title>Sky Music Library</title>
 </head>
@@ -982,7 +981,14 @@
         if (song.bpm == undefined) song.bpm = 220
         if (song.pitchLevel == undefined) song.pitchLevel = 0
         if (song.isComposed == undefined) song.isComposed = false
+        try{
+            let composer = prompt("What's your nickname? (leave empty for no attribution)")
+            if(composer != "") song.name += "  ("+composer+")"
+        }catch(e){
+            console.log(e)
+        }
         song.bitsPerPage = 16
+        console.log(song)
         let data = {
             song: convertToNewFormat([song])[0]
         }
