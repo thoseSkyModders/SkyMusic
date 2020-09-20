@@ -17,19 +17,7 @@ try{
   \____/|_____|     
 
  */
-try{
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then((reg) => {
-              console.log('Service worker registered.', reg);
-            });
-      });
-    }
-}catch(e){
-    console.log("Error setting up service worker")
-    console.log(e)
-}
+
 let floatingMessage
 function showMessage(msg, msgType, duration) {
     if (duration == undefined) duration = 1500
@@ -403,16 +391,10 @@ function toggleFullScreen(){
         try{
             let requestMethod = el.requestFullScreen || el.webkitRequestFullScreen ||
             el.mozRequestFullScreen || el.msRequestFullScreen;   
-          if (requestMethod) {
-              try{requestMethod.call(el)}catch(e){console.log(e)}  // Native full screen.
-          } else if (typeof window.ActiveXObject !== 'undefined') {    
-            let wscript = new ActiveXObject('WScript.Shell');    // Older IE.
-            if (wscript !== null) wscript.SendKeys('{F11}');
-          }
+            requestMethod.call(el)
         }catch(e){
             console.log(e)
         }
-
         isFullScreen = true
 }
 
@@ -1971,10 +1953,15 @@ function downloadJSON(inArray, fileName, isText = false) {
 
 */
 function checkMidiAccess() {
-    navigator.requestMIDIAccess()
-    .then(
-      (midi) => midiReady(midi),
-      (err) => {showMessage(systemMessagesText[selectedLanguage][34], 0, 1000); console.log(err)});
+    try{
+        navigator.requestMIDIAccess()
+        .then(
+          (midi) => midiReady(midi),
+          (err) => {showMessage(systemMessagesText[selectedLanguage][34], 0, 1000); console.log(err)});
+    }catch{
+        showMessage(systemMessagesText[selectedLanguage][34], 0, 1000);
+        console.log(err)
+    }
 
 }
 function midiReady(midi) {
@@ -2670,3 +2657,16 @@ try{
     console.log(e)
 }
 checkLocalStorageSize()
+try{
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then((reg) => {
+              console.log('Service worker registered.', reg);
+            });
+      });
+    }
+}catch(e){
+    console.log("Error setting up service worker")
+    console.log(e)
+}

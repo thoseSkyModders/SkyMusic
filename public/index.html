@@ -28,7 +28,6 @@
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="shortcut icon" href="/favicon.png?v=2" type="image/x-icon" />
     <script src="/scripts/jquery.js"></script>
-    <script src="/scripts/jqueryUI.js"></script>
     <script src="/scripts/jqueryPEP.js"></script>
     <script
       src="https://browser.sentry-cdn.com/5.22.3/bundle.tracing.min.js"
@@ -231,7 +230,7 @@
         <button class="skyButton_2" onclick="toggleLogin()"><p id="account-text-menu" class="texts">Account</p></button>
         <button class="skyButton_2" onclick='redirectPage("/help.html")'><p id="help-text-menu"  class="texts">Need help?</p></button>
         <div class="skyButton_2 " id="storageWrapper">
-          <div class="texts" style="display: inline-flex;">
+          <div class="texts percentageWrapper">
             Storage used 
             <div id="percentageStorage">0%</div>
           </div>
@@ -371,6 +370,7 @@
 </body>
 
  <!-- <input type="sleeping" placeholder="username" style="display: none"> Easter egg-->
+<script src="/scripts/jqueryUI.js"></script>
 <script type="text/javascript" src="app.js"></script>
 
 </html>

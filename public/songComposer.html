@@ -36,9 +36,7 @@
     <title>Sky Music Composer</title>
     <link rel="stylesheet" href="songComposerStyle.css" type="text/css">
     <script src="/scripts/jquery.js"></script>
-    <script src="/scripts/jqueryUI.js"></script>
     <script src="/scripts/jqueryPEP.js"></script>
-    <script src="/scripts/Midi.js"></script>
     <script
         src="https://browser.sentry-cdn.com/5.22.3/bundle.tracing.min.js"
         integrity="sha384-HfEJlGrJtFM0B01Wt4sGzTbxWqLMcMeGAXCbyQyB+iK9BhnDmNAtIGovhekIQOa2"
@@ -311,8 +309,8 @@
         <span id="successColor" style="display: flex; flex-direction: row; justify-content: center;">Success percentage: <span id="successPercentage">0%</span></span>
         <div style="display: flex; flex-direction: row; justify-content: center; margin-top: 5%; margin-bottom: 5%;">
             BPM 
-            <input id="midiBPM" type="range" min="50" max="500" value="220" step="5" style="width: 60%; margin:0 5px 0 5px">
-            <input class="numberPicker" type="number" id="midiBPMText" value="220">
+            <input id="midiBPM" type="range" min="50" max="500" value="500" step="5" style="width: 60%; margin:0 5px 0 5px">
+            <input class="numberPicker" type="number" id="midiBPMText" value="500">
         </div>
         <div style="display: flex; flex-direction: row;">
             <input type="button" value="Accurate mode" style="flex: 1 1 0;" id="algorithmBtn" class="skyButton" onclick="changeAlgorithmType(this)">
@@ -339,7 +337,8 @@
     </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
-
+<script src="/scripts/jqueryUI.js"></script>
+<script src="/scripts/Midi.js"></script>
 <script>
     try{
         if(window.location.hostname != "localhost"){
@@ -1520,8 +1519,12 @@
 
     function getCellPosition(cell) {
         var i = 0;
-        while ((cell = cell.previousElementSibling) != null) {
-            i++;
+        try{
+            while ((cell = cell.previousElementSibling) != null) {
+                i++;
+            }
+        }catch(e){
+            console.log(e)
         }
         return i
     }
@@ -2632,9 +2635,14 @@
             document.getElementById("stopRecording").style.display = "block"
         }else{
             document.getElementById("stopRecording").style.display = "none"
-            recorder.stop();
-            let streams = stream.getTracks()
-            streams.forEach(track => track.stop())
+            try{
+                recorder.stop();
+                let streams = stream.getTracks()
+                streams.forEach(track => track.stop())
+            }catch(e){
+                console.log(e)
+            }
+
         }
         isRecording = !isRecording
     }

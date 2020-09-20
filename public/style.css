@@ -970,6 +970,10 @@ html {
 	height: 100%;
 	background-color: rgba(235, 0, 27, 0.8);
 }
+.percentageWrapper{
+	display: inline-flex;
+}
+
 #storageWrapper{
 	align-items:center;
 	height: 15vh;
@@ -1248,6 +1252,10 @@ html {
 }
 
 @media only screen and (orientation:portrait) {
+	.percentageWrapper{
+		display: flex;
+		flex-direction: column;
+	}
 	.songButton {
 		min-width: 8vw;
 		min-height: 8vw;
