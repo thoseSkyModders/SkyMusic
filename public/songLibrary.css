@@ -419,7 +419,7 @@ skyButton:active {
     height: 8vw;
     width: 15vw;
     position: fixed;
-    display: flex;
+    display: none;
     flex-direction: column;
     bottom: 5vh;
     pointer-events: none;
