@@ -1,0 +1,467 @@
+* {
+    border: none;
+    font-family: Arial;
+}
+@keyframes click-key {
+from {
+    transform: scale(1, 1);
+}
+
+50% {
+    transform: scale(0.5, 1);
+}
+
+50% {
+    transform: scale(0, 1);
+}
+
+to {
+    transform: scale(1, 1);
+}
+}
+
+@keyframes click-scale {
+from {
+    transform: scale(1);
+}
+
+50% {
+    transform: scale(0.9);
+}
+
+to {
+    transform: scale(1);
+}
+}
+
+.keyScale {
+animation-name: click-scale;
+animation-timing-function: linear;
+animation-duration: 0.15s;
+animation-iteration-count: initial;
+animation-play-state: 1;
+/* For Chrome & Safari */
+background-color: #dad8b3 !important;
+opacity: 1 !important;
+-webkit-animation-name: click-scale;
+-webkit-animation-timing-function: linear;
+-webkit-animation-duration: 0.15s;
+-webkit-animation-iteration-count: initial;
+-webkit-animation-play-state: 1;
+}
+.content {
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.buttonAnimation {
+	background-color: #dad8b3;
+	color: black
+}
+
+li {
+    list-style: none;
+}
+
+body {
+    padding: 1vw;
+    background-color: #181a1b;
+    color: #dad8b3;
+}
+
+.listelement,
+.listelement2 {
+    background-color: #272b2d;
+    align-self: center;
+    border-radius: 1vw;
+    width: calc(100% - 2rem);
+    padding: 0 1rem 0;
+    margin: 1.5rem 0 0 0;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.copyDiv {
+    width: 100%;
+    color: #dad8b3;
+    font-size: 1.3rem;
+    background-color: #272b2d;
+    padding: 0.5em;
+    border-radius: 1vw;
+    resize: none;
+}
+
+#floatingMessage {
+    position: fixed;
+    width: 60%;
+    left: 0%;
+    right: 0%;
+    margin-right: auto;
+    margin-left: auto;
+    min-height: 5vh;
+    bottom: 10vh;
+    font-size: 1.4rem;
+    text-align: center;
+    padding: 1em;
+    font-weight: bold;
+    background-color: rgba(218, 216, 179, 0.9);
+    color: rgba(22, 22, 22, 0.95);
+    display: none;
+    z-index: 110;
+    border-radius: 1vw;
+}
+
+h1 {
+    color: rgba(235, 0, 27, 1);
+}
+
+span {
+    color: rgba(235, 0, 27, 1);
+    text-decoration: none;
+}
+
+a {
+    font-size: 1.5em;
+}
+
+.skyButton2 {
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 0.4rem;
+    box-sizing: border-box;
+    color: #181a1b;
+    background-color: #dad8b3;
+    font-weight: bold;
+    min-height: 3vh;
+    cursor: pointer;
+}
+
+.select {
+    padding: 0.3em;
+    font-size: 1rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 0.4em;
+    color: #181a1b;
+    background-color: #dad8b3;
+    text-align-last: center;
+    margin-right: 5vw;
+    display: block;
+    max-width: 50%;
+    min-width: 30%;
+    text-align: center;
+    height: 5vh;
+    cursor: pointer;
+}
+    /* width */
+    ::-webkit-scrollbar {
+        width: 2vh;
+        border-radius: 3px;
+    }
+    .smallScrollBar::-webkit-scrollbar{
+        width:0.5vh;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: rgba(44, 44, 44, 0.8);
+        border-radius: 3px;
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #dad8b3;
+        border-radius: 3px;
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        opacity:0.6;
+    }
+.select::placeholder {
+    font-size: 1rem;
+}
+
+.searchContainer {
+    border-left: solid 2px #dad8b3;
+}
+
+.dS {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+}
+
+img {
+    cursor: pointer;
+}
+
+skyButton {
+    background-color: #424242;
+    border-radius: 0.4em;
+    font-size: 1.2em;
+    padding: 0.6em;
+    box-sizing: border-box;
+    cursor: pointer;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    outline: none;
+    margin: 0.3rem;
+    -webkit-tap-highlight-color: transparent;
+}
+
+skyButton:active {
+    color: #424242;
+    background-color: #dad8b3;
+}
+
+.expand {
+    background-image: url(./icons/expand.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 60px;
+    width: 40px;
+    margin-left: -5px;
+}
+
+.rotate90 {
+    transform: rotate(0);
+    transition: 0.3s linear;
+}
+
+.rotate0 {
+    transform: rotate(-90deg);
+    transition: 0.4s linear;
+}
+
+.floatingMenu {
+    position: fixed;
+    right: 1rem;
+    top: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.searchContainer {
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0.5rem;
+}
+
+.sticker {
+    width: 15vw;
+}
+
+#searchResults {
+    display: none;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-top: 3vh;
+    padding: 0 0.5rem 0 0.5rem;
+}
+
+#resultsWrapper {
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    margin-right: -0.8rem;
+    max-height: 60vh;
+    margin-left: -0.8rem;
+    text-align: left;
+    margin-top: 0.8rem;
+}
+
+.buttonsContainer {
+    display: flex;
+    background-color: #272b2d;
+    padding: 0.8rem;
+    padding-top: 1.2rem;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 1vw;
+}
+
+.sendSongContainer {
+    display: flex;
+    flex-direction: row;
+    font-size: 1.5em;
+    padding: 0.5rem;
+}
+
+#instrumentSelection {
+    position: fixed;
+    top: calc(1vw + 8px);
+    right: calc(1vw + 8px);
+    color: #181a1b;
+
+    background-color: rgba(218, 216, 179, 0.8);
+    min-height: 4vh;
+}
+
+
+.skyMusicGithub {
+    background-color: #272b2d;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 1vw;
+}
+
+.innerButtonsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.searchInLibraryText {
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 0.4rem;
+    margin-top: -1.4rem;
+}
+
+.searchButtonImage{
+    background-size: contain;
+    background-color: transparent;
+    min-width: 5vw;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.selectedMethod{
+     background: rgba(235, 0, 27, 0.8);
+     color: #dad8b3
+}
+@media only screen and (orientation:portrait) {
+
+    skyButton {
+        margin: 0.1rem;
+    }
+
+    .skyMusicGithub {
+        border-radius: 3vw;
+        justify-content: center;
+    }
+
+    .innerButtonsContainer {
+        flex-direction: column;
+    }
+
+    .searchInLibraryText {
+        margin-top: 0rem;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    .sticker {
+        width: 28vw;
+    }
+
+    #floatingMessage {
+        border-radius: 3vw;
+        width: 80vw;
+    }
+
+    .select {
+        min-width: 50%;
+    }
+
+    .skyButton2 {
+        min-width: 30%;
+        min-height: 4vh;
+    }
+
+    .buttonsContainer {
+        flex-direction: column;
+        border-radius: 2vw;
+    }
+
+    .listelement,
+    .listelement2 {
+        border-radius: 3vw;
+    }
+
+    .sendSongContainer,
+    .searchContainer {
+        width: 95%;
+    }
+
+    .searchContainer,
+    .sendSongContainer {
+        border: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .searchButtonImage{
+        min-width: 6vh;
+        min-height: 4vh;
+    }
+}
+#notes{
+    background-color: #424242;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    opacity: 0.7;
+    padding: 0.5rem;
+    height: 8vw;
+    width: 15vw;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    bottom: 5vh;
+    pointer-events: none;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+.note{
+    flex: 1;
+    margin: 0.2rem;
+    background-color: rgba(235, 0, 27, 1);
+    opacity: 0.4;
+    border-radius: 0.2rem;
+}
+.noteRow{
+    display: flex;
+    flex:1;
+    flex-direction: row;
+    justify-content: space-between;
+}
+@media only screen and (orientation:portrait){
+    #notes{
+        width: 50vw;
+        height: 30vw;
+    }
+    .note{
+        margin: 0.2rem;
+        border-radius: 0.3rem;
+    }
+}
+@media only screen and (orientation:landscape) {
+    .select {
+        max-width: 25vw;
+    }
+
+    .sendSongContainer {
+        max-width: 50%;
+    }
+
+    .skyButton2,
+    .select {
+        min-height: 8vh;
+    }
+}
