@@ -1510,7 +1510,6 @@ function initializeKeyboard(){
 
 function resetKeyClass(element) {
     setTimeout(() => {
-
         element.childNodes[1].classList.remove("keyTurn")
         element.classList.remove("keyScale")
     }, 200)
