@@ -612,21 +612,6 @@ function sendVerificationCode(credentials, res) { //error handled
     }
 }
 
-function sanitizeText(text){
-    text = text.split(".").join("")
-        .split("/").join("_")
-        .split("%").join("")
-        .split("*").join("")
-        .split(";").join("")
-        .split(":").join("")
-        .split(",").join("")
-        .split("=").join("")
-        .split("<").join("")
-        .split(">").join("")
-        .split("?").join("")
-        .split("\\").join("") // backslash
-    return text
-}
 function hashwithseed(string, randomseed) {
     var increment = 3;
     var input = randomseed + string;
