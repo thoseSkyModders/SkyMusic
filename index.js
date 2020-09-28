@@ -8,6 +8,7 @@ const crypto = require('crypto');
 const { uuid } = require('uuidv4');  
 let bodyParser = require('body-parser');
 const fs = require('fs');
+const sanitizeText = require("sanitize-filename");
 let cors = require('cors')
 //-----------------------------//
 let app = express();

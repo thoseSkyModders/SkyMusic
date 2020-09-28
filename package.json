@@ -27,6 +27,7 @@
     "hastebin-gen": "^2.0.5",
     "mongodb": "^3.5.7",
     "nodemailer": "^6.4.6",
+    "sanitize-filename": "^1.6.3",
     "sha1": "^1.1.1",
     "uuidv4": "^6.0.8"
   }

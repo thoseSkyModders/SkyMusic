@@ -302,7 +302,7 @@ skyButton:active {
     top: calc(1vw + 8px);
     right: calc(1vw + 8px);
     color: #181a1b;
-
+    z-index: 1000;
     background-color: rgba(218, 216, 179, 0.8);
     min-height: 4vh;
 }
