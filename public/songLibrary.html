@@ -336,7 +336,7 @@
             <li class="content"> <img class="dS" onclick="dwJS('Tom__Jerry_theme_song_Dui')"><skyButton onclick="playSong(this)">Tom & Jerry theme song (Dui)</skyButton></li>
             <li class="content"> <img class="dS" onclick="dwJS('Undertale_-_Fallen_Down_Reprise')"><skyButton onclick="playSong(this)">Undertale: Fallen Down Reprise</skyButton></li>
             <li class="content"> <img class="dS" onclick="dwJS('Vault_of_knowledge_part_1')"><skyButton onclick="playSong(this)">Sky CoTL: Vault of knowledge</skyButton></li>
-        
+            <li class="content"> <img class="dS" onclick="dwJS('U__By_Nait_aka_Darkii')"><skyButton onclick="playSong(this)">"U" By Nait aka Darkii</skyButton></li> 
         </div>
         </ul>
         <ul class="listelement">  
@@ -990,6 +990,7 @@
 
     try {
         let AtoZsongs = Array.prototype.slice.call(document.getElementsByTagName("skybutton"), 0);
+        console.log(AtoZsongs.length)
         AtoZsongs.sort(function (a, b) {
             var textA = a.parentElement.children[1].innerHTML.toUpperCase();
             var textB = b.parentElement.children[1].innerHTML.toUpperCase();
