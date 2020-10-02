@@ -36,10 +36,12 @@
     <title>Sky Music Composer</title>
     <link rel="stylesheet" href="songComposerStyle.css" type="text/css">
     <script src="/scripts/jquery.js"></script>
-    <script src="/scripts/jqueryUI.js"></script>
     <script src="/scripts/jqueryPEP.js"></script>
-    <script src="/scripts/Midi.js"></script>
-
+    <script
+        src="https://browser.sentry-cdn.com/5.22.3/bundle.tracing.min.js"
+        integrity="sha384-HfEJlGrJtFM0B01Wt4sGzTbxWqLMcMeGAXCbyQyB+iK9BhnDmNAtIGovhekIQOa2"
+        crossorigin="anonymous"
+    ></script>
 </head>
 <body style="touch-action: pan-x pan-y;">
     <div class="notesWrapper">
@@ -135,30 +137,39 @@
     <div id="toolsDiv">
         <div style="display: flex; flex-direction: row; margin-bottom: 1vh; justify-content: space-between; margin-bottom: auto;">
             <div style="background-color: #232323; border-radius: 0.5em; padding: 0.3em; width: 100%;">
-                <div class="settingOption full"> 
-                    <div>Select start</div>
+                <div class="settingOption full" style="margin-top: unset;"> 
+                    <div>Select starting point</div>
                     <input id="startCopyBtn" class="skyButton" type="button" value="Start" onclick="selectStartCopy()">
                 </div>
-                <div class="settingOption full">
-                    <div>Select end</div>
+                <div class="settingOption full" style="margin-top: unset;">
+                    <div>Select ending point</div>
                     <input id="endCopyBtn" class="skyButton" type="button" value="End" onclick="selectEndCopy()">
                 </div>
             </div>
             <input class="skyButton" id="finishedSelection" type="button" value="X" onclick="finishedSelection()">
         </div>
-        <div style="display:flex; justify-content: space-between;">
-            <div class="settingOption full"  style="display: flex; flex-direction: column; margin-right: 5%;">
-                <input class="skyButton toolButton" type="button" value="Copy" onclick="finishCopy()">   
-                <input class="skyButton toolButton" type="button" value="Paste" onclick="paste()"> 
+        <div class="settingRow">
+            <div class="settingOption full"  style="display: inline-flex; width: 50%;  margin-top: unset;">
+                <input class="skyButton toolButton" type="button" value="Copy all" onclick="finishCopy()">
+                <input class="skyButton toolButton" type="button" value="Paste all" onclick="paste()"> 
             </div>
-            <div class="settingOption full"  style="display: flex; flex-direction: column; margin-right: 5%;">
+            <div class="division"></div>
+            <div class="settingOption full"  style="display: inline-flex;width: 50%; margin-top: unset;">
                 <input class="skyButton toolButton" id="copyLayerBtn" type="button" value="Copy layer" onclick="copyLayer()">
-                <input class="skyButton toolButton" type="button" value="Paste layer" onclick="pasteLayer()"> 
+                <input class="skyButton toolButton" type="button" value="Paste layer" onclick="pasteLayer()">
             </div>
-            <div class="settingOption full"  style="display: flex; flex-direction: column;">
-                <input class="skyButton toolButton" id="eraseLayerBtn" type="button" value="Erase layer" onclick="erase()">  
-                <input class="skyButton toolButton" type="button" value="Delete" onclick="deleteMany()">       
-            </div>
+        </div>
+        <div class="settingRow">
+            <div style="display:flex; justify-content: space-between; width: 100%;">
+                <div class="settingOption full"  style="display: inline-flex;">
+                    <input class="skyButton toolButton" id="eraseLayerBtn" type="button" value="Erase layer" onclick="erase()">       
+                    <input class="skyButton toolButton" id="invertLayerBtn" type="button" value="Change to other layer" onclick="invertLayer()"> 
+                </div>
+            </div> 
+        </div>
+        <div class="settingOption full"  style="display: inline-flex; margin-top: 0.5rem;">
+            <input class="skyButton toolButton" type="button" value="Delete all" onclick="deleteMany()"> 
+            <input class="skyButton toolButton" type="button" value="Simplify song (beta)" onclick="simplifySong()"> 
         </div>
     </div>
 
@@ -227,6 +238,14 @@
             <div>Cave mode</div>
             <button id="toggleReverbBtn" class="skyButton"   onclick="toggleReverb()">OFF</button>
         </div>
+        <div class="settingOption">
+            <div>Beat marks</div>
+            <select id="beatMarkerPicker" class="select">
+                <option>None</option>
+                <option>3/4</option>
+                <option>4/4</option>
+            </select>
+        </div><br>
         <div class="settingOption" style="color: limegreen;">
             <div >Import MIDI</div>
             <button id="midiImportButton" class="skyButton"  onclick="openMIDI()">Select file</button>
@@ -237,15 +256,7 @@
             <select id="loadSongSelect" class="select">
                 <option selected disabled>Song</option>
             </select>
-        </div>
-        <div class="settingOption">
-            <div>Beat marks</div>
-            <select id="beatMarkerPicker" class="select">
-                <option>None</option>
-                <option>3/4</option>
-                <option>4/4</option>
-            </select>
-        </div>
+        </div><br>
         <div class="settingOption">
             <div>Download sheet</div>
             <button class="skyButton"  onclick="downloadSheet()">Download</button>
@@ -255,18 +266,23 @@
             <button class="skyButton" onclick="record()">
                 Record
             </button>
+        </div><br>
+        <div class="settingOption">
+            <div>Auto reload page when switching app/tab</div>
+            <button id="autoReloadBtn" class="skyButton" onclick="toggleAutoReload()">
+                OFF
+            </button>
         </div>
-        <br>
         <div class="settingOption">
             <div>Performance mode</div>
             <button id="togglePerformanceBtn" class="skyButton" onclick="togglePerformanceMode()">
                 OFF
             </button>
-        </div>
+        </div><br>
         <div class="settingOption" style=" margin-top: 1rem;">
             <div>Resize page</div>
             <input type="range" id="changeScale" value="10" min="0" max="20" style="width: 50%;">
-        </div>
+        </div><br><br>
         <input type="button" style="border: rgba(235, 0, 27, 1) solid 1px; color: rgba(235, 0, 27, 1); margin-top: 25px;" class="skyButton" onclick="deleteAll()" value="DELETE ALL COMPOSITION">
     </div>
 
@@ -293,8 +309,8 @@
         <span id="successColor" style="display: flex; flex-direction: row; justify-content: center;">Success percentage: <span id="successPercentage">0%</span></span>
         <div style="display: flex; flex-direction: row; justify-content: center; margin-top: 5%; margin-bottom: 5%;">
             BPM 
-            <input id="midiBPM" type="range" min="50" max="500" value="220" step="5" style="width: 60%; margin:0 5px 0 5px">
-            <input class="numberPicker" type="number" id="midiBPMText" value="220">
+            <input id="midiBPM" type="range" min="50" max="500" value="500" step="5" style="width: 60%; margin:0 5px 0 5px">
+            <input class="numberPicker" type="number" id="midiBPMText" value="500">
         </div>
         <div style="display: flex; flex-direction: row;">
             <input type="button" value="Accurate mode" style="flex: 1 1 0;" id="algorithmBtn" class="skyButton" onclick="changeAlgorithmType(this)">
@@ -315,44 +331,77 @@
             <input class="skyButton" id="choseAnotherName" type="button" value="Ignore" onclick="promptDiv.style.display = 'none'">
         </div>
         <div id="mergeSongDiv" style="display: none; flex-direction: row; ">
-            <input class="skyButton" id="mergeSong" type="button" value="Merge" onclick="mergeSong()">
             <input class="skyButton" id="splitSong" type="button" value="Split" onclick="splitSong()">
+            <input class="skyButton" id="mergeSong" type="button" value="Merge" onclick="mergeSong()">
         </div>
     </div>
     <div id="floatingMessage" class="floatingMessage"> placeholder text </div>
 </body>
-
+<script src="/scripts/jqueryUI.js"></script>
+<script src="/scripts/Midi.js"></script>
 <script>
-    let performanceMode = localStorage.getItem("performanceMode")
-    if(performanceMode != null){
+    try{
+        if(window.location.hostname != "localhost"){
+            Sentry.init({dsn: 'https://4230bd5710b44f3d859b2dfd012a7cbd@o422858.ingest.sentry.io/5419306'});
+            console.log("setup sentry")
+        }else{
+            console.log("In localhost")
+        }   
+    }catch(e){
+        console.log(e)
+    }
+
+    let autoReload = localStorage.getItem("autoReloadComposer")
+
+    if(autoReload != null){
         try{
-            performanceMode = JSON.parse(performanceMode)
+            autoReload = JSON.parse(autoReload)
         }catch(e){
-            console.log(e)
-            performanceMode = false
+            autoReload = false
         }
     }else{
-        performanceMode = false
+        autoReload = false
     }
-    if(performanceMode){
-            let performanceBtn = document.getElementById("togglePerformanceBtn")
-            performanceBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
-            performanceBtn.innerHTML = "ON"
+    if(autoReload){
+        let autoReloadBtn = document.getElementById("autoReloadBtn")
+        autoReloadBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+        autoReloadBtn.innerHTML = "ON"
+    }
+
+    function toggleAutoReload(){
+        let autoReloadBtn = document.getElementById("autoReloadBtn")
+        autoReload = !autoReload
+        if(autoReload){
+            autoReloadBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+            autoReloadBtn.innerHTML = "ON"
+            localStorage.setItem("autoReloadComposer",true)
+        }else{
+            autoReloadBtn.style.backgroundColor = "#383838"
+            autoReloadBtn.innerHTML = "OFF"
+            localStorage.setItem("autoReloadComposer",false)
         }
+    }
     function togglePerformanceMode(){
         let performanceBtn = document.getElementById("togglePerformanceBtn")
         let playIndicator = document.getElementById("playIndicator")
         performanceMode = !performanceMode
+        playIndicator.style.display = "none"
+        let cells = Array.prototype.slice.call(document.getElementsByClassName("cell"), 0);
         if(performanceMode){
             performanceBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
             performanceBtn.innerHTML = "ON"
             localStorage.setItem("performanceMode",true)
+            let positions = selectedCell.getBoundingClientRect()
+            playIndicator.style.height = positions.height
+            playIndicator.style.left = positions.x
+            cells.forEach(e => e.style.opacity = 1)
+            playIndicator.style.display = "block"
         }else{
+            cells.forEach(e => e.style.opacity = 0.6)
             performanceBtn.style.backgroundColor = "#383838"
             performanceBtn.innerHTML = "OFF"
             localStorage.setItem("performanceMode",false)
         }
-        playIndicator.style.display = "none"
         if(isPlaying && performanceMode){
             playIndicator.style.display = "block"
             selectedCell.style.opacity = "0.6"
@@ -390,6 +439,7 @@
 
     function changeScale(value) {
         page.style.zoom = value
+        document.getElementById("touch").style.zoom = value
     }
 
     //--------------------------------------------------------------------------------------//
@@ -431,13 +481,15 @@
     }
     function switchInstrumentLayer(btn) {
         if (btn.style.backgroundColor.includes("rgba(235, 0, 27")) {
-            document.getElementById("copyLayerBtn").style.borderColor = "#9B59B6"
-            document.getElementById("eraseLayerBtn").style.borderColor = "#9B59B6"
+            document.getElementById("invertLayerBtn").style.background = "#9B59B6"
+            document.getElementById("copyLayerBtn").style.background = "#9B59B6"
+            document.getElementById("eraseLayerBtn").style.background = "#9B59B6"
             btn.style.backgroundColor = "#9B59B6"
             selectedLayer = 2
         } else {
-            document.getElementById("copyLayerBtn").style.borderColor = "rgba(235, 0, 27, 0.7)"
-            document.getElementById("eraseLayerBtn").style.borderColor = "rgba(235, 0, 27, 0.7)"
+            document.getElementById("invertLayerBtn").style.background = "rgba(235, 0, 27, 0.7)"
+            document.getElementById("copyLayerBtn").style.background = "rgba(235, 0, 27, 0.7)"
+            document.getElementById("eraseLayerBtn").style.background = "rgba(235, 0, 27, 0.7)"
             btn.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
             selectedLayer = 1
         }
@@ -600,7 +652,15 @@
             reader.onload = function (e) {
                 globalAlgorithmType = "old"
                 document.getElementById("algorithmBtn").style.backgroundColor = "#383838"
-                const midi = new Midi(e.target.result)
+                let midi 
+                try{
+                    midi = new Midi(e.target.result)
+                }catch(e){
+                    console.log("Error loading midi")
+                    showMessage("Error loading MIDI",0,3000)
+                    console.log(e)
+                    return
+                }
                 globalMidi = midi
                 layerNumber = 0
                 document.getElementById("layerNumberText").value = layerNumber + 1
@@ -785,6 +845,7 @@
         parseComposerFormat(globalHistory[undoIndex])
         quickSave()
         selectCell(getCell(0))
+        if(lastBPM != undefined) document.getElementById("bpm").value = lastBPM, lastBPM = undefined
     }
 
     //--------------------------------------------------------------------------------------//
@@ -844,6 +905,27 @@
         }
     }
 
+
+    function invertLayer(){
+        getSelectedCells()
+        addToHistory()
+        for(let i = 0; i<selectedCellsArray.length;i++){
+            selectedCell = selectedCellsArray[i]
+            for (let j = 0; j < 15; j++) {
+                if (selectedLayer == 1) {
+                    if(selectedCell.children[j].style.backgroundColor.includes("rgba(235, 0, 27")){
+                        deselectNote(14-j)
+                        selectNoteLayer2(14-j)
+                    }
+                } else {
+                    if(selectedCell.children[j].style.borderColor == "darkslategray"){
+                        deselectNoteLayer2(14-j)
+                        selectNote(14-j)
+                    }
+                }
+            }
+        }
+    }
     //--------------------------------------------------------------------------------------//
 
     let copiedCells = []
@@ -864,18 +946,19 @@
         getSelectedCells()
         addToHistory()
         if (selectedCellsArray.length == 0) return
-        let firstCellPosition = getCellPosition(selectedCellsArray[0])
+        let cellPostion = getCellPosition(selectedCellsArray[0])
         let eraseLength = selectedCellsArray.length
         for (let i = 0; i < eraseLength; i++) {
-            selectedCell = getCell(firstCellPosition + i)
-            for (let i = 0; i < 14; i++) {
+            selectedCell = getCell(cellPostion + i)
+            for (let j = 0; j < 15; j++) {
                 if (selectedLayer == 1) {
-                    deselectNote(i)
+                    deselectNote(j)
                 } else {
-                    deselectNoteLayer2(i)
+                    deselectNoteLayer2(j)
                 }
             }
         }
+        selectCell(getCell(cellPostion))
     }
 
     //--------------------------------------------------------------------------------------//
@@ -904,7 +987,6 @@
         addToHistory()
         if (copiedLayer.length == 0) return
         let cellPostion = getCellPosition(selectedCell)
-
         for (let i = 0; i < copiedLayer.length; i++) {
             let nextCell = getCell(cellPostion + i)
             if (nextCell == null) addCell("end"), nextCell = getCell(cellPostion + i)
@@ -917,6 +999,7 @@
                 }
             }
         }
+        selectedCell = getCell(cellPostion)
         addBeatMarkers(selectedDivisions)
     }
 
@@ -930,7 +1013,22 @@
         }
         addBeatMarkers(selectedDivisions)
     }
-
+    let lastBPM
+    function simplifySong(){
+        let confirm = prompt("This function will try to simplify the song by reducing the bpm and using more tempo changers, THIS MIGHT RUIN THE SONG, USE IT AT YOUR OWN RISK, YOU CAN UNDO THE CHANGES. Write 'SIMPLIFY' to confirm")
+        if(confirm == "SIMPLIFY"){
+            let song = save(2, "placeholder", false, false)
+            let contains8ths = song.composedSong.some(e => e.co == "rgb(255, 114, 190)")
+            if(contains8ths){
+                showMessage("This song contains 1/8 cells, please remove them before simplifying as they cannot be made smaller",2,4000)
+                return
+            }
+            delete song.composedSong
+            lastBPM = song.bpm
+            song.bpm = Math.floor(song.bpm/2)
+            importSong(song, true, "new")
+        }
+    }
     //--------------------------------------------------------------------------------------//
 
     let releasedKey = true
@@ -1014,17 +1112,23 @@
 
     function selectStartCopy() {
         copySelectionColor = "rgb(235, 0, 27)"
-        document.getElementById("startCopyBtn").style.borderColor = copySelectionColor
         document.getElementById("startCopyBtn").style.color = copySelectionColor
         let cells = document.getElementsByClassName("cell")
         for (let i = 0; i < cells.length; i++) {
             if (cells[i].style.borderColor == "rgb(235, 0, 27)") cells[i].style.border = ""
-            cells[i].addEventListener("click", selectCopy)
+            //cells[i].addEventListener("click", selectCopy)
         }
+        selectedCell.style.border = "solid 2px " + copySelectionColor
+        $(selectedCell).animate({
+                opacity: 0.5
+            }, 200).delay(100).animate({
+                opacity: 1
+            }, 200);
     }
 
     //--------------------------------------------------------------------------------------//
 
+    //old method
     let selectCopy = function (event) {
         let path = event.path || (event.composedPath && event.composedPath())
         path[1].style.border = "solid 2px " + copySelectionColor
@@ -1038,13 +1142,18 @@
 
     function selectEndCopy() {
         copySelectionColor = "rgb(235, 0, 28)"
-        document.getElementById("endCopyBtn").style.borderColor = copySelectionColor
         document.getElementById("endCopyBtn").style.color = copySelectionColor
         let cells = document.getElementsByClassName("cell")
         for (let i = 0; i < cells.length; i++) {
             if (cells[i].style.borderColor == "rgb(235, 0, 28)") cells[i].style.border = ""
-            cells[i].addEventListener("click", selectCopy)
+            //cells[i].addEventListener("click", selectCopy)
         }
+        selectedCell.style.border = "solid 2px " + copySelectionColor
+        $(selectedCell).animate({
+                opacity: 0.5
+            }, 200).delay(100).animate({
+                opacity: 1
+            }, 200);
     }
 
     //--------------------------------------------------------------------------------------//
@@ -1148,8 +1257,7 @@
         let songData = getSongData()
         let calculatedTime = 0
         let actulTime = Date.now()
-        selectedCell.style.opacity = "0.6"
-        if(performanceMode) playIndicator.style.display = "block"
+        if(!performanceMode)selectedCell.style.opacity = "0.6"
         let positions = selectedCell.getBoundingClientRect()
         playIndicator.style.height = positions.height
         playIndicator.style.top = positions.y
@@ -1207,7 +1315,6 @@
                 }
             } catch (e) {
                 console.log("error playing note")
-                showMessage(e)
             }
             if (stopPlaying) break
             calculatedTime+=bpmToMs
@@ -1215,7 +1322,6 @@
             await delay(Math.floor(bpmToMs+(startLag - Date.now())))
         }
         selectedCell.style.opacity = "1"
-        playIndicator.style.display = "none"
         playBtn.value = "Play"
         disableCells("auto")
         stopPlaying = true
@@ -1229,7 +1335,7 @@
     document.getElementById("bpm").addEventListener("focus", function () {
         oldBpm = document.getElementById("bpm").value
         this.value = ""
-        stopPlaying = true  
+        stopPlaying = true
     })
     if (localStorage.getItem("savedBpm") != null) bpm.value = localStorage.getItem("savedBpm")
     document.getElementById("bpm").addEventListener("focusout", function () {
@@ -1404,8 +1510,12 @@
 
     function getCellPosition(cell) {
         var i = 0;
-        while ((cell = cell.previousSibling) != null) {
-            i++;
+        try{
+            while ((cell = cell.previousElementSibling) != null) {
+                i++;
+            }
+        }catch(e){
+            console.log(e)
         }
         return i
     }
@@ -1475,7 +1585,7 @@
         let isMultiLayer = false
         var cells = Array.prototype.slice.call(document.getElementsByClassName("cell"), 0);
         for (let i = 0; i < cells.length; i++) { //checks if there is a multi layer
-            for (let j = 0; j < 14; j++) {
+            for (let j = 0; j < 15; j++) {
                 if (cells[i].children[14 - j].style.borderColor == "darkslategray") {
                     isMultiLayer = true
                     break
@@ -1512,7 +1622,8 @@
 
     //--------------------------------------------------------------------------------------//
 
-    function save(download, name, splitLayers, replace) {
+    function save(method = 0, name, splitLayers, replace) {
+        if(method == true) method = 1 //if the song is to be downloaded
         $("#promptDiv").fadeOut(200)
         let savedSongs = JSON.parse(localStorage.getItem("savedSongs"))
         if (savedSongs == null) savedSongs = []
@@ -1572,7 +1683,10 @@
             song.name += " - Main"
             splitSong.name += " - Secondary"
         }
-        if (download) {
+        if (method == 2){ //if the only thing needed is the song data
+            return song
+        }
+        if (method == 1) {
             let songToDownload = []
             let filename = song.name.replace(" - Main","")
             songToDownload.push(song)
@@ -1635,7 +1749,10 @@
                     time: songs[i].songNotes[j].time,
                     key: "1" + songs[i].songNotes[j].key
                 }
-                if (!isNaN(songs[i].songNotes[j].l)) keyObj.l = songs[i].songNotes[j].l
+                if (!isNaN(songs[i].songNotes[j].l)){
+                    keyObj.l = songs[i].songNotes[j].l
+                    keyObj.key = songs[i].songNotes[j].l + songs[i].songNotes[j].key
+                }
                 newFormat.songNotes.push(keyObj)
             }
             convertedSongs.push(newFormat)
@@ -1682,22 +1799,32 @@
     //----------------------------------------------------------------------------------------------//
 
     function selectCell(cell) {
-        cell.style.opacity = "1"
-        selectedCell.style.opacity = "0.6"
-        selectedCell = cell
-        for (var i = 0; i < 15; i++) {
-            globalKeys.layer1[i].firstChild.style.backgroundColor = keyColor
-            globalKeys.layer1[i].firstChild.style.borderColor = "transparent"
+        if(performanceMode){
+            let positions = cell.getBoundingClientRect()
+            playIndicator.style.left = positions.x
+        }else{
+            cell.style.opacity = "1"
+            selectedCell.style.opacity = "0.6"
         }
-        for (var j = 0; j < 15; j++) {
-            if (cell.children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
-                globalKeys.layer1[j].dispatchEvent(click)
-                globalKeys.layer1[j].firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+        selectedCell = cell
+        try{
+            for (var i = 0; i < 15; i++) {
+                globalKeys.layer1[i].firstChild.style.backgroundColor = keyColor
+                globalKeys.layer1[i].firstChild.style.borderColor = "transparent"
             }
-            if (cell.children[14 - j].style.borderColor == "darkslategray") {
-                globalKeys.layer2[j].dispatchEvent(click)
-                globalKeys.layer1[j].firstChild.style.borderColor = "rgb(155, 89, 182)"
+            for (var j = 0; j < 15; j++) {
+                if (cell.children[14 - j].style.backgroundColor.includes("rgba(235, 0, 27")) {
+                    globalKeys.layer1[j].dispatchEvent(click)
+                    globalKeys.layer1[j].firstChild.style.backgroundColor = "rgba(235, 0, 27, 0.7)"
+                }
+                if (cell.children[14 - j].style.borderColor == "darkslategray") {
+                    globalKeys.layer2[j].dispatchEvent(click)
+                    globalKeys.layer1[j].firstChild.style.borderColor = "rgb(155, 89, 182)"
+                }
             }
+        }catch(e){
+            console.log("Error selecting cell")
+            console.log(e)
         }
     }
 
@@ -1733,11 +1860,14 @@
     });
 
     //--------------------------------------------------------------------------------------//
-
+    let exitedPage = false
     $(window).blur(function () {
         quickSave(true)
+        exitedPage = true
     });
-
+    $(window).focus(function (){
+        if(exitedPage && autoReload) location.reload()
+    })
     //--------------------------------------------------------------------------------------//
 
     function getSongData() {
@@ -1831,8 +1961,12 @@
 
         })
         addBeatMarkers(selectedDivisions)
-        selectedCell = getCell(0)
-        selectedCell.style.opacity = "1"
+        try{
+            selectedCell = getCell(0)
+            selectedCell.style.opacity = "1"
+        }catch(e){
+            console.log(e)
+        }
     }
     let localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
     let loadSongSelect = document.getElementById("loadSongSelect")
@@ -2346,6 +2480,28 @@
     }
     selectedCell = getCell(0)
 
+    let performanceMode = localStorage.getItem("performanceMode")
+    if(performanceMode != null){
+        try{
+            performanceMode = JSON.parse(performanceMode)
+        }catch(e){
+            console.log(e)
+            performanceMode = false
+        }
+    }else{
+        performanceMode = false
+    }
+    if(performanceMode){
+        let performanceBtn = document.getElementById("togglePerformanceBtn")
+        performanceBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+        performanceBtn.innerHTML = "ON"
+        let positions = selectedCell.getBoundingClientRect()
+            playIndicator.style.height = positions.height
+            playIndicator.style.left = positions.x
+            let cells = Array.prototype.slice.call(document.getElementsByClassName("cell"), 0);
+            cells.forEach(e => e.style.opacity = 1)
+            playIndicator.style.display = "block"
+    }
     //--------------------------------------------------------------------------------------//
 
     function set_up_reverb() {
@@ -2468,7 +2624,13 @@
         setTimeout(function(){
             play()
         },1000)
-        recorder = new MediaRecorder(stream)
+        try{
+            recorder = new MediaRecorder(stream)
+        }catch(e){
+            console.log(e)
+            showMessage("Media recorder not supported!",0,3000)
+            return
+        }
         const chunks = []
         recorder.ondataavailable = e => chunks.push(e.data)
         recorder.onstop = e => {
@@ -2491,9 +2653,14 @@
             document.getElementById("stopRecording").style.display = "block"
         }else{
             document.getElementById("stopRecording").style.display = "none"
-            recorder.stop();
-            let streams = stream.getTracks()
-            streams.forEach(track => track.stop())
+            try{
+                recorder.stop();
+                let streams = stream.getTracks()
+                streams.forEach(track => track.stop())
+            }catch(e){
+                console.log(e)
+            }
+
         }
         isRecording = !isRecording
     }
