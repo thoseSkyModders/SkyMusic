@@ -11,7 +11,8 @@
             let songs = text.split(".txt")
             let output = ""
             for(let i = 0;i<songs.length;i++){
-                let names = songs[i].split("_").join(" ")   
+                    let names = songs[i].replace("__","(")
+                     names = names.split("_").join(" ")   
                 if(names == "") break
                  output += '<li class="content"> <img class="dS" onclick="dwJS('+"'"+songs[i].trim()+"'"+')"><skyButton onclick="playSong(this)">'+names.trim()+'</skyButton></li>\n'
             }
