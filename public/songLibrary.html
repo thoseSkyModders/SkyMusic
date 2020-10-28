@@ -746,7 +746,7 @@
     if (localStorageSongs != null) {
         for (let i = 0; i < localStorageSongs.length; i++) {
             var option = document.createElement("option")
-            option.innerHTML = localStorageSongs[i].name
+            option.innerText = localStorageSongs[i].name
             picker.appendChild(option)
         }
     }

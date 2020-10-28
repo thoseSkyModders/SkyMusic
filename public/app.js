@@ -2253,7 +2253,7 @@ function saveSong(songName = "Error", song, savingType,pitch = 0,bpm = 200,isCom
         resetButtons()
         playSong(JSON.parse(songText.innerHTML),songText.getAttribute("pitchLevel"))
     })
-    songButton.innerHTML = songName
+    songButton.innerText = songName
     songButton.className = "skyButton songButtonWide"
     //--------------------------------// This holds the text of the array of the song 
     let songText = document.createElement("div")
@@ -2266,7 +2266,7 @@ function saveSong(songName = "Error", song, savingType,pitch = 0,bpm = 200,isCom
     }
     songText.style.display = "none"
     songText.id = "Song-" + songName
-    songText.innerHTML = JSON.stringify(song)
+    songText.innerText = JSON.stringify(song)
     songContainer.appendChild(songButton)
     songContainer.appendChild(songText)
     console.log("song added!")
