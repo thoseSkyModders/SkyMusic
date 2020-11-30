@@ -1275,6 +1275,7 @@ let instrumentsNotes = {
     oldPiano: ["OldPiano/0.mp3", "OldPiano/1.mp3", "OldPiano/2.mp3", "OldPiano/3.mp3", "OldPiano/4.mp3", "OldPiano/5.mp3", "OldPiano/6.mp3", "OldPiano/7.mp3", "OldPiano/8.mp3", "OldPiano/9.mp3", "OldPiano/10.mp3", "OldPiano/11.mp3", "OldPiano/12.mp3", "OldPiano/13.mp3", "OldPiano/14.mp3"],
     contrabass: ["Contrabass/0.mp3", "Contrabass/1.mp3", "Contrabass/2.mp3", "Contrabass/3.mp3", "Contrabass/4.mp3", "Contrabass/5.mp3", "Contrabass/6.mp3", "Contrabass/7.mp3", "Contrabass/8.mp3", "Contrabass/9.mp3", "Contrabass/10.mp3", "Contrabass/11.mp3", "Contrabass/12.mp3", "Contrabass/13.mp3", "Contrabass/14.mp3"],
     winterPiano: ["WinterPiano/0.mp3", "WinterPiano/1.mp3", "WinterPiano/2.mp3", "WinterPiano/3.mp3", "WinterPiano/4.mp3", "WinterPiano/5.mp3","WinterPiano/6.mp3", "WinterPiano/7.mp3", "WinterPiano/8.mp3", "WinterPiano/9.mp3", "WinterPiano/10.mp3", "WinterPiano/11.mp3","WinterPiano/12.mp3", "WinterPiano/13.mp3", "WinterPiano/14.mp3"],
+    dundun: ["Dundun/0.mp3", "Dundun/1.mp3", "Dundun/2.mp3", "Dundun/3.mp3", "Dundun/4.mp3", "Dundun/5.mp3", "Dundun/6.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3"]
 }
 //Changes sounds when instrument is selected
 function changeInstrumentSound(instrument) {
@@ -1418,7 +1419,7 @@ function initializeKeyboard(){
         let numOfKeysLeft = 15
             numOfKeys = 15
             keyNames = keyNamesAllInstruments
-        if (storedInstrument == "bell" || storedInstrument == "drum" || storedInstrument == "handPan") {
+        if (storedInstrument == "bell" || storedInstrument == "drum" || storedInstrument == "handPan" || storedInstrument == "dundun") {
             newRowBreak = [5, 9]
             numOfKeysLeft = 8
             numOfKeys = 8
