@@ -98,6 +98,7 @@ body {
     box-sizing: border-box;
     display: inline-flex;
     flex-wrap: wrap;
+    z-index: 10;
 }
 
 .toolsContainer div {
