@@ -458,7 +458,7 @@
                     let positions = selectedCell.getBoundingClientRect().x
                     playIndicator.style.left = positions
                     isUpdating = true
-                }, 50)
+                }, 25)
             }
         }
     })
@@ -1382,6 +1382,7 @@
         if (performanceLevel < 2) playIndicator.style.display = "none"
         stopPlaying = true
         isPlaying = false
+        isUpdating = true
         console.log("Expected time: " + parseInt(calculatedTime))
         console.log("Actual time: " + (Date.now() - actulTime))
     }
@@ -2544,6 +2545,7 @@
 
     //--------------------------------------------------------------------------------------//
 
+    let reverbNode
     function set_up_reverb() {
         fetch("reverb4.wav")
             .then(r => r.arrayBuffer().catch(function () {
@@ -2551,11 +2553,11 @@
             }))
             .then(b => a_ctx.decodeAudioData(b, (impulse_response) => {
                 let convolver = a_ctx.createConvolver()
-                let gainNode = a_ctx.createGain()
-                gainNode.gain.value = 2.5
+                reverbNode = a_ctx.createGain()
+                reverbNode.gain.value = 2.5
                 convolver.buffer = impulse_response
-                convolver.connect(gainNode)
-                gainNode.connect(a_ctx.destination)
+                convolver.connect(reverbNode)
+                reverbNode.connect(a_ctx.destination)
                 a_reverb_destination = convolver
             })).catch(function () {
                 console.log("Catched error ")
