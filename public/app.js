@@ -119,7 +119,7 @@ var systemMessagesText = {
     Română:["Scrieți numele melodiei","Vă rugăm să scrieți un nume care nu este gol","Există deja o melodie cu acest nume: ","Vă rugăm să puneți un e-mail","succes! vă rugăm să verificați mail-ul.","Eroare la încercarea de resetare a parolei","Link copiat!","Link invalid!","Piesa a fost adăugată după link: ","Piesa există deja:","Eroare la importarea melodiei","Parola resetata cu succes!","Eroare la verificarea contului!","Vă rugăm să introduceți e-mail, nume de utilizator și parolă","Ați pus un e-mail invalid!","Parola trebuie sa conțină minim 6 caractere!","Parolele nu se potrivesc!","Eroare la crearea contului!","Vă rugăm să introduceți numele de utilizator și parola","Conectat!","Eroare la încercarea de logare","Nu ești autentificat!","Nu există melodii salvate în baza de date sau nu le-ați încărcat","Deja a fost salvat \n","Terminat!","Eroare la încercarea de a obține melodii!","Eroare încercat să ștergi melodia!","Eroare la încercarea de a salva melodii!","Piesa este prea mare, nu poate fi încărcată!","Ați pus un cod nevalid!","Cont verificat!","Eroare la verificarea contului!","Eroare la importarea melodiei!","MIDI este acceptat!","MIDI nu este acceptat! Funcționează numai pe Google Chrome"],
     Español:["Write song name","Please write a non empty name","There is already a song with this name: ","Please put an email","success! please check you email.","Error trying to reset password","Link copied!","Invalid link!","Added song by link: ","The song already exists:","Error importing song","Password successfully reset!","Error verifying the account!","Please put email,username and password","You put an invalid email!","Password must be at least 6 characters long!","The passwords don't match!","Error creating the account!","Please put username and password","Logged in!","Error trying to LogIn","You are not logged in!","There are no songs saved in the database or you haven't loaded them","Already saved \n","Done!","Error trying to get songs!","Error trying to delete song!","Error trying to save songs!","Song is too big, it can't be uploaded!","You put an invalid code!","Account verified!","Error verifying the account!","Error importing song!","MIDI is supported!","MIDI is not supported! It only works on google chrome"],
     Tiếng_Việt:["Điền tên bài nhạc","Vui lòng điền tên vào chỗ trống","Đã có một bài nhạc với tên này: ","Vui lòng điền email","Thành công! Vui lòng kiểm trả mail.","Lỗi khi đặt lại mật khẩu","Đã sao chép liên kế!","Liên kết không hợp lệ!","Đã thêm bài nhạc theo liên kết: ","Bài hát đã tồn tại:","Lõi nhập bài nhạc","Đặt lại mật khẩu thành công!","Lỗi khi xác minh tài khoản!","Vui lòng đặt email, tên người dùng và mật khẩu","Bạn đặt một email không hợp lệ!","Mật khẩu phải có độ dài ít nhất 6 ký tự!","Mật khẩu không khớp!","Lỗi khi tạo tài khoản!","Vui lòng đặt tên người dùng và mật khẩu","Đã đăng nhập!","Lỗi khi đăng nhập","Bạn chưa đăng nhập!","Không có bài nhạc nào được lưu trong cơ sở dữ liệu hoặc bạn chưa tải chúng","Đã lưu \n","Xong!","Lỗi khi lấy bài hát!","Lỗi khi xóa bài nhạc","Lỗi khi lưu bài nhạc!","Bài nhạc quá lớn, không thể tải lên","Bạn đã đặt một mã không hợp lệ!","Đã xác minh tài khoản!","Lỗi khi xác minh tài khoản!","Lỗi nhập bài hát!","MIDI đã hỗ trợ!","MIDI không hỗ trợ! Chỉ hoạt động trên Google Chrome"],
-
+    Simplified_Chinese_简体中文: ["命名歌曲", "请输入", "此歌曲名称已被使用", "请输入邮箱地址", "成功！请检查您的邮箱。", "尝试重置密码时出错", "已复制链接！", "链接无效！", "通过链接添加歌曲：", "歌曲已存在：", "导入歌曲时出错", "密码重置成功！", "验证账号时出错！", "请输入邮箱地址、用户名和密码", "输入的邮箱无效！", "密码不得短于6个字符！", "密码不匹配！", "创建账户时出错！", "请输入用户名和密码", "登录成功！", "登录出错！", "您还未登录！", "数据库中没有已保存歌曲，或者您尚未加载任何歌曲", "已保存\n", "完成！", "获取歌曲出错！", "删除歌曲出错！", "保存歌曲出错！", "歌曲太大，无法上传！", "输入的验证码无效！", "账户已验证！", "账户验证出错！", "导入歌曲出错！", "支持MIDI！", "不支持MIDI！此功能仅适用于Chrome浏览器"],
 }
 var translateText = {
     English:["Press + and - to change how the page looks!\nYou can always change this in the settings","CONFIRM","The website is better used in Landscape, please rotate your device.","Click anywhere to close","Account","EMAIL","PASSWORD","LOGIN","Create account","Forgot password?","Register to Sky Music!","EMAIL","PASSWORD","CONFIRM PASSWORD","REGISTER","Register to Sky Music!","CODE","CONFIRM","Go back","Reset Password!","EMAIL","SUBMIT","Go back","Reset Password!","RESET CODE","NEW PASSWORD","CONFIRM NEW PASSWORD","SUBMIT","Go back","Settings","Change website zoom","Turn off auto fullscreen","Disable next key practice","Hide practice note animation","Display Note Names","Check MIDI support","Reset all songs and settings","Go back","My songs","Account songs","Here are all your songs!","Import songs","Here are all the songs saved in your account!","Reload","Store all songs locally","Cancel","OK","Main page","Account","Settings","Song Library","Need help?","Manage Recordings","Start/Stop recording","OLD","Go back","Download songs","Select language","Welcome to Sky Music!","Never show again","Turn on compatibility mode (touch issues)","Sheet displayer","Song composer"],
@@ -133,8 +133,7 @@ var translateText = {
     Română:["Apăsa + și - ca sa schimbi cum arată pagina! Întotdeauna poți sa schimbi asta în setări.","CONFIRMĂ","Site-ul web este mai bine utilizat în Landscape, vă rugăm să rotiți dispozitivul.","Apăsa oriunde pentru a închide","Cont","EMAIL","PAROLA","Autentificare","Creează cont","Ai uitat parola?","Registra la Sky Music!","EMAIL","PAROLA","CONFIRMA PAROLA","INREGISTREAZA","Inregistreaza la Sky Music!","CODUL","CONFIRMA","intoarce-te","Resetează Parola","EMAIL","TRIMITE","întoarce-te","Resetează Parola!","RESETEAZA CODUL","PAROLA NOUĂ","CONFIRMA PAROLA NOUĂ","TRIMITE","Întoarce-te","Setări","Schimbați zoom-ul site-ului","Turn off auto fullscreen","Dezactivați următoarea practică cheie","Ascundeți animarea notelor de practică","Afișați numele notelor","Verificați suportul MIDI","Resetați toate melodiile și setările","intoarce-te","Melodiile mele","Cont de Cântece","Aici sunt toate melodiile tale","Importa melodii","Aici sunt toate melodiile salvate în contul dvs.!","Reîncărcați","Stocați toate melodiile local","Anulare","OK","Pagina principală","Cont","Setări","Biblioteca de cântece","Aveți nevoie de ajutor?","Gestionați înregistrările","Începeți / opriți înregistrarea","VECHE","intoarce-te","Descarca cântece","Selectați o limba","Bun venit la Sky Music!","Nu arătați vreodată dinou","Turn on compatibility mode (touch issues)","Sheet displayer","Song composer"],
     Español:["¡Presione + y - para cambiar como la página se ve!\nSiempre puedes cambiar esto en ajustes","CONFIRMAR","Recomendamos usar el sitio web horizontalmente, por favor gire su dispositivo.","Presione cualquier lugar de la pantalla para cerrar","CUENTA","CORREO ELECTRÓNICO","CONTRASEÑA","Iniciar Sesión","Crear cuenta","¿Olvidaste tu contraseña?","¡Registrate a Sky Music!","CORREO ELECTRÓNICO","CONTRASEÑA","CONFIRME CONTRASEÑA","REGISTRAR","¡Registrate a Sky Music!","CODIGO","CONFIRMAR","Regresar","¡Reiniciar contraseña!","CORREO ELECTRÓNICO","ENVIAR","Regresar","¡Reiniciar Contraseña!","REINICIAR CODIGO","NUEVA CONTRASEÑA","CONFIRMAR NUEVA CONTRASEÑA","ENVIAR","Regresar","Ajustes","Cambiar el aumento de la pantalla","Desactivar pantalla completa automática","Desactivar práctica automática de la siguiente nota","Ocultar animación de nota durante práctica","Mostrar nombre de notas","Revisar compatibilidad de MIDI","Reiniciar canciones y configuraciones hechas","Regresar","Mis canciones","Canciones en la cuenta","¡Aquí estan todas tus canciones guardadas!","Importar canciones","¡Aqui están todas las canciones guardadas en tu cuenta!","Recargar","Descargar canciones a tu dispositivo","Cancelar","OK","Página principal","Cuenta","Configuración","Biblioteca de canciones","¿Necesitas ayuda?","Administrar Canciones","Iniciar/Detener grabación","Versión antigua","Regresar","Descargar canciones","Escoger Lenguaje","¡Bienvenido a Sky Music!","No volver a mostrar","Turn on compatibility mode (touch issues)","Sheet displayer","Song composer"],
     Tiếng_Việt:["Ấn + và - để thay đổi giao diện của trang!\nBạn luôn có thể thay đổi điều này trong cài đặt","XÁC NHẬN","Trang web sẽ tối ưu hơn khi nằm ngang, vui lòng xoay thiết bị của bạn.","Ấn vào bất cứ đâu để tắt","Tài khoản","EMAIL","MẬT KHẨU","ĐĂNG NHẬP","Tạo tài khoản","Quên tài khoản?","Đăng ký Sky Music!","EMAIL","MẬT KHẨU","XÁC NHẬN MẬT KHẨU","ĐĂNG KÝ","Đăng ký Sky Music!","CODE","XÁC NHẬN","Quay lại","Đặt ại Mật khẩu!","EMAIL","GỬI ĐI","Quay lại","Nhập lại Mật khẩu!","NHẬP LẠI CODE","MẬT KHẨU MỚI","XÁC NHẬN MẬT KHẨU MỚI","GỬI ĐI","Quay lại","Cài đặt","Thay đổi thu phóng trang web","Tắt tự động full màn hình","Vô hiệu hóa thực hành khóa tiếp theo","Ẩn hoạt ảnh của nốt nhạc","Tên Nốt Nhạc Hiển Thị","Kiểm trả hỗ trơ MIDI","Thiết lập lại tất cả bài nhạc và cài đặt","Quay lại","Bài nhạc của tôi","Bài nhạc trong tài khoản","Đây là tất cả bài nhạc của bạn!","Nhập bài nhạc","Dưới đây là tất cả các bài hát được lưu trong tài khoản của bạn!","Tải lại","Lưu trữ tất cả các bài hát tại địa phương","Hủy","OK","Trang chính","Tải khoản","Cài đặt","Danh sách bản nhạc","Hỗ trợ?","Quản lý bài nhạc","Bắt đầu/Dừng ghi âm","CŨ","Quay lại","Tải bài nhạc","Chọn ngôn ngữ","Chào mừng đến với Sky Music!","Không bao giờ mở trở lại","Bật chế độ tương thích (touch issues)","Hiển thị Sheet","Tạo bản nhạc"],
-        
-    
+    Simplified_Chinese_简体中文: ["轻按 + 或 - 更改页面大小！\n您可以随时在设置中更改此设置", "确认", "本网站更适合横屏使用，请旋转您的设备。", "点击任何位置以关闭", "账户", "邮箱", "密码", "登录", "创建账户", "忘记密码？", "注册至 Sky Music！", "密码", "密码", "确认密码", "注册", "注册至 Sky Music！", "验证码", "确认", "返回", "重置密码！", "邮箱", "提交", "返回", "重置密码！", "重置验证码！", "新密码", "确认新密码", "提交", "返回", "设置", "更改页面大小", "关闭自动全屏", "禁用下一键提示", "隐藏练习模式音符动画", "显示音名", "检查MIDI兼容性", "重置所有歌曲和设置", "返回", "我的歌曲", "账户歌曲", "这是您的所有歌曲！", "导入歌曲", "这是您账户中保存的所有歌曲！", "重新加载", "将所有歌曲保存至本地", "取消", "确定", "主页", "账户", "设置", "曲库", "需要帮助？", "管理录音", "开始/停止录制", "旧版", "返回", "下载歌曲", "选择语言", "欢迎来到 Sky Music！", "不再显示", "开启兼容模式（解决触摸问题）", "乐谱展示", "歌曲编辑器"],
 }
 
 //--------------------------------------------------------------------------------------------------------//
@@ -1024,7 +1023,7 @@ let dbSongs = []
 
 function syncDB() { //Function that syncs the songs from the database in the client, this is triggered once when you open the database tab (to reduce load) and all
     // the times you press the "load songs from database" button 
-    dbSongsDiv.innerHTML = ""
+    dbSongsDiv.innerHTML = "Loading..."
     let credentials = globalCredentials;
     if (!isAuthenticated) {
         showMessage(systemMessagesText[selectedLanguage][21], 2) //not logged
@@ -1034,6 +1033,7 @@ function syncDB() { //Function that syncs the songs from the database in the cli
     request.open("POST", "/getSongs");
     request.setRequestHeader("Content-Type", "application/json; charset=utf-8")
     request.onload = (res) => {
+        dbSongsDiv.innerHTML = ""
         response = res.target.response;
         try {
             var songsFromDB = JSON.parse(response)
@@ -1104,6 +1104,13 @@ function saveSongsToDB(credentials, songsToSend) { //saves a song to the databas
     request.onerror = function (e) {
         alert(systemMessagesText[selectedLanguage][27]) //error trying ot save songs
     };
+    let fromLibrary = songsToSend.some(song => song.fromLibrary == "true")
+    songsToSend = songsToSend.filter(song => song.fromLibrary !== "true")
+    if(fromLibrary){
+        showMessage("Songs from library can't be saved in the account",0,3000)
+    }
+    if(songsToSend.length === 0) return
+    console.log("Saved to db")
     if (JSON.stringify(objToSend).length > 150000) {
         showMessage(systemMessagesText[selectedLanguage][28], 2) //song is too big
         return;
@@ -1518,8 +1525,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "4.8"
-let changelogMessage = "Version:"+currentVersion+"<br>Removed background image size limit and added how much storage left, other fixes."
+let currentVersion = "5"
+let changelogMessage = "Version:"+currentVersion+"<br>Added: 80 songs to the library, new performance mode to composer, chinese simplified, promoted content"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     localStorage.removeItem("backgroundImage")
@@ -2213,20 +2220,23 @@ if (preLoadSongs != null) {
         if(preLoadSongs[i].pitchLevel == undefined) preLoadSongs[i].pitchLevel = 0
         if(preLoadSongs[i].isComposed == undefined) preLoadSongs[i].isComposed = false
         if(preLoadSongs[i].composedSong == undefined)  preLoadSongs[i].composedSong = false
-        saveSong(preLoadSongs[i].name, preLoadSongs[i].songNotes, 0,preLoadSongs[i].pitchLevel,preLoadSongs[i].bpm,preLoadSongs[i].isComposed, preLoadSongs[i].composedSong)
+        saveSong(preLoadSongs[i].name, preLoadSongs[i].songNotes, 0,preLoadSongs[i].pitchLevel,preLoadSongs[i].bpm,
+            preLoadSongs[i].isComposed, preLoadSongs[i].composedSong, preLoadSongs[i].fromLibrary)
     }
 }
 
 //--------------------------------------------------------------------------------------------------------//
 
-function saveSong(songName = "Error", song, savingType,pitch = 0,bpm = 200,isComposed = false,composedSong = false) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
+function saveSong(songName = "Error", song, savingType,pitch = 0,bpm = 200,
+                    isComposed = false,composedSong = false, fromLibrary = false) { //the name of the song, the array containing the key press and time stamp, if it has to be ignored or not for the save option
     try {
         let songObj = {
             name: songName,
             songNotes: song,
             pitchLevel:parseInt(pitch),
             bpm: parseInt(bpm),
-            isComposed: isComposed
+            isComposed: isComposed,
+            fromLibrary: fromLibrary
         }
         if(composedSong) songObj.composedSong = composedSong
 
@@ -2261,6 +2271,7 @@ function saveSong(songName = "Error", song, savingType,pitch = 0,bpm = 200,isCom
     songText.setAttribute("fromDb", false)
     songText.setAttribute("pitchLevel",songObj.pitchLevel)
     songText.setAttribute("bpm",songObj.bpm)
+        songText.setAttribute("fromLibrary",songObj.fromLibrary)
     songText.setAttribute("isComposed",songObj.isComposed)
     if(songObj.composedSong != undefined){
         songText.setAttribute("composedSong", JSON.stringify(songObj.composedSong))
@@ -2324,7 +2335,8 @@ function saveSong(songName = "Error", song, savingType,pitch = 0,bpm = 200,isCom
                 songNotes: JSON.parse(songText.innerHTML),
                 pitchLevel: parseInt(songText.getAttribute("pitchLevel")),
                 bpm: parseInt(songText.getAttribute("bpm")),
-                isComposed: songText.getAttribute("isComposed")
+                isComposed: songText.getAttribute("isComposed"),
+                fromLibrary: songText.getAttribute("fromLibrary")
             }
             songArrayToDB.push(songObj)
             saveSongsToDB(globalCredentials, songArrayToDB)

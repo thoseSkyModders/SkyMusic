@@ -129,7 +129,40 @@ span {
 a {
     font-size: 1.5em;
 }
+ 
+.promotionTitle{
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+iframe{
+    margin: auto;
+    display:block;
+    width:50vw;
+    height: 28vw;
+}
+.promotion{
+    margin-bottom: 0.8rem;
+    background-color: #181a1b;
+    border-radius: 0.5rem;
+    padding: 1rem;
 
+}
+.promotionContent{
+    display: flex;
+}
+.promotionsContainer{
+    background-color: #272b2d;
+    align-self: center;
+    border-radius: 1vw;
+    width: calc(100% - 2rem);
+    padding: 0 1rem 0;
+    margin: 1.5rem 0 0 0;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
 .skyButton2 {
     font-size: 1rem;
     text-decoration: none;
@@ -138,7 +171,7 @@ a {
     color: #181a1b;
     background-color: #dad8b3;
     font-weight: bold;
-    min-height: 3vh;
+    min-height: 2rem;
     cursor: pointer;
 }
 
@@ -156,7 +189,7 @@ a {
     max-width: 50%;
     min-width: 30%;
     text-align: center;
-    height: 5vh;
+    height: 2rem;
     cursor: pointer;
 }
     /* width */
@@ -380,7 +413,6 @@ skyButton:active {
 
     .skyButton2 {
         min-width: 30%;
-        min-height: 4vh;
     }
 
     .buttonsContainer {
@@ -442,6 +474,10 @@ skyButton:active {
     justify-content: space-between;
 }
 @media only screen and (orientation:portrait){
+    iframe{
+        width:75vw;
+        height: 42.2vw;
+    }
     #notes{
         width: 50vw;
         height: 30vw;
@@ -452,6 +488,7 @@ skyButton:active {
     }
 }
 @media only screen and (orientation:landscape) {
+
     .select {
         max-width: 25vw;
     }
@@ -460,8 +497,4 @@ skyButton:active {
         max-width: 50%;
     }
 
-    .skyButton2,
-    .select {
-        min-height: 8vh;
-    }
 }

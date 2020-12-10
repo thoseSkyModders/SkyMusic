@@ -197,6 +197,7 @@
                     <option>HandPan</option>
                     <option>WinterPiano</option>
                     <option>Contrabass</option>
+                    <option>Dundun</option>
                 </select>
         </div>
         <div class="settingOption instrumentPickerWrapper">
@@ -215,6 +216,7 @@
                     <option>HandPan</option>
                     <option>WinterPiano</option>
                     <option>Contrabass</option>
+                    <option>Dundun</option>
                 </select>   
         </div>
         <div class="settingOption">
@@ -275,9 +277,11 @@
         </div>
         <div class="settingOption">
             <div>Performance mode</div>
-            <button id="togglePerformanceBtn" class="skyButton" onclick="togglePerformanceMode()">
-                OFF
-            </button>
+            <select id="performanceModeSelect" class="select" onchange="changePerformanceMode()" >
+                <option selected>High effects</option>
+                <option>Medium effects</option>
+                <option>Low effects</option>
+            </select>
         </div><br>
         <div class="settingOption" style=" margin-top: 1rem;">
             <div>Resize page</div>
@@ -350,23 +354,7 @@
     }catch(e){
         console.log(e)
     }
-    let performanceMode = localStorage.getItem("performanceMode")
     let autoReload = localStorage.getItem("autoReloadComposer")
-    if(performanceMode != null){
-        try{
-            performanceMode = JSON.parse(performanceMode)
-        }catch(e){
-            console.log(e)
-            performanceMode = false
-        }
-    }else{
-        performanceMode = false
-    }
-    if(performanceMode){
-        let performanceBtn = document.getElementById("togglePerformanceBtn")
-        performanceBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
-        performanceBtn.innerHTML = "ON"
-    }
     if(autoReload != null){
         try{
             autoReload = JSON.parse(autoReload)
@@ -395,27 +383,52 @@
             localStorage.setItem("autoReloadComposer",false)
         }
     }
-    function togglePerformanceMode(){
-        let performanceBtn = document.getElementById("togglePerformanceBtn")
-        let playIndicator = document.getElementById("playIndicator")
-        performanceMode = !performanceMode
-        if(performanceMode){
-            performanceBtn.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
-            performanceBtn.innerHTML = "ON"
-            localStorage.setItem("performanceMode",true)
+
+    let performanceSelect = document.getElementById("performanceModeSelect")
+    let performanceLevel = localStorage.getItem("performanceLevel")
+    performanceLevel = performanceLevel === null ? 1 : JSON.parse(performanceLevel)
+    performanceSelect.selectedIndex = performanceLevel 
+    function changePerformanceMode(ignore){
+        let selection = performanceSelect.children[performanceSelect.selectedIndex]
+        performanceLevel = performanceSelect.selectedIndex
+        localStorage.setItem("performanceLevel",performanceLevel)
+        if (performanceLevel > 1){
+            document.querySelectorAll(".cell").forEach(e =>{
+                e.style.opacity = "unset"
+            })
         }else{
-            performanceBtn.style.backgroundColor = "#383838"
-            performanceBtn.innerHTML = "OFF"
-            localStorage.setItem("performanceMode",false)
+            document.querySelectorAll(".cell").forEach(e => {
+                e.style.opacity = 0.6
+            }) 
         }
         playIndicator.style.display = "none"
-        if(isPlaying && performanceMode){
+        if (isPlaying && performanceLevel == 1) {
             playIndicator.style.display = "block"
             selectedCell.style.opacity = "0.6"
         }
-        showMessage("Performance mode might increase or decrease performance, test both to see which is better for you",2,8000)
+        if (performanceLevel == 2) {
+            playIndicator.style.display = "block"
+            let positions = selectedCell.getBoundingClientRect()
+            let posDifference = positions.x - playIndicator.style.left.replace("px", "")
+            playIndicator.style.left = positions.x
+            playIndicator.style.height = positions.height
+            playIndicator.style.top = positions.y
+        }
+        if(!ignore) showMessage("Performance mode might increase or decrease performance, test both to see which is better for you", 2, 8000)
     }
-
+    let isUpdating = true
+    document.getElementById("songContainer").addEventListener("scroll",function(){
+        if(performanceLevel == 2 && isUpdating){
+            isUpdating = false
+            if (!isPlaying) {
+                setTimeout(function(){
+                    let positions = selectedCell.getBoundingClientRect().x
+                    playIndicator.style.left = positions
+                    isUpdating = true
+                },25)
+            }
+        }
+    })
     let isMobile = true
     try{
         function checkMobile(){
@@ -1101,7 +1114,7 @@
         for (let i = 0; i < copiedCells.length; i++) {
             let cell = copiedCells[copiedCells.length - i - 1].cloneNode(true)
             cell.style.border = ""
-            cell.style.opacity = "0.6"
+            if(performanceLevel < 2) cell.style.opacity = "0.6"
             cell.addEventListener("pointerdown", function () {
                 if (getCellPosition(selectedCell) == getCellPosition(this)) return
                 selectCell(this)
@@ -1264,25 +1277,26 @@
         let songData = getSongData()
         let calculatedTime = 0
         let actulTime = Date.now()
-        selectedCell.style.opacity = "0.6"
-        if(performanceMode) playIndicator.style.display = "block"
+        if(performanceLevel > 0) playIndicator.style.display = "block"
         let positions = selectedCell.getBoundingClientRect()
         playIndicator.style.height = positions.height
         playIndicator.style.top = positions.y
         isScrolling = false
         for (var i = startIndex; i < songData.length; i++) {
             let startLag = Date.now()
-            if(!performanceMode){
+            if(performanceLevel > 0){
+                if(performanceLevel === 1){
+                    selectedCell.style.opacity = "0.6"
+                }
+                selectedCell = cells[i]
+                scrollPage(selectedCell)
+                positions = selectedCell.getBoundingClientRect()
+                playIndicator.style.left = positions.x
+            }else{
                 cells[i].style.opacity = "1"
                 selectedCell.style.opacity = "0.6"
                 selectedCell = cells[i]
                 scrollPage(selectedCell)
-            }else{
-                selectedCell = cells[i]
-                scrollPage(selectedCell)
-                positions = selectedCell.getBoundingClientRect()
-                let posDifference = positions.x - playIndicator.style.left.replace("px","")
-                playIndicator.style.left = positions.x
             }
             bpmToMs = initialBpm
             switch (songData[i].co) {
@@ -1330,13 +1344,22 @@
             await delay(Math.floor(bpmToMs+(startLag - Date.now())))
         }
         selectedCell.style.opacity = "1"
-        playIndicator.style.display = "none"
         playBtn.value = "Play"
         disableCells("auto")
+        if(performanceLevel < 2) playIndicator.style.display = "none"
         stopPlaying = true
         isPlaying = false
-        console.log("Expected time: "+parseInt(calculatedTime))
-        console.log("Actual time: "+(Date.now() - actulTime))
+        isUpdating = true
+        let stats = {
+            expected: parseInt(calculatedTime),
+            actual: (Date.now() - actulTime),
+            difference: Math.floor((Date.now() - actulTime) - calculatedTime )
+        }
+        try{
+            console.table(stats)
+        }catch(e){
+
+        }
     }
     //----------------------------------------------------------------------------------------------//
 
@@ -1779,9 +1802,11 @@
         for (var i = 0; i < 15; i++) {
             let note = document.createElement("div")
             note.className = "note"
+
             cell.insertBefore(note, cell.firstChild);
         }
-        cell.addEventListener(inputMode, function (e) {
+        if (performanceLevel > 1) cell.style.opacity = "unset"
+        cell.addEventListener("click", function (e) {
             e.preventDefault()
             if (getCellPosition(selectedCell) == getCellPosition(this)) return
             selectCell(this)
@@ -1808,8 +1833,16 @@
     //----------------------------------------------------------------------------------------------//
 
     function selectCell(cell) {
-        cell.style.opacity = "1"
-        selectedCell.style.opacity = "0.6"
+
+        if(performanceLevel > 1){
+            let positions = cell.getBoundingClientRect()
+            playIndicator.style.left = positions.x
+            playIndicator.style.height = positions.height
+        }else{
+            cell.style.opacity = "1"
+            selectedCell.style.opacity = "0.6"
+        }
+
         selectedCell = cell
         try{
             for (var i = 0; i < 15; i++) {
@@ -1929,7 +1962,7 @@
     if (quickSavedSong != null) {
         songContainer.innerHTML = quickSavedSong.replace("opacity: 1;", "opacity: 0.6;")
         for (let i = 0; i < songContainer.childElementCount; i++) {
-            songContainer.children[i].addEventListener(inputMode, function (e) {
+            songContainer.children[i].addEventListener("click", function (e) {
                 e.preventDefault()
                 if (getCellPosition(selectedCell) == getCellPosition(this)) return
                 selectCell(this)
@@ -2186,7 +2219,7 @@
         addBeatMarkers(selectedDivisions)
         if (!ignoreSettings) toggleSettings()
         try{
-            songContainer.lastChild.style.opacity = "0.6"
+            if(performanceLevel < 2) songContainer.lastChild.style.opacity = "0.6"
         }catch(e){
             console.log(e)
         }
@@ -2269,6 +2302,7 @@
             "Contrabass/11.mp3",
             "Contrabass/12.mp3", "Contrabass/13.mp3", "Contrabass/14.mp3"
         ],
+        dundun: ["Dundun/0.mp3", "Dundun/1.mp3", "Dundun/2.mp3", "Dundun/3.mp3", "Dundun/4.mp3", "Dundun/5.mp3", "Dundun/6.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3",]
 
 
     }
@@ -2327,7 +2361,8 @@
         ]
         let newRowBreak = [6, 11]
         keyNames = keyNamesAllInstruments
-        if (instrument == "bell" || instrument == "drum" || instrument == "handpan") {
+        console.log(instrument)
+        if (instrument == "bell" || instrument == "drum" || instrument == "handpan" || instrument == "dundun") {
             newRowBreak = [5, 9]
             numOfKeysLeft = 8
             numOfKeys = 8
@@ -2486,6 +2521,7 @@
 
     //--------------------------------------------------------------------------------------//
 
+    let reverbNode 
     function set_up_reverb() {
         fetch("reverb4.wav")
             .then(r => r.arrayBuffer().catch(function () {
@@ -2493,11 +2529,11 @@
             }))
             .then(b => a_ctx.decodeAudioData(b, (impulse_response) => {
                 let convolver = a_ctx.createConvolver()
-                let gainNode = a_ctx.createGain()
-                gainNode.gain.value = 2.5
+                reverbNode = a_ctx.createGain()
+                reverbNode.gain.value = 2.5
                 convolver.buffer = impulse_response
-                convolver.connect(gainNode)
-                gainNode.connect(a_ctx.destination)
+                convolver.connect(reverbNode)
+                reverbNode.connect(a_ctx.destination)
                 a_reverb_destination = convolver
             })).catch(function () {
                 console.log("Catched error ")
@@ -2656,7 +2692,13 @@
         a.click()
         a.remove()
     }
-
+    window.addEventListener("orientationchange", function() {
+        setTimeout(function(){
+            let positions = getCell(0).getBoundingClientRect()
+            playIndicator.style.height = positions.height
+        },100)
+    })
+    changePerformanceMode(true)
 </script>
 
 </html>

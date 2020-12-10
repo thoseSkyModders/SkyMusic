@@ -10,6 +10,7 @@ let bodyParser = require('body-parser');
 const fs = require('fs');
 const sanitizeText = require("sanitize-filename");
 let cors = require('cors')
+let currentPromotions = require("./public/promotions/currentPromotions.json")
 //-----------------------------//
 let app = express();
 let discordToken = process.env.discordToken
@@ -333,7 +334,9 @@ if (!inLocalhost) {
             }
             res.send(link)
         })
-
+        app.post("/getPromotions", async function (req, res) { //error handled
+            res.send(JSON.stringify(currentPromotions))
+        })
         app.post("/getByLink",async function (req, res) {//updated
             try{
                 var value = JSON.parse(decrypt(req.body.url))
