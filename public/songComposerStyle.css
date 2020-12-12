@@ -274,6 +274,13 @@ button {
     user-select: none;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+select{
+    -webkit-appearance: none;
+    -webkit-border-radius: none;
+    background-image:url(./icons/expandDown2.svg);
+    background-repeat:no-repeat; 
+    background-position: 100%;
+}
 .skyButton {
     -webkit-appearance: none;
     -webkit-border-radius: none;
@@ -307,8 +314,6 @@ button {
 }
 
 .select {
-    -webkit-appearance: none;
-    -webkit-border-radius: none;
     text-decoration: none;
     border-radius: 0.3em;
     border: none;
@@ -847,7 +852,13 @@ textarea:focus,
 button:focus {
     outline: none;
 }
-
+.noWebkit{
+    -webkit-appearance: none;
+    -webkit-border-radius: none;
+    background-image:url(./icons/expandDown.svg);
+    background-repeat:no-repeat; 
+    background-position: 100%;
+}
 @media only screen and (orientation:portrait) {
     #finishedSelection{
         height: 5vh;

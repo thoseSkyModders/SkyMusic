@@ -43,11 +43,11 @@
     </div>
     <div style="display: flex; width: 100%; justify-content: flex-start; margin-bottom: 2vh;">
         <button class="skyButton2" onclick="location.href = window.location.origin + '/'"
-            style="min-height: 4vh;font-size: 1.2rem;">
+            style="font-size: 1.2rem;">
             GO BACK
         </button>
     </div>
-    <select id="instrumentSelection" class="skyButton2">
+    <select id="instrumentSelection" class="skyButton2 noWebkit">
         <option>Piano</option>
         <option>Harp</option>
         <option>Guitar</option>
@@ -76,6 +76,7 @@
             onclick="showMessage('Go download some songs!')"><br>
         it will be saved in the main page (Go back)
     </div>
+
     <div class="buttonsContainer">
         <div class="innerButtonsContainer">
             <div class="sendSongContainer" style="display: flex; flex-direction: column;">
@@ -83,7 +84,7 @@
                     Send us your song!
                 </div>
                 <div style="display: flex; flex-direction: row; justify-content: space-between;">
-                    <select id="selectedSong" class="select">
+                    <select id="selectedSong" class="select noWebkit">
                         <option selected disabled>Select song</option>
                     </select>
                     <button onclick="sendSong(this)" class="skyButton2" style="padding:0.3em;">Send song</button>
@@ -95,7 +96,7 @@
                     Search in the library
                 </div>
                 <div style="display: flex; flex-direction: row; justify-content: space-between;">
-                    <input type="text" id="search" class="select" placeholder="Search song" style="cursor: text;">
+                    <input type="text" id="search" class="select" placeholder="song name" style="cursor: text;">
                     <button onclick="search()" class="skyButton2">Search</button>
                 </div>
             </div>
@@ -557,7 +558,6 @@
             <li class="content"> <img class="dS" onclick="dwJS('Yoru_ni_kakeruYOASOBI')"><skyButton onclick="playSong(this)">Yoru ni kakeru/YOASOBI</skyButton></li>
             
         </ul>
-    </div>
     <ul class="listelement" style="display: block;">
         <div style="display: inline-flex; width: 100%;">
             <div class="expand rotate0"></div>
@@ -620,18 +620,8 @@
             <!--COMPOSER-->
         </div>
     </ul>
-
-
-    <ul class="listelement2" style="padding: 1rem; margin-top: 10vh;">
-        <div>
-            Import method
-        </div>
-        <div style="display:flex; justify-content:space-between; padding-top:1rem">
-            <button class="skyButton2" id="downloadMethod" onclick="changeImportMethod('download')">Download file</button>
-            <button class="skyButton2 selectedMethod" id="importMethod" onclick="changeImportMethod('import')">Import into Sky Music</button>
-        </div>
-    </ul>
-    <div class=" promotionsContainer">
+    </div>
+    <div class="promotionsContainer">
         <h1>Promoted content</h1>
         <div style="margin: 1rem 0;">
             You can promote your own sky content for a small daily fee, email us at
@@ -642,6 +632,19 @@
         </div>
 
     </div>
+    <div style="display: flex; flex-direction: column; justify-content: center; width: 100%;">
+        <ul class="listelement2" style="padding: 1rem;">
+            <div>
+                Import method
+            </div>
+            <div style="display:flex; justify-content:space-between; padding-top:1rem">
+                <button class="skyButton2" id="downloadMethod" onclick="changeImportMethod('download')">Download file</button>
+                <button class="skyButton2 selectedMethod" id="importMethod" onclick="changeImportMethod('import')">Import into Sky Music</button>
+            </div>
+        </ul>
+    </div>
+
+
 
     <div class="skyMusicGithub">
         <div onclick="location.href ='http\://sky-music.github.io'">
@@ -1198,7 +1201,6 @@
     async function populatePromotions(){
         let  = document.getElementById("promotionsContainer")
         let data = await fetch("/getPromotions",{method:"POST"}).then(data => data.json())
-        console.log(data)
         data.forEach(promotion => {
             let container = document.createElement("div")
             let title = document.createElement("div")

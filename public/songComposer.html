@@ -2415,7 +2415,7 @@
                     function buttonPressEvent(btn, isTrusted, layerType) {
                         const source = a_ctx.createBufferSource()
                         source.buffer = buf
-                        source.playbackRate.value = pitchKey;
+                        source.playbackRate.value = pitchKey
                         if(layerType != 2){
                             gainNode1.gain.value = firstLayerVolume/100
                             source.connect(gainNode1)
@@ -2431,7 +2431,6 @@
                             }else{
                                 gainNode2.connect(a_ctx.destination)
                             }
-
                         }
                         source.start(0)
                         if (layerType != 2) {

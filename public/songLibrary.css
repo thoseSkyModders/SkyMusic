@@ -70,14 +70,19 @@ body {
     color: #dad8b3;
 }
 
+h1{
+    font-size: 1.7rem;
+}
 .listelement,
 .listelement2 {
     background-color: #272b2d;
     align-self: center;
     border-radius: 1vw;
-    width: calc(100% - 2rem);
+    width: 100%;
+    box-sizing: border-box;
     padding: 0 1rem 0;
-    margin: 1.5rem 0 0 0;
+    margin: 0.8rem;
+    margin-bottom: 0;
     cursor: pointer;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -143,10 +148,10 @@ iframe{
     height: 28vw;
 }
 .promotion{
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
     background-color: #181a1b;
     border-radius: 0.5rem;
-    padding: 1rem;
+    padding: 0.5rem;
 
 }
 .promotionContent{
@@ -156,10 +161,11 @@ iframe{
     background-color: #272b2d;
     align-self: center;
     border-radius: 1vw;
-    width: calc(100% - 2rem);
+    width: 100%;
+    box-sizing: border-box;
     padding: 0 1rem 0;
-    margin: 1.5rem 0 0 0;
-    padding: 1rem;
+    margin: 0.8rem 0 0 0;
+    padding: 0 1rem;
     display: flex;
     flex-direction: column;
 }
@@ -191,6 +197,14 @@ iframe{
     text-align: center;
     height: 2rem;
     cursor: pointer;
+
+}
+.noWebkit{
+    -webkit-appearance: none;
+    -webkit-border-radius: none;
+    background-image:url(./icons/expandDown.svg);
+    background-repeat:no-repeat; 
+    background-position: 100%;
 }
     /* width */
     ::-webkit-scrollbar {
@@ -260,18 +274,18 @@ skyButton:active {
     background-image: url(./icons/expand.svg);
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 60px;
+    background-size: 50px;
     width: 40px;
     margin-left: -5px;
 }
 
 .rotate90 {
-    transform: rotate(0);
+    transform: rotate(270deg);
     transition: 0.3s linear;
 }
 
 .rotate0 {
-    transform: rotate(-90deg);
+    transform: rotate(180deg);
     transition: 0.4s linear;
 }
 
@@ -337,13 +351,21 @@ skyButton:active {
     color: #181a1b;
     z-index: 1000;
     background-color: rgba(218, 216, 179, 0.8);
-    min-height: 4vh;
+    min-height: 2rem;
+    -webkit-appearance: none;
+    -webkit-border-radius: none;
+    background-image:url(./icons/expandDown.svg);
+    background-repeat:no-repeat; 
+    background-position: 100%;
+    padding: 0 0.8rem;
 }
 
-
+#selectedSong{
+    padding:0 1.5rem;
+}
 .skyMusicGithub {
     background-color: #272b2d;
-    margin-top: 1.5rem;
+    margin-top: 0.8rem;
     padding: 1rem;
     display: flex;
     flex-direction: row;
@@ -380,7 +402,6 @@ skyButton:active {
     skyButton {
         margin: 0.1rem;
     }
-
     .skyMusicGithub {
         border-radius: 3vw;
         justify-content: center;
@@ -417,11 +438,12 @@ skyButton:active {
 
     .buttonsContainer {
         flex-direction: column;
-        border-radius: 2vw;
+        border-radius: 3vw;
     }
 
     .listelement,
-    .listelement2 {
+    .listelement2,
+    .promotionsContainer {
         border-radius: 3vw;
     }
 
