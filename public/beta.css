@@ -1,29 +1,21 @@
-@font-face {
-	font-family: consola;
-	src: url('fonts/CONSOLA.TTF');
-	font-weight: normal;
-	font-style: normal;
-}
 
-@font-face {
-	font-family: consola;
-	src: url('fonts/CONSOLAB.TTF');
-	font-weight: bold;
-	font-style: normal;
+html{
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
 }
-
 * {
 	/* touch-action: none !important; mitigates button issues on iOS */
 	font-family: arial;
 }
 
-#failedToLoad{
+#failedToLoad {
 	display: none;
 	height: 0;
 	width: 0;
 	position: absolute;
-	
+
 }
+
 .btnText {
 	color: transparent;
 	font-family: Arial;
@@ -36,14 +28,14 @@
 }
 
 .floatingMessage {
-	position: absolute;
+	position: fixed;
 	width: 40%;
 	left: 0;
 	right: 0;
 	margin-right: auto;
 	margin-left: auto;
-	height: 15%;
-	top: 70%;
+	min-height: 15%;
+	bottom: 10%;
 	font-size: 1em;
 	text-align: center;
 	padding: 1em;
@@ -53,8 +45,7 @@
 	background-color: rgba(22, 22, 22, 0.95);
 	display: none;
 	z-index: 110;
-	/*border: solid 1px #dad8b3;*/
-	box-shadow: 0 0 5px 3px rgba(0,0,0,0.3);
+	box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.3);
 	border-radius: 0.8em;
 }
 
@@ -83,39 +74,46 @@
 	cursor: pointer;
 	display: block;
 }
-#exitFullScreenBtn{
-	position: absolute;
-	left:15px;
-	bottom:10px;
+
+#exitFullScreenBtn {
+	position: fixed;
+	left: 15px;
+	bottom: 10px;
 	display: none;
 	width: 35px;
 }
+
+.grayBtn {
+	background: rgba(77, 77, 77, 0.85);
+}
+
 @media only screen and (orientation:portrait) {
-	#exitFullScreenBtn{
-		left:calc(100vw - 50px);
+	#exitFullScreenBtn {
+		left: calc(100vw - 50px);
 	}
 }
 
-#setScale{
-	padding:1em;
+#setScale {
+	padding: 1em;
 	display: none;
-	position:absolute;
+	position: absolute;
 	height: 70%;
 	width: 50%;
-	top:15%;
+	top: 15%;
 	left: 0;
 	right: 0;
 	margin-right: auto;
 	margin-left: auto;
 	background-color: rgba(22, 22, 22, 0.9);
+	border: 1.5px solid rgb(103, 103, 97);
 	border-radius: 1em;
-	border: solid 1px #222;
-	box-shadow: 0 0 3px 3px rgba(0,0,0,0.3);
+	box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.3);
 	z-index: 1000;
 	color: #dad8b3;
 	text-align: center;
 	overflow-y: auto;
 }
+
 .songRange {
 	z-index: 0;
 	display: none;
@@ -128,15 +126,17 @@
 	height: 50%;
 	user-select: none;
 }
-.songProgress{
+
+.songProgress {
 	border-radius: 0.5em;
 	z-index: -1;
 	position: absolute;
 	width: 100%;
 	background-color: rgba(235, 0, 27, 0.8);
-	bottom:0;
+	bottom: 0;
 }
-.songProgressWrapper{
+
+.songProgressWrapper {
 	left: 0;
 	right: 0;
 	z-index: -1;
@@ -145,13 +145,15 @@
 	position: absolute;
 	width: 30%;
 	height: 90%;
-	bottom:0;
+	bottom: 0;
 }
+
 @media only screen and (orientation:portrait) {
-	.songProgress{
+	.songProgress {
 		display: none;
 	}
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
@@ -174,12 +176,13 @@ input[type=number] {
 	outline: none;
 	user-select: none;
 }
-#scaleNumber{
+
+#scaleNumber {
 	display: inline-block;
 	font-family: Arial;
 	text-align: center;
-	border: 2px ;
-	width: 30px;
+	border: 2px;
+	min-width: 5vw;
 	color: #dad8b3;
 	background-color: rgba(22, 22, 22, 0.65);
 	padding: 2px 5px 2px 5px;
@@ -187,6 +190,7 @@ input[type=number] {
 	outline: none;
 	user-select: none;
 }
+
 /*
 input[type=range][orient=vertical]{
     writing-mode: bt-lr;
@@ -236,25 +240,27 @@ input[type=range][orient=vertical]:hover {
 	opacity: 1;
 	/* Fully shown on mouse-over */
 }
-#rotateDevice{
-display: none;
+
+#rotateDevice {
+	display: none;
 }
 
-.bottom{
+.bottom {
 	margin-top: 30%;
 }
 
 @media only screen and (orientation:portrait) {
-	#rotateDevice{
+	#rotateDevice {
 		display: block;
 		text-align: center;
 		z-index: 1000;
 		background-color: rgba(235, 233, 202, 0.9);
-		position:absolute;
-		width:100%;
-		height:100%;
+		position: absolute;
+		width: 100%;
+		height: 100%;
 	}
 }
+
 @media only screen and (orientation:portrait) {
 	.songRange {
 		display: none;
@@ -362,6 +368,7 @@ display: none;
 #stopSong {
 	background-image: url(icons/stop.png);
 	background-color: rgba(22, 22, 22, 0.65);
+	box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.3);
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
@@ -377,6 +384,7 @@ display: none;
 
 .musicButton {
 	background: rgba(22, 22, 22, 0.65);
+	box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.3);
 	background-image: url('./images/piano.png');
 	background-size: 25px 25px;
 	background-repeat: no-repeat;
@@ -393,6 +401,7 @@ display: none;
 
 .pitchButton {
 	background: rgba(22, 22, 22, 0.65);
+	box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.3);
 	background-size: 25px 25px;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -415,6 +424,7 @@ display: none;
 	background-color: transparent;
 	margin-bottom: 5px;
 	font-size: 30px;
+
 	color: #dad8b3;
 	font-weight: bold;
 	cursor: pointer;
@@ -428,6 +438,7 @@ display: none;
 	height: 40px;
 	width: 40px;
 	cursor: pointer;
+	background-repeat: no-repeat;
 	outline: none;
 }
 
@@ -436,14 +447,15 @@ display: none;
 	border-radius: 1em;
 	background-color: rgba(22, 22, 22, 0.65);
 	display: none;
-	width: 60px;
+	max-width: 70px;
 	position: absolute;
 	overflow-y: auto;
+	overflow-x: hidden;
 	max-height: 90%;
 	right: 5%;
 	top: 5%;
 	z-index: 1;
-	padding: 10px;
+	padding: 5px;
 	box-sizing: border-box;
 }
 
@@ -524,7 +536,7 @@ button {
 
 .bottomSavedSongsDiv {
 	border-top: 1px solid #222;
-	padding: 0.5em;
+	padding: 0.1em 0.5em;
 	box-sizing: border-box;
 	background: #333;
 	width: 100%;
@@ -565,7 +577,7 @@ button {
 	background-color: #414141;
 	color: #dad8b3;
 	border: solid #222 1px;
-	border-radius: 1.5em;
+	border-radius: 1rem;
 	display: none;
 	z-index: 10;
 	max-height: 90vh;
@@ -574,7 +586,7 @@ button {
 .floatingDiv h3 {
 	padding: 0.2em;
 	box-sizing: border-box;
-	margin: 10px;
+	margin: 5px;
 }
 
 div.fileinputs {
@@ -590,7 +602,7 @@ div.fakefile {
 
 .video {
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -620,13 +632,18 @@ div.fakefile {
 	cursor: pointer;
 	margin: 0.5em;
 	outline: none;
-	box-shadow: 0 0 5px 1px rgba(0,0,0,0.3);
+	box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
+	min-width: 4vw;
 }
 
 .menuDiv {
 	width: 100%;
 	text-align: center;
-	height: 50px;
+	display: flex;
+	flex-direction: row;
+	margin-right: 40px;
+	justify-content: center;
+	align-content: center;
 }
 
 body {
@@ -634,12 +651,10 @@ body {
 	padding: 0;
 	overflow: hidden;
 	min-height: 100vh;
-	-ms-touch-action: none;
 }
-html{
-	-ms-touch-action: none;
-}
-#promptDiv{
+
+
+#promptDiv {
 	z-index: 100;
 	display: none;
 	padding: 1em;
@@ -650,12 +665,13 @@ html{
 	right: 0;
 	margin-right: auto;
 	margin-left: auto;
-	top:5%;
-	color:#dad8b3;
+	top: 5%;
+	color: #dad8b3;
 	border: solid 1px #111;
 	border-radius: 0.8em;
 	background-color: rgba(15, 15, 15, 0.85);
 }
+
 #promptInput {
 	width: 92%;
 	text-align: center;
@@ -663,15 +679,18 @@ html{
 	height: 30px;
 	border-radius: 5px;
 	outline: 0;
-	background: rgba(100,100,100,0.9);
+	background: rgba(100, 100, 100, 0.9);
 	border: 0;
 	color: white;
 }
-#promptOK, #promptCancel {
+
+#promptOK,
+#promptCancel {
 	width: 46%;
 	margin: 1%;
-	background: rgba(75,75,75,0.9);
+	background: rgba(75, 75, 75, 0.9);
 }
+
 #touch {
 	height: calc(100vh - 50px);
 	display: flex;
@@ -681,7 +700,7 @@ html{
 	margin: 0;
 }
 
-#language-selector{
+#language-selector {
 	display: block;
 	width: 100%;
 	border: 0;
@@ -694,6 +713,7 @@ html{
 	background: teal;
 	color: white;
 }
+
 #login,
 #register,
 #confirmRegistration,
@@ -714,14 +734,12 @@ html{
 #settingsContainer {
 	background: rgba(15, 15, 15, 0.85);
 	width: 100%;
-	max-height: 100%;
+	min-height: 100vh;
+	min-width: 100vw;
 	overflow: auto;
 	padding: 1.5em;
 	box-sizing: border-box;
-	color: white;
-	border-radius: 15px;
-	max-width: 500px;
-	margin: auto;
+	color: #dad8b3;
 }
 
 #loginContainer h1,
@@ -765,7 +783,7 @@ html{
 	border-radius: 5px;
 	cursor: pointer;
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 1rem;
 	background: teal;
 	color: white;
 }
@@ -786,6 +804,7 @@ html{
 #settingsContainer span {
 	font-weight: bold;
 	display: inline-block;
+	cursor: pointer;
 	width: 50%;
 }
 
@@ -795,6 +814,13 @@ html{
 
 #forgotLink {
 	text-align: right;
+}
+
+#lockScreen {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	font-size: 0.7em;
 }
 
 #icon-bar {
@@ -807,14 +833,16 @@ html{
 	backdrop-filter: blur(20px);
 	display: none;
 	z-index: 99;
-	background: rgba(0,0,0,0.3);
+	background: rgba(0, 0, 0, 0.3);
 }
-
+#icon-bar a{
+	text-decoration: none;
+}
 #menu {
 	background-color: transparent;
 	z-index: 100;
 	border: none;
-	position: absolute;
+	position: fixed;
 	background: rgba(22, 22, 22, 0);
 	background-image: url('./icons/menu.png');
 	background-size: 35px 35px;
@@ -825,23 +853,69 @@ html{
 	padding: 30px;
 }
 
-#savedSongsDivWrapper{
+.subMenuDiv {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+#savedSongsDivWrapper {
 	margin: auto;
 	top: 0;
-	left: 0; 
-	bottom: 0; 
+	left: 0;
+	bottom: 0;
 	right: 0;
 	overflow: hidden;
 }
-@media only screen and (orientation:portrait){
-	#savedSongsDivWrapper{
+
+.shift40px {
+	margin-left: 0;
+}
+
+.shift40px2 {
+	margin-left: 0;
+}
+
+@media only screen and (orientation:landscape) {
+	.shift40px {
+		margin-left: 40px;
+	}
+}
+
+@media only screen and (orientation:portrait) {
+	#icon-bar{
+		width: 40%;
+	}
+	.instrumentsWrapper{
+		top: 10%;
+	}
+	.shift40px2 {
+		margin-left: 40px;
+	}
+
+	.menuDiv {
+		flex-direction: column;
+	}
+
+	.subMenuDiv {
+		justify-content: center;
+	}
+
+	#floatingMessage {
+		width: 80vw;
+	}
+
+	#savedSongsDivWrapper {
 		width: 90%;
 		height: 80%;
 	}
-	#menu{
+
+	#menu {
 		bottom: 0;
 	}
 }
+
 .secondPage {
 	display: none;
 	backdrop-filter: blur(10px);
@@ -868,48 +942,100 @@ html{
 	font-size: 1.2em;
 	font-family: Arial;
 	margin: 0;
-	color: white;
+	color: #dbd9c2;
 	opacity: 100%;
+	text-align: center;
 }
-#formatChooser{
+#progressBarWrapper{
+	margin-top: 0.3rem;
+	width: 80%;
+	height: 30%;
+	border-radius: 0.3rem;
+	overflow: hidden;
+	background-color: rgb(218, 206, 179);
+}
+#progressBar{
+	min-width: 0.5%;
+	height: 100%;
+	background-color: rgba(235, 0, 27, 0.8);
+}
+.percentageWrapper{
+	display: inline-flex;
+}
+
+#storageWrapper{
+	align-items:center;
+	height: 15vh;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+#percentageStorage{
+	margin-left: 0.5rem;
+}
+::-webkit-scrollbar{
+	width: 1vw;
+}
+  
+  /* Track */
+::-webkit-scrollbar-track {
+    background: rgba(44, 44, 44, 0.8);
+	border-radius: 3px;
+	overflow: hidden;
+  }
+  
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: #dad8b3;
+	border-radius: 3px;
+	overflow: hidden;
+  }
+  
+  /* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    opacity:0.6;
+  }
+#formatChooser {
 	display: none;
 	position: absolute;
 	left: 0;
 	right: 0;
 	margin-right: auto;
 	margin-left: auto;
-	top:30%;
+	top: 30%;
 	width: 50%;
-	height: 35%;
+	height: 48%;
 	z-index: 10;
-	color:#dad8b3;
+	color: #dad8b3;
 	text-align: center;
 	background-color: rgba(22, 22, 22, 0.95);
-    border: 1.5px #676761 solid;
+	border: 1.5px #676761 solid;
 	border-radius: 0.8em;
 	padding: 1em;
 	padding-top: 0.5em;
 }
-.format{
+
+.format {
 	display: flex;
 	flex-direction: row;
 	width: 100%;
 	font-size: 20px;
 	height: 70%;
 	text-align: center;
-	
+
 }
-.formatButton{
+
+.formatButton {
 	color: #dad8b3;
 	background-color: rgba(44, 44, 44, 0.8);
-	border-radius: 0.5em;
+	border-radius: 0.5rem;
 	font-size: 1em;
 	padding: 0.4em;
 	box-sizing: border-box;
 	cursor: pointer;
 	outline: none;
 	flex: 1 1 0;
-	margin:5%;
+	margin: 5%;
 	margin-top: 0;
 	font-size: 1.5em;
 	height: 100%;
@@ -918,67 +1044,145 @@ html{
 	justify-content: center;
 	vertical-align: middle
 }
-.buttonsHolder{
+
+.buttonsHolder {
 	display: none;
 }
-.songButton{
+
+.songButton {
+	width: 4vw;
+	margin-left: 0.1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+	min-height: 4vw;
 }
-.copyDiv{
+
+.songImg {
+	background-size: 10%;
+}
+
+.shareBtn,
+.deleteBtn,
+.practiceBtn,
+.moreBtn,
+.toDbBtn,
+.downloadBtn {
+	background-size: 80%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.downloadBtn {
+	background-image: url(./icons/download1.svg);
+}
+
+.shareBtn {
+	background-image: url(./icons/share.png);
+	background-size: 60%;
+}
+
+.deleteBtn {
+	background-image: url(./icons/trash.png);
+	background-size: 70%;
+}
+
+.practiceBtn {
+	background-image: url(./icons/practice.svg);
+}
+
+.moreBtn {
+	background-image: url(./icons/more.svg);
+}
+
+.toDbBtn {
+	background-image: url(./icons/saveToDb2.svg);
+	background-size: 70%;
+}
+
+.songButtonWide {
+	display: flex;
+	flex-grow: 1;
+	justify-content: center;
+	align-items: center;
+}
+
+.songWrapper {
+	display: flex;
+}
+
+.copyDiv {
 	width: 90%;
 	height: 90%;
 	color: #dad8b3;
 	background-color: #dad8b3;
-	color: rgb(22,22,22);
+	color: rgb(22, 22, 22);
 	padding: 0.5em;
 }
-.copyDiv::selection{
-	background: rgba(235, 0, 27, 0.5);;
+
+.copyDiv::selection {
+	background: rgba(235, 0, 27, 0.5);
+	;
 }
-#abcTextarea, #abcTextareaExport{
+
+#abcTextarea,
+#abcTextareaExport {
 	color: #dad8b3;
-    border:none;
+	border: none;
 	background-color: rgba(44, 44, 44, 0.8);
 	width: 60%;
 	margin-right: 1%;
-	border-radius: 0.5em;	
+	border-radius: 0.5em;
 	text-align: center;
 	overflow-y: auto;
-    overflow-x: hidden;
-    resize: none;
+	overflow-x: hidden;
+	resize: none;
 }
-#abcTextareaExport{
+
+#abcTextareaExport {
 	width: 80%;
 }
-#abcTextarea::placeholder{
+
+#abcTextarea::placeholder {
 	color: #dad8b3;
 	opacity: 1;
 }
-#importAbc,#exportAbc{
-    color: #dad8b3;
-    border: none;
+
+#importAbc,
+#exportAbc {
+	color: #dad8b3;
+	border: none;
 	background-color: rgba(44, 44, 44, 0.8);
-	width:15%;
+	width: 15%;
 	border-radius: 0.5em;
 }
-#exportAbc{
+
+#exportAbc {
 	width: 20%;
 }
-#importAbcData{
+
+#importAbcData {
 	width: 20%;
 	margin-right: 1%;
 }
-.midiImport{
-	height: 20%;
+
+.midiImport {
+	height: 25%;
 	margin-top: 1%;
-	border-radius: 0.2em;
+	border-radius: 0.4rem;
 }
-#importAbcData input{
+#importText{
+	margin-bottom: 1%;
+}
+#importAbcData input {
 	color: #dad8b3;
-    border: none;
+	border: none;
 	background-color: rgba(44, 44, 44, 0.8);
 	border-radius: 0.2em;
 	width: 90%;
 }
+
 @media only screen and (max-height: 450px) {
 
 	#login,
@@ -1007,11 +1211,12 @@ html{
 
 /* Style the tab */
 .tab {
-    border-bottom: 1px solid #222;
+	border-bottom: 1px solid #222;
 	background-color: #333;
 	filter: opacity(90%);
 	margin: 0;
 }
+
 /* Style the buttons inside the tab */
 .tab button {
 	background-color: inherit;
@@ -1019,7 +1224,7 @@ html{
 	border: none;
 	outline: none;
 	cursor: pointer;
-	padding: 14px 16px;
+	padding: 12px 16px;
 	transition: 0.3s;
 	font-size: 17px;
 	color: #dad8b3;
@@ -1034,25 +1239,189 @@ html{
 	background-color: #dad8b3;
 	color: black
 }
-@media only screen and (orientation:portrait){
+
+@media only screen and (orientation:portrait) {
+	.percentageWrapper{
+		display: flex;
+		flex-direction: column;
+	}
+	.songButton {
+		min-width: 8vw;
+		min-height: 8vw;
+	}
+
 	.tab button {
 		padding: 12px 14px;
 		font-size: 14px;
 	}
-	#formatChooser{
+
+	#formatChooser {
+		width: 80%;
+	}
+
+	#setScale {
 		width: 80%;
 	}
 }
+
 #dbSongs {
 	display: none;
 }
+
 .tabcontent {
 	flex-direction: column;
 	overflow: auto;
 	flex-grow: 1;
 }
+
 #songsFlexWrapper {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
+}
+
+@media only screen and (min-width: 1800px) {
+	* {
+		font-size: 1.5rem;
+	}
+
+	.tab button {
+		font-size: 1.5rem;
+		padding: 1rem;
+	}
+
+	[id^=Key] {
+		max-height: 13vh;
+		max-width: 13vh;
+	}
+
+	.btnImg {
+		border-radius: 1rem;
+	}
+
+	[id^=row] {
+		max-height: 15vh;
+	}
+
+	#menu {
+		background-size: 60px 60px;
+		width: 70px;
+		height: 70px;
+		margin: 0.5em;
+	}
+
+	.musicButton,
+	.pitchButton,
+	#stopSong {
+		background-size: 40px 40px;
+		width: 65px;
+		height: 65px;
+	}
+
+	#stopSong {
+		background-size: 70px 70px;
+	}
+
+	#togglePitchList {
+		font-size: 1rem;
+	}
+
+	#startingNoteRange {
+		width: 60px;
+	}
+
+	#loginContainer button,
+	#resetContainer button,
+	#registerContainer button,
+	#confirmContainer button,
+	#settingsContainer button {
+		font-size: 1.5rem;
+	}
+
+	.btnBg {
+		border-radius: 0.8rem;
+		border: solid 6px transparent;
+	}
+	.instrumentsWrapper{
+		max-width: 120px;
+	}
+	.instrumentButton, .pitchSelection{
+		width: 80px;
+		height: 80px;
+	}
+	.pitchSelection{
+		border-bottom: solid 4px #888;
+		font-size: 50px;
+	}
+}
+
+@media only screen and (min-width: 3500px) {
+
+	#loginContainer button,
+	#resetContainer button,
+	#registerContainer button,
+	#confirmContainer button,
+	#settingsContainer button {
+		font-size: 2rem;
+	}
+
+	* {
+		font-size: 2rem;
+	}
+
+	.tab button {
+		font-size: 2rem;
+		padding: 1.5rem;
+	}
+
+	.btnImg {
+		border-radius: 1.5rem;
+	}
+
+	#menu {
+		background-size: 120px 120px;
+		width: 140px;
+		height: 140px;
+		margin: 0.5em;
+	}
+
+	.musicButton,
+	.pitchButton,
+	#stopSong {
+		background-size: 80px 80px;
+		width: 120px;
+		height: 120px;
+	}
+
+	#savedSongsDivWrapper {
+		border-radius: 2rem;
+	}
+
+	#stopSong {
+		background-size: 120px 120px;
+	}
+
+	#togglePitchList {
+		font-size: 1.2rem;
+	}
+
+	#startingNoteRange {
+		width: 120px;
+	}
+
+	.btnBg {
+		border-radius: 1rem;
+		border: solid 10px transparent;
+	}
+	.instrumentsWrapper{
+		max-width: 200px;
+	}
+	.instrumentButton, .pitchSelection{
+		width: 150px;
+		height: 150px;
+	}
+	.pitchSelection{
+		border-bottom: solid 4px #888;
+		font-size: 80px;
+	}
 }

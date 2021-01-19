@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html translate="no">
 
 <head>
     <link rel="manifest" href="/manifest.json">
@@ -160,6 +160,7 @@
                     <option>Español</option>
                     <option>Tiếng_Việt</option>
                     <option>Simplified_Chinese_简体中文</option>
+                    <option>Türkçe</option>
                   </select>   
                     <button onclick = "toggleScaleDiv()" id="change-zoom-button" >Change website zoom</button>
                     <button onclick = "toggleFullScreenSetting()" id="turnOffFullscreen">Turn off auto fullscreen</button> 
@@ -225,12 +226,20 @@
     <button id="menu" style="display: block;"onclick="showMenu()"></button>
     <div id="icon-bar" style="height: 200vh; ">
         <button class="skyButton_2" onclick='resetPages(),showMenu(),document.getElementById("login").style.display = "none"'><p id="main-page-text-menu" class="texts">Main page</p></button>
-        <button class="skyButton_2" onclick="toggleSettings()"><p id="settings-text-menu" class="texts">Settings</p></button>
-        <button class="skyButton_2" style="background-color: rgb(218, 206, 179);" onclick='redirectPage("/songComposer.html")'><p id="song-composer-text-menu" style="color:#121212" class="texts">Song composer</p></button>
-        <button class="skyButton_2" onclick='redirectPage("/songLibrary.html")'><p id="library-text-menu" class="texts">Song Library</p></button>
-        <button class="skyButton_2" onclick='redirectPage("/sheetDisplayer.html")'><p id="sheet-displayer-text-menu"  class="texts">Sheet displayer</p></button>
+        <button class="skyButton_2" onclick="toggleSettings()"><p id="settings-text-menu" class="texts">Settings</p></button>        
+        <a href="/songComposer.html">
+          <button class="skyButton_2" style="background-color: rgb(218, 206, 179);"><p id="song-composer-text-menu" style="color:#121212" class="texts">Song composer</p></button>
+        </a>
+        <a href="/songLibrary.html">
+          <button class="skyButton_2"><p id="library-text-menu" class="texts">Song Library</p></button>
+        </a>
+        <a href="/sheetDisplayer.html">
+          <button class="skyButton_2"><p id="sheet-displayer-text-menu"  class="texts">Sheet displayer</p></button>
+        </a>
         <button class="skyButton_2" onclick="toggleLogin()"><p id="account-text-menu" class="texts">Account</p></button>
-        <button class="skyButton_2" onclick='redirectPage("/help.html")'><p id="help-text-menu"  class="texts">Need help?</p></button>
+        <a href="/help.html">
+          <button class="skyButton_2"><p id="help-text-menu"  class="texts">Need help?</p></button>
+        </a>
         <div class="skyButton_2 " id="storageWrapper">
           <div class="texts percentageWrapper">
             Storage used 

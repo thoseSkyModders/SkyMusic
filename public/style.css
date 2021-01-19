@@ -848,7 +848,9 @@ html {
 	z-index: 99;
 	background: rgba(0, 0, 0, 0.3);
 }
-
+#icon-bar a{
+	text-decoration: none;
+}
 #menu {
 	background-color: transparent;
 	z-index: 100;

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html translate="no">
 
 <head>
     <link rel="manifest" href="/manifest.json">
@@ -28,14 +28,17 @@
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="shortcut icon" href="/favicon.png?v=2" type="image/x-icon" />
     <script src="/scripts/jquery.js"></script>
-    <script src="/scripts/jqueryUI.js"></script>
     <script src="/scripts/jqueryPEP.js"></script>
-    <script src="/scripts/bodyLock.js"></script>
+    <script
+      src="https://browser.sentry-cdn.com/5.22.3/bundle.tracing.min.js"
+      integrity="sha384-HfEJlGrJtFM0B01Wt4sGzTbxWqLMcMeGAXCbyQyB+iK9BhnDmNAtIGovhekIQOa2"
+      crossorigin="anonymous"
+    ></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
     <title>Sky Music</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="style.css" type="text/css">
+    <link rel="stylesheet" href="beta.css" type="text/css">
 </head>
 
 <body style="touch-action: pan-x pan-y;">
@@ -49,12 +52,14 @@
         Press + and - to change how the page looks!<br>
         You can always change this in the settings<br>
         </div>
-        <button class="skyButton" style="width: 30px;" onclick="changeScale(-1)">-</button>
-        <div type="number" id="scaleNumber" >100</div>%
-        <button class="skyButton" style="width: 30px;" onclick="changeScale(1)">+</button><br>
-        <button class="skyButton" id="confirm-scale" onclick="confirmScale()" style="width: 90%;">CONFIRM</button>
-        <div>For any issues, check the SETTINGS and the help page</div>
-        <div>If the app blocks or you see a black screen, rotate your device</div>
+        <button class="skyButton" style="width: 30px; background: rgba(77,77,77,0.85);" onclick="changeScale(-1)">-</button>
+        <div type="number" id="scaleNumber" style="background: rgba(77,77,77,0.85);" >100</div>%
+        <button class="skyButton" style="width: 30px; background: rgba(77,77,77,0.85);" onclick="changeScale(1)">+</button><br>
+        <button class="skyButton" style="background: rgba(77,77,77,0.85); width: 90%;" id="confirm-scale" onclick="confirmScale()">CONFIRM</button>
+        <div>If you have touch issues, enable compability mode in the settings.</div>
+        <div>If the app blocks or you see a black screen, rotate your device.</div>
+        <div>DELETING BROWSER CACHE MIGHT DELETE YOUR SAVED SONGS, REMEMBER TO BACKUP THEM</div>
+        <div>By pressing confirm you accept our <a style="text-decoration: underline;" onclick="redirectPage('/policy.html')">Policy</a></div>
     </div>
     <!--https://www.flaticon.com/free-icon/rotate-smartphone_81564?term=rotate%20phone&page=1&position=22-->
     <div id="rotateDevice" onclick="this.style.display = 'none'">
@@ -154,6 +159,7 @@
                     <option>Română</option>
                     <option>Español</option>
                     <option>Tiếng_Việt</option>
+                    <option>Simplified_Chinese_简体中文</option>
                   </select>   
                     <button onclick = "toggleScaleDiv()" id="change-zoom-button" >Change website zoom</button>
                     <button onclick = "toggleFullScreenSetting()" id="turnOffFullscreen">Turn off auto fullscreen</button> 
@@ -161,6 +167,8 @@
                     <button onclick = "changeSettings(this)" id="Disable-next-key-practice">Disable next key practice</button>
                     <button onclick = "changeSettings(this)" id="Hide-practice-note-animation">Hide practice note animation</button>
                     <button onclick = "changeSettings(this)" id="Display-Note-Names">Display Note Names</button>
+                    <button onclick = "choseBackground()" id="background-choser" >Change background image</button>
+                    <button onclick = "resetBackground()" id="background-reset" >Reset background image</button>
                     <button onclick = "checkMidiAccess()" id="check-midi-button" >Check MIDI support</button>
                     <button onclick = "resetLocalStorage()" id="reset-all-button" >Reset all songs and settings</button>
                     <button onclick = "togglecompatibilityMode()" id="change-button-input-mode" >Turn on compability mode</button>
@@ -187,7 +195,7 @@
             <div class = "bottomSavedSongsDiv">
                 <button id="import-button" class="skyButton" onclick="toggleImportSong()">Import songs</button>
                 <button id="download-songs-button" class="skyButton" onclick="downloadSongs()">Download songs</button>
-                <input type=file style="display:none;" id="filePicker">
+                <input type=file style="display:none;" id="filePicker" accept=".txt,.json">
             </div>
           </div>
         <!--Database Songs-->
@@ -201,7 +209,7 @@
           </div>
         </div>
     </div>
-    <div class="videoWrapper video">
+    <div class="videoWrapper video" id="videoWrapper">
         <div class="vsc-controller" data-vscid="jvm0gu2z7"></div>
         <video id="video1"preload="auto" playsinline="" muted autoplay loop data-vscid="jvm0gu2z7">
             <source src="./AnimatedBG/skygame-banner2.mp4" type="video/mp4;codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
@@ -215,22 +223,45 @@
     </div>
 <div id="firstPage">
     <button id="menu" style="display: block;"onclick="showMenu()"></button>
-    <div id="icon-bar" style="height: 200vh;">
+    <div id="icon-bar" style="height: 200vh; ">
         <button class="skyButton_2" onclick='resetPages(),showMenu(),document.getElementById("login").style.display = "none"'><p id="main-page-text-menu" class="texts">Main page</p></button>
-        <button class="skyButton_2" onclick="toggleSettings()"><p id="settings-text-menu" class="texts">Settings</p></button>
-        <button class="skyButton_2" style="background-color: rgb(218, 206, 179);" onclick='redirectPage("/songComposer.html")'><p id="song-composer-text-menu" style="color:#121212" class="texts">Song composer</p></button>
-        <button class="skyButton_2" onclick='redirectPage("/songLibrary.html")'><p id="library-text-menu" class="texts">Song Library</p></button>
-        <button class="skyButton_2" onclick='redirectPage("/sheetDisplayer.html")'><p id="sheet-displayer-text-menu"  class="texts">Sheet displayer</p></button>
+        <button class="skyButton_2" onclick="toggleSettings()"><p id="settings-text-menu" class="texts">Settings</p></button>        
+        <a href="/songComposer.html">
+          <button class="skyButton_2" style="background-color: rgb(218, 206, 179);"><p id="song-composer-text-menu" style="color:#121212" class="texts">Song composer</p></button>
+        </a>
+        <a href="/songLibrary.html">
+          <button class="skyButton_2"><p id="library-text-menu" class="texts">Song Library</p></button>
+        </a>
+        <a href="/sheetDisplayer.html">
+          <button class="skyButton_2"><p id="sheet-displayer-text-menu"  class="texts">Sheet displayer</p></button>
+        </a>
         <button class="skyButton_2" onclick="toggleLogin()"><p id="account-text-menu" class="texts">Account</p></button>
-        <button class="skyButton_2" onclick='window.open("help.html")'><p id="help-text-menu"  class="texts">Need help?</p></button>
+        <a href="/help.html">
+          <button class="skyButton_2"><p id="help-text-menu"  class="texts">Need help?</p></button>
+        </a>
+        <div class="skyButton_2 " id="storageWrapper">
+          <div class="texts percentageWrapper">
+            Storage used 
+            <div id="percentageStorage">0%</div>
+          </div>
+          <div id="progressBarWrapper">
+            <div id="progressBar">
+
+            </div>
+          </div>
+        </div>
     </div>
     <div class="menuDiv">
-        <button class="skyButton" id="manageRecordingsBtn" onclick="toggleSavedSongs()">Manage Recordings</button>
-        <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
-        <button class="musicButton" id="toggleInstruments" onclick="toggleInstrumentList()"></button>
-        <button class="pitchButton" id="togglePitchList" onclick="togglePitchList()">Key</button>
-        <button class="pitchButton" id="toggleReverbBtn" style="font-size: 1.3em; background-image: url(./icons/reverb.png);" onclick="toggleReverb()"></button>
-        <button id="stopSong" onclick="stopSong()"></button>
+        <div class="subMenuDiv shift40px">
+          <button class="skyButton" id="manageRecordingsBtn" onclick="toggleSavedSongs()">Manage Recordings</button>
+          <button class="skyButton" id="toggleRecordBtn" onclick="toggleRecord()"> Start/Stop recording</button>
+        </div>
+        <div  class="subMenuDiv shift40px2">
+          <button class="musicButton" id="toggleInstruments" onclick="toggleInstrumentList()"></button>
+          <button class="pitchButton" id="togglePitchList" onclick="togglePitchList()">Key</button>
+          <button class="pitchButton" id="toggleReverbBtn" style="font-size: 1.3em; background-image: url(./icons/reverb.png);" onclick="toggleReverb()"></button>
+          <button id="stopSong" onclick="stopSong()"></button>
+        </div>
     </div>
     <div id=touch>
         <div class="Row1" id="row1"></div>
@@ -248,8 +279,9 @@
         <button type="button" id="drumBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/drum.png);"></button>
         <button type="button" id="handPanBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/handPan.png);"></button>  
         <button type="button" id="bellBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/bell.png);"></button>
-        <!--
         <button type="button" id="contrabassBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/contrabass.png);"></button>
+        <button type="button" id="dundunBtn" class="instrumentButton" onclick="changeInstrument(this)" style="background-image: url(./images/dundun.png);" /></button>
+        <!--
         <button type="button" id="banjoBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/banjoBtn.png);"/></button> 
         <button type="button" id="panfluteBtn" class="instrumentButton"  onclick="changeInstrument(this)" style="background-image: url(./images/panflute.png);"/></button>  
         TO REMOVE ONCE NEW INSTRUMENTS ARE ADDED
@@ -301,7 +333,7 @@
             </p>
           </div>
           <div class="formatButton" style = "color: rgb(22,22,22); background-color: #5e8e63;"onclick="importSongs()">
-            <p>.TXT
+            <p>.TXT<br>json
               <br>
               <a style="font-size: 0.5em;">(suggested)</a>
             </p>
@@ -320,7 +352,7 @@
           </p>
         </div>
         <div class="formatButton" style = "color: rgb(22,22,22); background-color: #5e8e63;"onclick="downloadSong()">
-          <p>.TXT
+          <p>.TXT<br>json
             <br>
             <a style="font-size: 0.5em;">(suggested)</a>
           </p>
@@ -345,10 +377,10 @@
         <button id="exportAbc" onclick="downloadAbc()">Download</button>
       </div>
     </div>
-    <button class="skyButton" id="lockScreen" onclick="lockScreen()">Lock screen</button>
 </body>
 
  <!-- <input type="sleeping" placeholder="username" style="display: none"> Easter egg-->
-<script type="text/javascript" src="appBeta.js"></script>
+<script src="/scripts/jqueryUI.js"></script>
+<script type="text/javascript" src="app.js"></script>
 
 </html>

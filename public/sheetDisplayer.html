@@ -1,6 +1,6 @@
 <html>
 
-<head>
+<head translate="no">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, minimum-scale=0.8, maximum-scale=1.0" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-166077524-1"></script>
     <script>
@@ -89,7 +89,8 @@
             color: #181a1b;
             background-color: #dad8b3;
             font-weight: bold;
-            min-height: 4vw;
+            min-height: 2rem;
+            border: none;
             cursor: pointer;
         }
 
@@ -155,7 +156,17 @@
             margin: 0.5vh;
             background-color: #dad8b3;
         }
-
+        .textRow{
+            display: flex;
+            color: #dad8b3;
+            flex-direction: row;
+            align-items: center;
+            padding: 0 1.5rem ;
+        }
+        .imgIcon{
+            height: 30px;     
+            margin: 0 0.5rem;
+        }
         @media only screen and (orientation:portrait) {
             .card {
                 border-radius: 3vw;
@@ -179,7 +190,8 @@
 
             .skyButton {
                 max-width: 40vw;
-                min-height: 8vw;
+                min-height: 2rem;
+                border: none;
             }
 
             .skyMusicGithub {
@@ -191,15 +203,21 @@
 </head>
 
 <body>
-    <button onclick="location.href = window.location.origin + '/'" class=skyButton>
-        GO BACK
-    </button>
+    <a href="/">
+        <button class="skyButton">
+            GO BACK
+        </button>
+    </a>
     <div class="card">
         <div class="pickerWrapper">
             Select song
             <select id="loadSongSelect" class="skyButton">
                 <option selected disabled>Song</option>
             </select>
+        </div>
+        <div class="textRow">
+            If you want to practice the sheet, go in the main page and click the
+            <img src="./icons/practice.svg" class="imgIcon"> icon 
         </div>
         <div id="tabsHolder"></div>
     </div>
