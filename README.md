@@ -32,8 +32,8 @@ We have more things incoming so check us out!
 
 If you want to open the website to make some changes, you must run the backend first, to do so you must have node.js, once you do:
 
--npm install
+`npm install`
 
-in the index.js change "inLocalhost" (line 15) to true and thenyou can do: "node ." to run the backend, 
+in the index.js change "inLocalhost" (line 27) to true and thenyou can do: "node ." to run the backend, 
 you will then see in the console "server is running on port xxxx", go to your browser and open
 localhost:portName (replace portName with the number you got in "xxxx", it should be 8080 > localhost:8080)
