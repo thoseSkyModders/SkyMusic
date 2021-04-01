@@ -34,21 +34,7 @@ to {
 }
 }
 
-.keyScale {
-animation-name: click-scale;
-animation-timing-function: linear;
-animation-duration: 0.15s;
-animation-iteration-count: initial;
-animation-play-state: 1;
-/* For Chrome & Safari */
-background-color: #dad8b3 !important;
-opacity: 1 !important;
--webkit-animation-name: click-scale;
--webkit-animation-timing-function: linear;
--webkit-animation-duration: 0.15s;
--webkit-animation-iteration-count: initial;
--webkit-animation-play-state: 1;
-}
+
 .content {
     font-size: 0.9rem;
     display: flex;
@@ -520,3 +506,18 @@ skyButton:active {
     }
 
 }
+.keyScale {
+    animation-name: click-scale;
+    animation-timing-function: linear;
+    animation-duration: 0.15s;
+    animation-iteration-count: initial;
+    animation-play-state: 1;
+    /* For Chrome & Safari */
+    background-color: #dad8b3;
+    opacity: 1 !important;
+    -webkit-animation-name: click-scale;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-duration: 0.15s;
+    -webkit-animation-iteration-count: initial;
+    -webkit-animation-play-state: 1;
+    }

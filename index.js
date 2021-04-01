@@ -528,14 +528,31 @@ if (!inLocalhost) {
                 let song = req.body.song
                 let songsChannel = bot.channels.cache.get("730884082258673715")
                 let fileName = sanitizeText(song.name.split(" ").join("_"))
-                let htmlSong = '<li class="content"> <img class="dS" onclick="dwJS('+"'"+fileName+"'"+')"><skyButton onclick="playSong(this)">'+song.name+'</skyButton></li>\n'
-                fs.writeFile(__dirname+"/public/temp/"+fileName+".txt", JSON.stringify([song]),async function(e) {
+                let songLength, numOfNotes
+                try {
+                    numOfNotes = song.songNotes.length
+                    songLength = song.songNotes[numOfNotes - 1].time || 0
+                } catch (error) {
+                    
+                }
+                let embedText = `
+                    **Length**: ${formatMillis(songLength)}
+                    **Notes**: ${numOfNotes}
+                    **Pitch**: ${song.pitchLevel}
+                    **Density**: ${Number((song.songNotes.length / (song.songNotes[song.songNotes.length-1].time / 1000)).toFixed(2))}
+                    **Multilayer**: ${song.songNotes.filter(e => e.l > 1).length}
+                    ${song.isComposed ? "Composed" : "Recorded"}
+                `   
+                    
+                
+                
+                fs.writeFile(__dirname+"/public/temp/"+fileName+".txt", JSON.stringify([song],null,"\t"),async function(e) {
                     if(e){ reportError(e); res.send("Error!"); return}
                     try{
                         let embed = new Discord.MessageEmbed()
                         let file = new Discord.MessageAttachment(__dirname+"/public/temp/"+fileName+".txt");
-                        embed.setTitle(song.name.toUpperCase())
-                            .setDescription(htmlSong)
+                        embed.setTitle(song.name)
+                            .setDescription(embedText)
                             .setColor(3447003)
                         await songsChannel.send({ embed: embed, files: [file] });
                         fs.unlinkSync(__dirname+"/public/temp/"+fileName+".txt")
@@ -692,13 +709,23 @@ function makeseed(length) {
     return result;
 }
 //--------------------------------------------------------------------------------------------------------//
-function decrypt(text) {
-    const decipher = crypto.createDecipheriv("aes192", shareKey, shareIv)
+function decrypt(text,isSong = false) {
+    let decipher
+    if(isSong){
+        decipher = crypto.createDecipheriv("aes128", songKey, songIv)
+    }else{
+        decipher = crypto.createDecipheriv("aes192", shareKey, shareIv)
+    }
     return decipher.update(text, 'hex', 'utf8') + decipher.final('utf8')
 }
 //--------------------------------------------------------------------------------------------------------//
-  function encrypt(text) {
-    const cipher = crypto.createCipheriv("aes192", shareKey, shareIv)
+  function encrypt(text,isSong = false) {
+    let cipher
+    if(isSong){
+        cipher = crypto.createCipheriv("aes128", songKey, songIv)
+    }else{
+        cipher = crypto.createCipheriv("aes192", shareKey, shareIv)
+    }
     return cipher.update(text, 'utf8', 'hex') + cipher.final('hex')
 }
 
@@ -706,6 +733,60 @@ if (!fs.existsSync(__dirname+"/public/temp")){
     fs.mkdirSync(__dirname+"/public/temp");
 }
 
+
 const checkUser = (mail, db) => db.collection("Users").findOne({email: mail}).then(user => {
     return Boolean(user)
   })
+
+  function formatMillis(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function encryptSong(text){
+    let encryptedText = []
+    let keyLength = songKey.length
+    let keyCounter = 0
+    text = songIv + text
+    for(let i = 0; i<text.length;i++){
+        encryptedText.push(text.charCodeAt(i) + songKey.charCodeAt(keyCounter) - 100)
+        keyCounter++
+        if(keyCounter >= keyLength) keyCounter = 0
+    }
+    return encryptedText
+}
+function decryptSong(array){
+    let decryptedText = ""
+    let keyLength = songKey.length
+    let keyCounter = 0
+    for(let i = 0; i<array.length;i++){
+        decryptedText += String.fromCharCode(array[i] - songKey.charCodeAt(keyCounter) + 100)
+        keyCounter++
+        if(keyCounter >= keyLength) keyCounter = 0
+    }
+    decryptedText = decryptedText.replace(songIv,"")
+    console.log(decryptedText)
+    return decryptedText
+}
+
+
+
+

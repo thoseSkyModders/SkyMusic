@@ -12,7 +12,7 @@
         gtag('js', new Date());
         gtag('config', 'UA-166077524-1');
     </script>
-    <style>
+    <style id="style">
         body {
             background: #181a1b;
             padding: 0;
@@ -32,6 +32,7 @@
             border-radius: 0.6vw;
             margin: 0.5vw;
             padding: 0.5vw;
+            border: solid 1px black;
         }
 
         #tabsHolder {
@@ -116,7 +117,6 @@
             border-radius: 1vw;
             padding-bottom: 1rem;
             margin: 1.5rem 0 0 0;
-            cursor: pointer;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             -khtml-user-select: none;
@@ -167,6 +167,12 @@
             height: 30px;     
             margin: 0 0.5rem;
         }
+        #songName{
+            font-size: 1.5rem;
+            color: #dad8b3;
+            display: none;
+            justify-content: center;
+        }
         @media only screen and (orientation:portrait) {
             .card {
                 border-radius: 3vw;
@@ -203,19 +209,26 @@
 </head>
 
 <body>
-    <a href="/">
-        <button class="skyButton">
-            GO BACK
+    <div style="width: 100%; display: flex; justify-content: space-between;" id="nav">
+        <a href="/">
+            <button class="skyButton">
+                GO BACK
+            </button>
+        </a>
+        <button onclick="printPdf()" class="skyButton">
+            Save as PDF
         </button>
-    </a>
+    </div>
+
     <div class="card">
-        <div class="pickerWrapper">
+        <div id="songName">Select a song first</div>
+        <div class="pickerWrapper" id="selectWrapper">
             Select song
             <select id="loadSongSelect" class="skyButton">
                 <option selected disabled>Song</option>
             </select>
         </div>
-        <div class="textRow">
+        <div class="textRow" id="practiceText">
             If you want to practice the sheet, go in the main page and click the
             <img src="./icons/practice.svg" class="imgIcon"> icon 
         </div>
@@ -223,7 +236,7 @@
     </div>
     <div class="card" id="textFormatWrapper">
         <textarea spellcheck="false" id="textFormat" onclick="this.setSelectionRange(0, this.value.length)"></textarea>
-    </div>
+    </div> 
     <div class="skyMusicGithub" id="skyMusicGithub">
         <div onclick="location.href ='http\://sky-music.github.io'">
             <img src="/icons/skyLib.png" width="135" height="95">
@@ -258,6 +271,7 @@
         localStorageSongs = JSON.parse(localStorage.getItem("savedSongs"))
         let selectedIndex = this.selectedIndex
         if (selectedIndex == 0) return
+        document.getElementById("songName").innerText = localStorageSongs[selectedIndex - 1].name
         generate(localStorageSongs[selectedIndex - 1])
     })
     //--------------------------------------------------//
@@ -438,6 +452,28 @@
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
+    }
+
+    function printPdf(){
+        let title = document.getElementById("songName")
+        let toHide = [ "skyMusicGithub", "textFormatWrapper", "practiceText", "nav", "selectWrapper"]
+        toHide = toHide.map(e => document.getElementById(e))
+        let tabs = document.querySelectorAll("canvas")
+        tabs.forEach(tab =>{
+            tab.style.width = "9.8vw"
+            tab.style.height = "5.2vw"
+        })
+
+        toHide.forEach(e => e.style.display = "none")
+        title.style.display = "flex"
+        console.log("a")
+        window.print()
+        tabs.forEach(tab =>{
+            tab.style = ""
+        })
+
+        title.style.display = "none"
+        toHide.forEach(e => e.style.display = "flex")
     }
 </script>
 

@@ -281,7 +281,7 @@ function toggleReset() {
 
 let setScaleDiv = document.getElementById("setScale")
 let pageZoom = parseFloat(localStorage.getItem("pageZoom"))
-if(pageZoom === null || pageZoom == "" ||pageZoom < 0 || pageZoom > 2 || isNaN(pageZoom)){
+if(pageZoom === null || pageZoom == "" ||pageZoom < 0.6 || pageZoom > 2 || isNaN(pageZoom)){
     pageZoom = 1
     setScaleDiv.style.display = "block"
 }
@@ -290,7 +290,9 @@ if(pageZoom === null || pageZoom == "" ||pageZoom < 0 || pageZoom > 2 || isNaN(p
 
 let scaleNumber = document.getElementById("scaleNumber")
 function changeScale(number){
+    console.log(number)
     pageZoom+=parseInt(number)/10
+    if(pageZoom < 0.6) return pageZoom = 0.6
     firstPage.style.zoom = pageZoom
     scaleNumber.innerHTML = Math.floor(pageZoom*100)
 }
@@ -1284,7 +1286,9 @@ let instrumentsNotes = {
     oldPiano: ["OldPiano/0.mp3", "OldPiano/1.mp3", "OldPiano/2.mp3", "OldPiano/3.mp3", "OldPiano/4.mp3", "OldPiano/5.mp3", "OldPiano/6.mp3", "OldPiano/7.mp3", "OldPiano/8.mp3", "OldPiano/9.mp3", "OldPiano/10.mp3", "OldPiano/11.mp3", "OldPiano/12.mp3", "OldPiano/13.mp3", "OldPiano/14.mp3"],
     contrabass: ["Contrabass/0.mp3", "Contrabass/1.mp3", "Contrabass/2.mp3", "Contrabass/3.mp3", "Contrabass/4.mp3", "Contrabass/5.mp3", "Contrabass/6.mp3", "Contrabass/7.mp3", "Contrabass/8.mp3", "Contrabass/9.mp3", "Contrabass/10.mp3", "Contrabass/11.mp3", "Contrabass/12.mp3", "Contrabass/13.mp3", "Contrabass/14.mp3"],
     winterPiano: ["WinterPiano/0.mp3", "WinterPiano/1.mp3", "WinterPiano/2.mp3", "WinterPiano/3.mp3", "WinterPiano/4.mp3", "WinterPiano/5.mp3","WinterPiano/6.mp3", "WinterPiano/7.mp3", "WinterPiano/8.mp3", "WinterPiano/9.mp3", "WinterPiano/10.mp3", "WinterPiano/11.mp3","WinterPiano/12.mp3", "WinterPiano/13.mp3", "WinterPiano/14.mp3"],
-    dundun: ["Dundun/0.mp3", "Dundun/1.mp3", "Dundun/2.mp3", "Dundun/3.mp3", "Dundun/4.mp3", "Dundun/5.mp3", "Dundun/6.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3"]
+    dundun: ["Dundun/0.mp3", "Dundun/1.mp3", "Dundun/2.mp3", "Dundun/3.mp3", "Dundun/4.mp3", "Dundun/5.mp3", "Dundun/6.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3"],
+    trumpet: ["Trumpet/0.mp3", "Trumpet/1.mp3", "Trumpet/2.mp3", "Trumpet/3.mp3", "Trumpet/4.mp3", "Trumpet/5.mp3", "Trumpet/6.mp3", "Trumpet/7.mp3", "Trumpet/7.mp3", "Trumpet/7.mp3", "Trumpet/7.mp3", "Trumpet/7.mp3", "Trumpet/7.mp3", "Trumpet/7.mp3", "Trumpet/7.mp3"],
+    pipa: ["Pipa/0.mp3", "Pipa/1.mp3", "Pipa/2.mp3", "Pipa/3.mp3", "Pipa/4.mp3", "Pipa/5.mp3","Pipa/6.mp3", "Pipa/7.mp3", "Pipa/8.mp3", "Pipa/9.mp3", "Pipa/10.mp3", "Pipa/11.mp3","Pipa/12.mp3", "Pipa/13.mp3", "Pipa/14.mp3"]
 }
 //Changes sounds when instrument is selected
 function changeInstrumentSound(instrument) {
@@ -1428,7 +1432,8 @@ function initializeKeyboard(){
         let numOfKeysLeft = 15
             numOfKeys = 15
             keyNames = keyNamesAllInstruments
-        if (storedInstrument == "bell" || storedInstrument == "drum" || storedInstrument == "handPan" || storedInstrument == "dundun") {
+            
+        if (["bell","drum","handpan","dundun","trumpet"].includes(storedInstrument)) {
             newRowBreak = [5, 9]
             numOfKeysLeft = 8
             numOfKeys = 8
@@ -1527,8 +1532,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "5"
-let changelogMessage = "Version:"+currentVersion+"<br>Added: 80 songs to the library, new performance mode to composer, chinese simplified, promoted content"
+let currentVersion = "5.1"
+let changelogMessage = "Version:"+currentVersion+"<br>Added: 200 songs to library, pipa and trumpet, pdf download in sheet displayer"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     localStorage.removeItem("backgroundImage")
