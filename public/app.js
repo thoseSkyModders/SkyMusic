@@ -317,8 +317,17 @@ function toggleScaleDiv(){
 //--------------------------------------------------------------------------------------------------------//
 
 let ignoreFullScreen = (localStorage.getItem("ignoreFullScreen") == "true")
-var isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream //ignores if it's from ios 
-if(ignoreFullScreen) turnOffFullscreen.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
+
+let isiOS =  [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+  ].includes(navigator.platform) || (navigator.userAgent.includes("Mac") && "ontouchend" in document) //ignores if it's from ios 
+
+  if(ignoreFullScreen) turnOffFullscreen.style.backgroundColor = "rgba(235, 0, 27, 0.8)"
 function toggleFullScreenSetting(){
     let turnOffFullscreen = document.getElementById("turnOffFullscreen")
     ignoreFullScreen = !ignoreFullScreen
@@ -785,7 +794,7 @@ function generateShareLink(name){
             el.readOnly = true
         el.value = response
         if(isiOS){
-            showMessage("",2,5000)
+            showMessage("",2,6000)
             document.getElementById("floatingMessage").appendChild(el)
             el.select();
         }else{
@@ -2689,3 +2698,4 @@ try{
     console.log("Error setting up service worker")
     console.log(e)
 }
+
