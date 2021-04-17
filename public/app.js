@@ -1441,8 +1441,7 @@ function initializeKeyboard(){
         let numOfKeysLeft = 15
             numOfKeys = 15
             keyNames = keyNamesAllInstruments
-            
-        if (["bell","drum","handpan","dundun","trumpet"].includes(storedInstrument)) {
+        if (["bell","drum","handPan","dundun","trumpet"].includes(storedInstrument)) {
             newRowBreak = [5, 9]
             numOfKeysLeft = 8
             numOfKeys = 8
