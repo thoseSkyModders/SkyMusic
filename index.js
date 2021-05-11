@@ -22,7 +22,6 @@ var resetverification = []
 const shareKey = process.env.shareKey
 const shareIv = process.env.shareIv
 let tempSongs = []
-
 //If you want to edit something, just put inLocalhost = true and it will let you use the website without the account system
 /* ------------------------------------------------------->*/       var inLocalhost = false
 
@@ -610,7 +609,7 @@ function sendVerificationCode(credentials, res) { //error handled
             timesChecked: 0
         }
         var mailOptions = {
-            from: 'thoseskymodders@gmail.com',
+            from: 'thoseskymoddersv@gmail.com',
             to: credentials.email,
             subject: 'Verification',
             html: '<center><h1>Your code is: <font style="color: rgba(22, 22, 22, 0.65);">' +
@@ -620,13 +619,14 @@ function sendVerificationCode(credentials, res) { //error handled
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 res.send("Error!")
+                console.log(error)
             } else {
                 awaitingVerification.push(verificationObj)
                 res.send(true)
             }
         });
     } catch (e) {
-        reportError(e)
+        console.log(error)
         res.send("Error!")
         return;
     }
@@ -676,7 +676,7 @@ function sendresetlink(credentials, res) { //error handled
             timesChecked: 0
         }
         var mailOptions = {
-            from: 'thoseskymodders@gmail.com',
+            from: 'thoseskymoddersv@gmail.com',
             to: credentials.email,
             subject: 'Password Reset',
             html: '<center><h1>Your password reset code is : <font style="color: rgba(22, 22, 22, 0.65);">' +
@@ -685,15 +685,14 @@ function sendresetlink(credentials, res) { //error handled
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                reportError(error)
                 res.send("Error!")
+                console.log(error)
             } else {
                 resetverification.push(verificationObj)
                 res.send(true)
             }
         });
     } catch (e) {
-        reportError(e)
         res.send("Error!")
         return;
     }
