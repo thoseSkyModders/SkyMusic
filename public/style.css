@@ -946,13 +946,13 @@ html {
 	outline: none;
 	border: none;
 	width: 100%;
-	height: 10vh;
+	height: 9vh;
 	margin-bottom: 5px;
 	display: block;
 }
 
 .texts {
-	font-size: 1.2em;
+	font-size: 1em;
 	font-family: Arial;
 	margin: 0;
 	color: #dbd9c2;
