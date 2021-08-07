@@ -421,7 +421,7 @@
             <li class="content"> <img class="dS" onclick="dwJS('I_See_the_Light_Tangled_')"><skyButton onclick="playSong(this)">Tangled: I See the Light</skyButton></li>
             <li class="content"> <img class="dS" onclick="dwJS('Im_just_your_problem_1')"><skyButton onclick="playSong(this)">Adventure Time: I'm Just Your Problem</skyButton></li>
             <li class="content"> <img class="dS" onclick="dwJS('Magi_The_Labyrinth_of_Magic')"><skyButton onclick="playSong(this)">Magi The Labyrinth of Magic: Main Theme</skyButton></li>
-            <li class="content"> <img class="dS" onclick="dwJS('Naruto_-_Hokages_Funeral_by_Marcus_Bicca')"><skyButton onclick="playSong(this)">Naruto: Hokage's Funeral (Marcus Bicca)</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('Naruto_-_Hokages_Funeral_by_Marcus_Bicca')"><skyButton onclick="playSong(this)">Naruto: Hokage's Funeral (thatSkyMarcus)</skyButton></li>
             <li class="content"> <img class="dS" onclick="dwJS('Noble_Maiden_Fair_A_Mhaighdean_Bhan_Uasal')"><skyButton onclick="playSong(this)">Brave: Noble Maiden Fair (A Mhaighdean Bhan Uasal)</skyButton></li>
             <li class="content"> <img class="dS" onclick="dwJS('Subwoofer_Lullaby')"><skyButton onclick="playSong(this)">Minecraft: Subwoofer Lullaby</skyButton></li>
             <li class="content"> <img class="dS" onclick="dwJS('Sunflower_by_Amilia_A')"><skyButton onclick="playSong(this)">Sunflower (Amilia A)</skyButton></li>
@@ -462,7 +462,7 @@
             <li class="content"> <img class="dS" onclick="dwJS('U__By_Nait_aka_Darkii')"><skyButton onclick="playSong(this)">"U" By Nait aka Darkii</skyButton></li> 
             <li class="content"> <img class="dS" onclick="dwJS('a13af712852e2f1e')"><skyButton onclick="playSong(this)">레몬</skyButton></li>
             <li class="content"> <img class="dS" onclick="dwJS('Alan_Walker_Noah_Cyrus_Digital_Farm_Animals_Juliander_-_All_Falls_Down__Dhani_The_Great')"><skyButton onclick="playSong(this)">Alan Walker  - All Falls Down(Dhani The Great)</skyButton></li>
-            <li class="content"> <img class="dS" onclick="dwJS('A_Whole_New_World__Marcus_Bicca')"><skyButton onclick="playSong(this)">A Whole New World (Marcus Bicca)</skyButton></li>
+            <li class="content"> <img class="dS" onclick="dwJS('A_Whole_New_World__Marcus_Bicca')"><skyButton onclick="playSong(this)">A Whole New World (thatSkyMarcus)</skyButton></li>
             <li class="content"> <img class="dS" onclick="dwJS('Bat_nhiem__Fin')"><skyButton onclick="playSong(this)">Bat nhiem (Fin)</skyButton></li>
             <li class="content"> <img class="dS" onclick="dwJS('Brahms_Lullaby__Joeldor')"><skyButton onclick="playSong(this)">Brahms Lullaby (Joeldor)</skyButton></li>
             <li class="content"> <img class="dS" onclick="dwJS('city_of_star__Nori')"><skyButton onclick="playSong(this)">city of star)(Nori)</skyButton></li>
@@ -848,6 +848,10 @@
         </div>
     </ul>
     </div>
+    <a class="supportMe" href="https://www.buymeacoffee.com/specy" target="_blank">
+        🥔 Support me
+    </a>
+
     <div class="promotionsContainer">
         <h1>Promoted content</h1>
         <div style="margin: 1rem 0;">
@@ -902,9 +906,6 @@
 </body>
 <script>
     let searchResults = document.getElementById("searchResults")
-    document.getElementById("search").addEventListener("input", () => {
-        search(true)
-    })
 
     let importMethod = "import"
     function changeImportMethod(method){
@@ -935,6 +936,7 @@
             el.select();
     }
     let resultsWrapper = document.getElementById("resultsWrapper")
+
     function search(ignore = false) {
         let searchWords = document.getElementById("search").value.toLowerCase().trim()
         resultsWrapper.innerHTML = ""
@@ -1449,7 +1451,10 @@
         document.getElementById("search").value = urlParams.get('search').split("_").join(" ")
         search(true)
     }
-
+    console.log(urlParams.get('download'))
+    if (urlParams.get('download') === 'true') {
+        changeImportMethod('download')
+    }
     async function populatePromotions(){
         let  = document.getElementById("promotionsContainer")
         let data = await fetch("/getPromotions",{method:"POST"}).then(data => data.json())

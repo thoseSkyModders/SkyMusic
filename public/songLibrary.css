@@ -34,6 +34,20 @@ to {
 }
 }
 
+.supportMe{
+    background-color: #FFDD00;
+    padding: 0.8rem;
+    margin: 3rem 0 0 auto;
+    flex: 1;
+    text-decoration: none;
+    max-width: 400px;
+    font-size: 1.8rem;
+    font-weight: bold;
+    border-radius: 1vw;
+    color:#181a1b;
+    display: flex;
+    justify-content: center;
+}
 
 .content {
     font-size: 0.9rem;
@@ -336,7 +350,7 @@ skyButton:active {
     right: calc(1vw + 8px);
     color: #181a1b;
     z-index: 1000;
-    background-color: rgba(218, 216, 179, 0.8);
+    background-color: rgba(218, 216, 179, 1);
     min-height: 2rem;
     -webkit-appearance: none;
     -webkit-border-radius: none;
@@ -429,7 +443,8 @@ skyButton:active {
 
     .listelement,
     .listelement2,
-    .promotionsContainer {
+    .promotionsContainer,
+    .supportMe {
         border-radius: 3vw;
     }
 

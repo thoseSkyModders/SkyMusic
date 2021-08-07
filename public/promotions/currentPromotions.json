@@ -6,9 +6,5 @@
     {
         "title": "Genshin Music Nightly",
         "content": "<a href='https://genshin-music.herokuapp.com/' style='display:flex; justify-content:space-between; width: 100%; align-items:center; text-decoration:none; color:#dad8b3'><img style='width:20vh;margin-right:0.5rem' src='/images/icons/genshinMusicNightly.png'/> New app for Genshin music, check it out! </a>"
-    },
-    {
-        "title": "Uma✿",
-        "content": "<iframe src='https://www.youtube.com/embed/r22Y9s0X2TA'></iframe>"
     }
 ]
