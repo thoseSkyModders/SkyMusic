@@ -6,6 +6,8 @@ const nodemailer = require('nodemailer');
 const hash = require('sha1');
 const crypto = require('crypto');
 const { uuid } = require('uuidv4');  
+const matchSorter = require('match-sorter')
+const librarySongsList = require('./librarySongsList.json')
 let bodyParser = require('body-parser');
 const fs = require('fs');
 const sanitizeText = require("sanitize-filename");
@@ -23,7 +25,7 @@ const shareKey = process.env.shareKey
 const shareIv = process.env.shareIv
 let tempSongs = []
 //If you want to edit something, just put inLocalhost = true and it will let you use the website without the account system
-/* ------------------------------------------------------->*/       var inLocalhost = false
+/* ------------------------------------------------------->*/       var inLocalhost = true
 
 
 app.enable('trust proxy');
@@ -119,6 +121,20 @@ app.post('/api/generateTempSong',cors(), function (req, res) {
     }
 });
 
+app.post("/getPromotions", async function (req, res){
+    res.send(JSON.stringify(currentPromotions))
+})
+app.post("/api/searchSong",cors(), async function (req, res) {
+    let search = req.body.name
+    if (typeof search !== 'string') return res.status(200).send("Error, no string to search")
+    let matches = matchSorter.matchSorter(librarySongsList,
+        search,
+        {
+            keys: [{ threshold: matchSorter.rankings.CONTAINS, key: 'name' }]
+
+        })
+    res.json(matches)
+})
 //----------------------------------------------------------------------------------------------//
 
 app.post('/getTempSong', function (req, res) {
@@ -333,9 +349,7 @@ if (!inLocalhost) {
             }
             res.send(link)
         })
-        app.post("/getPromotions", async function (req, res) { //error handled
-            res.send(JSON.stringify(currentPromotions))
-        })
+
         app.post("/getByLink",async function (req, res) {//updated
             try{
                 var value = JSON.parse(decrypt(req.body.url))

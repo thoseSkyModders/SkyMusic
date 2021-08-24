@@ -1,4 +1,4 @@
-const CACHE = "V6.8";
+const CACHE = "V6.9";
 
 const FILES_TO_CACHE = [
     'manifest.json',
@@ -218,6 +218,7 @@ const FILES_TO_CACHE = [
     '/images/xylophone.png',
     '/images/flute.png',
     '/images/ToyUkulele.png',
+    '/images/ocarina.png',
     //key images
     '/KeyImages/Circle.png',
     '/KeyImages/Diamond.png',

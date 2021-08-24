@@ -1297,7 +1297,8 @@ let instrumentsNotes = {
     winterPiano: ["WinterPiano/0.mp3", "WinterPiano/1.mp3", "WinterPiano/2.mp3", "WinterPiano/3.mp3", "WinterPiano/4.mp3", "WinterPiano/5.mp3","WinterPiano/6.mp3", "WinterPiano/7.mp3", "WinterPiano/8.mp3", "WinterPiano/9.mp3", "WinterPiano/10.mp3", "WinterPiano/11.mp3","WinterPiano/12.mp3", "WinterPiano/13.mp3", "WinterPiano/14.mp3"],
     dundun: ["Dundun/0.mp3", "Dundun/1.mp3", "Dundun/2.mp3", "Dundun/3.mp3", "Dundun/4.mp3", "Dundun/5.mp3", "Dundun/6.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3"],
     trumpet: ["Trumpet/0.mp3", "Trumpet/1.mp3", "Trumpet/2.mp3", "Trumpet/3.mp3", "Trumpet/4.mp3", "Trumpet/5.mp3", "Trumpet/6.mp3", "Trumpet/7.mp3", "Trumpet/8.mp3", "Trumpet/9.mp3", "Trumpet/10.mp3", "Trumpet/11.mp3", "Trumpet/12.mp3", "Trumpet/13.mp3", "Trumpet/14.mp3"],
-    pipa: ["Pipa/0.mp3", "Pipa/1.mp3", "Pipa/2.mp3", "Pipa/3.mp3", "Pipa/4.mp3", "Pipa/5.mp3","Pipa/6.mp3", "Pipa/7.mp3", "Pipa/8.mp3", "Pipa/9.mp3", "Pipa/10.mp3", "Pipa/11.mp3","Pipa/12.mp3", "Pipa/13.mp3", "Pipa/14.mp3"]
+    pipa: ["Pipa/0.mp3", "Pipa/1.mp3", "Pipa/2.mp3", "Pipa/3.mp3", "Pipa/4.mp3", "Pipa/5.mp3","Pipa/6.mp3", "Pipa/7.mp3", "Pipa/8.mp3", "Pipa/9.mp3", "Pipa/10.mp3", "Pipa/11.mp3","Pipa/12.mp3", "Pipa/13.mp3", "Pipa/14.mp3"],
+    ocarina: ["Ocarina/0.mp3", "Ocarina/1.mp3", "Ocarina/2.mp3", "Ocarina/3.mp3", "Ocarina/4.mp3", "Ocarina/5.mp3","Ocarina/6.mp3", "Ocarina/7.mp3", "Ocarina/8.mp3", "Ocarina/9.mp3", "Ocarina/10.mp3", "Ocarina/11.mp3","Ocarina/12.mp3", "Ocarina/13.mp3", "Ocarina/14.mp3"]
 }
 //Changes sounds when instrument is selected
 function changeInstrumentSound(instrument) {
@@ -1540,8 +1541,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "5.2"
-let changelogMessage = "Version:"+currentVersion+"<br>Fixed trumpet and pipa sounds, Released sky music nightly, check it out in the song library!"
+let currentVersion = "5.3"
+let changelogMessage = "Version:"+currentVersion+"<br>Changed many instruments audio files, added Ocarina"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     localStorage.removeItem("backgroundImage")
@@ -2684,6 +2685,17 @@ try{
     console.log(e)
 }
 checkLocalStorageSize()
+
+function setIfInTWA(){
+    let isTwa = document.referrer.includes('android-app://')
+    sessionStorage.setItem('isTwa',isTwa)
+}
+function checkIfTWA(){
+    let isTwa = JSON.parse(sessionStorage.getItem('isTwa'))
+}
+
+
+
 try{
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -2697,4 +2709,5 @@ try{
     console.log("Error setting up service worker")
     console.log(e)
 }
+setIfInTWA()
 
