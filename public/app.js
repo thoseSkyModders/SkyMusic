@@ -2686,14 +2686,16 @@ try{
 }
 checkLocalStorageSize()
 
+function checkIfTWA(){
+    let isTwa = JSON.parse(sessionStorage.getItem('isTwa'))
+    return isTwa
+}
+
 function setIfInTWA(){
+    if(checkIfTWA()) return console.log('inTWA')
     let isTwa = document.referrer.includes('android-app://')
     sessionStorage.setItem('isTwa',isTwa)
 }
-function checkIfTWA(){
-    let isTwa = JSON.parse(sessionStorage.getItem('isTwa'))
-}
-
 
 
 try{
