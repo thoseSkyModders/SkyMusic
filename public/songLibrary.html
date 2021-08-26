@@ -1278,7 +1278,7 @@
         $("skyButton").removeClass("buttonAnimation")  
         songName.classList.add("buttonAnimation")
         let song = songName.parentElement.children[0].getAttribute('onclick')
-        song = song.match(/(?<=\')(.*?)(?=\')/)[0]
+        song = song.match(/'(.*?)'/)[0].replace(/'/g,'')
         songTitle = song
         let request = new XMLHttpRequest();
         request.open('GET', "./librarySongs/" + songTitle + ".txt");
@@ -1474,7 +1474,7 @@
   function getSongsAsJson(){
     let librarySongs = Array.from(document.querySelector('#AtoZ').querySelectorAll('skybutton'))
     librarySongs = librarySongs.map(song => {
-        return song.parentElement.querySelector('img').getAttribute('onclick').match(/(?<=\')(.*?)(?=\')/)[0] + '.txt'
+        return song.parentElement.querySelector('img').getAttribute('onclick').match(/'(.*?)'/)[0].replace(/'/g,'') + '.txt'
     })
     console.log(librarySongs.length)
     let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(librarySongs));
