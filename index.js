@@ -5,7 +5,7 @@ const express = require("express");
 const nodemailer = require('nodemailer');
 const hash = require('sha1');
 const crypto = require('crypto');
-const { uuid } = require('uuidv4');  
+const { uuid } = require('uuidv4');
 const matchSorter = require('match-sorter')
 const librarySongsList = require('./librarySongsList.json')
 let bodyParser = require('body-parser');
@@ -84,7 +84,7 @@ function removeUnusedVerification() {
 function removeTempSongs() {
     let date = new Date().getTime()
     for (let i = 0; i < tempSongs.length; i++) {
-        if(tempSongs[i].expiration < date){
+        if (tempSongs[i].expiration < date) {
             tempSongs.splice(i, 1);
             i--
         }
@@ -101,53 +101,66 @@ var server = app.listen(port, () => {
 //----------------------------------------------------------------------------------------------//
 
 
-app.post('/api/generateTempSong',cors(), function (req, res) {
-    try{
+app.post('/api/generateTempSong', cors(), function (req, res) {
+    try {
         var value = req.body;
-        if(API_KEY === value.API_KEY){
+        if (API_KEY === value.API_KEY) {
             let song = {
                 song: value.song,
                 expiration: new Date().getTime() + 3600000,
                 id: makeseed(8)
             }
             tempSongs.push(song)
-            let url = "https://sky-music.herokuapp.com/?tempSong="+song.id  
+            let url = "https://sky-music.herokuapp.com/?tempSong=" + song.id
             res.send(url)
-        }else{
+        } else {
             res.status(403).send("Invalid API key")
         }
-    }catch{
+    } catch {
         res.status(500).send("Error")
     }
 });
 
-app.post("/getPromotions", async function (req, res){
+app.post("/getPromotions", async function (req, res) {
     res.send(JSON.stringify(currentPromotions))
 })
-app.post("/api/searchSong",cors(), async function (req, res) {
-    let search = req.body.name
-    if (typeof search !== 'string') return res.status(200).send("Error, no string to search")
-    let matches = matchSorter.matchSorter(librarySongsList,
-        search,
-        {
-            keys: [{ threshold: matchSorter.rankings.CONTAINS, key: 'name' }]
+app.get("/api/songs", cors(), async function (req, res) {
+    let search = req.query.search
+    let get = req.query.get
+    if (search) {
+        if (typeof search !== 'string') return res.status(404).json({ error: "Error, no search string" })
+        let matches = matchSorter.matchSorter(librarySongsList,
+            search,
+            {
+                keys: [{ threshold: matchSorter.rankings.CONTAINS, key: 'name' }]
 
-        })
-    res.json(matches)
+            })
+        res.json(matches)
+    } else if (get) {
+        if (librarySongsList.some(song => song.file === get)) {
+            let text = await fs.promises.readFile(`./public/librarySongs/${get}`)
+            res.json(JSON.parse(text))
+        } else {
+            res.status(404).json({
+                error: "file not found"
+            })
+        }
+    }
+
 })
 //----------------------------------------------------------------------------------------------//
 
 app.post('/getTempSong', function (req, res) {
-    try{
+    try {
         var value = req.body;
-        for(let i = 0;i < tempSongs.length;i++){
-            if(tempSongs[i].id == value.id){
+        for (let i = 0; i < tempSongs.length; i++) {
+            if (tempSongs[i].id == value.id) {
                 res.send(tempSongs[i].song)
                 return
             }
         }
         res.send("false")
-    }catch{
+    } catch {
         res.send("false")
     }
 });
@@ -220,9 +233,9 @@ if (!inLocalhost) {
                 reportError(e)
                 return
             }
-            if(!await checkUser(value.email,db)){
+            if (!await checkUser(value.email, db)) {
                 sendVerificationCode(value, res) //sent verification, now it waits for next call from the user to verify the account
-            }else{
+            } else {
                 res.send("Email already registered!")
             }
         })
@@ -257,7 +270,7 @@ if (!inLocalhost) {
                             email: credentials.email,
                             password: finalhash,
                             seed: passwordseed,
-                            songs:[]
+                            songs: []
                         })
                     }
                 } catch {
@@ -286,9 +299,9 @@ if (!inLocalhost) {
                 reportError(e)
                 return;
             }
-            if (await checkUser(value.email,db)) {
+            if (await checkUser(value.email, db)) {
                 let users = db.collection("Users")
-                let credentials = await users.findOne({email: value.email})
+                let credentials = await users.findOne({ email: value.email })
                 try {
                     if (checkPassword(value.password, credentials.password, credentials.seed)) {
                         res.send(true)
@@ -332,51 +345,51 @@ if (!inLocalhost) {
                 res.send("Error while checking the account")
                 return
             }
-            if(await checkUser(value.email,db)){
+            if (await checkUser(value.email, db)) {
                 sendresetlink(value, res) //sent verification, now it waits for next call from the user to reset password
-            }else{
+            } else {
                 res.send("No email registered!")
             }
         })
 
         app.post("/generateShareLink", async function (req, res) { //error handled
             var value = req.body;
-            try{
-                var link = "https://sky-music.herokuapp.com?songUrl="+encrypt(JSON.stringify(value))
-            }catch(e){
+            try {
+                var link = "https://sky-music.herokuapp.com?songUrl=" + encrypt(JSON.stringify(value))
+            } catch (e) {
                 res.send(false)
                 return
             }
             res.send(link)
         })
 
-        app.post("/getByLink",async function (req, res) {//updated
-            try{
+        app.post("/getByLink", async function (req, res) {//updated
+            try {
                 var value = JSON.parse(decrypt(req.body.url))
-                if(value.songName == undefined){
+                if (value.songName == undefined) {
                     res.send(false)
                     return
                 }
-            }catch(e){
+            } catch (e) {
                 console.log(e)
                 res.send(false)
                 return
             }
             try {
                 var users = db.collection("Users")
-            }catch(e){
+            } catch (e) {
                 console.log(e)
                 res.send(false)
                 return
             }
-            try{
-                var savedSongs = await users.findOne({email: value.email})
+            try {
+                var savedSongs = await users.findOne({ email: value.email })
                 var song = savedSongs.songs.filter(song => song.name == value.songName)
-                if(song.length == 0){
+                if (song.length == 0) {
                     res.send(false)
                     return
                 }
-            }catch(e){
+            } catch (e) {
                 console.log(e)
                 res.send(false)
                 return
@@ -388,7 +401,7 @@ if (!inLocalhost) {
             var value = req.body;
             try {
                 var users = db.collection("Users")
-                var credentials = await users.findOne({email: value.email})
+                var credentials = await users.findOne({ email: value.email })
             } catch (e) {
                 res.send("Error with the server!")
                 console.log(e)
@@ -400,7 +413,7 @@ if (!inLocalhost) {
             }
             try {
                 if (checkPassword(value.password, credentials.password, credentials.seed)) {
-                    var allSongs = await users.findOne({email: value.email})
+                    var allSongs = await users.findOne({ email: value.email })
                     res.send(allSongs.songs)
                 } else {
                     res.send("Credentials are wrong!")
@@ -419,7 +432,7 @@ if (!inLocalhost) {
             }
             try {
                 var users = db.collection("Users")
-                var credentials = await users.findOne({email: value.email})
+                var credentials = await users.findOne({ email: value.email })
             } catch (e) {
                 res.send("Error with the account!")
                 return;
@@ -432,13 +445,13 @@ if (!inLocalhost) {
             try {
                 if (checkPassword(value.password, credentials.password, credentials.seed)) {
                     for (var i = 0; i < value.song.length; i++) {
-                        var savedSongs = await users.findOne({email: value.email})
+                        var savedSongs = await users.findOne({ email: value.email })
                         let isSaved = savedSongs.songs.filter(song => song.name == value.song[0].name)
                         if (isSaved.length == 0) {
-                         await users.update(
-                                { email:value.email },
-                                { $push: {songs: value.song[i]} }
-                             )
+                            await users.update(
+                                { email: value.email },
+                                { $push: { songs: value.song[i] } }
+                            )
                         } else {
                             alreadySavedSongs += "<br>" + value.song[i].name + " was already saved"
                         }
@@ -457,7 +470,7 @@ if (!inLocalhost) {
             var value = req.body;
             try {
                 var users = db.collection("Users")
-                var credentials = await users.findOne({email: value.email})
+                var credentials = await users.findOne({ email: value.email })
             } catch (e) {
                 reportError(e)
                 res.send("Error with the server!")
@@ -470,9 +483,9 @@ if (!inLocalhost) {
             try {
                 if (checkPassword(value.password, credentials.password, credentials.seed)) {
                     users.update(
-                        {email: value.email},
+                        { email: value.email },
                         { $pull: { 'songs': { name: value.songName } } }
-                      )
+                    )
                 } else {
                     res.send("Credentials are wrong!")
                     return;
@@ -533,11 +546,11 @@ if (!inLocalhost) {
         })
 
         app.post("/sendSongToDiscord", async function (req, res) {
-            if(!botIsOnline){
+            if (!botIsOnline) {
                 res.send("Service unavailabe")
                 return
             }
-            try{
+            try {
                 let song = req.body.song
                 let songsChannel = bot.channels.cache.get("730884082258673715")
                 let fileName = sanitizeText(song.name.split(" ").join("_"))
@@ -546,51 +559,51 @@ if (!inLocalhost) {
                     numOfNotes = song.songNotes.length
                     songLength = song.songNotes[numOfNotes - 1].time || 0
                 } catch (error) {
-                    
+
                 }
                 let embedText = `
                     **Length**: ${formatMillis(songLength)}
                     **Notes**: ${numOfNotes}
                     **Pitch**: ${song.pitchLevel}
-                    **Density**: ${Number((song.songNotes.length / (song.songNotes[song.songNotes.length-1].time / 1000)).toFixed(2))}
+                    **Density**: ${Number((song.songNotes.length / (song.songNotes[song.songNotes.length - 1].time / 1000)).toFixed(2))}
                     **Multilayer**: ${song.songNotes.filter(e => e.l > 1).length}
                     ${song.isComposed ? "Composed" : "Recorded"}
-                `   
-                    
-                
-                
-                fs.writeFile(__dirname+"/public/temp/"+fileName+".txt", JSON.stringify([song],null,"\t"),async function(e) {
-                    if(e){ reportError(e); res.send("Error!"); return}
-                    try{
+                `
+
+
+
+                fs.writeFile(__dirname + "/public/temp/" + fileName + ".txt", JSON.stringify([song], null, "\t"), async function (e) {
+                    if (e) { reportError(e); res.send("Error!"); return }
+                    try {
                         let embed = new Discord.MessageEmbed()
-                        let file = new Discord.MessageAttachment(__dirname+"/public/temp/"+fileName+".txt");
+                        let file = new Discord.MessageAttachment(__dirname + "/public/temp/" + fileName + ".txt");
                         embed.setTitle(song.name)
                             .setDescription(embedText)
                             .setColor(3447003)
                         await songsChannel.send({ embed: embed, files: [file] });
-                        fs.unlinkSync(__dirname+"/public/temp/"+fileName+".txt")
-                    }catch(e){
+                        fs.unlinkSync(__dirname + "/public/temp/" + fileName + ".txt")
+                    } catch (e) {
                         reportError(e)
                         res.send("Error!")
                         return
                     }
-                }); 
+                });
                 res.send("Song sent!")
-            }catch(e){
+            } catch (e) {
                 reportError(e)
                 res.send("Error!")
             }
-    
+
         })
 
     });
     app.post("/reportSavedLogs", async function (req, res) {
-        if(!botIsOnline){
+        if (!botIsOnline) {
             res.send("oops")
             return
         }
         let logs = req.body
-        try{
+        try {
             let embed = new Discord.MessageEmbed()
             embed.setTitle("CLIENT ERROR")
                 .setDescription(logs.header.join("\n"))
@@ -600,9 +613,9 @@ if (!inLocalhost) {
                 .addField('Warns', logs.warns.join("\n"), false)
                 .addField('\u200b', '\u200b')
                 .addField('Logs', logs.logs.join("\n"), false)
-            bot.channels.cache.get("732631538415566890").send({embed});
-        }catch{}
-            res.send("Log sent")  
+            bot.channels.cache.get("732631538415566890").send({ embed });
+        } catch { }
+        res.send("Log sent")
     })
     app.get('*', function (req, res) {
         res.status(404).sendFile(__dirname + "/public/errorLoading.html")
@@ -722,40 +735,40 @@ function makeseed(length) {
     return result;
 }
 //--------------------------------------------------------------------------------------------------------//
-function decrypt(text,isSong = false) {
+function decrypt(text, isSong = false) {
     let decipher
-    if(isSong){
+    if (isSong) {
         decipher = crypto.createDecipheriv("aes128", songKey, songIv)
-    }else{
+    } else {
         decipher = crypto.createDecipheriv("aes192", shareKey, shareIv)
     }
     return decipher.update(text, 'hex', 'utf8') + decipher.final('utf8')
 }
 //--------------------------------------------------------------------------------------------------------//
-  function encrypt(text,isSong = false) {
+function encrypt(text, isSong = false) {
     let cipher
-    if(isSong){
+    if (isSong) {
         cipher = crypto.createCipheriv("aes128", songKey, songIv)
-    }else{
+    } else {
         cipher = crypto.createCipheriv("aes192", shareKey, shareIv)
     }
     return cipher.update(text, 'utf8', 'hex') + cipher.final('hex')
 }
 
-if (!fs.existsSync(__dirname+"/public/temp")){
-    fs.mkdirSync(__dirname+"/public/temp");
+if (!fs.existsSync(__dirname + "/public/temp")) {
+    fs.mkdirSync(__dirname + "/public/temp");
 }
 
 
-const checkUser = (mail, db) => db.collection("Users").findOne({email: mail}).then(user => {
+const checkUser = (mail, db) => db.collection("Users").findOne({ email: mail }).then(user => {
     return Boolean(user)
-  })
+})
 
-  function formatMillis(millis) {
+function formatMillis(millis) {
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
-  }
+}
 
 
 
@@ -774,28 +787,28 @@ const checkUser = (mail, db) => db.collection("Users").findOne({email: mail}).th
 
 
 
-function encryptSong(text){
+function encryptSong(text) {
     let encryptedText = []
     let keyLength = songKey.length
     let keyCounter = 0
     text = songIv + text
-    for(let i = 0; i<text.length;i++){
+    for (let i = 0; i < text.length; i++) {
         encryptedText.push(text.charCodeAt(i) + songKey.charCodeAt(keyCounter) - 100)
         keyCounter++
-        if(keyCounter >= keyLength) keyCounter = 0
+        if (keyCounter >= keyLength) keyCounter = 0
     }
     return encryptedText
 }
-function decryptSong(array){
+function decryptSong(array) {
     let decryptedText = ""
     let keyLength = songKey.length
     let keyCounter = 0
-    for(let i = 0; i<array.length;i++){
+    for (let i = 0; i < array.length; i++) {
         decryptedText += String.fromCharCode(array[i] - songKey.charCodeAt(keyCounter) + 100)
         keyCounter++
-        if(keyCounter >= keyLength) keyCounter = 0
+        if (keyCounter >= keyLength) keyCounter = 0
     }
-    decryptedText = decryptedText.replace(songIv,"")
+    decryptedText = decryptedText.replace(songIv, "")
     console.log(decryptedText)
     return decryptedText
 }
