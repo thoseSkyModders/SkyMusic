@@ -393,13 +393,11 @@ let isPWA = checkPWA()
 let isDesktop = !checkIfMobile()
 let isFullScreen = false
 function toggleFullScreen(){
-        //Makes the website full screen
         if(isDesktop || ignoreFullScreen || isiOS || isPWA){
             return
         }
         exitFullScreenBtn.style.display = "block"
         let el = document.documentElement;
-        // Supports most browsers and their versions.
         try{
             let requestMethod = el.requestFullScreen || el.webkitRequestFullScreen ||
             el.mozRequestFullScreen || el.msRequestFullScreen;   
@@ -1298,7 +1296,8 @@ let instrumentsNotes = {
     dundun: ["Dundun/0.mp3", "Dundun/1.mp3", "Dundun/2.mp3", "Dundun/3.mp3", "Dundun/4.mp3", "Dundun/5.mp3", "Dundun/6.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3", "Dundun/7.mp3"],
     trumpet: ["Trumpet/0.mp3", "Trumpet/1.mp3", "Trumpet/2.mp3", "Trumpet/3.mp3", "Trumpet/4.mp3", "Trumpet/5.mp3", "Trumpet/6.mp3", "Trumpet/7.mp3", "Trumpet/8.mp3", "Trumpet/9.mp3", "Trumpet/10.mp3", "Trumpet/11.mp3", "Trumpet/12.mp3", "Trumpet/13.mp3", "Trumpet/14.mp3"],
     pipa: ["Pipa/0.mp3", "Pipa/1.mp3", "Pipa/2.mp3", "Pipa/3.mp3", "Pipa/4.mp3", "Pipa/5.mp3","Pipa/6.mp3", "Pipa/7.mp3", "Pipa/8.mp3", "Pipa/9.mp3", "Pipa/10.mp3", "Pipa/11.mp3","Pipa/12.mp3", "Pipa/13.mp3", "Pipa/14.mp3"],
-    ocarina: ["Ocarina/0.mp3", "Ocarina/1.mp3", "Ocarina/2.mp3", "Ocarina/3.mp3", "Ocarina/4.mp3", "Ocarina/5.mp3","Ocarina/6.mp3", "Ocarina/7.mp3", "Ocarina/8.mp3", "Ocarina/9.mp3", "Ocarina/10.mp3", "Ocarina/11.mp3","Ocarina/12.mp3", "Ocarina/13.mp3", "Ocarina/14.mp3"]
+    ocarina: ["Ocarina/0.mp3", "Ocarina/1.mp3", "Ocarina/2.mp3", "Ocarina/3.mp3", "Ocarina/4.mp3", "Ocarina/5.mp3","Ocarina/6.mp3", "Ocarina/7.mp3", "Ocarina/8.mp3", "Ocarina/9.mp3", "Ocarina/10.mp3", "Ocarina/11.mp3","Ocarina/12.mp3", "Ocarina/13.mp3", "Ocarina/14.mp3"],
+    kalimba: ["Kalimba/0.mp3", "Kalimba/1.mp3", "Kalimba/2.mp3", "Kalimba/3.mp3", "Kalimba/4.mp3", "Kalimba/5.mp3","Kalimba/6.mp3", "Kalimba/7.mp3", "Kalimba/8.mp3", "Kalimba/9.mp3", "Kalimba/10.mp3", "Kalimba/11.mp3","Kalimba/12.mp3", "Kalimba/13.mp3", "Kalimba/14.mp3"]
 }
 //Changes sounds when instrument is selected
 function changeInstrumentSound(instrument) {
@@ -1541,8 +1540,8 @@ function resetKeyClass(element) {
 }
 
 let webVersion = localStorage.getItem("version")
-let currentVersion = "5.3"
-let changelogMessage = "Version:"+currentVersion+"<br>Changed many instruments audio files, added Ocarina"
+let currentVersion = "5.4"
+let changelogMessage = "Version:"+currentVersion+"<br>Added kalimba<br>Checkout Sky music nightly in the menu!"
 if (webVersion != currentVersion) {
     localStorage.setItem("version", currentVersion)
     localStorage.removeItem("backgroundImage")
