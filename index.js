@@ -183,6 +183,7 @@ if (!inLocalhost) {
         }
 
         function reportError(msg) {
+            console.error(msg)
             if (!botIsOnline) return;
             try {
                 var errorChannel = bot.channels.cache.get("708298853316558999")
@@ -273,8 +274,10 @@ if (!inLocalhost) {
                             songs: []
                         })
                     }
-                } catch {
+                } catch(e) {
                     res.send("Error!")
+                    reportError(e)
+                    return
                 }
                 res.send(true)
             } else {
@@ -310,7 +313,7 @@ if (!inLocalhost) {
                     }
                 } catch (e) {
                     res.send("Credentials wrong!")
-                    console.log(e)
+                    reportError(e)
                 }
             } else {
                 res.send("Credentials wrong!")
@@ -537,8 +540,8 @@ if (!inLocalhost) {
                         res.send(true)
                     }
                 } catch (e) {
-                    console.log(e)
                     res.send("Error!")
+                    reportError(e)
                 }
             } else {
                 res.send("The code is not correct, try again!")
@@ -653,8 +656,8 @@ function sendVerificationCode(credentials, res) { //error handled
             }
         });
     } catch (e) {
-        console.log(error)
         res.send("Error!")
+        console.error(e)
         return;
     }
 }
@@ -674,7 +677,7 @@ function hashwithseed(string, randomseed) {
         }
         return output;
     } catch (e) {
-        console.log(e)
+        console.error(e)
         return false
     }
 }
@@ -688,7 +691,7 @@ function checkPassword(password, DBpassword, DBseed) {
             return false;
         }
     } catch (e) {
-        console.log(e)
+        console.error(e)
         return false
     }
 }
