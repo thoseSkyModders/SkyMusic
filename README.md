@@ -1,3 +1,14 @@
+# WARNING, THIS APP IS OUTDATED AND NOT BEING DEVELOPED, THE CODE IS HORRIBLE. ONE OF THE SKY MUSIC DEVELOPERS REMADE IT BETTER
+Visit the [New Sky Music](https://specy.github.io/skyMusic/#/), the repository of the new Sky Music: [Also for genshin](https://github.com/Specy/genshin-music)
+
+
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
 This is a tool created for the sky team to help users learn how to play songs with the Sky instruments.
 
 <h3>You can do the following things</h3>
