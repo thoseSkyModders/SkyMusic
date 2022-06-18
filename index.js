@@ -42,13 +42,19 @@ if (!inLocalhost) {
     discordToken = ""
     emailPassword = ""
 }
-
 var transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
     auth: {
-        user: 'thoseskymoddersv@gmail.com',
-        pass: emailPassword
-    }
+      type: "OAuth2",
+      user: "thoseskymoddersv@gmail.com",
+      clientId: process.env.EMAIL_CLIENT_ID || "",
+      clientSecret: process.env.EMAIL_CLIENT_SECRET || "",
+      refreshToken: process.env.EMAIL_REFRESH_TOKEN || "",
+      accessToken: "",
+      expires: 0,
+    },
 });
 app.use(express.static('public'));
 app.use(bodyParser.json());

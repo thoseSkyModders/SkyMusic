@@ -739,7 +739,9 @@ html {
 	box-sizing: border-box;
 	padding: 5%;
 }
-
+#confirmRegistration{
+	padding: 0;
+}
 #loginContainer,
 #resetContainer,
 #registerContainer,

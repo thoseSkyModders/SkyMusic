@@ -37,9 +37,6 @@
     <link rel="stylesheet" href="songComposerStyle.css" type="text/css">
     <script src="/scripts/jquery.js"></script>
     <script src="/scripts/jqueryPEP.js"></script>
-    <script src="https://browser.sentry-cdn.com/5.22.3/bundle.tracing.min.js"
-        integrity="sha384-HfEJlGrJtFM0B01Wt4sGzTbxWqLMcMeGAXCbyQyB+iK9BhnDmNAtIGovhekIQOa2"
-        crossorigin="anonymous"></script>
 </head>
 
 <body style="touch-action: pan-x pan-y;">
@@ -377,16 +374,6 @@
 <script src="/scripts/jqueryUI.js"></script>
 <script src="/scripts/Midi.js"></script>
 <script>
-    try {
-        if (window.location.hostname != "localhost") {
-            Sentry.init({ dsn: 'https://4230bd5710b44f3d859b2dfd012a7cbd@o422858.ingest.sentry.io/5419306' });
-            console.log("setup sentry")
-        } else {
-            console.log("In localhost")
-        }
-    } catch (e) {
-        console.log(e)
-    }
     let autoReload = localStorage.getItem("autoReloadComposer")
     if (autoReload != null) {
         try {

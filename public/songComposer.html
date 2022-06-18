@@ -37,11 +37,6 @@
     <link rel="stylesheet" href="songComposerStyle.css" type="text/css">
     <script src="/scripts/jquery.js"></script>
     <script src="/scripts/jqueryPEP.js"></script>
-    <script
-        src="https://browser.sentry-cdn.com/5.22.3/bundle.tracing.min.js"
-        integrity="sha384-HfEJlGrJtFM0B01Wt4sGzTbxWqLMcMeGAXCbyQyB+iK9BhnDmNAtIGovhekIQOa2"
-        crossorigin="anonymous"
-    ></script>
 </head>
 <body style="touch-action: pan-x pan-y;">
     <div class="notesWrapper">
@@ -352,16 +347,6 @@
 <script src="/scripts/jqueryUI.js"></script>
 <script src="/scripts/Midi.js"></script>
 <script>
-    try{
-        if(window.location.hostname != "localhost"){
-            Sentry.init({dsn: 'https://4230bd5710b44f3d859b2dfd012a7cbd@o422858.ingest.sentry.io/5419306'});
-            console.log("setup sentry")
-        }else{
-            console.log("In localhost")
-        }   
-    }catch(e){
-        console.log(e)
-    }
     let autoReload = localStorage.getItem("autoReloadComposer")
     if(autoReload != null){
         try{
@@ -586,6 +571,18 @@
         floatingMessage.style.color = color
         $(floatingMessage).fadeIn(200).css({"display":"flex"}).delay(duration).fadeOut(300)
     }
+
+    function isTwa() {
+        return JSON.parse(sessionStorage.getItem('isTwa') || 'null')
+    }
+    function setIfInTWA() {
+        if (isTwa()) return console.log('inTWA')
+        const isInTwa = document.referrer.includes('android-app://')
+        sessionStorage.setItem('isTwa', JSON.stringify(isInTwa))
+    }
+    setIfInTWA()
+    if(!isTwa()) showMessage("<div>This app is not developed anymore, please use <a href='https://specy.github.io/skyMusic/#/' style='color: white;'> Sky Music Nightly </a>. You can use your songs, but there is no account. You can also keep using this app, but it wont be updated</div>", 2, 10000)
+
     let offset = document.getElementById("offset")
     offset.addEventListener("change", function () {
         changeOffset(0)

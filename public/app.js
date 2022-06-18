@@ -1,13 +1,3 @@
-try{
-    if(window.location.hostname != "localhost"){
-        Sentry.init({dsn: 'https://4230bd5710b44f3d859b2dfd012a7cbd@o422858.ingest.sentry.io/5419306'});
-        console.log("setup sentry")
-    }else{
-        console.log("In localhost")
-    }
-}catch(e){
-    console.log(e)
-}
 /*
   _    _ _____ 
  | |  | |_   _|
@@ -31,6 +21,16 @@ function showMessage(msg, msgType, duration) {
     floatingMessage.style.color = color
     $(floatingMessage).fadeIn(200).delay(duration).fadeOut(300)
 }
+function isTwa() {
+    return JSON.parse(sessionStorage.getItem('isTwa') || 'null')
+}
+function setIfInTWA() {
+	if (isTwa()) return console.log('inTWA')
+	const isInTwa = document.referrer.includes('android-app://')
+	sessionStorage.setItem('isTwa', JSON.stringify(isInTwa))
+}
+setIfInTWA()
+if(!isTwa()) showMessage("This app is not developed anymore, please use <a href='https://specy.github.io/skyMusic/#/' style='color: white'> Sky Music Nightly </a>. You can use your songs, but there is no account. You can also keep using this app, but it wont be updated", 2, 10000)
 function checkLocalStorageSupport() {
     try {
       const key = "checkLocalStorage";
