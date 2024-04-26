@@ -1,5 +1,5 @@
 # WARNING, THIS APP IS OUTDATED AND NOT BEING DEVELOPED, THE CODE IS HORRIBLE. ONE OF THE SKY MUSIC DEVELOPERS REMADE IT BETTER
-Visit the [New Sky Music](https://specy.github.io/skyMusic/#/), the repository of the new Sky Music: [Also for genshin](https://github.com/Specy/genshin-music)
+Visit the [New Sky Music](https://sky-music.specy.app), the repository of the new Sky Music: [Also for genshin](https://github.com/Specy/genshin-music)
 
 
 </br>

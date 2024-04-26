@@ -30,7 +30,7 @@ function setIfInTWA() {
 	sessionStorage.setItem('isTwa', JSON.stringify(isInTwa))
 }
 setIfInTWA()
-if(!isTwa()) showMessage("This app is not developed anymore, please use <a href='https://specy.github.io/skyMusic/#/' style='color: white'> Sky Music Nightly </a>. You can use your songs, but there is no account. You can also keep using this app, but it wont be updated", 2, 10000)
+if(!isTwa()) showMessage("This app has not been updated in years and is not developed anymore, please use the new <a href='https://sky-music.specy.app' style='color: white'> Sky Music Nightly </a>. You can use your songs from this app. This app will stop working in the future", 2, 15000)
 function checkLocalStorageSupport() {
     try {
       const key = "checkLocalStorage";

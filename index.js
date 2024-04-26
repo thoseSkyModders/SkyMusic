@@ -25,7 +25,7 @@ const shareKey = process.env.shareKey
 const shareIv = process.env.shareIv
 let tempSongs = []
 //If you want to edit something, just put inLocalhost = true and it will let you use the website without the account system
-/* ------------------------------------------------------->*/       var inLocalhost = false
+/* ------------------------------------------------------->*/       var inLocalhost = true
 
 
 app.enable('trust proxy');
